@@ -30,19 +30,6 @@ Defects4J-Trans contains 483 bugs from the following open-source projects:
 | Mockito         | mockito                    |  16 | 1, 5, 7, 8, 12, 13, 18, 20, 22, 24, 27-29, 33-38, 38 | others                  |
 | Time            | joda-time                  |  16 | 4, 5, 7, 8, 14-20, 22-27, 27 | others                  |
 
-\* Due to behavioral changes introduced under Java 8, some bugs are no longer
-reproducible. Hence, Defects4J distinguishes between active and deprecated bugs:
-
-- Active bugs can be accessed through `active-bugs.csv`.
-
-- Deprecated bugs are removed from `active-bugs.csv`, but their metadata is
-  retained in the project directory.
-
-- Deprecated bugs can be accessed through `deprecated-bugs.csv`, which also
-  details when and why a bug was deprecated.
-
-We do not re-enumerate active bugs because publications using Defects4J artifacts
-usually refer to bugs by their specific bug id.
 
 The bugs
 ---------------
