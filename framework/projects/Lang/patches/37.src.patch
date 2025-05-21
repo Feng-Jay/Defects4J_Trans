@@ -1,0 +1,47 @@
+--- src/java/org/apache/commons/lang3/ArrayUtils.java	2025-05-21 08:16:49
++++ src/java/org/apache/commons/lang3/ArrayUtils.java	2025-05-21 08:16:49
+@@ -2950,26 +2950,27 @@
+      * @since 2.1
+      */
+     @SuppressWarnings("unchecked")
+-    public static <T> T[] addAll(T[] array1, T... array2) {
+-        if (array1 == null) {
+-            return clone(array2);
+-        } else if (array2 == null) {
+-            return clone(array1);
++    public static <T> T[] addAll(T[] TransVarArray, T... TransVarArray3) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        final Class<?> type1 = array1.getClass().getComponentType();
+-        T[] joinedArray = (T[]) Array.newInstance(type1, array1.length + array2.length);
+-        System.arraycopy(array1, 0, joinedArray, 0, array1.length);
+-        try {
+-            System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);
+-        } catch (ArrayStoreException ase) {
+-            // Check if problem is incompatible types
+-            final Class<?> type2 = array2.getClass().getComponentType();
+-            if (!type1.isAssignableFrom(type2)){
+-                throw new IllegalArgumentException("Cannot store "+type2.getName()+" in an array of "+type1.getName());
++        if (!(!(TransVarArray == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            throw ase; // No, so rethrow original
++            return clone(TransVarArray3);
++        } else if (!(!(TransVarArray3 == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        return joinedArray;
++            return clone(TransVarArray);
++        }
++        final Class<?> TransVarType2 = TransVarArray.getClass().getComponentType();
++        T[] TransVarType = (T[]) Array.newInstance(TransVarType2, TransVarArray.length + TransVarArray3.length);
++        System.arraycopy(TransVarArray, 0, TransVarType, 0, TransVarArray.length);
++            System.arraycopy(TransVarArray3, 0, TransVarType, TransVarArray.length, TransVarArray3.length);
++            // Check if problem is incompatible types
++        return TransVarType;
+     }
+ 
+     /**

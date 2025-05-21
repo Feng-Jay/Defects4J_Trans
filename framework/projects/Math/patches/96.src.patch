@@ -1,0 +1,53 @@
+--- src/java/org/apache/commons/math/complex/Complex.java	2025-05-21 08:21:00
++++ src/java/org/apache/commons/math/complex/Complex.java	2025-05-21 08:21:00
+@@ -242,28 +242,37 @@
+      *         not equal to this Complex instance
+      * 
+      */
+-    public boolean equals(Object other) {
+-        boolean ret;
++    public boolean equals(Object TransVarObj) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        boolean TransVarResult;
+         
+-        if (this == other) { 
+-            ret = true;
+-        } else if (other == null) {
+-            ret = false;
++        if (!(!(this == TransVarObj))) { 
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarResult = true;
++        } else if (!(!(TransVarObj == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarResult = false;
+         } else  {
+             try {
+-                Complex rhs = (Complex)other;
+-                if (rhs.isNaN()) {
+-                    ret = this.isNaN();
++                Complex TransVarComplex = (Complex)TransVarObj;
++                if (!(!(TransVarComplex.isNaN()))) {
++                    TransVarResult = this.isNaN();
+                 } else {
+-                    ret = (real == rhs.real) && (imaginary == rhs.imaginary); 
++                    TransVarResult = (Double.doubleToRawLongBits(real) == Double.doubleToRawLongBits(TransVarComplex.getReal())) && (Double.doubleToRawLongBits(imaginary) == Double.doubleToRawLongBits(TransVarComplex.getImaginary())); 
+                 }
+-            } catch (ClassCastException ex) {
++            } catch (ClassCastException TransVarCastEx) {
+                 // ignore exception
+-                ret = false;
++                TransVarResult = false;
+             }
+         }
+       
+-        return ret;
++        return TransVarResult;
+     }
+     
+     /**

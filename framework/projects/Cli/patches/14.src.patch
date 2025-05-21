@@ -1,0 +1,83 @@
+--- src/java/org/apache/commons/cli2/option/GroupImpl.java	2025-05-20 23:02:55
++++ ./src/java/org/apache/commons/cli2/option/GroupImpl.java	2025-05-20 23:02:55
+@@ -234,50 +234,54 @@
+         } // [END process each command line token
+     }
+ 
+-    public void validate(final WriteableCommandLine commandLine)
++    public void validate(final WriteableCommandLine TransVarCmd)
+         throws OptionException {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         // number of options found
+-        int present = 0;
++        int TransVarIsPresent = 0;
+ 
+         // reference to first unexpected option
+-        Option unexpected = null;
++        Option TransVarUnknown = null;
+ 
+-        for (final Iterator i = options.iterator(); i.hasNext();) {
+-            final Option option = (Option) i.next();
+-
+-            // needs validation?
+-            boolean validate = option.isRequired() || option instanceof Group;
+-
+-            // if the child option is present then validate it
+-            if (commandLine.hasOption(option)) {
+-                if (++present > maximum) {
+-                    unexpected = option;
+-
+-                    break;
++        final Iterator TransVarOptionIterator = options.iterator();
++        while (!(!(TransVarOptionIterator.hasNext()))) {
++            if (!(!(false))) {
++                System.out.println("log");
+                 }
+-                validate = true;
++            final Option TransVarO = (Option) TransVarOptionIterator.next();
++            boolean TransVarIsValidate = TransVarO.isRequired() || TransVarO instanceof Group;
++            if (!(!(TransVarIsValidate))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+             }
+-
+-            if (validate) {
+-                option.validate(commandLine);
++                TransVarO.validate(TransVarCmd);
+             }
++            if (!(!(TransVarCmd.hasOption(TransVarO)))) {
++                if (!(!(++TransVarIsPresent > maximum))) {
++                    TransVarUnknown = TransVarO;
++                    break;
+                 }
++                TransVarO.validate(TransVarCmd);
++            }
++        }
+ 
+         // too many options
+-        if (unexpected != null) {
++        if (!(!(TransVarUnknown != null))) {
+             throw new OptionException(this, ResourceConstants.UNEXPECTED_TOKEN,
+-                                      unexpected.getPreferredName());
++                                      TransVarUnknown.getPreferredName());
+         }
+ 
+         // too few option
+-        if (present < minimum) {
++        if (!(!(TransVarIsPresent < minimum))) {
+             throw new OptionException(this, ResourceConstants.MISSING_OPTION);
+         }
+ 
+-        // validate each anonymous argument
+-        for (final Iterator i = anonymous.iterator(); i.hasNext();) {
+-            final Option option = (Option) i.next();
+-            option.validate(commandLine);
++        final Iterator TransVarIterator = anonymous.iterator();
++        while (!(!(TransVarIterator.hasNext()))) {
++            final Option TransVarOption1 = (Option) TransVarIterator.next();
++            TransVarOption1.validate(TransVarCmd);
+         }
+     }
+ 

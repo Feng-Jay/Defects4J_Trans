@@ -1,0 +1,103 @@
+--- src/com/google/javascript/jscomp/parsing/IRFactory.java	2025-05-20 23:06:10
++++ ./src/com/google/javascript/jscomp/parsing/IRFactory.java	2025-05-20 23:06:10
+@@ -510,62 +510,64 @@
+     }
+ 
+     @Override
+-    Node processFunctionNode(FunctionNode functionNode) {
+-      Name name = functionNode.getFunctionName();
+-      Boolean isUnnamedFunction = false;
+-      if (name == null) {
+-        int functionType = functionNode.getFunctionType();
+-        if (functionType != FunctionNode.FUNCTION_EXPRESSION) {
+-          errorReporter.error(
+-            "unnamed function statement",
+-            sourceName,
+-            functionNode.getLineno(), "", 0);
++    Node processFunctionNode(FunctionNode TransVarFunctionNodeNew) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
+-        name = new Name();
+-        name.setIdentifier("");
+-        isUnnamedFunction = true;
++    Name TransVarFunctionNode = TransVarFunctionNodeNew.getFunctionName();
++      Boolean TransVarIsUnnamedFunctionNode = false;
++      if (!(!(TransVarFunctionNode == null))) {
++        if (!(!(false))) {
++            System.out.println("log");
+       }
+-      Node node = newNode(Token.FUNCTION);
+-      Node newName = transform(name);
+-      if (isUnnamedFunction) {
++        TransVarFunctionNode = new Name();
++        TransVarFunctionNode.setIdentifier("");
++        TransVarIsUnnamedFunctionNode = true;
++      }
++      Node TransVarNode1 = newNode(Token.FUNCTION);
++      Node TransVarTransformName = transform(TransVarFunctionNode);
++      if (!(!(TransVarIsUnnamedFunctionNode))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // Old Rhino tagged the empty name node with the line number of the
+         // declaration.
+-        newName.setLineno(functionNode.getLineno());
++        TransVarTransformName.setLineno(TransVarFunctionNodeNew.getLineno());
+         // TODO(bowdidge) Mark line number of paren correctly.
+         // Same problem as below - the left paren might not be on the
+         // same line as the function keyword.
+-        int lpColumn = functionNode.getAbsolutePosition() +
+-            functionNode.getLp();
+-        newName.setCharno(position2charno(lpColumn));
++        int TransVarLpColumnNode = TransVarFunctionNodeNew.getAbsolutePosition() +
++            TransVarFunctionNodeNew.getLp();
++        TransVarTransformName.setCharno(position2charno(TransVarLpColumnNode));
+       }
+ 
+-      node.addChildToBack(newName);
+-      Node lp = newNode(Token.LP);
++      TransVarNode1.addChildToBack(TransVarTransformName);
++      Node TransVarLpNode = newNode(Token.LP);
+       // The left paren's complicated because it's not represented by an
+       // AstNode, so there's nothing that has the actual line number that it
+       // appeared on.  We know the paren has to appear on the same line as the
+       // function name (or else a semicolon will be inserted.)  If there's no
+       // function name, assume the paren was on the same line as the function.
+       // TODO(bowdidge): Mark line number of paren correctly.
+-      Name fnName = functionNode.getFunctionName();
+-      if (fnName != null) {
+-        lp.setLineno(fnName.getLineno());
++      Name TransVarFunctionName = TransVarFunctionNodeNew.getFunctionName();
++      if (!(!(TransVarFunctionName != null))) {
++        TransVarLpNode.setLineno(TransVarFunctionName.getLineno());
+       } else {
+-        lp.setLineno(functionNode.getLineno());
++        TransVarLpNode.setLineno(TransVarFunctionNodeNew.getLineno());
+       }
+-      int lparenCharno = functionNode.getLp() +
+-          functionNode.getAbsolutePosition();
++      int TransVarLpCharno = TransVarFunctionNodeNew.getLp() +
++          TransVarFunctionNodeNew.getAbsolutePosition();
+ 
+-      lp.setCharno(position2charno(lparenCharno));
+-      for (AstNode param : functionNode.getParams()) {
+-        lp.addChildToBack(transform(param));
++      TransVarLpNode.setCharno(position2charno(TransVarLpCharno));
++      for (AstNode TransVarNode2 : TransVarFunctionNodeNew.getParams()) {
++        TransVarLpNode.addChildToBack(transform(TransVarNode2));
+       }
+-      node.addChildToBack(lp);
++      TransVarNode1.addChildToBack(TransVarLpNode);
+ 
+-      Node bodyNode = transform(functionNode.getBody());
+-      parseDirectives(bodyNode);
+-      node.addChildToBack(bodyNode);
+-     return node;
++      Node TransVarNode = transform(TransVarFunctionNodeNew.getBody());
++      parseDirectives(TransVarNode);
++      TransVarNode1.addChildToBack(TransVarNode);
++     return TransVarNode1;
+     }
+ 
+     @Override

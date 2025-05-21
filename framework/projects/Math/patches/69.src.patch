@@ -1,0 +1,50 @@
+--- src/main/java/org/apache/commons/math/stat/correlation/PearsonsCorrelation.java	2025-05-21 08:19:26
++++ src/main/java/org/apache/commons/math/stat/correlation/PearsonsCorrelation.java	2025-05-21 08:19:26
+@@ -158,21 +158,36 @@
+      * @throws MathException if an error occurs estimating probabilities
+      */
+     public RealMatrix getCorrelationPValues() throws MathException {
+-        TDistribution tDistribution = new TDistributionImpl(nObs - 2);
+-        int nVars = correlationMatrix.getColumnDimension();
+-        double[][] out = new double[nVars][nVars];
+-        for (int i = 0; i < nVars; i++) {
+-            for (int j = 0; j < nVars; j++) {
+-                if (i == j) {
+-                    out[i][j] = 0d;
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        TDistribution TransVarT = new TDistributionImpl(nObs - 2);
++        int TransVarNumberColumns = correlationMatrix.getColumnDimension();
++        double[][] TransVarOutValue = new double[TransVarNumberColumns][TransVarNumberColumns];
++        int TransVarJ = 0;
++        while (!(!(TransVarJ < TransVarNumberColumns))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            int TransVarColumnIndex = 0;
++            while (!(!(TransVarColumnIndex < TransVarNumberColumns))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                if (!(!(TransVarJ == TransVarColumnIndex))) {
++                    TransVarOutValue[TransVarJ][TransVarColumnIndex] = 0d;
+                 } else {
+-                    double r = correlationMatrix.getEntry(i, j);
+-                    double t = Math.abs(r * Math.sqrt((nObs - 2)/(1 - r * r)));
+-                    out[i][j] = 2 * tDistribution.cumulativeProbability(-t);
++                    double TransVarCorrelationValue = correlationMatrix.getEntry(TransVarJ, TransVarColumnIndex);
++                    double TransVarNumber = Math.abs(TransVarCorrelationValue
++                            * Math.sqrt((nObs - 2) / (1 - TransVarCorrelationValue * TransVarCorrelationValue)));
++                    TransVarOutValue[TransVarJ][TransVarColumnIndex] = 2
++                            * (1 - TransVarT.cumulativeProbability(TransVarNumber));
+                 }
++                TransVarColumnIndex++;
+             }
++            TransVarJ++;
+         }
+-        return new BlockRealMatrix(out);
++        return new BlockRealMatrix(TransVarOutValue);
+     }
+ 
+ 

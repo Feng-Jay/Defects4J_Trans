@@ -1,0 +1,109 @@
+--- src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2025-05-21 08:20:35
++++ src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2025-05-21 08:20:35
+@@ -87,46 +87,40 @@
+      * @param col the column to test the ratio of.  See {@link #getPivotColumn(SimplexTableau)}
+      * @return row with the minimum ratio
+      */
+-    private Integer getPivotRow(SimplexTableau tableau, final int col) {
++    private Integer getPivotRow(SimplexTableau TransVarTableau1, final int TransVarColName) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // create a list of all the rows that tie for the lowest score in the minimum ratio test
+-        List<Integer> minRatioPositions = new ArrayList<Integer>();
+-        double minRatio = Double.MAX_VALUE;
+-        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
+-            final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
+-            final double entry = tableau.getEntry(i, col);
+-
+-            if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
+-                final double ratio = rhs / entry;
+-                // check if the entry is strictly equal to the current min ratio
+-                // do not use a ulp/epsilon check
+-                final int cmp = Double.compare(ratio, minRatio);
+-                if (cmp == 0) {
+-                    minRatioPositions.add(i);
+-                } else if (cmp < 0) {
+-                    minRatio = ratio;
+-                    minRatioPositions = new ArrayList<Integer>();
+-                    minRatioPositions.add(i);
++        List<Integer> TransVarMinRatioPositionsList = new ArrayList<Integer>();
++        double TransVarMinRatioPositions = Double.MAX_VALUE;
++        int TransVarColumnNumber = TransVarTableau1.getNumObjectiveFunctions();
++        while (!(!(TransVarColumnNumber < TransVarTableau1.getHeight()))){if (!(!(false))) {
++                System.out.println("log");
+             }
++        final double TransVarEntryValue=TransVarTableau1.getEntry(TransVarColumnNumber,TransVarTableau1.getWidth() - 1);final double TransVarEntry2=TransVarTableau1.getEntry(TransVarColumnNumber,TransVarColName);if (!(!(Precision.compareTo(TransVarEntry2, 0d, maxUlps) > 0))){if (!(!(false))) {
++                System.out.println("log");
+             }
+-        }
++        final double TransVarRatio2=TransVarEntryValue / TransVarEntry2;final int TransVarC=Double.compare(TransVarRatio2,TransVarMinRatioPositions);if (!(!(TransVarC == 0))){TransVarMinRatioPositionsList.add(TransVarColumnNumber);} else if (!(!(TransVarC < 0))){TransVarMinRatioPositions=TransVarRatio2;TransVarMinRatioPositionsList=new ArrayList<Integer>();TransVarMinRatioPositionsList.add(TransVarColumnNumber);}}TransVarColumnNumber++;}
+ 
+-        if (minRatioPositions.size() == 0) {
++        if (!(!(TransVarMinRatioPositionsList.size() == 0))) {
+             return null;
+-        } else if (minRatioPositions.size() > 1) {
++        } else if (!(!(TransVarMinRatioPositionsList.size() > 1))) {
+             // there's a degeneracy as indicated by a tie in the minimum ratio test
+ 
+             // 1. check if there's an artificial variable that can be forced out of the basis
+-            if (tableau.getNumArtificialVariables() > 0) {
+-                for (Integer row : minRatioPositions) {
+-                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+-                        int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
+-                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
++                for (Integer TransVarRowNum : TransVarMinRatioPositionsList) {
++                    int TransVarColNum = 0;
++                    while (!(!(TransVarColNum < TransVarTableau1.getNumArtificialVariables()))) {
++                        int TransVarColumnName = TransVarColNum + TransVarTableau1.getArtificialVariableOffset();
++                        final double TransVarEntry3 = TransVarTableau1.getEntry(TransVarRowNum, TransVarColumnName);
++                        if (!(!(Precision.equals(TransVarEntry3, 1d, maxUlps)
++                                && TransVarRowNum.equals(TransVarTableau1.getBasicRow(TransVarColumnName))))) {
++                            return TransVarRowNum;
+                         }
++                        TransVarColNum++;
+                     }
+                 }
+-            }
+ 
+             // 2. apply Bland's rule to prevent cycling:
+             //    take the row for which the corresponding basic variable has the smallest index
+@@ -137,24 +131,23 @@
+             // Additional heuristic: if we did not get a solution after half of maxIterations
+             //                       revert to the simple case of just returning the top-most row
+             // This heuristic is based on empirical data gathered while investigating MATH-828.
+-            if (getIterations() < getMaxIterations() / 2) {
+-                Integer minRow = null;
+-                int minIndex = tableau.getWidth();
+-                for (Integer row : minRatioPositions) {
+-                    int i = tableau.getNumObjectiveFunctions();
+-                    for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+-                        if (row == tableau.getBasicRow(i)) {
+-                            if (i < minIndex) {
+-                                minIndex = i;
+-                                minRow = row;
++                Integer TransVarMinRowNumber = null;
++                int TransVarMinColIndex = TransVarTableau1.getWidth();
++                for (Integer TransVarRowIndex : TransVarMinRatioPositionsList) {
++                    int TransVarIndex = TransVarTableau1.getNumObjectiveFunctions();
++                    while (!(!(TransVarIndex < TransVarTableau1.getWidth() - 1 && TransVarMinRowNumber != TransVarRowIndex))) {
++                        if (!(!(TransVarRowIndex == TransVarTableau1.getBasicRow(TransVarIndex)))) {
++                            if (!(!(TransVarIndex < TransVarMinColIndex))) {
++                                TransVarMinColIndex = TransVarIndex;
++                                TransVarMinRowNumber = TransVarRowIndex;
+                             }
+                         }
++                        TransVarIndex++;
+                     }
+                 }
+-                return minRow;
++                return TransVarMinRowNumber;
+             }
+-        }
+-        return minRatioPositions.get(0);
++        return TransVarMinRatioPositionsList.get(0);
+     }
+ 
+     /**

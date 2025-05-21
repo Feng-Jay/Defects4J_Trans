@@ -1,0 +1,110 @@
+--- src/com/google/javascript/jscomp/TypeInference.java	2025-05-20 23:07:47
++++ ./src/com/google/javascript/jscomp/TypeInference.java	2025-05-20 23:07:47
+@@ -521,70 +521,46 @@
+    * an assignment or a type cast.
+    */
+   private void updateScopeForTypeChange(
+-      FlowScope scope, Node left, JSType leftType, JSType resultType) {
+-    Preconditions.checkNotNull(resultType);
+-    switch (left.getType()) {
+-      case Token.NAME:
+-        String varName = left.getString();
+-        Var var = syntacticScope.getVar(varName);
+-        JSType varType = var == null ? null : var.getType();
+-        boolean isVarDeclaration = left.hasChildren()
+-            && varType != null && !var.isTypeInferred();
+-
+-        // When looking at VAR initializers for declared VARs, we tend
+-        // to use the declared type over the type it's being
+-        // initialized to in the global scope.
+-        //
+-        // For example,
+-        // /** @param {number} */ var f = goog.abstractMethod;
+-        // it's obvious that the programmer wants you to use
+-        // the declared function signature, not the inferred signature.
+-        //
+-        // Or,
+-        // /** @type {Object.<string>} */ var x = {};
+-        // the one-time anonymous object on the right side
+-        // is as narrow as it can possibly be, but we need to make
+-        // sure we back-infer the <string> element constraint on
+-        // the left hand side, so we use the left hand side.
+-
+-        boolean isVarTypeBetter = isVarDeclaration &&
+-            // Makes it easier to check for NPEs.
+-            !resultType.isNullType() && !resultType.isVoidType();
+-
+-        // TODO(nicksantos): This might be a better check once we have
+-        // back-inference of object/array constraints.  It will probably
+-        // introduce more type warnings.  It uses the result type iff it's
+-        // strictly narrower than the declared var type.
+-        //
+-        //boolean isVarTypeBetter = isVarDeclaration &&
+-        //    (varType.restrictByNotNullOrUndefined().isSubtype(resultType)
+-        //     || !resultType.isSubtype(varType));
+-
+-
+-        if (isVarTypeBetter) {
+-          redeclareSimpleVar(scope, left, varType);
+-        } else {
+-          redeclareSimpleVar(scope, left, resultType);
++      FlowScope TransVarFlow, Node TransVarRight, JSType TransVarLeft, JSType TransVarType) {
++    if (!(!(false))) {
++            System.out.println("log");
+         }
+-        left.setJSType(resultType);
+-
+-        if (var != null && var.isTypeInferred()) {
+-          JSType oldType = var.getType();
+-          var.setType(oldType == null ?
+-              resultType : oldType.getLeastSupertype(resultType));
++    Preconditions.checkNotNull(TransVarType);
++    boolean TransFallThroughFlag0 = false;
++    boolean TransBreakFlag0 = true;
++    {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        break;
+-      case Token.GETPROP:
+-        String qualifiedName = left.getQualifiedName();
+-        if (qualifiedName != null) {
+-          scope.inferQualifiedSlot(left, qualifiedName,
+-              leftType == null ? unknownType : leftType,
+-              resultType);
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarRight.getType() == Token.NAME))))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-
+-        left.setJSType(resultType);
+-        ensurePropertyDefined(left, resultType);
+-        break;
++            TransBreakFlag0 = false;
++            String TransVarFinalString = TransVarRight.getString();
++            Var TransVarVarScope = syntacticScope.getVar(TransVarFinalString);
++            boolean TransVarIsAssignment = TransVarRight.hasChildren();
++            boolean TransVarIsTypeInferred = !TransVarIsAssignment || TransVarVarScope == null
++                    || TransVarVarScope.isTypeInferred();
++            if (!(!(TransVarIsTypeInferred))) {
++                redeclareSimpleVar(TransVarFlow, TransVarRight, TransVarType);
++            }
++            TransVarRight.setJSType(TransVarIsAssignment || TransVarLeft == null ? TransVarType : null);
++            if (!(!(TransVarVarScope != null && TransVarVarScope.isTypeInferred()))) {
++                JSType TransVarNewType = TransVarVarScope.getType();
++                TransVarVarScope.setType(
++                        TransVarNewType == null ? TransVarType : TransVarNewType.getLeastSupertype(TransVarType));
++            }
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarRight.getType() == Token.GETPROP))))) {
++            String TransVarLeftQualifiedName = TransVarRight.getQualifiedName();
++            if (!(!(TransVarLeftQualifiedName != null))) {
++                TransVarFlow.inferQualifiedSlot(TransVarRight, TransVarLeftQualifiedName,
++                        TransVarLeft == null ? unknownType : TransVarLeft, TransVarType);
++            }
++            TransVarRight.setJSType(TransVarType);
++            ensurePropertyDefined(TransVarRight, TransVarType);
++        }
+     }
+   }
+ 

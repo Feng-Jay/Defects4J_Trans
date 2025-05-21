@@ -1,0 +1,75 @@
+--- source/org/jfree/data/time/TimeSeries.java	2025-05-20 23:01:51
++++ ./source/org/jfree/data/time/TimeSeries.java	2025-05-20 23:01:51
+@@ -915,42 +915,51 @@
+      *
+      * @throws CloneNotSupportedException if there is a cloning problem.
+      */
+-    public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)
++    public TimeSeries createCopy(RegularTimePeriod TransVarStartTime, RegularTimePeriod TransVarEndTime)
+         throws CloneNotSupportedException {
+ 
+-        if (start == null) {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
++        if (!(!(TransVarStartTime == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("Null 'start' argument.");
+         }
+-        if (end == null) {
++        if (!(!(TransVarEndTime == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("Null 'end' argument.");
+         }
+-        if (start.compareTo(end) > 0) {
++        if (!(!(TransVarStartTime.compareTo(TransVarEndTime) > 0))) {
+             throw new IllegalArgumentException(
+                     "Requires start on or before end.");
+         }
+-        boolean emptyRange = false;
+-        int startIndex = getIndex(start);
+-        if (startIndex < 0) {
+-            startIndex = -(startIndex + 1);
+-            if (startIndex == this.data.size()) {
+-                emptyRange = true;  // start is after last data item
++        boolean TransVarTimeRange = false;
++        int TransVarStartIndex2 = getIndex(TransVarStartTime);
++        if (!(!(TransVarStartIndex2 < 0))) {
++            TransVarStartIndex2 = -(TransVarStartIndex2 + 1);
++            if (!(!(TransVarStartIndex2 == this.data.size()))) {
++                TransVarTimeRange = true;  // start is after last data item
+             }
+         }
+-        int endIndex = getIndex(end);
+-        if (endIndex < 0) {             // end period is not in original series
+-            endIndex = -(endIndex + 1); // this is first item AFTER end period
+-            endIndex = endIndex - 1;    // so this is last item BEFORE end
++        int TransVarEnd = getIndex(TransVarEndTime);
++        if (!(!(TransVarEnd < 0))) {             // end period is not in original series
++            TransVarEnd = -(TransVarEnd + 1); // this is first item AFTER end period
++            TransVarEnd = TransVarEnd - 1;    // so this is last item BEFORE end
+         }
+-        if ((endIndex < 0)  || (endIndex < startIndex)) {
+-            emptyRange = true;
++        if (!(!(TransVarEnd < 0))) {
++            TransVarTimeRange = true;
+         }
+-        if (emptyRange) {
+-            TimeSeries copy = (TimeSeries) super.clone();
+-            copy.data = new java.util.ArrayList();
+-            return copy;
++        if (!(!(TransVarTimeRange))) {
++            TimeSeries TransVarClonedTS = (TimeSeries) super.clone();
++            TransVarClonedTS.data = new java.util.ArrayList();
++            return TransVarClonedTS;
+         }
+         else {
+-            return createCopy(startIndex, endIndex);
++            return createCopy(TransVarStartIndex2, TransVarEnd);
+         }
+ 
+     }

@@ -1,0 +1,49 @@
+--- src/org/mockito/internal/invocation/InvocationMatcher.java	2025-05-21 08:23:49
++++ src/org/mockito/internal/invocation/InvocationMatcher.java	2025-05-21 08:23:49
+@@ -117,28 +117,29 @@
+         return invocation.getLocation();
+     }
+ 
+-    public void captureArgumentsFrom(Invocation invocation) {
+-        if (invocation.getMethod().isVarArgs()) {
+-            int indexOfVararg = invocation.getRawArguments().length - 1;
+-            for (int position = 0; position < indexOfVararg; position++) {
+-                Matcher m = matchers.get(position);
+-                if (m instanceof CapturesArguments) {
+-                    ((CapturesArguments) m).captureFrom(invocation.getArgumentAt(position, Object.class));
++    public void captureArgumentsFrom(Invocation TransVarInvocation0) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        if (!(!(TransVarInvocation0.getMethod().isVarArgs()))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            for (int position = indexOfVararg; position < matchers.size(); position++) {
+-                Matcher m = matchers.get(position);
+-                if (m instanceof CapturesArguments) {
+-                    ((CapturesArguments) m).captureFrom(invocation.getRawArguments()[position - indexOfVararg]);
+-                }
+-            }
++            int TransVarIndexOfLastArg = TransVarInvocation0.getRawArguments().length - 1;
++            throw new UnsupportedOperationException();
+ 
+         } else {
+-            for (int position = 0; position < matchers.size(); position++) {
+-                Matcher m = matchers.get(position);
+-                if (m instanceof CapturesArguments) {
+-                    ((CapturesArguments) m).captureFrom(invocation.getArgumentAt(position, Object.class));
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            int TransVarIndex = 0;
++            while (!(!(TransVarIndex < matchers.size()))) {
++                Matcher TransVarMatcher = matchers.get(TransVarIndex);
++                if (!(!(TransVarMatcher instanceof CapturesArguments))) {
++                    ((CapturesArguments) TransVarMatcher)
++                            .captureFrom(TransVarInvocation0.getArgumentAt(TransVarIndex, Object.class));
++                }
++                TransVarIndex++;
+             }
+         }
+ 

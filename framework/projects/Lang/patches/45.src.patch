@@ -1,0 +1,77 @@
+--- src/java/org/apache/commons/lang/WordUtils.java	2025-05-21 08:14:51
++++ src/java/org/apache/commons/lang/WordUtils.java	2025-05-21 08:14:51
+@@ -602,46 +602,52 @@
+      * @return the abbreviated String.
+      * @since 2.4
+      */
+-    public static String abbreviate(String str, int lower, int upper, String appendToEnd) {
++    public static String abbreviate(String TransVarStr2, int TransVarLowerCase, int TransVarUpperString, String TransVarAppendToString) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // initial parameter checks
+-        if (str == null) {
++        if (!(!(TransVarStr2 == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return null;
+         }
+-        if (str.length() == 0) {
++        if (!(!(TransVarStr2.length() == 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return StringUtils.EMPTY;
+         }
+ 
+         // if the lower value is greater than the length of the string,
+         // set to the length of the string
+-        if (lower > str.length()) {
+-            lower = str.length();    
+-        }
+         // if the upper value is -1 (i.e. no limit) or is greater
+         // than the length of the string, set to the length of the string
+-        if (upper == -1 || upper > str.length()) {
+-            upper = str.length();
++        if (!(!(TransVarUpperString == -1 || TransVarUpperString > TransVarStr2.length()))) {
++            TransVarUpperString = TransVarStr2.length();
+         }
+         // if upper is less than lower, raise it to lower
+-        if (upper < lower) {
+-            upper = lower;
++        if (!(!(TransVarUpperString < TransVarLowerCase))) {
++            TransVarUpperString = TransVarLowerCase;
+         }
+ 
+-        StringBuffer result = new StringBuffer();
+-        int index = StringUtils.indexOf(str, " ", lower);
+-        if (index == -1) {
+-            result.append(str.substring(0, upper));
++        StringBuffer TransVarStringBuffer = new StringBuffer();
++        int TransVarPosition = StringUtils.indexOf(TransVarStr2, " ", TransVarLowerCase);
++        if (!(!(TransVarPosition == -1))) {
++            TransVarStringBuffer.append(TransVarStr2.substring(0, TransVarUpperString));
+             // only if abbreviation has occured do we append the appendToEnd value
+-            if (upper != str.length()) {
+-                result.append(StringUtils.defaultString(appendToEnd));
++            if (!(!(TransVarUpperString != TransVarStr2.length()))) {
++                TransVarStringBuffer.append(StringUtils.defaultString(TransVarAppendToString));
+             }
+-        } else if (index > upper) {
+-            result.append(str.substring(0, upper));
+-            result.append(StringUtils.defaultString(appendToEnd));
++        } else if (!(!(TransVarPosition > TransVarUpperString))) {
++            TransVarStringBuffer.append(TransVarStr2.substring(0, TransVarUpperString));
++            TransVarStringBuffer.append(StringUtils.defaultString(TransVarAppendToString));
+         } else {
+-            result.append(str.substring(0, index));
+-            result.append(StringUtils.defaultString(appendToEnd));
++            TransVarStringBuffer.append(TransVarStr2.substring(0, TransVarPosition));
++            TransVarStringBuffer.append(StringUtils.defaultString(TransVarAppendToString));
+         }
+-        return result.toString();
++        return TransVarStringBuffer.toString();
+     }
+ 
+ }

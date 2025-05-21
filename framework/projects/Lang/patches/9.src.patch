@@ -1,0 +1,75 @@
+--- src/main/java/org/apache/commons/lang3/time/FastDateParser.java	2025-05-21 08:16:42
++++ src/main/java/org/apache/commons/lang3/time/FastDateParser.java	2025-05-21 08:16:42
+@@ -113,43 +113,50 @@
+      * This is called from constructor and from readObject (de-serialization)
+      */
+     private void init() {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         thisYear= Calendar.getInstance(timeZone, locale).get(Calendar.YEAR);
+ 
+         nameValues= new ConcurrentHashMap<Integer, KeyValue[]>();
+ 
+-        StringBuilder regex= new StringBuilder();
+-        List<Strategy> collector = new ArrayList<Strategy>();
++        StringBuilder TransVarStr= new StringBuilder();
++        List<Strategy> TransVarCollector1 = new ArrayList<Strategy>();
+ 
+-        Matcher patternMatcher= formatPattern.matcher(pattern);
+-        if(!patternMatcher.lookingAt()) {
++        Matcher TransVarFormatPatternMatcher= formatPattern.matcher(pattern);
++        if(!(!(!TransVarFormatPatternMatcher.lookingAt()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("Invalid pattern");
+         }
+ 
+-        currentFormatField= patternMatcher.group();
+-        Strategy currentStrategy= getStrategy(currentFormatField);
+-        for(;;) {
+-            patternMatcher.region(patternMatcher.end(), patternMatcher.regionEnd());
+-            if(!patternMatcher.lookingAt()) {
++        currentFormatField= TransVarFormatPatternMatcher.group();
++        Strategy TransVarStrategy= getStrategy(currentFormatField);
++        while (!(!(true))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarFormatPatternMatcher.region(TransVarFormatPatternMatcher.end(),
++                    TransVarFormatPatternMatcher.regionEnd());
++            if (!(!(!TransVarFormatPatternMatcher.lookingAt()))) {
+                 nextStrategy = null;
+                 break;
+             }
+-            String nextFormatField= patternMatcher.group();
+-            nextStrategy = getStrategy(nextFormatField);
+-            if(currentStrategy.addRegex(this, regex)) {
+-                collector.add(currentStrategy);
++            String TransVarFormatField = TransVarFormatPatternMatcher.group();
++            nextStrategy = getStrategy(TransVarFormatField);
++            if (!(!(TransVarStrategy.addRegex(this, TransVarStr)))) {
++                TransVarCollector1.add(TransVarStrategy);
+             }
+-            currentFormatField= nextFormatField;
+-            currentStrategy= nextStrategy;
++            currentFormatField = TransVarFormatField;
++            TransVarStrategy = nextStrategy;
+         }
+-        if (patternMatcher.regionStart() != patternMatcher.regionEnd()) {
+-            throw new IllegalArgumentException("Failed to parse \""+pattern+"\" ; gave up at index "+patternMatcher.regionStart());
++        if(!(!(TransVarStrategy.addRegex(this, TransVarStr)))) {
++            TransVarCollector1.add(TransVarStrategy);
+         }
+-        if(currentStrategy.addRegex(this, regex)) {
+-            collector.add(currentStrategy);
+-        }
+         currentFormatField= null;
+-        strategies= collector.toArray(new Strategy[collector.size()]);
+-        parsePattern= Pattern.compile(regex.toString());
++        strategies= TransVarCollector1.toArray(new Strategy[TransVarCollector1.size()]);
++        parsePattern= Pattern.compile(TransVarStr.toString());
+     }
+ 
+     // Accessors

@@ -1,0 +1,37 @@
+--- src/main/java/org/apache/commons/lang3/time/DateUtils.java	2025-05-21 08:14:37
++++ src/main/java/org/apache/commons/lang3/time/DateUtils.java	2025-05-21 08:14:37
+@@ -255,18 +255,24 @@
+      * @throws IllegalArgumentException if either date is <code>null</code>
+      * @since 2.1
+      */
+-    public static boolean isSameLocalTime(Calendar cal1, Calendar cal2) {
+-        if (cal1 == null || cal2 == null) {
++    public static boolean isSameLocalTime(Calendar TransVarCal, Calendar TransVarCal3) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarCal == null || TransVarCal3 == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("The date must not be null");
+         }
+-        return (cal1.get(Calendar.MILLISECOND) == cal2.get(Calendar.MILLISECOND) &&
+-                cal1.get(Calendar.SECOND) == cal2.get(Calendar.SECOND) &&
+-                cal1.get(Calendar.MINUTE) == cal2.get(Calendar.MINUTE) &&
+-                cal1.get(Calendar.HOUR_OF_DAY) == cal2.get(Calendar.HOUR_OF_DAY) &&
+-                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+-                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+-                cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
+-                cal1.getClass() == cal2.getClass());
++        return (TransVarCal.get(Calendar.MILLISECOND) == TransVarCal3.get(Calendar.MILLISECOND) &&
++                TransVarCal.get(Calendar.SECOND) == TransVarCal3.get(Calendar.SECOND) &&
++                TransVarCal.get(Calendar.MINUTE) == TransVarCal3.get(Calendar.MINUTE) &&
++                TransVarCal.get(Calendar.HOUR) == TransVarCal3.get(Calendar.HOUR) &&
++                TransVarCal.get(Calendar.DAY_OF_YEAR) == TransVarCal3.get(Calendar.DAY_OF_YEAR) &&
++                TransVarCal.get(Calendar.YEAR) == TransVarCal3.get(Calendar.YEAR) &&
++                TransVarCal.get(Calendar.ERA) == TransVarCal3.get(Calendar.ERA) &&
++                TransVarCal.getClass() == TransVarCal3.getClass());
+     }
+ 
+     //-----------------------------------------------------------------------

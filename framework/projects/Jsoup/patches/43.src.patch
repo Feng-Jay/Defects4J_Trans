@@ -1,0 +1,32 @@
+--- src/main/java/org/jsoup/nodes/Element.java	2025-05-21 05:08:09
++++ ./src/main/java/org/jsoup/nodes/Element.java	2025-05-21 05:08:09
+@@ -565,14 +565,22 @@
+         return siblings.size() > 1 ? siblings.get(siblings.size() - 1) : null;
+     }
+     
+-    private static <E extends Element> Integer indexInList(Element search, List<E> elements) {
+-        Validate.notNull(search);
+-        Validate.notNull(elements);
++    private static <E extends Element> Integer indexInList(Element TransVarNewSearchElement, List<E> TransVarSearchElement) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Validate.notNull(TransVarNewSearchElement);
++        Validate.notNull(TransVarSearchElement);
+ 
+-        for (int i = 0; i < elements.size(); i++) {
+-            E element = elements.get(i);
+-            if (element == search)
+-                return i;
++        int TransVarIndex = 0;
++        while (!(!(TransVarIndex < TransVarSearchElement.size()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            E TransVarNewElement = TransVarSearchElement.get(TransVarIndex);
++            if (!(!(TransVarNewElement.equals(TransVarNewSearchElement))))
++                return TransVarIndex;
++            TransVarIndex++;
+         }
+         return null;
+     }

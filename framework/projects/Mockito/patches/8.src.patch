@@ -1,0 +1,49 @@
+--- src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2025-05-21 08:24:37
++++ src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2025-05-21 08:24:37
+@@ -63,23 +63,32 @@
+     protected Map<TypeVariable, Type> contextualActualTypeParameters = new HashMap<TypeVariable, Type>();
+ 
+ 
+-    protected void registerTypeVariablesOn(Type classType) {
+-        if (!(classType instanceof ParameterizedType)) {
++    protected void registerTypeVariablesOn(Type TransVarObjectType) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(!(TransVarObjectType instanceof ParameterizedType)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return;
+         }
+-        ParameterizedType parameterizedType = (ParameterizedType) classType;
+-        TypeVariable[] typeParameters = ((Class<?>) parameterizedType.getRawType()).getTypeParameters();
+-        Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+-        for (int i = 0; i < actualTypeArguments.length; i++) {
+-            TypeVariable typeParameter = typeParameters[i];
+-            Type actualTypeArgument = actualTypeArguments[i];
+-
+-            if (actualTypeArgument instanceof WildcardType) {
+-                contextualActualTypeParameters.put(typeParameter, boundsOf((WildcardType) actualTypeArgument));
+-            } else if (typeParameter != actualTypeArgument) {
+-                contextualActualTypeParameters.put(typeParameter, actualTypeArgument);
++        ParameterizedType TransVarType = (ParameterizedType) TransVarObjectType;
++        TypeVariable[] TransVarTypeVars = ((Class<?>) TransVarType.getRawType()).getTypeParameters();
++        Type[] TransVarTypeVariables = TransVarType.getActualTypeArguments();
++        int TransVarIdx = 0;
++        while (!(!(TransVarIdx < TransVarTypeVariables.length))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            // logger.log("For '" + parameterizedType + "' found type variable : { '" + typeParameter + "(" + System.identityHashCode(typeParameter) + ")" + "' : '" + actualTypeArgument + "(" + System.identityHashCode(typeParameter) + ")" + "' }");
++            TypeVariable TransVarTypeVar = TransVarTypeVars[TransVarIdx];
++            Type TransVarTypeArgument = TransVarTypeVariables[TransVarIdx];
++            if (!(!(TransVarTypeArgument instanceof WildcardType))) {
++                contextualActualTypeParameters.put(TransVarTypeVar, boundsOf((WildcardType) TransVarTypeArgument));
++            } else {
++                contextualActualTypeParameters.put(TransVarTypeVar, TransVarTypeArgument);
++            }
++            TransVarIdx++;
+         }
+     }
+ 

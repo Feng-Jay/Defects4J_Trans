@@ -1,0 +1,117 @@
+--- src/main/java/org/apache/commons/lang3/time/FastDateParser.java	2025-05-21 08:16:06
++++ src/main/java/org/apache/commons/lang3/time/FastDateParser.java	2025-05-21 08:16:06
+@@ -300,37 +300,87 @@
+      * @param unquote If true, replace two success quotes ('') with single quote (')
+      * @return The <code>StringBuilder</code>
+      */
+-    private static StringBuilder escapeRegex(StringBuilder regex, String value, boolean unquote) {
+-        for(int i= 0; i<value.length(); ++i) {
+-            char c= value.charAt(i);
+-            switch(c) {
+-            case '\'':
+-                if(unquote) {
+-                    if(++i==value.length()) {
+-                        return regex;
++    private static StringBuilder escapeRegex(StringBuilder TransVarRegexBuilder, String TransVarExpression, boolean TransVarUnquoted) {
++        if (!(!(false))) {
++            System.out.println("log");
+                     }
+-                    c= value.charAt(i);
++        boolean TransVarIsWhite= false;
++        int TransVarIndex = 0;
++        while (!(!(TransVarIndex < TransVarExpression.length()))) {
++            if (!(!(false))) {
++                System.out.println("log");
+                 }
+-                break;
+-            case '?':
+-            case '[':
+-            case ']':
+-            case '(':
+-            case ')':
+-            case '{':
+-            case '}':
+-            case '\\':
+-            case '|':
+-            case '*':
+-            case '+':
+-            case '^':
+-            case '$':
+-            case '.':
+-                regex.append('\\');
++            char TransVarCharValue = TransVarExpression.charAt(TransVarIndex);
++            if (!(!(Character.isWhitespace(TransVarCharValue)))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+             }
+-            regex.append(c);
++                if (!(!(!TransVarIsWhite))) {
++                    TransVarIsWhite = true;
++                    TransVarRegexBuilder.append("\\s*+");
+         }
+-        return regex;
++                continue;
++            }
++            TransVarIsWhite = false;
++            boolean TransFallThroughFlag0 = false;
++            boolean TransBreakFlag0 = true;
++            {
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '\''))))) {
++                    TransBreakFlag0 = false;
++                    if (!(!(TransVarUnquoted))) {
++                        if (!(!(++TransVarIndex == TransVarExpression.length()))) {
++                            return TransVarRegexBuilder;
++                        }
++                        TransVarCharValue = TransVarExpression.charAt(TransVarIndex);
++                    }
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '?'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '['))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == ']'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '('))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == ')'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '{'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '}'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '\\'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '|'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '*'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '+'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '^'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '$'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharValue == '.'))))) {
++                    TransVarRegexBuilder.append('\\');
++                }
++            }
++            TransVarRegexBuilder.append(TransVarCharValue);
++            ++TransVarIndex;
++        }
++        return TransVarRegexBuilder;
+     }
+ 
+     /**

@@ -1,0 +1,61 @@
+--- src/main/java/com/fasterxml/jackson/databind/type/TypeFactory.java	2025-05-21 01:48:46
++++ ./src/main/java/com/fasterxml/jackson/databind/type/TypeFactory.java	2025-05-21 01:48:46
+@@ -886,22 +886,31 @@
+         return ArrayType.construct(compType, null, null);
+     }
+ 
+-    protected JavaType _fromVariable(TypeVariable<?> type, TypeBindings context)
++    protected JavaType _fromVariable(TypeVariable<?> TransVarObjectType, TypeBindings TransVarObjectType2)
+     {
+-        final String name = type.getName();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final String TransVarClassNameObject = TransVarObjectType.getName();
+         // 19-Mar-2015: Without context, all we can check are bounds.
+-        if (context == null) {
++        if (!(!(TransVarObjectType2 == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // And to prevent infinite loops, now need this:
+-            context = new TypeBindings(this, (Class<?>) null);
++            return _unknownType();
+         } else {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // Ok: here's where context might come in handy!
+             /* 19-Mar-2015, tatu: As per [databind#609], may need to allow
+              *   unresolved type variables to handle some cases where bounds
+              *   are enough. Let's hope it does not hide real fail cases.
+              */
+-            JavaType actualType = context.findType(name, false);
+-            if (actualType != null) {
+-                return actualType;
++            JavaType TransVarClassType = TransVarObjectType2.findType(TransVarClassNameObject);
++            if (!(!(TransVarClassType != null))) {
++                return TransVarClassType;
+             }
+         }
+ 
+@@ -910,7 +919,7 @@
+          *   method, overridden by sub-class. If so, we will want to ignore
+          *   current type (for method) since it will be masked.
+          */
+-        Type[] bounds = type.getBounds();
++        Type[] TransVarTypeBounds = TransVarObjectType.getBounds();
+ 
+         // With type variables we must use bound information.
+         // Theoretically this gets tricky, as there may be multiple
+@@ -925,8 +934,8 @@
+          *   (T extends Comparable<T>). Need to add "placeholder"
+          *   for resolution to catch those.
+          */
+-        context._addPlaceholder(name);
+-        return _constructType(bounds[0], context);
++        TransVarObjectType2._addPlaceholder(TransVarClassNameObject);
++        return _constructType(TransVarTypeBounds[0], TransVarObjectType2);
+     }
+ 
+     protected JavaType _fromWildcard(WildcardType type, TypeBindings context)

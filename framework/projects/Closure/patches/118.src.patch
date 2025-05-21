@@ -1,0 +1,55 @@
+--- src/com/google/javascript/jscomp/DisambiguateProperties.java	2025-05-20 23:07:56
++++ ./src/com/google/javascript/jscomp/DisambiguateProperties.java	2025-05-20 23:07:56
+@@ -487,31 +487,30 @@
+     /**
+      * Processes a OBJECTLIT node.
+      */
+-    private void handleObjectLit(NodeTraversal t, Node n) {
+-      for (Node child = n.getFirstChild();
+-          child != null;
+-          child = child.getNext()) {
+-        // Maybe STRING, GET, SET
+-        if (child.isQuotedString()) {
+-          continue;
++    private void handleObjectLit(NodeTraversal TransVarTraversal, Node TransVarNode) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
+-
+-        // We should never see a mix of numbers and strings.
+-        String name = child.getString();
+-        T type = typeSystem.getType(getScope(), n, name);
+-
+-        Property prop = getProperty(name);
+-        if (!prop.scheduleRenaming(child,
+-                                   processProperty(t, prop, type, null))) {
+-          // TODO(user): It doesn't look like the user can do much in this
+-          // case right now.
+-          if (propertiesToErrorFor.containsKey(name)) {
+-            compiler.report(JSError.make(
+-                t.getSourceName(), child, propertiesToErrorFor.get(name),
+-                Warnings.INVALIDATION, name,
+-                (type == null ? "null" : type.toString()), n.toString(), ""));
++    Node TransVarFirstChild = TransVarNode.getFirstChild();
++    while (!(!(TransVarFirstChild != null))) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        String TransVarChildName = TransVarFirstChild.getString();
++        T TransVarType1 = typeSystem.getType(getScope(), TransVarNode, TransVarChildName);
++        Property TransVarProperty = getProperty(TransVarChildName);
++        if (!(!(!TransVarProperty.scheduleRenaming(TransVarFirstChild,
++                processProperty(TransVarTraversal, TransVarProperty, TransVarType1, null))))) {
++            if (!(!(false))) {
++                        System.out.println("log");
+                     }
++            if (!(!(propertiesToErrorFor.containsKey(TransVarChildName)))) {
++                compiler.report(JSError.make(TransVarTraversal.getSourceName(), TransVarFirstChild,
++                        propertiesToErrorFor.get(TransVarChildName), Warnings.INVALIDATION, TransVarChildName,
++                        (TransVarType1 == null ? "null" : TransVarType1.toString()), TransVarNode.toString(), ""));
++            }
++        }
++        TransVarFirstChild = TransVarFirstChild.getNext();
+     }
+     }
+ 

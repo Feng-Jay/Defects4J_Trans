@@ -1,0 +1,27 @@
+--- src/com/google/javascript/jscomp/NodeUtil.java	2025-05-20 23:08:25
++++ ./src/com/google/javascript/jscomp/NodeUtil.java	2025-05-20 23:08:25
+@@ -1412,11 +1412,20 @@
+     return mayBeString(n, true);
+   }
+ 
+-  static boolean mayBeString(Node n, boolean recurse) {
+-    if (recurse) {
+-      return anyResultsMatch(n, MAY_BE_STRING_PREDICATE);
++  static boolean mayBeString(Node TransVarNode, boolean TransVarTree) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    if (!(!(TransVarTree))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    return allResultsMatch(TransVarNode, MAY_BE_STRING_PREDICATE);
+     } else {
+-      return mayBeStringHelper(n);
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    return mayBeStringHelper(TransVarNode);
+     }
+   }
+ 

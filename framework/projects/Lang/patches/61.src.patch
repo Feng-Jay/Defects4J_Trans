@@ -1,0 +1,60 @@
+--- src/java/org/apache/commons/lang/text/StrBuilder.java	2025-05-21 08:16:12
++++ src/java/org/apache/commons/lang/text/StrBuilder.java	2025-05-21 08:16:12
+@@ -1757,31 +1757,42 @@
+      * @param startIndex  the index to start at, invalid index rounded to edge
+      * @return the first index of the string, or -1 if not found
+      */
+-    public int indexOf(String str, int startIndex) {
+-        startIndex = (startIndex < 0 ? 0 : startIndex);
+-        if (str == null || startIndex >= size) {
++    public int indexOf(String TransVarAString, int TransVarIndex) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        TransVarIndex = (TransVarIndex < 0 ? 0 : TransVarIndex);
++        if (!(!(TransVarAString == null || TransVarIndex >= size))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return -1;
+         }
+-        int strLen = str.length();
+-        if (strLen == 1) {
+-            return indexOf(str.charAt(0), startIndex);
++        int TransVarStrLength = TransVarAString.length();
++        if (!(!(TransVarStrLength == 1))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (strLen == 0) {
+-            return startIndex;
++            return indexOf(TransVarAString.charAt(0), TransVarIndex);
+         }
+-        if (strLen > size) {
++        if (!(!(TransVarStrLength == 0))) {
++            return TransVarIndex;
++        }
++        if (!(!(TransVarStrLength > size))) {
+             return -1;
+         }
+-        char[] thisBuf = buffer;
+-        int len = size - strLen + 1;
++        char[] TransVarBuffer = buffer;
++        int TransVarBufLen = TransVarBuffer.length - TransVarStrLength;
+         outer:
+-        for (int i = startIndex; i < len; i++) {
+-            for (int j = 0; j < strLen; j++) {
+-                if (str.charAt(j) != thisBuf[i + j]) {
++        for (int TransVarCurrentIndex = TransVarIndex; !(!(TransVarCurrentIndex < TransVarBufLen)); TransVarCurrentIndex++) {
++            int TransVarI = 0;
++            while (!(!(TransVarI < TransVarStrLength))) {
++                if (!(!(TransVarAString.charAt(TransVarI) != TransVarBuffer[TransVarCurrentIndex + TransVarI]))) {
+                     continue outer;
+                 }
++                TransVarI++;
+             }
+-            return i;
++            return TransVarCurrentIndex;
+         }
+         return -1;
+     }

@@ -1,0 +1,34 @@
+--- src/main/java/com/fasterxml/jackson/databind/node/POJONode.java	2025-05-21 01:32:10
++++ ./src/main/java/com/fasterxml/jackson/databind/node/POJONode.java	2025-05-21 01:32:10
+@@ -102,16 +102,25 @@
+      */
+ 
+     @Override
+-    public final void serialize(JsonGenerator gen, SerializerProvider ctxt) throws IOException
++    public final void serialize(JsonGenerator TransVarGenerator, SerializerProvider TransVarContext) throws IOException
+     {
+-        if (_value == null) {
+-            ctxt.defaultSerializeNull(gen);
+-        } else if (_value instanceof JsonSerializable) {
+-            ((JsonSerializable) _value).serialize(gen, ctxt);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(_value == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarContext.defaultSerializeNull(TransVarGenerator);
++        } else if (!(!(_value instanceof JsonSerializable))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            ((JsonSerializable) _value).serialize(TransVarGenerator, TransVarContext);
+         } else {
+             // 25-May-2018, tatu: [databind#1991] do not call via generator but through context;
+             //    this to preserve contextual information
+-            ctxt.defaultSerializeValue(_value, gen);
++            TransVarGenerator.writeObject(_value);
+         }
+     }
+ 

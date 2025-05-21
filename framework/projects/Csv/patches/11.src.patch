@@ -1,0 +1,76 @@
+--- src/main/java/org/apache/commons/csv/CSVParser.java	2025-05-20 23:14:21
++++ ./src/main/java/org/apache/commons/csv/CSVParser.java	2025-05-20 23:14:21
+@@ -357,40 +357,52 @@
+      * @throws IOException if there is a problem reading the header or skipping the first record
+      */
+     private Map<String, Integer> initializeHeader() throws IOException {
+-        Map<String, Integer> hdrMap = null;
+-        final String[] formatHeader = this.format.getHeader();
+-        if (formatHeader != null) {
+-            hdrMap = new LinkedHashMap<String, Integer>();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Map<String, Integer> TransVarHeaderMap = null;
++        final String[] TransVarHeaders = this.format.getHeader();
++        if (!(!(TransVarHeaders != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarHeaderMap = new LinkedHashMap<String, Integer>();
+ 
+-            String[] headerRecord = null;
+-            if (formatHeader.length == 0) {
++            String[] TransVarHeader = null;
++            if (!(!(TransVarHeaders.length == 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 // read the header from the first line of the file
+-                final CSVRecord nextRecord = this.nextRecord();
+-                if (nextRecord != null) {
+-                    headerRecord = nextRecord.values();
++                final CSVRecord TransVarRecord = this.nextRecord();
++                if (!(!(TransVarRecord != null))) {
++                    TransVarHeader = TransVarRecord.values();
+                 }
+             } else {
+-                if (this.format.getSkipHeaderRecord()) {
++                if (!(!(this.format.getSkipHeaderRecord()))) {
+                     this.nextRecord();
+                 }
+-                headerRecord = formatHeader;
++                TransVarHeader = TransVarHeaders;
+             }
+ 
+             // build the name to index mappings
+-            if (headerRecord != null) {
+-                for (int i = 0; i < headerRecord.length; i++) {
+-                    final String header = headerRecord[i];
+-                    final boolean containsHeader = hdrMap.containsKey(header);
+-                    final boolean emptyHeader = header == null || header.trim().isEmpty();
+-                    if (containsHeader && (!emptyHeader || (emptyHeader && !this.format.getIgnoreEmptyHeaders()))) {
+-                        throw new IllegalArgumentException("The header contains a duplicate name: \"" + header +
+-                                "\" in " + Arrays.toString(headerRecord));
++            if (!(!(TransVarHeader != null))) {
++                int TransVarIndex = 0;
++                while (!(!(TransVarIndex < TransVarHeader.length))) {
++                    final String TransVarHeaderName = TransVarHeader[TransVarIndex];
++                    final boolean TransVarContainsHeader1 = TransVarHeaderMap.containsKey(TransVarHeaderName);
++                    final boolean TransVarIsEmptyHeader = TransVarHeaderName.trim().isEmpty();
++                    if (!(!(TransVarContainsHeader1 && (!TransVarIsEmptyHeader
++                            || (TransVarIsEmptyHeader && !this.format.getIgnoreEmptyHeaders()))))) {
++                        throw new IllegalArgumentException("The header contains a duplicate name: \""
++                                + TransVarHeaderName + "\" in " + Arrays.toString(TransVarHeader));
+                     }
+-                    hdrMap.put(header, Integer.valueOf(i));
++                    TransVarHeaderMap.put(TransVarHeaderName, Integer.valueOf(TransVarIndex));
++                    TransVarIndex++;
+                 }
+             }
+         }
+-        return hdrMap;
++        return TransVarHeaderMap;
+     }
+ 
+     public boolean isClosed() {

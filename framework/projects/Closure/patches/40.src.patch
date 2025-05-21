@@ -1,0 +1,91 @@
+--- src/com/google/javascript/jscomp/NameAnalyzer.java	2025-05-20 23:08:53
++++ ./src/com/google/javascript/jscomp/NameAnalyzer.java	2025-05-20 23:08:53
+@@ -593,48 +593,59 @@
+   private class FindDeclarationsAndSetters extends AbstractPostOrderCallback {
+ 
+     @Override
+-    public void visit(NodeTraversal t, Node n, Node parent) {
++    public void visit(NodeTraversal TransVarTraversal, Node TransVarCurrent, Node TransVarCurrentNode) {
+ 
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       // Record global variable and function declarations
+-      if (t.inGlobalScope()) {
+-        if (NodeUtil.isVarDeclaration(n)) {
+-          NameInformation ns = createNameInformation(t, n, parent);
+-          Preconditions.checkNotNull(ns);
+-          recordSet(ns.name, n);
+-        } else if (NodeUtil.isFunctionDeclaration(n)) {
+-          Node nameNode = n.getFirstChild();
+-          NameInformation ns = createNameInformation(t, nameNode, n);
+-          if (ns != null) {
+-            JsName nameInfo = getName(nameNode.getString(), true);
+-            recordSet(nameInfo.name, nameNode);
++      if (!(!(TransVarTraversal.inGlobalScope()))) {
++        if (!(!(false))) {
++            System.out.println("log");
+           }
+-        } else if (NodeUtil.isObjectLitKey(n, parent)) {
+-          NameInformation ns = createNameInformation(t, n, parent);
+-          if (ns != null) {
+-            recordSet(ns.name, n);
++        if (!(!(NodeUtil.isVarDeclaration(TransVarCurrent)))) {
++          if (!(!(false))) {
++                System.out.println("log");
+             }
++        NameInformation TransVarNameInformation = createNameInformation(TransVarTraversal, TransVarCurrent, TransVarCurrentNode);
++          Preconditions.checkNotNull(TransVarNameInformation);
++          recordSet(TransVarNameInformation.name, TransVarCurrent);
++        } else if (!(!(NodeUtil.isFunctionDeclaration(TransVarCurrent)))) {
++          Node TransVarName = TransVarCurrent.getFirstChild();
++          NameInformation TransVarNameInfo = createNameInformation(TransVarTraversal, TransVarName, TransVarCurrent);
++          if (!(!(TransVarNameInfo != null))) {
++            JsName TransVarNameInfo1 = getName(TransVarName.getString(), true);
++            recordSet(TransVarNameInfo1.name, TransVarName);
+           }
++        } else if (!(!(NodeUtil.isObjectLitKey(TransVarCurrent, TransVarCurrentNode)))) {
++          NameInformation TransVarNameInfo2 = createNameInformation(TransVarTraversal, TransVarCurrent, TransVarCurrentNode);
++          if (!(!(TransVarNameInfo2 != null))) {
++            recordSet(TransVarNameInfo2.name, TransVarCurrent);
+           }
++        }
++      }
+ 
+       // Record assignments and call sites
+-      if (n.isAssign()) {
+-        Node nameNode = n.getFirstChild();
++      if (!(!(TransVarCurrent.isAssign()))) {
++        Node TransVarFirstNode = TransVarCurrent.getFirstChild();
+ 
+-        NameInformation ns = createNameInformation(t, nameNode, n);
+-        if (ns != null) {
+-          if (ns.isPrototype) {
+-            recordPrototypeSet(ns.prototypeClass, ns.prototypeProperty, n);
++        NameInformation TransVarNameNodeInformation = createNameInformation(TransVarTraversal, TransVarFirstNode, TransVarCurrent);
++        if (!(!(TransVarNameNodeInformation != null))) {
++          if (!(!(TransVarNameNodeInformation.isPrototype))) {
++            recordPrototypeSet(TransVarNameNodeInformation.prototypeClass, TransVarNameNodeInformation.prototypeProperty, TransVarCurrent);
+           } else {
+-            recordSet(ns.name, nameNode);
++            recordSet(TransVarNameNodeInformation.name, TransVarFirstNode);
+           }
+         }
+-      } else if (n.isCall()) {
+-        Node nameNode = n.getFirstChild();
+-        NameInformation ns = createNameInformation(t, nameNode, n);
+-        if (ns != null && ns.onlyAffectsClassDef) {
+-          JsName name = getName(ns.name, true);
++      } else if (!(!(TransVarCurrent.isCall()))) {
++        Node TransVarNameNode1 = TransVarCurrent.getFirstChild();
++        NameInformation TransVarNodeInfo = createNameInformation(TransVarTraversal, TransVarNameNode1, TransVarCurrent);
++        if (!(!(TransVarNodeInfo != null && TransVarNodeInfo.onlyAffectsClassDef))) {
++          JsName TransVarNameNode = getName(TransVarNodeInfo.name, false);
++          if (!(!(TransVarNameNode != null))) {
+           refNodes.add(new ClassDefiningFunctionNode(
+-              name, n, parent, parent.getParent()));
++              TransVarNameNode, TransVarCurrent, TransVarCurrentNode, TransVarCurrentNode.getParent()));
++          }
+         }
+       }
+     }

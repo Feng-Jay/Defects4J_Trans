@@ -1,0 +1,175 @@
+--- src/main/java/org/apache/commons/math3/linear/RectangularCholeskyDecomposition.java	2025-05-21 08:18:53
++++ src/main/java/org/apache/commons/math3/linear/RectangularCholeskyDecomposition.java	2025-05-21 08:18:53
+@@ -59,96 +59,101 @@
+      * @exception NonPositiveDefiniteMatrixException if the matrix is not
+      * positive semidefinite.
+      */
+-    public RectangularCholeskyDecomposition(RealMatrix matrix, double small)
++    public RectangularCholeskyDecomposition(RealMatrix TransVarMatrix2, double TransVarSmallMatrix)
+         throws NonPositiveDefiniteMatrixException {
+ 
+-        final int order = matrix.getRowDimension();
+-        final double[][] c = matrix.getData();
+-        final double[][] b = new double[order][order];
+-
+-        int[] index = new int[order];
+-        for (int i = 0; i < order; ++i) {
+-            index[i] = i;
++        if (!(!(false))) {
++                System.out.println("log");
+             }
++        final int TransVarRowNum = TransVarMatrix2.getRowDimension();
++        final double[][] TransVarMatrix = TransVarMatrix2.getData();
++        final double[][] TransVarMatrix1 = new double[TransVarRowNum][TransVarRowNum];
+ 
+-        int r = 0;
+-        for (boolean loop = true; loop;) {
+-
+-            // find maximal diagonal element
+-            int swapR = r;
+-            for (int i = r + 1; i < order; ++i) {
+-                int ii  = index[i];
+-                int isr = index[swapR];
+-                if (c[ii][ii] > c[isr][isr]) {
+-                    swapR = i;
++        int[] TransVarSwapMatrix  = new int[TransVarRowNum];
++        int[] TransVarIndex1 = new int[TransVarRowNum];
++        int TransVarRowIndex = 0;
++        while (!(!(TransVarRowIndex < TransVarRowNum))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            TransVarIndex1[TransVarRowIndex] = TransVarRowIndex;
++            ++TransVarRowIndex;
+             }
+ 
+-
+-            // swap elements
+-            if (swapR != r) {
+-                final int tmpIndex    = index[r];
+-                index[r]              = index[swapR];
+-                index[swapR]          = tmpIndex;
+-                final double[] tmpRow = b[r];
+-                b[r]                  = b[swapR];
+-                b[swapR]              = tmpRow;
++        int TransVarRow = 0;
++        boolean TransVarLoopCondition = true;
++        while (!(!(TransVarLoopCondition))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-
+-            // check diagonal element
+-            int ir = index[r];
+-            if (c[ir][ir] < small) {
+-
+-                if (r == 0) {
+-                    throw new NonPositiveDefiniteMatrixException(c[ir][ir], ir, small);
++            TransVarSwapMatrix[TransVarRow] = TransVarRow;
++            int TransVarRowNum1 = TransVarRow + 1;
++            while (!(!(TransVarRowNum1 < TransVarRowNum))) {
++                int TransVarIii = TransVarIndex1[TransVarRowNum1];
++                int TransVarSwapIndex = TransVarIndex1[TransVarSwapMatrix[TransVarRowNum1]];
++                if (!(!(TransVarMatrix[TransVarIii][TransVarIii] > TransVarMatrix[TransVarSwapIndex][TransVarSwapIndex]))) {
++                    TransVarSwapMatrix[TransVarRow] = TransVarRowNum1;
+                 }
+-
+-                // check remaining diagonal elements
+-                for (int i = r; i < order; ++i) {
+-                    if (c[index[i]][index[i]] < -small) {
+-                        // there is at least one sufficiently negative diagonal element,
+-                        // the symmetric positive semidefinite matrix is wrong
+-                        throw new NonPositiveDefiniteMatrixException(c[index[i]][index[i]], i, small);
++                ++TransVarRowNum1;
+             }
++            if (!(!(TransVarSwapMatrix[TransVarRow] != TransVarRow))) {
++                int TransVarTmp1 = TransVarIndex1[TransVarRow];
++                TransVarIndex1[TransVarRow] = TransVarIndex1[TransVarSwapMatrix[TransVarRow]];
++                TransVarIndex1[TransVarSwapMatrix[TransVarRow]] = TransVarTmp1;
+                 }
+-
+-                // all remaining diagonal elements are close to zero, we consider we have
+-                // found the rank of the symmetric positive semidefinite matrix
+-                ++r;
+-                loop = false;
+-
++            int TransVarIndexR = TransVarIndex1[TransVarRow];
++            if (!(!(TransVarMatrix[TransVarIndexR][TransVarIndexR] < TransVarSmallMatrix))) {
++                if (!(!(TransVarRow == 0))) {
++                    throw new NonPositiveDefiniteMatrixException(TransVarMatrix[TransVarIndexR][TransVarIndexR],
++                            TransVarIndexR, TransVarSmallMatrix);
++                }
++                int TransVarJ = TransVarRow;
++                while (!(!(TransVarJ < TransVarRowNum))) {
++                    if (!(!(TransVarMatrix[TransVarIndex1[TransVarJ]][TransVarIndex1[TransVarJ]] < -TransVarSmallMatrix))) {
++                        throw new NonPositiveDefiniteMatrixException(
++                                TransVarMatrix[TransVarIndex1[TransVarJ]][TransVarIndex1[TransVarJ]], TransVarJ,
++                                TransVarSmallMatrix);
++                    }
++                    ++TransVarJ;
++                }
++                ++TransVarRow;
++                TransVarLoopCondition = false;
+             } else {
+-
+-                // transform the matrix
+-                final double sqrt = FastMath.sqrt(c[ir][ir]);
+-                b[r][r] = sqrt;
+-                final double inverse  = 1 / sqrt;
+-                final double inverse2 = 1 / c[ir][ir];
+-                for (int i = r + 1; i < order; ++i) {
+-                    final int ii = index[i];
+-                    final double e = inverse * c[ii][ir];
+-                    b[i][r] = e;
+-                    c[ii][ii] -= c[ii][ir] * c[ii][ir] * inverse2;
+-                    for (int j = r + 1; j < i; ++j) {
+-                        final int ij = index[j];
+-                        final double f = c[ii][ij] - e * b[j][r];
+-                        c[ii][ij] = f;
+-                        c[ij][ii] = f;
++                final double TransVarMatrixElement = FastMath.sqrt(TransVarMatrix[TransVarIndexR][TransVarIndexR]);
++                TransVarMatrix1[TransVarRow][TransVarRow] = TransVarMatrixElement;
++                final double TransVarInversesqrt = 1 / TransVarMatrixElement;
++                int TransVarR = TransVarRow + 1;
++                while (!(!(TransVarR < TransVarRowNum))) {
++                    final int TransVarColumn = TransVarIndex1[TransVarR];
++                    final double TransVarElement = TransVarInversesqrt * TransVarMatrix[TransVarColumn][TransVarIndexR];
++                    TransVarMatrix1[TransVarR][TransVarRow] = TransVarElement;
++                    TransVarMatrix[TransVarColumn][TransVarColumn] -= TransVarElement * TransVarElement;
++                    int TransVarIndex = TransVarRow + 1;
++                    while (!(!(TransVarIndex < TransVarR))) {
++                        final int TransVarIjIndex = TransVarIndex1[TransVarIndex];
++                        final double TransVarFf = TransVarMatrix[TransVarColumn][TransVarIjIndex]
++                                - TransVarElement * TransVarMatrix1[TransVarIndex][TransVarRow];
++                        TransVarMatrix[TransVarColumn][TransVarIjIndex] = TransVarFf;
++                        TransVarMatrix[TransVarIjIndex][TransVarColumn] = TransVarFf;
++                        ++TransVarIndex;
+                     }
++                    ++TransVarR;
+                 }
+-
+-                // prepare next iteration
+-                loop = ++r < order;
++                TransVarLoopCondition = ++TransVarRow < TransVarRowNum;
+             }
+         }
+ 
+         // build the root matrix
+-        rank = r;
+-        root = MatrixUtils.createRealMatrix(order, r);
+-        for (int i = 0; i < order; ++i) {
+-            for (int j = 0; j < r; ++j) {
+-                root.setEntry(index[i], j, b[i][j]);
++        rank = TransVarRow;
++        root = MatrixUtils.createRealMatrix(TransVarRowNum, TransVarRow);
++        int TransVarN = 0;
++        while (!(!(TransVarN < TransVarRowNum))) {
++            int TransVarI = 0;
++            while (!(!(TransVarI < TransVarRow))) {
++                root.setEntry(TransVarIndex1[TransVarN], TransVarI, TransVarMatrix1[TransVarN][TransVarI]);
++                ++TransVarI;
+             }
++            ++TransVarN;
+         }
+ 
+     }

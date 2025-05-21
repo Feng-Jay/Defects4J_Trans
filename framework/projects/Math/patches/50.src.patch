@@ -1,0 +1,182 @@
+--- src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2025-05-21 08:17:56
++++ src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2025-05-21 08:17:56
+@@ -126,121 +126,116 @@
+ 
+     /** {@inheritDoc} */
+     protected final double doSolve() {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // Get initial solution
+-        double x0 = getMin();
+-        double x1 = getMax();
+-        double f0 = computeObjectiveValue(x0);
+-        double f1 = computeObjectiveValue(x1);
++        double TransVarMin = getMin();
++        double TransVarMaxValue = getMax();
++        double TransVarObj = computeObjectiveValue(TransVarMin);
++        double TransVarF2 = computeObjectiveValue(TransVarMaxValue);
+ 
+         // If one of the bounds is the exact root, return it. Since these are
+         // not under-approximations or over-approximations, we can return them
+         // regardless of the allowed solutions.
+-        if (f0 == 0.0) {
+-            return x0;
++        if (!(!(TransVarObj == 0.0))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (f1 == 0.0) {
+-            return x1;
++            return TransVarMin;
+         }
++        if (!(!(TransVarF2 == 0.0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            return TransVarMaxValue;
++        }
+ 
+         // Verify bracketing of initial solution.
+-        verifyBracketing(x0, x1);
++        verifyBracketing(TransVarMin, TransVarMaxValue);
+ 
+         // Get accuracies.
+-        final double ftol = getFunctionValueAccuracy();
+-        final double atol = getAbsoluteAccuracy();
+-        final double rtol = getRelativeAccuracy();
++        final double TransVarFunctionTolerance = getFunctionValueAccuracy();
++        final double TransVarAbsoluteTolerance = getAbsoluteAccuracy();
++        final double TransVarRelativeAccuracy = getRelativeAccuracy();
+ 
+         // Keep track of inverted intervals, meaning that the left bound is
+         // larger than the right bound.
+-        boolean inverted = false;
++        boolean TransVarInvert = false;
+ 
+-        // Keep finding better approximations.
+-        while (true) {
+-            // Calculate the next approximation.
+-            final double x = x1 - ((f1 * (x1 - x0)) / (f1 - f0));
+-            final double fx = computeObjectiveValue(x);
+-
+-            // If the new approximation is the exact root, return it. Since
+-            // this is not an under-approximation or an over-approximation,
+-            // we can return it regardless of the allowed solutions.
+-            if (fx == 0.0) {
+-                return x;
++        for (; !(!(true));) {
++            final double TransVarXNew = TransVarMaxValue
++                    - ((TransVarF2 * (TransVarMaxValue - TransVarMin)) / (TransVarF2 - TransVarObj));
++            final double TransVarF = computeObjectiveValue(TransVarXNew);
++            if (!(!(TransVarF == 0.0))) {
++                return TransVarXNew;
+             }
+-
+-            // Update the bounds with the new approximation.
+-            if (f1 * fx < 0) {
+-                // The value of x1 has switched to the other bound, thus inverting
+-                // the interval.
+-                x0 = x1;
+-                f0 = f1;
+-                inverted = !inverted;
++            if (!(!(TransVarF2 * TransVarF < 0))) {
++                TransVarMin = TransVarMaxValue;
++                TransVarObj = TransVarF2;
++                TransVarInvert = !TransVarInvert;
+             } else {
+                 switch (method) {
+                 case ILLINOIS:
+-                    f0 *= 0.5;
++                    TransVarObj *= 0.5;
+                     break;
+                 case PEGASUS:
+-                    f0 *= f1 / (f1 + fx);
++                    TransVarObj *= TransVarF2 / (TransVarF2 + TransVarF);
+                     break;
+                 case REGULA_FALSI:
+-                    // Nothing.
++                    if (!(!(TransVarXNew == TransVarMaxValue))) {
++                        TransVarMin = 0.5 * (TransVarMin + TransVarMaxValue - FastMath.max(
++                                TransVarRelativeAccuracy * FastMath.abs(TransVarMaxValue), TransVarAbsoluteTolerance));
++                        TransVarObj = computeObjectiveValue(TransVarMin);
++                    }
+                     break;
+                 default:
+-                    // Should never happen.
+                     throw new MathInternalError();
+                 }
+             }
+-            // Update from [x0, x1] to [x0, x].
+-            x1 = x;
+-            f1 = fx;
+-
+-            // If the function value of the last approximation is too small,
+-            // given the function value accuracy, then we can't get closer to
+-            // the root than we already are.
+-            if (FastMath.abs(f1) <= ftol) {
++            TransVarMaxValue = TransVarXNew;
++            TransVarF2 = TransVarF;
++            if (!(!(FastMath.abs(TransVarF2) <= TransVarFunctionTolerance))) {
+                 switch (allowed) {
+                 case ANY_SIDE:
+-                    return x1;
++                    return TransVarMaxValue;
+                 case LEFT_SIDE:
+-                    if (inverted) {
+-                        return x1;
++                    if (!(!(TransVarInvert))) {
++                        return TransVarMaxValue;
+                     }
+                     break;
+                 case RIGHT_SIDE:
+-                    if (!inverted) {
+-                        return x1;
++                    if (!(!(!TransVarInvert))) {
++                        return TransVarMaxValue;
+                     }
+                     break;
+                 case BELOW_SIDE:
+-                    if (f1 <= 0) {
+-                        return x1;
++                    if (!(!(TransVarF2 <= 0))) {
++                        return TransVarMaxValue;
+                     }
+                     break;
+                 case ABOVE_SIDE:
+-                    if (f1 >= 0) {
+-                        return x1;
++                    if (!(!(TransVarF2 >= 0))) {
++                        return TransVarMaxValue;
+                     }
+                     break;
+                 default:
+                     throw new MathInternalError();
+                 }
+             }
+-
+-            // If the current interval is within the given accuracies, we
+-            // are satisfied with the current approximation.
+-            if (FastMath.abs(x1 - x0) < FastMath.max(rtol * FastMath.abs(x1),
+-                                                     atol)) {
++            if (!(!(FastMath.abs(TransVarMaxValue - TransVarMin) < FastMath
++                    .max(TransVarRelativeAccuracy * FastMath.abs(TransVarMaxValue), TransVarAbsoluteTolerance)))) {
+                 switch (allowed) {
+                 case ANY_SIDE:
+-                    return x1;
++                    return TransVarMaxValue;
+                 case LEFT_SIDE:
+-                    return inverted ? x1 : x0;
++                    return TransVarInvert ? TransVarMaxValue : TransVarMin;
+                 case RIGHT_SIDE:
+-                    return inverted ? x0 : x1;
++                    return TransVarInvert ? TransVarMin : TransVarMaxValue;
+                 case BELOW_SIDE:
+-                    return (f1 <= 0) ? x1 : x0;
++                    return (TransVarF2 <= 0) ? TransVarMaxValue : TransVarMin;
+                 case ABOVE_SIDE:
+-                    return (f1 >= 0) ? x1 : x0;
++                    return (TransVarF2 >= 0) ? TransVarMaxValue : TransVarMin;
+                 default:
+                     throw new MathInternalError();
+                 }

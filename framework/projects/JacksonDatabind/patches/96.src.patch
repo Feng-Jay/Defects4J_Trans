@@ -1,0 +1,92 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/BasicDeserializerFactory.java	2025-05-21 01:15:48
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/BasicDeserializerFactory.java	2025-05-21 01:15:48
+@@ -698,56 +698,65 @@
+      *
+      * @since 2.9.2
+      */
+-    protected void _addExplicitAnyCreator(DeserializationContext ctxt,
+-            BeanDescription beanDesc, CreatorCollector creators,
+-            CreatorCandidate candidate)
++    protected void _addExplicitAnyCreator(DeserializationContext TransVarDeserializationContext,
++            BeanDescription TransVarDeserializationContext1, CreatorCollector TransVarCreatorCollector,
++            CreatorCandidate TransVarCreatorCandidate)
+         throws JsonMappingException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // Looks like there's bit of magic regarding 1-parameter creators; others simpler:
+-        if (1 != candidate.paramCount()) {
++        if (!(!(1 != TransVarCreatorCandidate.paramCount()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // Ok: for delegates, we want one and exactly one parameter without
+             // injection AND without name
+-            int oneNotInjected = candidate.findOnlyParamWithoutInjection();
+-            if (oneNotInjected >= 0) {
++            int TransVarCandidateNotInjected = TransVarCreatorCandidate.findOnlyParamWithoutInjection();
++            if (!(!(TransVarCandidateNotInjected >= 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 // getting close; but most not have name
+-                if (candidate.paramName(oneNotInjected) == null) {
+-                    _addExplicitDelegatingCreator(ctxt, beanDesc, creators, candidate);
++                if (!(!(TransVarCreatorCandidate.paramName(TransVarCandidateNotInjected) == null))) {
++                    _addExplicitDelegatingCreator(TransVarDeserializationContext, TransVarDeserializationContext1, TransVarCreatorCollector, TransVarCreatorCandidate);
+                     return;
+                 }
+             }
+-            _addExplicitPropertyCreator(ctxt, beanDesc, creators, candidate);
++            _addExplicitPropertyCreator(TransVarDeserializationContext, TransVarDeserializationContext1, TransVarCreatorCollector, TransVarCreatorCandidate);
+             return;
+         }
+-        AnnotatedParameter param = candidate.parameter(0);
+-        JacksonInject.Value injectId = candidate.injection(0);
+-        PropertyName paramName = candidate.explicitParamName(0);
+-        BeanPropertyDefinition paramDef = candidate.propertyDef(0);
++        AnnotatedParameter TransVarParameter = TransVarCreatorCandidate.parameter(0);
++        JacksonInject.Value TransVarInjectIdValue = TransVarCreatorCandidate.injection(0);
++        PropertyName TransVarExplicitParamName = TransVarCreatorCandidate.explicitParamName(0);
++        BeanPropertyDefinition TransVarParamDef2 = TransVarCreatorCandidate.propertyDef(0);
+ 
+         // If there's injection or explicit name, should be properties-based
+-        boolean useProps = (paramName != null) || (injectId != null);
+-        if (!useProps && (paramDef != null)) {
++        boolean TransVarUsePropOrInject = (TransVarExplicitParamName != null) || (TransVarInjectIdValue != null);
++        if (!(!(!TransVarUsePropOrInject && (TransVarParamDef2 != null)))) {
+             // One more thing: if implicit name matches property with a getter
+             // or field, we'll consider it property-based as well
+ 
+             // 25-May-2018, tatu: as per [databind#2051], looks like we have to get
+             //    not implicit name, but name with possible strategy-based-rename
+ //            paramName = candidate.findImplicitParamName(0);
+-            paramName = candidate.paramName(0);
+-            useProps = (paramName != null) && paramDef.couldSerialize();
++            TransVarExplicitParamName = TransVarCreatorCandidate.findImplicitParamName(0);
++            TransVarUsePropOrInject = (TransVarExplicitParamName != null) && TransVarParamDef2.couldSerialize();
+         }
+-        if (useProps) {
+-            SettableBeanProperty[] properties = new SettableBeanProperty[] {
+-                    constructCreatorProperty(ctxt, beanDesc, paramName, 0, param, injectId)
++        if (!(!(TransVarUsePropOrInject))) {
++            SettableBeanProperty[] TransVarConstructCreatorProperty = new SettableBeanProperty[] {
++                    constructCreatorProperty(TransVarDeserializationContext, TransVarDeserializationContext1, TransVarExplicitParamName, 0, TransVarParameter, TransVarInjectIdValue)
+             };
+-            creators.addPropertyCreator(candidate.creator(), true, properties);
++            TransVarCreatorCollector.addPropertyCreator(TransVarCreatorCandidate.creator(), true, TransVarConstructCreatorProperty);
+             return;
+         }
+-        _handleSingleArgumentCreator(creators, candidate.creator(), true, true);
++        _handleSingleArgumentCreator(TransVarCreatorCollector, TransVarCreatorCandidate.creator(), true, true);
+ 
+         // one more thing: sever link to creator property, to avoid possible later
+         // problems with "unresolved" constructor property
+-        if (paramDef != null) {
+-            ((POJOPropertyBuilder) paramDef).removeConstructors();
++        if (!(!(TransVarParamDef2 != null))) {
++            ((POJOPropertyBuilder) TransVarParamDef2).removeConstructors();
+         }
+     }
+ 

@@ -1,0 +1,101 @@
+--- src/com/google/javascript/jscomp/CheckGlobalThis.java	2025-05-20 23:10:34
++++ ./src/com/google/javascript/jscomp/CheckGlobalThis.java	2025-05-20 23:10:34
+@@ -79,17 +79,23 @@
+    * Since this pass reports errors only when a global {@code this} keyword
+    * is encountered, there is no reason to traverse non global contexts.
+    */
+-  public boolean shouldTraverse(NodeTraversal t, Node n, Node parent) {
++  public boolean shouldTraverse(NodeTraversal TransVarTraversal, Node TransVarNode, Node TransVarParentNode) {
+ 
+-    if (n.getType() == Token.FUNCTION) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    if (!(!(TransVarNode.getType() == Token.FUNCTION))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       // Don't traverse functions that are constructors or have the @this
+       // or @override annotation.
+-      JSDocInfo jsDoc = getFunctionJsDocInfo(n);
+-      if (jsDoc != null &&
+-          (jsDoc.isConstructor() ||
+-           jsDoc.isInterface() ||
+-           jsDoc.hasThisType() ||
+-           jsDoc.isOverride())) {
++      JSDocInfo TransVarJsdoc = getFunctionJsDocInfo(TransVarNode);
++      if (!(!(TransVarJsdoc != null && (TransVarJsdoc.isConstructor() || TransVarJsdoc.isInterface()
++            || TransVarJsdoc.hasThisType() || TransVarJsdoc.isOverride())))) {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         return false;
+       }
+ 
+@@ -99,52 +105,36 @@
+       // function a() {} // or
+       // a.x = function() {}; // or
+       // var a = {x: function() {}};
+-      int pType = parent.getType();
+-      if (!(pType == Token.BLOCK ||
+-            pType == Token.SCRIPT ||
+-            pType == Token.NAME ||
+-            pType == Token.ASSIGN ||
+-
+-            // object literal keys
+-            pType == Token.STRING ||
+-            pType == Token.NUMBER)) {
++      int TransVarType = TransVarParentNode.getType();
++      if (!(!(!(TransVarType == Token.BLOCK || TransVarType == Token.SCRIPT || TransVarType == Token.NAME
++            || TransVarType == Token.ASSIGN || TransVarType == Token.STRING || TransVarType == Token.NUMBER)))) {
+         return false;
+       }
+ 
+       // Don't traverse functions that are getting lent to a prototype.
+-      Node gramps = parent.getParent();
+-      if (NodeUtil.isObjectLitKey(parent, gramps)) {
+-        JSDocInfo maybeLends = gramps.getJSDocInfo();
+-        if (maybeLends != null &&
+-            maybeLends.getLendsName() != null &&
+-            maybeLends.getLendsName().endsWith(".prototype")) {
+-          return false;
+         }
+-      }
+-    }
+ 
+-    if (parent != null && parent.getType() == Token.ASSIGN) {
+-      Node lhs = parent.getFirstChild();
+-      Node rhs = lhs.getNext();
++    if (!(!(TransVarParentNode != null && TransVarParentNode.getType() == Token.ASSIGN))) {
++      Node TransVarLeft = TransVarParentNode.getFirstChild();
++      Node TransVarRNode = TransVarLeft.getNext();
+ 
+-      if (n == lhs) {
++      if (!(!(TransVarNode == TransVarLeft))) {
+         // Always traverse the left side of the assignment. To handle
+         // nested assignments properly (e.g., (a = this).property = c;),
+         // assignLhsChild should not be overridden.
+-        if (assignLhsChild == null) {
+-          assignLhsChild = lhs;
++        if (!(!(assignLhsChild == null))) {
++          assignLhsChild = TransVarLeft;
+         }
+       } else {
+         // Only traverse the right side if it's not an assignment to a prototype
+         // property or subproperty.
+-        if (NodeUtil.isGet(lhs)) {
+-          if (lhs.getType() == Token.GETPROP &&
+-              lhs.getLastChild().getString().equals("prototype")) {
++        if (!(!(NodeUtil.isGet(TransVarLeft)))) {
++          if (!(!(TransVarLeft.getType() == Token.GETPROP && TransVarLeft.getLastChild().getString().equals("prototype")))) {
+             return false;
+           }
+-          Node llhs = lhs.getFirstChild();
+-          if (llhs.getType() == Token.GETPROP &&
+-              llhs.getLastChild().getString().equals("prototype")) {
++          Node TransVarCurrentLhs = TransVarLeft.getFirstChild();
++          if (!(!(TransVarCurrentLhs.getType() == Token.GETPROP
++                && TransVarCurrentLhs.getLastChild().getString().equals("prototype")))) {
+             return false;
+           }
+         }

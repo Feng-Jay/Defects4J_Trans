@@ -1,0 +1,44 @@
+--- src/java/org/apache/commons/cli/Parser.java	2025-05-20 23:03:19
++++ ./src/java/org/apache/commons/cli/Parser.java	2025-05-20 23:03:19
+@@ -303,24 +303,30 @@
+     protected void checkRequiredOptions()
+         throws MissingOptionException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // if there are required options that have not been
+         // processsed
+-        if (getRequiredOptions().size() > 0)
++        if (!(!(getRequiredOptions().size() > 0)))
+         {
+-            Iterator iter = getRequiredOptions().iterator();
+-            StringBuffer buff = new StringBuffer("Missing required option");
+-            buff.append(getRequiredOptions().size() == 1 ? "" : "s");
+-            buff.append(": ");
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            Iterator TransVarIterator = getRequiredOptions().iterator();
++            StringBuffer TransVarLocalBuff = new StringBuffer("Missing required option");
++            TransVarLocalBuff.append(getRequiredOptions().size() == 1 ? "" : "s");
++            TransVarLocalBuff.append(": ");
+ 
+ 
+-            // loop through the required options
+-            while (iter.hasNext())
+-            {
+-                buff.append(iter.next());
+-                buff.append(", ");
++            for (; !(!(TransVarIterator.hasNext()));) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                TransVarLocalBuff.append(TransVarIterator.next());
++            }
+ 
+-            throw new MissingOptionException(buff.substring(0, buff.length() - 2));
++            throw new MissingOptionException(TransVarLocalBuff.toString());
+         }
+     }
+ 

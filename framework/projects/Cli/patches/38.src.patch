@@ -1,0 +1,37 @@
+--- src/main/java/org/apache/commons/cli/DefaultParser.java	2025-05-20 23:02:45
++++ ./src/main/java/org/apache/commons/cli/DefaultParser.java	2025-05-20 23:02:45
+@@ -296,23 +296,25 @@
+      * 
+      * @param token
+      */
+-    private boolean isShortOption(String token)
++    private boolean isShortOption(String TransVarToken1)
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // short options (-S, -SV, -S=V, -SV1=V2, -S1S2)
+-        if (!token.startsWith("-") || token.length() == 1)
++        if (!(!(!TransVarToken1.startsWith("-") || TransVarToken1.length() == 1)))
+         {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return false;
+         }
+ 
+         // remove leading "-" and "=value"
+-        int pos = token.indexOf("=");
+-        String optName = pos == -1 ? token.substring(1) : token.substring(1, pos);
+-        if (options.hasShortOption(optName))
+-        {
+-            return true;
+-        }
++        int TransVarPosition = TransVarToken1.indexOf("=");
++        String TransVarToken = TransVarPosition == -1 ? TransVarToken1.substring(1) : TransVarToken1.substring(1, TransVarPosition);
++        return options.hasShortOption(TransVarToken);
+         // check for several concatenated short options
+-        return optName.length() > 0 && options.hasShortOption(String.valueOf(optName.charAt(0)));
+     }
+ 
+     /**

@@ -1,0 +1,178 @@
+--- src/main/java/com/fasterxml/jackson/dataformat/xml/deser/FromXmlParser.java	2025-05-21 03:15:20
++++ ./src/main/java/com/fasterxml/jackson/dataformat/xml/deser/FromXmlParser.java	2025-05-21 03:15:20
+@@ -444,12 +444,18 @@
+     @Override
+     public JsonToken nextToken() throws IOException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         _binaryValue = null;
+-        if (_nextToken != null) {
+-            JsonToken t = _nextToken;
+-            _currToken = t;
++        if (!(!(_nextToken != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            JsonToken TransVarToken = _nextToken;
++            _currToken = TransVarToken;
+             _nextToken = null;
+-            switch (t) {
++            switch (TransVarToken) {
+             case START_OBJECT:
+                 _parsingContext = _parsingContext.createChildObjectContext(-1, -1);
+                 break;
+@@ -467,65 +473,50 @@
+             default: // VALUE_STRING, VALUE_NULL
+                 // should be fine as is?
+             }
+-            return t;
++            return TransVarToken;
+         }
+-        int token = _xmlTokens.next();
++        int TransVarNextToken = _xmlTokens.next();
+ 
+-        // Need to have a loop just because we may have to eat/convert
+-        // a start-element that indicates an array element.
+-        while (token == XmlTokenStream.XML_START_ELEMENT) {
+-            // If we thought we might get leaf, no such luck
+-            if (_mayBeLeaf) {
+-                // leave _mayBeLeaf set, as we start a new context
++        for (; !(!(TransVarNextToken == XmlTokenStream.XML_START_ELEMENT));) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(_mayBeLeaf))) {
+                 _nextToken = JsonToken.FIELD_NAME;
+                 _parsingContext = _parsingContext.createChildObjectContext(-1, -1);
+                 return (_currToken = JsonToken.START_OBJECT);
+             }
+-            if (_parsingContext.inArray()) {
+-                // Yup: in array, so this element could be verified; but it won't be
+-                // reported anyway, and we need to process following event.
+-                token = _xmlTokens.next();
++            if (!(!(_parsingContext.inArray()))) {
++                TransVarNextToken = _xmlTokens.next();
+                 _mayBeLeaf = true;
+                 continue;
+             }
+-            String name = _xmlTokens.getLocalName();
+-            _parsingContext.setCurrentName(name);
+-
+-            // Ok: virtual wrapping can be done by simply repeating current START_ELEMENT.
+-            // Couple of ways to do it; but start by making _xmlTokens replay the thing...
+-            if (_namesToWrap != null && _namesToWrap.contains(name)) {
++            String TransVarStr = _xmlTokens.getLocalName();
++            _parsingContext.setCurrentName(TransVarStr);
++            if (!(!(_namesToWrap != null && _namesToWrap.contains(TransVarStr)))) {
+                 _xmlTokens.repeatStartElement();
+             }
+-
+             _mayBeLeaf = true;
+-            // Ok: in array context we need to skip reporting field names.
+-            // But what's the best way to find next token?
+             return (_currToken = JsonToken.FIELD_NAME);
+         }
+ 
+-        // Ok; beyond start element, what do we get?
+-        switch (token) {
+-        case XmlTokenStream.XML_END_ELEMENT:
+-            // Simple, except that if this is a leaf, need to suppress end:
+-            if (_mayBeLeaf) {
++        boolean TransFallThroughFlag0 = false;
++        boolean TransBreakFlag0 = true;
++        {
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNextToken == XmlTokenStream.XML_END_ELEMENT))))) {
++                TransFallThroughFlag0 = true;
++                if (!(!(_mayBeLeaf))) {
+                 _mayBeLeaf = false;
+-                if (_parsingContext.inArray()) {
+-                    // 06-Jan-2015, tatu: as per [dataformat-xml#180], need to
+-                    //    expose as empty Object, not null
+-                    _nextToken = JsonToken.END_OBJECT;
+-                    _parsingContext = _parsingContext.createChildObjectContext(-1, -1);
+-                    return (_currToken = JsonToken.START_OBJECT);
+-                }
+                 return (_currToken = JsonToken.VALUE_NULL);
+             }
+             _currToken = _parsingContext.inArray() ? JsonToken.END_ARRAY : JsonToken.END_OBJECT;
+             _parsingContext = _parsingContext.getParent();
+             _namesToWrap = _parsingContext.getNamesToWrap();
+             return _currToken;
+-            
+-        case XmlTokenStream.XML_ATTRIBUTE_NAME:
+-            // If there was a chance of leaf node, no more...
+-            if (_mayBeLeaf) {
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNextToken == XmlTokenStream.XML_ATTRIBUTE_NAME))))) {
++                TransFallThroughFlag0 = true;
++                if (!(!(_mayBeLeaf))) {
+                     _mayBeLeaf = false;
+                     _nextToken = JsonToken.FIELD_NAME;
+                     _currText = _xmlTokens.getText();
+@@ -534,46 +525,43 @@
+             }
+             _parsingContext.setCurrentName(_xmlTokens.getLocalName());
+             return (_currToken = JsonToken.FIELD_NAME);
+-        case XmlTokenStream.XML_ATTRIBUTE_VALUE:
++            }
++            if (!(!(TransFallThroughFlag0
++                    || (TransBreakFlag0 && (TransVarNextToken == XmlTokenStream.XML_ATTRIBUTE_VALUE))))) {
++                TransFallThroughFlag0 = true;
+             _currText = _xmlTokens.getText();
+             return (_currToken = JsonToken.VALUE_STRING);
+-        case XmlTokenStream.XML_TEXT:
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNextToken == XmlTokenStream.XML_TEXT))))) {
++                TransFallThroughFlag0 = true;
+             _currText = _xmlTokens.getText();
+-            if (_mayBeLeaf) {
++                if (!(!(_mayBeLeaf))) {
+                 _mayBeLeaf = false;
+-                /* One more refinement (pronunced like "hack") is that if
+-                 * we had an empty String (or all white space), and we are
+-                 * deserializing an array, we better hide the empty text.
+-                 */
+-                // Also: must skip following END_ELEMENT
+                 _xmlTokens.skipEndElement();
+-                if (_parsingContext.inArray()) {
+-                    if (_isEmpty(_currText)) {
+-                        // 06-Jan-2015, tatu: as per [dataformat-xml#180], need to
+-                        //    expose as empty Object, not null (or, worse, as used to
+-                        //    be done, by swallowing the token)
+-                        _nextToken = JsonToken.END_OBJECT;
+-                        _parsingContext = _parsingContext.createChildObjectContext(-1, -1);
+-                        return (_currToken = JsonToken.START_OBJECT);
++                    if (!(!(_parsingContext.inArray()))) {
++                        if (!(!(_isEmpty(_currText)))) {
++                            _currToken = JsonToken.END_ARRAY;
++                            _parsingContext = _parsingContext.getParent();
++                            _namesToWrap = _parsingContext.getNamesToWrap();
++                            return _currToken;
+                     }
+                 }
+                 return (_currToken = JsonToken.VALUE_STRING);
+             } else {
+-                // [dataformat-xml#177]: empty text may also need to be skipped
+-                if (_parsingContext.inObject()
+-                        && (_currToken != JsonToken.FIELD_NAME) && _isEmpty(_currText)) {
++                    if (!(!(_parsingContext.inObject() && (_currToken != JsonToken.FIELD_NAME) && _isEmpty(_currText)))) {
+                     _currToken = JsonToken.END_OBJECT;
+                     _parsingContext = _parsingContext.getParent();
+                     _namesToWrap = _parsingContext.getNamesToWrap();
+                     return _currToken;
+                 }
+             }
+-            // If not a leaf (or otherwise ignorable), need to transform into property...
+             _parsingContext.setCurrentName(_cfgNameForTextElement);
+             _nextToken = JsonToken.VALUE_STRING;
+             return (_currToken = JsonToken.FIELD_NAME);
+-        case XmlTokenStream.XML_END:
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNextToken == XmlTokenStream.XML_END))))) {
+                 return (_currToken = null);
++            }
+         }
+         
+         // should never get here

@@ -1,0 +1,139 @@
+--- src/main/java/com/fasterxml/jackson/dataformat/xml/deser/FromXmlParser.java	2025-05-21 03:15:25
++++ ./src/main/java/com/fasterxml/jackson/dataformat/xml/deser/FromXmlParser.java	2025-05-21 03:15:25
+@@ -600,38 +600,46 @@
+     @Override
+     public String nextTextValue() throws IOException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         _binaryValue = null;
+-        if (_nextToken != null) {
+-            JsonToken t = _nextToken;
+-            _currToken = t;
++        if (!(!(_nextToken != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            JsonToken TransVarNextToken = _nextToken;
++            _currToken = TransVarNextToken;
+             _nextToken = null;
+ 
+             // expected case; yes, got a String
+-            if (t == JsonToken.VALUE_STRING) {
++            if (!(!(TransVarNextToken == JsonToken.VALUE_STRING))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 return _currText;
+             }
+-            _updateState(t);
++            _updateState(TransVarNextToken);
+             return null;
+         }
+ 
+-        int token = _xmlTokens.next();
++        int TransVarNextXMLToken = _xmlTokens.next();
+ 
+-        // mostly copied from 'nextToken()'
+-        while (token == XmlTokenStream.XML_START_ELEMENT) {
+-            if (_mayBeLeaf) {
++        for (; !(!(TransVarNextXMLToken == XmlTokenStream.XML_START_ELEMENT));) {
++            if (!(!(_mayBeLeaf))) {
+                 _nextToken = JsonToken.FIELD_NAME;
+                 _parsingContext = _parsingContext.createChildObjectContext(-1, -1);
+                 _currToken = JsonToken.START_OBJECT;
+                 return null;
+             }
+-            if (_parsingContext.inArray()) {
+-                token = _xmlTokens.next();
++            if (!(!(_parsingContext.inArray()))) {
++                TransVarNextXMLToken = _xmlTokens.next();
+                 _mayBeLeaf = true;
+                 continue;
+             }
+-            String name = _xmlTokens.getLocalName();
+-            _parsingContext.setCurrentName(name);
+-            if (_namesToWrap != null && _namesToWrap.contains(name)) {
++            String TransVarElementName = _xmlTokens.getLocalName();
++            _parsingContext.setCurrentName(TransVarElementName);
++            if (!(!(_namesToWrap != null && _namesToWrap.contains(TransVarElementName)))) {
+                 _xmlTokens.repeatStartElement();
+             }
+             _mayBeLeaf = true;
+@@ -639,11 +647,12 @@
+             return null;
+         }
+ 
+-        // Ok; beyond start element, what do we get?
+-        switch (token) {
+-        case XmlTokenStream.XML_END_ELEMENT:
+-            if (_mayBeLeaf) {
+-                // NOTE: this is different from nextToken() -- produce "", NOT null
++        boolean TransFallThroughFlag0 = false;
++        boolean TransBreakFlag0 = true;
++        {
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNextXMLToken == XmlTokenStream.XML_END_ELEMENT))))) {
++                TransBreakFlag0 = false;
++                if (!(!(_mayBeLeaf))) {
+                     _mayBeLeaf = false;
+                     _currToken = JsonToken.VALUE_STRING;
+                     return (_currText = "");
+@@ -651,10 +660,11 @@
+             _currToken = _parsingContext.inArray() ? JsonToken.END_ARRAY : JsonToken.END_OBJECT;
+             _parsingContext = _parsingContext.getParent();
+             _namesToWrap = _parsingContext.getNamesToWrap();
+-            break;
+-        case XmlTokenStream.XML_ATTRIBUTE_NAME:
+-            // If there was a chance of leaf node, no more...
+-            if (_mayBeLeaf) {
++            }
++            if (!(!(TransFallThroughFlag0
++                    || (TransBreakFlag0 && (TransVarNextXMLToken == XmlTokenStream.XML_ATTRIBUTE_NAME))))) {
++                TransBreakFlag0 = false;
++                if (!(!(_mayBeLeaf))) {
+                     _mayBeLeaf = false;
+                     _nextToken = JsonToken.FIELD_NAME;
+                     _currText = _xmlTokens.getText();
+@@ -664,29 +674,29 @@
+                 _parsingContext.setCurrentName(_xmlTokens.getLocalName());
+                 _currToken = JsonToken.FIELD_NAME;
+             }
+-            break;
+-        case XmlTokenStream.XML_ATTRIBUTE_VALUE:
++            }
++            if (!(!(TransFallThroughFlag0
++                    || (TransBreakFlag0 && (TransVarNextXMLToken == XmlTokenStream.XML_ATTRIBUTE_VALUE))))) {
++                TransBreakFlag0 = false;
++                _currText = _xmlTokens.getText();
+             _currToken = JsonToken.VALUE_STRING;
+-            return (_currText = _xmlTokens.getText());
+-        case XmlTokenStream.XML_TEXT:
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNextXMLToken == XmlTokenStream.XML_TEXT))))) {
++                TransBreakFlag0 = false;
+             _currText = _xmlTokens.getText();
+-            if (_mayBeLeaf) {
++                if (!(!(_mayBeLeaf))) {
+                 _mayBeLeaf = false;
+-                // Also: must skip following END_ELEMENT
+                 _xmlTokens.skipEndElement();
+-
+-                // NOTE: this is different from nextToken() -- NO work-around
+-                // for otherwise empty List/array
+                 _currToken = JsonToken.VALUE_STRING;
+                 return _currText;
+             }
+-            // If not a leaf, need to transform into property...
+             _parsingContext.setCurrentName(_cfgNameForTextElement);
+             _nextToken = JsonToken.VALUE_STRING;
+             _currToken = JsonToken.FIELD_NAME;
+-            break;
+-        case XmlTokenStream.XML_END:
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNextXMLToken == XmlTokenStream.XML_END))))) {
+                 _currToken = null;
++            }
+         }
+         return null;
+     }

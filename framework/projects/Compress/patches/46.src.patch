@@ -1,0 +1,25 @@
+--- src/main/java/org/apache/commons/compress/archivers/zip/X5455_ExtendedTimestamp.java	2025-05-20 23:11:55
++++ ./src/main/java/org/apache/commons/compress/archivers/zip/X5455_ExtendedTimestamp.java	2025-05-20 23:11:55
+@@ -525,11 +525,18 @@
+         return unixTimeToZipLong(d.getTime() / 1000);
+     }
+ 
+-    private static ZipLong unixTimeToZipLong(long l) {
+-        if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+-            throw new IllegalArgumentException("X5455 timestamps must fit in a signed 32 bit integer: " + l);
++    private static ZipLong unixTimeToZipLong(long TransVarLongLongLongLongLongLongLongLongLong) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        return new ZipLong(l);
++        final long TransVarTwoTo32 = 0x100000000L;
++        if (!(!(TransVarLongLongLongLongLongLongLongLongLong >= TransVarTwoTo32))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            throw new IllegalArgumentException("X5455 timestamps must fit in a signed 32 bit integer: " + TransVarLongLongLongLongLongLongLongLongLong);
++        }
++        return new ZipLong(TransVarLongLongLongLongLongLongLongLongLong);
+     }
+ 
+     /**

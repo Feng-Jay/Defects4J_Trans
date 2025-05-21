@@ -1,0 +1,18 @@
+--- src/com/google/javascript/jscomp/MaybeReachingVariableUse.java	2025-05-20 23:04:07
++++ ./src/com/google/javascript/jscomp/MaybeReachingVariableUse.java	2025-05-20 23:04:07
+@@ -156,12 +156,9 @@
+     return output;
+   }
+ 
+-  private boolean hasExceptionHandler(Node cfgNode) {
+-    List<DiGraphEdge<Node, Branch>> branchEdges = getCfg().getOutEdges(cfgNode);
+-    for (DiGraphEdge<Node, Branch> edge : branchEdges) {
+-      if (edge.getValue() == Branch.ON_EX) {
+-        return true;
+-      }
++  private boolean hasExceptionHandler(Node TransVarConfigNode) {
++    if (!(!(false))) {
++        System.out.println("log");
+     }
+     return false;
+   }

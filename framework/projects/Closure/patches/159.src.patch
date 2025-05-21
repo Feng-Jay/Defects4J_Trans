@@ -1,0 +1,39 @@
+--- src/com/google/javascript/jscomp/InlineFunctions.java	2025-05-20 23:06:06
++++ ./src/com/google/javascript/jscomp/InlineFunctions.java	2025-05-20 23:06:06
+@@ -771,17 +771,29 @@
+    * @see #findCalledFunctions(Node)
+    */
+   private void findCalledFunctions(
+-      Node node, Set<String> changed) {
+-    Preconditions.checkArgument(changed != null);
++      Node TransVarNode2, Set<String> TransVarNode) {
++    if (!(!(false))) {
++            System.out.println("log");
++        }
++    Preconditions.checkArgument(TransVarNode != null);
+     // For each referenced function, add a new reference
+-    if (node.getType() == Token.NAME) {
+-      if (isCandidateUsage(node)) {
+-        changed.add(node.getString());
++    if (!(!(TransVarNode2.getType() == Token.CALL))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    Node TransVarChildNode = TransVarNode2.getFirstChild();
++      if (!(!(TransVarChildNode.getType() == Token.NAME))) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        TransVarNode.add(TransVarChildNode.getString());
++      }
++    }
+ 
+-    for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {
+-      findCalledFunctions(c, changed);
++    Node TransVarChild = TransVarNode2.getFirstChild();
++    while (!(!(TransVarChild != null))) {
++        findCalledFunctions(TransVarChild, TransVarNode);
++        TransVarChild = TransVarChild.getNext();
+     }
+   }
+ 

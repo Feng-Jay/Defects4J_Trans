@@ -1,0 +1,263 @@
+--- src/main/java/org/apache/commons/lang3/time/FastDateFormat.java	2025-05-21 08:15:42
++++ src/main/java/org/apache/commons/lang3/time/FastDateFormat.java	2025-05-21 08:15:42
+@@ -461,126 +461,158 @@
+      * @throws IllegalArgumentException if pattern is invalid
+      */
+     protected List<Rule> parsePattern() {
+-        DateFormatSymbols symbols = new DateFormatSymbols(mLocale);
+-        List<Rule> rules = new ArrayList<Rule>();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        DateFormatSymbols TransVarSymbols1 = new DateFormatSymbols(mLocale);
++        List<Rule> TransVarSymbol = new ArrayList<Rule>();
+ 
+-        String[] ERAs = symbols.getEras();
+-        String[] months = symbols.getMonths();
+-        String[] shortMonths = symbols.getShortMonths();
+-        String[] weekdays = symbols.getWeekdays();
+-        String[] shortWeekdays = symbols.getShortWeekdays();
+-        String[] AmPmStrings = symbols.getAmPmStrings();
++        String[] TransVarSymbols = TransVarSymbols1.getEras();
++        String[] TransVarMonth = TransVarSymbols1.getMonths();
++        String[] TransVarShortMonth = TransVarSymbols1.getShortMonths();
++        String[] TransVarWeekDay = TransVarSymbols1.getWeekdays();
++        String[] TransVarShortMonthList = TransVarSymbols1.getShortWeekdays();
++        String[] TransVarAmPmStrings = TransVarSymbols1.getAmPmStrings();
+ 
+-        int length = mPattern.length();
+-        int[] indexRef = new int[1];
++        int TransVarCount = mPattern.length();
++        int[] TransVarIndexRefList = new int[1];
+ 
+-        for (int i = 0; i < length; i++) {
+-            indexRef[0] = i;
+-            String token = parseToken(mPattern, indexRef);
+-            i = indexRef[0];
+-
+-            int tokenLen = token.length();
+-            if (tokenLen == 0) {
+-                break;
++        int TransVarIndex = 0;
++        while (!(!(TransVarIndex < TransVarCount))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-
+-            Rule rule;
+-            char c = token.charAt(0);
+-
+-            switch (c) {
+-            case 'G': // era designator (text)
+-                rule = new TextField(Calendar.ERA, ERAs);
++            TransVarIndexRefList[0] = TransVarIndex;
++            String TransVarTokenString = parseToken(mPattern, TransVarIndexRefList);
++            TransVarIndex = TransVarIndexRefList[0];
++            int TransVarTokenLength = TransVarTokenString.length();
++            if (!(!(TransVarTokenLength == 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 break;
+-            case 'y': // year (number)
+-                if (tokenLen == 2) {
+-                    rule = TwoDigitYearField.INSTANCE;
++            }
++            Rule TransVarRules;
++            char TransVarCh = TransVarTokenString.charAt(0);
++            boolean TransFallThroughFlag0 = false;
++            boolean TransBreakFlag0 = true;
++            {
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'G'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = new TextField(Calendar.ERA, TransVarSymbols);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'y'))))) {
++                    TransBreakFlag0 = false;
++                    if (!(!(TransVarTokenLength >= 4))) {
++                        TransVarRules = selectNumberRule(Calendar.YEAR, TransVarTokenLength);
+                 } else {
+-                    rule = selectNumberRule(Calendar.YEAR, tokenLen < 4 ? 4 : tokenLen);
++                        TransVarRules = TwoDigitYearField.INSTANCE;
+                 }
+-                break;
+-            case 'M': // month in year (text and number)
+-                if (tokenLen >= 4) {
+-                    rule = new TextField(Calendar.MONTH, months);
+-                } else if (tokenLen == 3) {
+-                    rule = new TextField(Calendar.MONTH, shortMonths);
+-                } else if (tokenLen == 2) {
+-                    rule = TwoDigitMonthField.INSTANCE;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'M'))))) {
++                    TransBreakFlag0 = false;
++                    if (!(!(TransVarTokenLength >= 4))) {
++                        TransVarRules = new TextField(Calendar.MONTH, TransVarMonth);
++                    } else if (!(!(TransVarTokenLength == 3))) {
++                        TransVarRules = new TextField(Calendar.MONTH, TransVarShortMonth);
++                    } else if (!(!(TransVarTokenLength == 2))) {
++                        TransVarRules = TwoDigitMonthField.INSTANCE;
+                 } else {
+-                    rule = UnpaddedMonthField.INSTANCE;
++                        TransVarRules = UnpaddedMonthField.INSTANCE;
+                 }
+-                break;
+-            case 'd': // day in month (number)
+-                rule = selectNumberRule(Calendar.DAY_OF_MONTH, tokenLen);
+-                break;
+-            case 'h': // hour in am/pm (number, 1..12)
+-                rule = new TwelveHourField(selectNumberRule(Calendar.HOUR, tokenLen));
+-                break;
+-            case 'H': // hour in day (number, 0..23)
+-                rule = selectNumberRule(Calendar.HOUR_OF_DAY, tokenLen);
+-                break;
+-            case 'm': // minute in hour (number)
+-                rule = selectNumberRule(Calendar.MINUTE, tokenLen);
+-                break;
+-            case 's': // second in minute (number)
+-                rule = selectNumberRule(Calendar.SECOND, tokenLen);
+-                break;
+-            case 'S': // millisecond (number)
+-                rule = selectNumberRule(Calendar.MILLISECOND, tokenLen);
+-                break;
+-            case 'E': // day in week (text)
+-                rule = new TextField(Calendar.DAY_OF_WEEK, tokenLen < 4 ? shortWeekdays : weekdays);
+-                break;
+-            case 'D': // day in year (number)
+-                rule = selectNumberRule(Calendar.DAY_OF_YEAR, tokenLen);
+-                break;
+-            case 'F': // day of week in month (number)
+-                rule = selectNumberRule(Calendar.DAY_OF_WEEK_IN_MONTH, tokenLen);
+-                break;
+-            case 'w': // week in year (number)
+-                rule = selectNumberRule(Calendar.WEEK_OF_YEAR, tokenLen);
+-                break;
+-            case 'W': // week in month (number)
+-                rule = selectNumberRule(Calendar.WEEK_OF_MONTH, tokenLen);
+-                break;
+-            case 'a': // am/pm marker (text)
+-                rule = new TextField(Calendar.AM_PM, AmPmStrings);
+-                break;
+-            case 'k': // hour in day (1..24)
+-                rule = new TwentyFourHourField(selectNumberRule(Calendar.HOUR_OF_DAY, tokenLen));
+-                break;
+-            case 'K': // hour in am/pm (0..11)
+-                rule = selectNumberRule(Calendar.HOUR, tokenLen);
+-                break;
+-            case 'z': // time zone (text)
+-                if (tokenLen >= 4) {
+-                    rule = new TimeZoneNameRule(mTimeZone, mLocale, TimeZone.LONG);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'd'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = selectNumberRule(Calendar.DAY_OF_MONTH, TransVarTokenLength);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'h'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = new TwelveHourField(selectNumberRule(Calendar.HOUR, TransVarTokenLength));
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'H'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = selectNumberRule(Calendar.HOUR_OF_DAY, TransVarTokenLength);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'm'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = selectNumberRule(Calendar.MINUTE, TransVarTokenLength);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 's'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = selectNumberRule(Calendar.SECOND, TransVarTokenLength);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'S'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = selectNumberRule(Calendar.MILLISECOND, TransVarTokenLength);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'E'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = new TextField(Calendar.DAY_OF_WEEK,
++                            TransVarTokenLength < 4 ? TransVarShortMonthList : TransVarWeekDay);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'D'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = selectNumberRule(Calendar.DAY_OF_YEAR, TransVarTokenLength);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'F'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = selectNumberRule(Calendar.DAY_OF_WEEK_IN_MONTH, TransVarTokenLength);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'w'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = selectNumberRule(Calendar.WEEK_OF_YEAR, TransVarTokenLength);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'W'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = selectNumberRule(Calendar.WEEK_OF_MONTH, TransVarTokenLength);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'a'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = new TextField(Calendar.AM_PM, TransVarAmPmStrings);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'k'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = new TwentyFourHourField(
++                            selectNumberRule(Calendar.HOUR_OF_DAY, TransVarTokenLength));
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'K'))))) {
++                    TransBreakFlag0 = false;
++                    TransVarRules = selectNumberRule(Calendar.HOUR, TransVarTokenLength);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'z'))))) {
++                    TransBreakFlag0 = false;
++                    if (!(!(TransVarTokenLength >= 4))) {
++                        TransVarRules = new TimeZoneNameRule(mTimeZone, mLocale, TimeZone.LONG);
+                 } else {
+-                    rule = new TimeZoneNameRule(mTimeZone, mLocale, TimeZone.SHORT);
++                        TransVarRules = new TimeZoneNameRule(mTimeZone, mLocale, TimeZone.SHORT);
+                 }
+-                break;
+-            case 'Z': // time zone (value)
+-                if (tokenLen == 1) {
+-                    rule = TimeZoneNumberRule.INSTANCE_NO_COLON;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 'Z'))))) {
++                    TransBreakFlag0 = false;
++                    if (!(!(TransVarTokenLength == 1))) {
++                        TransVarRules = TimeZoneNumberRule.INSTANCE_NO_COLON;
+                 } else {
+-                    rule = TimeZoneNumberRule.INSTANCE_COLON;
++                        TransVarRules = TimeZoneNumberRule.INSTANCE_COLON;
+                 }
+-                break;
+-            case '\'': // literal text
+-                String sub = token.substring(1);
+-                if (sub.length() == 1) {
+-                    rule = new CharacterLiteral(sub.charAt(0));
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == '\''))))) {
++                    TransBreakFlag0 = false;
++                    String TransVarSubString = TransVarTokenString.substring(1);
++                    if (!(!(TransVarSubString.length() == 1))) {
++                        TransVarRules = new CharacterLiteral(TransVarSubString.charAt(0));
+                 } else {
+-                    rule = new StringLiteral(sub);
++                        TransVarRules = new StringLiteral(TransVarSubString);
+                 }
+-                break;
+-            default:
+-                throw new IllegalArgumentException("Illegal pattern component: " + token);
+             }
+-
+-            rules.add(rule);
++                if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++                    throw new IllegalArgumentException("Illegal pattern component: " + TransVarTokenString);
+                 }
++            }
++            TransVarSymbol.add(TransVarRules);
++            TransVarIndex++;
++        }
+ 
+-        return rules;
++        return TransVarSymbol;
+     }
+ 
+     /**

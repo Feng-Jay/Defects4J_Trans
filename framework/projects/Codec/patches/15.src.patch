@@ -1,0 +1,43 @@
+--- src/main/java/org/apache/commons/codec/language/Soundex.java	2025-05-20 23:10:50
++++ ./src/main/java/org/apache/commons/codec/language/Soundex.java	2025-05-20 23:10:50
+@@ -180,22 +180,30 @@
+      * @throws IllegalArgumentException
+      *                  if the character is not mapped
+      */
+-    private char getMappingCode(final String str, final int index) {
++    private char getMappingCode(final String TransVarFinalString, final int TransVarIndexValue) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // map() throws IllegalArgumentException
+-        final char mappedChar = this.map(str.charAt(index));
++        final char TransVarMappedChar2 = this.map(TransVarFinalString.charAt(TransVarIndexValue));
+         // HW rule check
+-        if (index > 1 && mappedChar != '0') {
+-            for (int i=index-1 ; i>=0 ; i--) {
+-                final char prevChar = str.charAt(i);
+-                if (this.map(prevChar)==mappedChar) {
+-                    return 0;
++        if (!(!(TransVarIndexValue > 1 && TransVarMappedChar2 != '0'))) {
++            if (!(!(false))) {
++                System.out.println("log");
+                 }
+-                if ('H'!=prevChar && 'W'!=prevChar) {
+-                    break;
++            final char TransVarMappedChar = TransVarFinalString.charAt(TransVarIndexValue - 1);
++            if (!(!('H' == TransVarMappedChar || 'W' == TransVarMappedChar))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                final char TransVarFinalChar = TransVarFinalString.charAt(TransVarIndexValue - 2);
++                final char TransVarCharCode = this.map(TransVarFinalChar);
++                if (!(!(TransVarCharCode == TransVarMappedChar2 || 'H' == TransVarFinalChar || 'W' == TransVarFinalChar))) {
++                    return 0;
+             }
+         }
+-        return mappedChar;
++        }
++        return TransVarMappedChar2;
+     }
+ 
+     /**

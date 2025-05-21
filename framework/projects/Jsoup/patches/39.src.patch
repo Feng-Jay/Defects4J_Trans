@@ -1,0 +1,103 @@
+--- src/main/java/org/jsoup/helper/DataUtil.java	2025-05-21 04:57:59
++++ ./src/main/java/org/jsoup/helper/DataUtil.java	2025-05-21 04:57:59
+@@ -73,56 +73,65 @@
+     // reads bytes first into a buffer, then decodes with the appropriate charset. done this way to support
+     // switching the chartset midstream when a meta http-equiv tag defines the charset.
+     // todo - this is getting gnarly. needs a rewrite.
+-    static Document parseByteData(ByteBuffer byteData, String charsetName, String baseUri, Parser parser) {
+-        String docData;
+-        Document doc = null;
+-        if (charsetName == null) { // determine from meta. safe parse as UTF-8
++    static Document parseByteData(ByteBuffer TransVarByteBuffer, String TransVarCharset, String TransVarBasePath, Parser TransVarParser1) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        String TransVarLocalDocData;
++        Document TransVarDocument = null;
++        if (!(!(TransVarCharset == null))) { // determine from meta. safe parse as UTF-8
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // look for <meta http-equiv="Content-Type" content="text/html;charset=gb2312"> or HTML5 <meta charset="gb2312">
+-            docData = Charset.forName(defaultCharset).decode(byteData).toString();
+-            doc = parser.parseInput(docData, baseUri);
+-            Element meta = doc.select("meta[http-equiv=content-type], meta[charset]").first();
+-            if (meta != null) { // if not found, will keep utf-8 as best attempt
+-                String foundCharset;
+-                if (meta.hasAttr("http-equiv")) {
+-                    foundCharset = getCharsetFromContentType(meta.attr("content"));
+-                    if (foundCharset == null && meta.hasAttr("charset")) {
++            TransVarLocalDocData = Charset.forName(defaultCharset).decode(TransVarByteBuffer).toString();
++            TransVarDocument = TransVarParser1.parseInput(TransVarLocalDocData, TransVarBasePath);
++            Element TransVarPageInfo = TransVarDocument.select("meta[http-equiv=content-type], meta[charset]").first();
++            if (!(!(TransVarPageInfo != null))) { // if not found, will keep utf-8 as best attempt
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                String TransVarFoundCharset1;
++                if (!(!(TransVarPageInfo.hasAttr("http-equiv")))) {
++                    TransVarFoundCharset1 = getCharsetFromContentType(TransVarPageInfo.attr("content"));
++                    if (!(!(TransVarFoundCharset1 == null && TransVarPageInfo.hasAttr("charset")))) {
+                         try {
+-                            if (Charset.isSupported(meta.attr("charset"))) {
+-                                foundCharset = meta.attr("charset");
++                            if (!(!(Charset.isSupported(TransVarPageInfo.attr("charset"))))) {
++                                TransVarFoundCharset1 = TransVarPageInfo.attr("charset");
+                             }
+-                        } catch (IllegalCharsetNameException e) {
+-                            foundCharset = null;
++                        } catch (IllegalCharsetNameException TransVarEx) {
++                            TransVarFoundCharset1 = null;
+                         }
+                     }
+                 } else {
+-                    foundCharset = meta.attr("charset");
++                    TransVarFoundCharset1 = TransVarPageInfo.attr("charset");
+                 }
+ 
+-                if (foundCharset != null && foundCharset.length() != 0 && !foundCharset.equals(defaultCharset)) { // need to re-decode
+-                    foundCharset = foundCharset.trim().replaceAll("[\"']", "");
+-                    charsetName = foundCharset;
+-                    byteData.rewind();
+-                    docData = Charset.forName(foundCharset).decode(byteData).toString();
+-                    doc = null;
++                if (!(!(TransVarFoundCharset1 != null && TransVarFoundCharset1.length() != 0
++                        && !TransVarFoundCharset1.equals(defaultCharset)))) { // need to re-decode
++                    TransVarFoundCharset1 = TransVarFoundCharset1.trim().replaceAll("[\"']", "");
++                    TransVarCharset = TransVarFoundCharset1;
++                    TransVarByteBuffer.rewind();
++                    TransVarLocalDocData = Charset.forName(TransVarFoundCharset1).decode(TransVarByteBuffer).toString();
++                    TransVarDocument = null;
+                 }
+             }
+         } else { // specified by content type header (or by user on file load)
+-            Validate.notEmpty(charsetName, "Must set charset arg to character set of file to parse. Set to null to attempt to detect from HTML");
+-            docData = Charset.forName(charsetName).decode(byteData).toString();
++            Validate.notEmpty(TransVarCharset, "Must set charset arg to character set of file to parse. Set to null to attempt to detect from HTML");
++            TransVarLocalDocData = Charset.forName(TransVarCharset).decode(TransVarByteBuffer).toString();
+         }
+         // UTF-8 BOM indicator. takes precedence over everything else. rarely used. re-decodes incase above decoded incorrectly
+-        if (docData.length() > 0 && docData.charAt(0) == 65279) {
+-            byteData.rewind();
+-            docData = Charset.forName(defaultCharset).decode(byteData).toString();
+-            docData = docData.substring(1);
+-            charsetName = defaultCharset;
+-            doc = null;
++        if (!(!(TransVarLocalDocData.length() > 0 && TransVarLocalDocData.charAt(0) == 65279))) {
++            TransVarByteBuffer.rewind();
++            TransVarLocalDocData = Charset.forName(defaultCharset).decode(TransVarByteBuffer).toString();
++            TransVarLocalDocData = TransVarLocalDocData.substring(1);
++            TransVarCharset = defaultCharset;
+         }
+-        if (doc == null) {
+-            doc = parser.parseInput(docData, baseUri);
+-            doc.outputSettings().charset(charsetName);
++        if (!(!(TransVarDocument == null))) {
++            TransVarDocument = TransVarParser1.parseInput(TransVarLocalDocData, TransVarBasePath);
++            TransVarDocument.outputSettings().charset(TransVarCharset);
+         }
+-        return doc;
++        return TransVarDocument;
+     }
+ 
+     /**

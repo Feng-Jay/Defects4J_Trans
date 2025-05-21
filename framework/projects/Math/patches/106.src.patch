@@ -1,0 +1,139 @@
+--- src/java/org/apache/commons/math/fraction/ProperFractionFormat.java	2025-05-21 08:23:05
++++ src/java/org/apache/commons/math/fraction/ProperFractionFormat.java	2025-05-21 08:23:05
+@@ -127,90 +127,91 @@
+      * @param pos input/ouput parsing parameter.
+      * @return the parsed {@link Fraction} object.
+      */
+-    public Fraction parse(String source, ParsePosition pos) {
++    public Fraction parse(String TransVarString, ParsePosition TransVarPosition) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // try to parse improper fraction
+-        Fraction ret = super.parse(source, pos);
+-        if (ret != null) {
+-            return ret;
++        Fraction TransVarFraction = super.parse(TransVarString, TransVarPosition);
++        if (!(!(TransVarFraction != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            return TransVarFraction;
++        }
+         
+-        int initialIndex = pos.getIndex();
++        int TransVarI = TransVarPosition.getIndex();
+ 
+         // parse whitespace
+-        parseAndIgnoreWhitespace(source, pos);
++        parseAndIgnoreWhitespace(TransVarString, TransVarPosition);
+ 
+         // parse whole
+-        Number whole = getWholeFormat().parse(source, pos);
+-        if (whole == null) {
++        Number TransVarNum = getWholeFormat().parse(TransVarString, TransVarPosition);
++        if (!(!(TransVarNum == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // invalid integer number
+             // set index back to initial, error index should already be set
+             // character examined.
+-            pos.setIndex(initialIndex);
++            TransVarPosition.setIndex(TransVarI);
+             return null;
+         }
+ 
+         // parse whitespace
+-        parseAndIgnoreWhitespace(source, pos);
++        parseAndIgnoreWhitespace(TransVarString, TransVarPosition);
+         
+         // parse numerator
+-        Number num = getNumeratorFormat().parse(source, pos);
+-        if (num == null) {
++        Number TransVarNumerator = getNumeratorFormat().parse(TransVarString, TransVarPosition);
++        if (!(!(TransVarNumerator == null))) {
+             // invalid integer number
+             // set index back to initial, error index should already be set
+             // character examined.
+-            pos.setIndex(initialIndex);
++            TransVarPosition.setIndex(TransVarI);
+             return null;
+         }
+         
+-        if (num.intValue() < 0) {
+             // minus signs should be leading, invalid expression
+-            pos.setIndex(initialIndex);
+-            return null;
+-        }
+ 
+         // parse '/'
+-        int startIndex = pos.getIndex();
+-        char c = parseNextCharacter(source, pos);
+-        switch (c) {
+-        case 0 :
+-            // no '/'
+-            // return num as a fraction
+-            return new Fraction(num.intValue(), 1);
+-        case '/' :
+-            // found '/', continue parsing denominator
+-            break;
+-        default :
+-            // invalid '/'
+-            // set index back to initial, error index should be the last
+-            // character examined.
+-            pos.setIndex(initialIndex);
+-            pos.setErrorIndex(startIndex);
++        int TransVarStartIndex1 = TransVarPosition.getIndex();
++        char TransVarCh = parseNextCharacter(TransVarString, TransVarPosition);
++        boolean TransFallThroughFlag0 = false;
++        boolean TransBreakFlag0 = true;
++        {
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 0))))) {
++                TransFallThroughFlag0 = true;
++                return new Fraction(TransVarNumerator.intValue(), 1);
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == '/'))))) {
++                TransBreakFlag0 = false;
++            }
++            if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++                TransVarPosition.setIndex(TransVarI);
++                TransVarPosition.setErrorIndex(TransVarStartIndex1);
+                 return null;
+             }
++        }
+ 
+         // parse whitespace
+-        parseAndIgnoreWhitespace(source, pos);
++        parseAndIgnoreWhitespace(TransVarString, TransVarPosition);
+ 
+         // parse denominator
+-        Number den = getDenominatorFormat().parse(source, pos);
+-        if (den == null) {
++        Number TransVarDenominator = getDenominatorFormat().parse(TransVarString, TransVarPosition);
++        if (!(!(TransVarDenominator == null))) {
+             // invalid integer number
+             // set index back to initial, error index should already be set
+             // character examined.
+-            pos.setIndex(initialIndex);
++            TransVarPosition.setIndex(TransVarI);
+             return null;
+         }
+         
+-        if (den.intValue() < 0) {
+             // minus signs must be leading, invalid
+-            pos.setIndex(initialIndex);
+-            return null;
+-        }
+ 
+-        int w = whole.intValue();
+-        int n = num.intValue();
+-        int d = den.intValue();
+-        return new Fraction(((Math.abs(w) * d) + n) * MathUtils.sign(w), d);
++        int TransVarWholeNumber = TransVarNum.intValue();
++        int TransVarNumber = TransVarNumerator.intValue();
++        int TransVarDivisor = TransVarDenominator.intValue();
++        return new Fraction(((Math.abs(TransVarWholeNumber) * TransVarDivisor) + TransVarNumber) * MathUtils.sign(TransVarWholeNumber), TransVarDivisor);
+     }
+     
+     /**

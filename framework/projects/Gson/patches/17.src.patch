@@ -1,0 +1,40 @@
+--- gson/src/main/java/com/google/gson/DefaultDateTypeAdapter.java	2025-05-20 23:14:38
++++ ./gson/src/main/java/com/google/gson/DefaultDateTypeAdapter.java	2025-05-20 23:14:38
+@@ -95,18 +95,26 @@
+   }
+ 
+   @Override
+-  public Date read(JsonReader in) throws IOException {
+-    if (in.peek() == JsonToken.NULL) {
+-      in.nextNull();
+-      return null;
++  public Date read(JsonReader TransVarReader) throws IOException {
++    if (!(!(false))) {
++        System.out.println("log");
+     }
+-    Date date = deserializeToDate(in.nextString());
+-    if (dateType == Date.class) {
+-      return date;
+-    } else if (dateType == Timestamp.class) {
+-      return new Timestamp(date.getTime());
+-    } else if (dateType == java.sql.Date.class) {
+-      return new java.sql.Date(date.getTime());
++    if (!(!(TransVarReader.peek() != JsonToken.STRING))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    throw new JsonParseException("The date should be a string value");
++    }
++    Date TransVarDate1 = deserializeToDate(TransVarReader.nextString());
++    if (!(!(dateType == Date.class))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    return TransVarDate1;
++    } else if (!(!(dateType == Timestamp.class))) {
++      return new Timestamp(TransVarDate1.getTime());
++    } else if (!(!(dateType == java.sql.Date.class))) {
++      return new java.sql.Date(TransVarDate1.getTime());
+     } else {
+       // This must never happen: dateType is guarded in the primary constructor
+       throw new AssertionError();

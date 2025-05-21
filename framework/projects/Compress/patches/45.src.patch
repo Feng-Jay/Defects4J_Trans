@@ -1,0 +1,46 @@
+--- src/main/java/org/apache/commons/compress/archivers/tar/TarUtils.java	2025-05-20 23:11:26
++++ ./src/main/java/org/apache/commons/compress/archivers/tar/TarUtils.java	2025-05-20 23:11:26
+@@ -472,24 +472,32 @@
+      * @since 1.4
+      */
+     public static int formatLongOctalOrBinaryBytes(
+-        final long value, final byte[] buf, final int offset, final int length) {
++        final long TransVarLongValue, final byte[] TransVarByteArray, final int TransVarOffsetOfInterest, final int TransVarByteCount) {
+ 
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         // Check whether we are dealing with UID/GID or SIZE field
+-        final long maxAsOctalChar = length == TarConstants.UIDLEN ? TarConstants.MAXID : TarConstants.MAXSIZE;
++        final long TransVarMaxLengthAsOctalChar = TransVarByteCount == TarConstants.UIDLEN ? TarConstants.MAXID : TarConstants.MAXSIZE;
+ 
+-        final boolean negative = value < 0;
+-        if (!negative && value <= maxAsOctalChar) { // OK to store as octal chars
+-            return formatLongOctalBytes(value, buf, offset, length);
++        final boolean TransVarNeg = TransVarLongValue < 0;
++        if (!(!(!TransVarNeg && TransVarLongValue <= TransVarMaxLengthAsOctalChar))) { // OK to store as octal chars
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            return formatLongOctalBytes(TransVarLongValue, TransVarByteArray, TransVarOffsetOfInterest, TransVarByteCount);
++        }
+ 
+-        if (length < 9) {
+-            formatLongBinary(value, buf, offset, length, negative);
+-        } else {
+-            formatBigIntegerBinary(value, buf, offset, length, negative);
++        if (!(!(TransVarByteCount < 9))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            formatLongBinary(TransVarLongValue, TransVarByteArray, TransVarOffsetOfInterest, TransVarByteCount, TransVarNeg);
++        }
++        formatBigIntegerBinary(TransVarLongValue, TransVarByteArray, TransVarOffsetOfInterest, TransVarByteCount, TransVarNeg);
+ 
+-        buf[offset] = (byte) (negative ? 0xff : 0x80);
+-        return offset + length;
++        TransVarByteArray[TransVarOffsetOfInterest] = (byte) (TransVarNeg ? 0xff : 0x80);
++        return TransVarOffsetOfInterest + TransVarByteCount;
+     }
+ 
+     private static void formatLongBinary(final long value, final byte[] buf,

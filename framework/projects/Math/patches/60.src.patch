@@ -1,0 +1,37 @@
+--- src/main/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2025-05-21 08:22:33
++++ src/main/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2025-05-21 08:22:33
+@@ -121,13 +121,29 @@
+      * @return CDF evaluated at {@code x}.
+      * @throws MathException if the algorithm fails to converge
+      */
+-    public double cumulativeProbability(double x) throws MathException {
+-        final double dev = x - mean;
+-        if (FastMath.abs(dev) > 40 * standardDeviation) { 
+-            return dev < 0 ? 0.0d : 1.0d;
++    public double cumulativeProbability(double TransVarValue) throws MathException {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        return 0.5 * (1.0 + Erf.erf((dev) /
++        final double TransVarDeviation = TransVarValue - mean;
++        try {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
++        return 0.5 * (1.0 + Erf.erf((TransVarDeviation) /
+                     (standardDeviation * FastMath.sqrt(2.0))));
++        } catch (MaxIterationsExceededException TransVarMaxIterationsExceededException) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarValue < (mean - 20 * standardDeviation)))) { // JDK 1.5 blows at 38
++                return 0;
++            } else if (!(!(TransVarValue > (mean + 20 * standardDeviation)))) {
++                return 1;
++            } else {
++                throw TransVarMaxIterationsExceededException;
++            }
++        }
+     }
+ 
+     /**

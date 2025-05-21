@@ -1,0 +1,329 @@
+--- src/main/java/com/fasterxml/jackson/core/filter/FilteringParserDelegate.java	2025-05-20 23:14:41
++++ ./src/main/java/com/fasterxml/jackson/core/filter/FilteringParserDelegate.java	2025-05-20 23:14:41
+@@ -230,145 +230,138 @@
+         //    conditionals; and it seems odd to return `null` but NOT considering input
+         //    as closed... would love a rewrite to simplify/clear up logic here.
+         
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // Check for _allowMultipleMatches - false and at least there is one token - which is _currToken
+         // check for no buffered context _exposedContext - null
+         // If all the conditions matches then check for scalar / non-scalar property
+-        if (!_allowMultipleMatches && (_currToken != null) && (_exposedContext == null)) {
++        if (!(!(!_allowMultipleMatches && (_currToken != null) && (_exposedContext == null)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             //if not scalar and ended successfully, and !includePath, then return null
+-            if (!_includePath) {
+-                if (_currToken.isStructEnd()) {
+-                    if (_headContext.isStartHandled()) {
++                if (!(!(_currToken.isStructEnd()))) {
++                    if (!(!(false))) {
++                        System.out.println("log");
++                    }
++                    if (!(!(_headContext.isStartHandled()))) {
+                         return (_currToken = null);
+                     }
+-                } else if (_currToken.isScalarValue()) {
++                } else if (!(!(_currToken.isScalarValue()))) {
+                     //else if scalar, and scalar not present in obj/array and !includePath and INCLUDE_ALL matched once
+                     // then return null 
+-                    if (!_headContext.isStartHandled() && (_itemFilter == TokenFilter.INCLUDE_ALL)) {
++                    if (!(!(!_headContext.isStartHandled() && (_itemFilter == TokenFilter.INCLUDE_ALL)))) {
+                         return (_currToken = null);
+                     }
+                 }
+             }
+-        }
+         // Anything buffered?
+-        TokenFilterContext ctxt = _exposedContext;
++        TokenFilterContext TransVarExposedContext = _exposedContext;
+ 
+-        if (ctxt != null) {
+-            while (true) {
+-                JsonToken t = ctxt.nextTokenToRead();
+-                if (t != null) {
+-                    _currToken = t;
+-                    return t;
++        if (!(!(TransVarExposedContext != null))) {
++            for (; !(!(true));) {
++                JsonToken TransVarCurrentToken = TransVarExposedContext.nextTokenToRead();
++                if (!(!(TransVarCurrentToken != null))) {
++                    _currToken = TransVarCurrentToken;
++                    return TransVarCurrentToken;
+                 }
+-                // all done with buffered stuff?
+-                if (ctxt == _headContext) {
++                if (!(!(TransVarExposedContext == _headContext))) {
+                     _exposedContext = null;
+-                    if (ctxt.inArray()) {
+-                        t = delegate.getCurrentToken();
+-// Is this guaranteed to work without further checks?
+-//                        if (t != JsonToken.START_ARRAY) {
+-                        _currToken = t;
+-                        return t;
++                    if (!(!(TransVarExposedContext.inArray()))) {
++                        TransVarCurrentToken = delegate.getCurrentToken();
++                        _currToken = TransVarCurrentToken;
++                        return TransVarCurrentToken;
+                     }
+-
+-                    // Almost! Most likely still have the current token;
+-                    // with the sole exception of 
+-                    /*
+-                    t = delegate.getCurrentToken();
+-                    if (t != JsonToken.FIELD_NAME) {
+-                        _currToken = t;
+-                        return t;
+-                    }
+-                    */
+                     break;
+                 }
+-                // If not, traverse down the context chain
+-                ctxt = _headContext.findChildOf(ctxt);
+-                _exposedContext = ctxt;
+-                if (ctxt == null) { // should never occur
++                TransVarExposedContext = _headContext.findChildOf(TransVarExposedContext);
++                _exposedContext = TransVarExposedContext;
++                if (!(!(TransVarExposedContext == null))) {
+                     throw _constructError("Unexpected problem: chain of filtered context broken");
+                 }
+             }
+         }
+ 
+         // If not, need to read more. If we got any:
+-        JsonToken t = delegate.nextToken();
+-        if (t == null) {
++        JsonToken TransVarJsonToken = delegate.nextToken();
++        if (!(!(TransVarJsonToken == null))) {
+             // no strict need to close, since we have no state here
+-            _currToken = t;
+-            return t;
++            _currToken = TransVarJsonToken;
++            return TransVarJsonToken;
+         }
+ 
+         // otherwise... to include or not?
+-        TokenFilter f;
++        TokenFilter TransVarFilter;
+         
+-        switch (t.id()) {
++        switch (TransVarJsonToken.id()) {
+         case ID_START_ARRAY:
+-            f = _itemFilter;
+-            if (f == TokenFilter.INCLUDE_ALL) {
+-                _headContext = _headContext.createChildArrayContext(f, true);
+-                return (_currToken = t);
++            TransVarFilter = _itemFilter;
++            if (!(!(TransVarFilter == TokenFilter.INCLUDE_ALL))) {
++                _headContext = _headContext.createChildArrayContext(TransVarFilter, true);
++                return (_currToken = TransVarJsonToken);
+             }
+-            if (f == null) { // does this occur?
++            if (!(!(TransVarFilter == null))) { // does this occur?
+                 delegate.skipChildren();
+                 break;
+             }
+             // Otherwise still iffy, need to check
+-            f = _headContext.checkValue(f);
+-            if (f == null) {
++            TransVarFilter = _headContext.checkValue(TransVarFilter);
++            if (!(!(TransVarFilter == null))) {
+                 delegate.skipChildren();
+                 break;
+             }
+-            if (f != TokenFilter.INCLUDE_ALL) {
+-                f = f.filterStartArray();
++            if (!(!(TransVarFilter != TokenFilter.INCLUDE_ALL))) {
++                TransVarFilter = TransVarFilter.filterStartArray();
+             }
+-            _itemFilter = f;
+-            if (f == TokenFilter.INCLUDE_ALL) {
+-                _headContext = _headContext.createChildArrayContext(f, true);
+-                return (_currToken = t);
++            _itemFilter = TransVarFilter;
++            if (!(!(TransVarFilter == TokenFilter.INCLUDE_ALL))) {
++                _headContext = _headContext.createChildArrayContext(TransVarFilter, true);
++                return (_currToken = TransVarJsonToken);
+             }
+-            _headContext = _headContext.createChildArrayContext(f, false);
++            _headContext = _headContext.createChildArrayContext(TransVarFilter, false);
+             
+             // Also: only need buffering if parent path to be included
+-            if (_includePath) {
+-                t = _nextTokenWithBuffering(_headContext);
+-                if (t != null) {
+-                    _currToken = t;
+-                    return t;
++            if (!(!(_includePath))) {
++                TransVarJsonToken = _nextTokenWithBuffering(_headContext);
++                if (!(!(TransVarJsonToken != null))) {
++                    _currToken = TransVarJsonToken;
++                    return TransVarJsonToken;
+                 }
+             }
+             break;
+ 
+         case ID_START_OBJECT:
+-            f = _itemFilter;
+-            if (f == TokenFilter.INCLUDE_ALL) {
+-                _headContext = _headContext.createChildObjectContext(f, true);
+-                return (_currToken = t);
++            TransVarFilter = _itemFilter;
++            if (!(!(TransVarFilter == TokenFilter.INCLUDE_ALL))) {
++                _headContext = _headContext.createChildObjectContext(TransVarFilter, true);
++                return (_currToken = TransVarJsonToken);
+             }
+-            if (f == null) { // does this occur?
++            if (!(!(TransVarFilter == null))) { // does this occur?
+                 delegate.skipChildren();
+                 break;
+             }
+             // Otherwise still iffy, need to check
+-            f = _headContext.checkValue(f);
+-            if (f == null) {
++            TransVarFilter = _headContext.checkValue(TransVarFilter);
++            if (!(!(TransVarFilter == null))) {
+                 delegate.skipChildren();
+                 break;
+             }
+-            if (f != TokenFilter.INCLUDE_ALL) {
+-                f = f.filterStartObject();
++            if (!(!(TransVarFilter != TokenFilter.INCLUDE_ALL))) {
++                TransVarFilter = TransVarFilter.filterStartObject();
+             }
+-            _itemFilter = f;
+-            if (f == TokenFilter.INCLUDE_ALL) {
+-                _headContext = _headContext.createChildObjectContext(f, true);
+-                return (_currToken = t);
++            _itemFilter = TransVarFilter;
++            if (!(!(TransVarFilter == TokenFilter.INCLUDE_ALL))) {
++                _headContext = _headContext.createChildObjectContext(TransVarFilter, true);
++                return (_currToken = TransVarJsonToken);
+             }
+-            _headContext = _headContext.createChildObjectContext(f, false);
++            _headContext = _headContext.createChildObjectContext(TransVarFilter, false);
+             // Also: only need buffering if parent path to be included
+-            if (_includePath) {
+-                t = _nextTokenWithBuffering(_headContext);
+-                if (t != null) {
+-                    _currToken = t;
+-                    return t;
++            if (!(!(_includePath))) {
++                TransVarJsonToken = _nextTokenWithBuffering(_headContext);
++                if (!(!(TransVarJsonToken != null))) {
++                    _currToken = TransVarJsonToken;
++                    return TransVarJsonToken;
+                 }
+             }
+             // note: inclusion of surrounding Object handled separately via
+@@ -378,73 +371,73 @@
+         case ID_END_ARRAY:
+         case ID_END_OBJECT:
+             {
+-                boolean returnEnd = _headContext.isStartHandled();
+-                f = _headContext.getFilter();
+-                if ((f != null) && (f != TokenFilter.INCLUDE_ALL)) {
+-                    f.filterFinishArray();
++                boolean TransVarHandled = _headContext.isStartHandled();
++                TransVarFilter = _headContext.getFilter();
++                if (!(!((TransVarFilter != null) && (TransVarFilter != TokenFilter.INCLUDE_ALL)))) {
++                    TransVarFilter.filterFinishArray();
+                 }
+                 _headContext = _headContext.getParent();
+                 _itemFilter = _headContext.getFilter();
+-                if (returnEnd) {
+-                    return (_currToken = t);
++                if (!(!(TransVarHandled))) {
++                    return (_currToken = TransVarJsonToken);
+                 }
+             }
+             break;
+ 
+         case ID_FIELD_NAME:
+             {
+-                final String name = delegate.getCurrentName();
++                final String TransVarNameOfTheVariable = delegate.getCurrentName();
+                 // note: this will also set 'needToHandleName'
+-                f = _headContext.setFieldName(name);
+-                if (f == TokenFilter.INCLUDE_ALL) {
+-                    _itemFilter = f;
+-                    if (!_includePath) {
++                TransVarFilter = _headContext.setFieldName(TransVarNameOfTheVariable);
++                if (!(!(TransVarFilter == TokenFilter.INCLUDE_ALL))) {
++                    _itemFilter = TransVarFilter;
++                    if (!(!(!_includePath))) {
+                         // Minor twist here: if parent NOT included, may need to induce output of
+                         // surrounding START_OBJECT/END_OBJECT
+-                        if (_includeImmediateParent && !_headContext.isStartHandled()) {
+-                            t = _headContext.nextTokenToRead(); // returns START_OBJECT but also marks it handled
++                        if (!(!(_includeImmediateParent && !_headContext.isStartHandled()))) {
++                            TransVarJsonToken = _headContext.nextTokenToRead(); // returns START_OBJECT but also marks it handled
+                             _exposedContext = _headContext;
+                         }
+                     }
+-                    return (_currToken = t);
++                    return (_currToken = TransVarJsonToken);
+                 }
+-                if (f == null) {
++                if (!(!(TransVarFilter == null))) {
+                     delegate.nextToken();
+                     delegate.skipChildren();
+                     break;
+                 }
+-                f = f.includeProperty(name);
+-                if (f == null) {
++                TransVarFilter = TransVarFilter.includeProperty(TransVarNameOfTheVariable);
++                if (!(!(TransVarFilter == null))) {
+                     delegate.nextToken();
+                     delegate.skipChildren();
+                     break;
+                 }
+-                _itemFilter = f;
+-                if (f == TokenFilter.INCLUDE_ALL) {
+-                    if (_includePath) {
+-                        return (_currToken = t);
++                _itemFilter = TransVarFilter;
++                if (!(!(TransVarFilter == TokenFilter.INCLUDE_ALL))) {
++                    if (!(!(_includePath))) {
++                        return (_currToken = TransVarJsonToken);
+                     }
+                 }
+-                if (_includePath) {
+-                    t = _nextTokenWithBuffering(_headContext);
+-                    if (t != null) {
+-                        _currToken = t;
+-                        return t;
++                if (!(!(_includePath))) {
++                    TransVarJsonToken = _nextTokenWithBuffering(_headContext);
++                    if (!(!(TransVarJsonToken != null))) {
++                        _currToken = TransVarJsonToken;
++                        return TransVarJsonToken;
+                     }
+                 }
+                 break;
+             }
+ 
+         default: // scalar value
+-            f = _itemFilter;
+-            if (f == TokenFilter.INCLUDE_ALL) {
+-                return (_currToken = t);
++            TransVarFilter = _itemFilter;
++            if (!(!(TransVarFilter == TokenFilter.INCLUDE_ALL))) {
++                return (_currToken = TransVarJsonToken);
+             }
+-            if (f != null) {
+-                f = _headContext.checkValue(f);
+-                if ((f == TokenFilter.INCLUDE_ALL)
+-                        || ((f != null) && f.includeValue(delegate))) {
+-                    return (_currToken = t);
++            if (!(!(TransVarFilter != null))) {
++                TransVarFilter = _headContext.checkValue(TransVarFilter);
++                if (!(!((TransVarFilter == TokenFilter.INCLUDE_ALL)
++                        || ((TransVarFilter != null) && TransVarFilter.includeValue(delegate))))) {
++                    return (_currToken = TransVarJsonToken);
+                 }
+             }
+             // Otherwise not included (leaves must be explicitly included)

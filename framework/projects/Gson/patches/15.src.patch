@@ -1,0 +1,26 @@
+--- gson/src/main/java/com/google/gson/stream/JsonWriter.java	2025-05-20 23:14:31
++++ ./gson/src/main/java/com/google/gson/stream/JsonWriter.java	2025-05-20 23:14:31
+@@ -490,13 +490,19 @@
+    *     {@link Double#isInfinite() infinities}.
+    * @return this writer.
+    */
+-  public JsonWriter value(double value) throws IOException {
++  public JsonWriter value(double TransVarValue1) throws IOException {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     writeDeferredName();
+-    if (!lenient && (Double.isNaN(value) || Double.isInfinite(value))) {
+-      throw new IllegalArgumentException("Numeric values must be finite, but was " + value);
++    if (!(!(Double.isNaN(TransVarValue1) || Double.isInfinite(TransVarValue1)))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    throw new IllegalArgumentException("Numeric values must be finite, but was " + TransVarValue1);
++    }
+     beforeValue();
+-    out.append(Double.toString(value));
++    out.append(Double.toString(TransVarValue1));
+     return this;
+   }
+ 

@@ -1,0 +1,284 @@
+--- src/main/java/org/apache/commons/math3/optimization/univariate/BrentOptimizer.java	2025-05-21 08:22:18
++++ src/main/java/org/apache/commons/math3/optimization/univariate/BrentOptimizer.java	2025-05-21 08:22:18
+@@ -107,166 +107,159 @@
+     /** {@inheritDoc} */
+     @Override
+     protected UnivariatePointValuePair doOptimize() {
+-        final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
+-        final double lo = getMin();
+-        final double mid = getStartValue();
+-        final double hi = getMax();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final boolean TransVarIsMinimize = getGoalType() == GoalType.MINIMIZE;
++        final double TransVarMin = getMin();
++        final double TransVarMidValue = getStartValue();
++        final double TransVarValue = getMax();
+ 
+         // Optional additional convergence criteria.
+-        final ConvergenceChecker<UnivariatePointValuePair> checker
++        final ConvergenceChecker<UnivariatePointValuePair> TransVarConvergenceChecker
+             = getConvergenceChecker();
+ 
+-        double a;
+-        double b;
+-        if (lo < hi) {
+-            a = lo;
+-            b = hi;
++        double TransVarB;
++        double TransVarBest;
++        if (!(!(TransVarMin < TransVarValue))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarB = TransVarMin;
++            TransVarBest = TransVarValue;
+         } else {
+-            a = hi;
+-            b = lo;
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            TransVarB = TransVarValue;
++            TransVarBest = TransVarMin;
++        }
+ 
+-        double x = mid;
+-        double v = x;
+-        double w = x;
+-        double d = 0;
+-        double e = 0;
+-        double fx = computeObjectiveValue(x);
+-        if (!isMinim) {
+-            fx = -fx;
++        double TransVarMid = TransVarMidValue;
++        double TransVarVariable = TransVarMid;
++        double TransVarW1 = TransVarMid;
++        double TransVarD1 = 0;
++        double TransVarError = 0;
++        double TransVarF = computeObjectiveValue(TransVarMid);
++        if (!(!(!TransVarIsMinimize))) {
++            TransVarF = -TransVarF;
+         }
+-        double fv = fx;
+-        double fw = fx;
++        double TransVarValueFunction = TransVarF;
++        double TransVarFxw = TransVarF;
+ 
+-        UnivariatePointValuePair previous = null;
+-        UnivariatePointValuePair current
+-            = new UnivariatePointValuePair(x, isMinim ? fx : -fx);
++        UnivariatePointValuePair TransVarPreviousPointValuePair = null;
++        UnivariatePointValuePair TransVarCurrentPoint
++            = new UnivariatePointValuePair(TransVarMid, TransVarIsMinimize ? TransVarF : -TransVarF);
+ 
+-        int iter = 0;
+-        while (true) {
+-            final double m = 0.5 * (a + b);
+-            final double tol1 = relativeThreshold * FastMath.abs(x) + absoluteThreshold;
+-            final double tol2 = 2 * tol1;
+-
+-            // Default stopping criterion.
+-            final boolean stop = FastMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+-            if (!stop) {
+-                double p = 0;
+-                double q = 0;
+-                double r = 0;
+-                double u = 0;
+-
+-                if (FastMath.abs(e) > tol1) { // Fit parabola.
+-                    r = (x - w) * (fx - fv);
+-                    q = (x - v) * (fx - fw);
+-                    p = (x - v) * q - (x - w) * r;
+-                    q = 2 * (q - r);
+-
+-                    if (q > 0) {
+-                        p = -p;
++        int TransVarI = 0;
++        for (; !(!(true));) {
++            final double TransVarM2 = 0.5 * (TransVarB + TransVarBest);
++            final double TransVarTol2 = relativeThreshold * FastMath.abs(TransVarMid) + absoluteThreshold;
++            final double TransVarTol1 = 2 * TransVarTol2;
++            final boolean TransVarIsStop = FastMath.abs(TransVarMid - TransVarM2) <= TransVarTol1
++                    - 0.5 * (TransVarBest - TransVarB);
++            if (!(!(!TransVarIsStop))) {
++                double TransVarP1 = 0;
++                double TransVarQ1 = 0;
++                double TransVarR1 = 0;
++                double TransVarInitialValue = 0;
++                if (!(!(FastMath.abs(TransVarError) > TransVarTol2))) {
++                    TransVarR1 = (TransVarMid - TransVarW1) * (TransVarF - TransVarValueFunction);
++                    TransVarQ1 = (TransVarMid - TransVarVariable) * (TransVarF - TransVarFxw);
++                    TransVarP1 = (TransVarMid - TransVarVariable) * TransVarQ1
++                            - (TransVarMid - TransVarW1) * TransVarR1;
++                    TransVarQ1 = 2 * (TransVarQ1 - TransVarR1);
++                    if (!(!(TransVarQ1 > 0))) {
++                        TransVarP1 = -TransVarP1;
+                     } else {
+-                        q = -q;
++                        TransVarQ1 = -TransVarQ1;
+                     }
+-
+-                    r = e;
+-                    e = d;
+-
+-                    if (p > q * (a - x) &&
+-                        p < q * (b - x) &&
+-                        FastMath.abs(p) < FastMath.abs(0.5 * q * r)) {
+-                        // Parabolic interpolation step.
+-                        d = p / q;
+-                        u = x + d;
+-
+-                        // f must not be evaluated too close to a or b.
+-                        if (u - a < tol2 || b - u < tol2) {
+-                            if (x <= m) {
+-                                d = tol1;
++                    TransVarR1 = TransVarError;
++                    TransVarError = TransVarD1;
++                    if (!(!(TransVarP1 > TransVarQ1 * (TransVarB - TransVarMid)
++                            && TransVarP1 < TransVarQ1 * (TransVarBest - TransVarMid)
++                            && FastMath.abs(TransVarP1) < FastMath.abs(0.5 * TransVarQ1 * TransVarR1)))) {
++                        TransVarD1 = TransVarP1 / TransVarQ1;
++                        TransVarInitialValue = TransVarMid + TransVarD1;
++                        if (!(!(TransVarInitialValue - TransVarB < TransVarTol1
++                                || TransVarBest - TransVarInitialValue < TransVarTol1))) {
++                            if (!(!(TransVarMid <= TransVarM2))) {
++                                TransVarD1 = TransVarTol2;
+                             } else {
+-                                d = -tol1;
++                                TransVarD1 = -TransVarTol2;
+                             }
+                         }
+                     } else {
+-                        // Golden section step.
+-                        if (x < m) {
+-                            e = b - x;
++                        if (!(!(TransVarMid < TransVarM2))) {
++                            TransVarError = TransVarBest - TransVarMid;
+                         } else {
+-                            e = a - x;
++                            TransVarError = TransVarB - TransVarMid;
+                         }
+-                        d = GOLDEN_SECTION * e;
++                        TransVarD1 = GOLDEN_SECTION * TransVarError;
+                     }
+                 } else {
+-                    // Golden section step.
+-                    if (x < m) {
+-                        e = b - x;
++                    if (!(!(TransVarMid < TransVarM2))) {
++                        TransVarError = TransVarBest - TransVarMid;
+                     } else {
+-                        e = a - x;
++                        TransVarError = TransVarB - TransVarMid;
+                     }
+-                    d = GOLDEN_SECTION * e;
++                    TransVarD1 = GOLDEN_SECTION * TransVarError;
+                 }
+-
+-                // Update by at least "tol1".
+-                if (FastMath.abs(d) < tol1) {
+-                    if (d >= 0) {
+-                        u = x + tol1;
++                if (!(!(FastMath.abs(TransVarD1) < TransVarTol2))) {
++                    if (!(!(TransVarD1 >= 0))) {
++                        TransVarInitialValue = TransVarMid + TransVarTol2;
+                     } else {
+-                        u = x - tol1;
++                        TransVarInitialValue = TransVarMid - TransVarTol2;
+                     }
+                 } else {
+-                    u = x + d;
++                    TransVarInitialValue = TransVarMid + TransVarD1;
+                 }
+-
+-                double fu = computeObjectiveValue(u);
+-                if (!isMinim) {
+-                    fu = -fu;
++                double TransVarObjVal = computeObjectiveValue(TransVarInitialValue);
++                if (!(!(!TransVarIsMinimize))) {
++                    TransVarObjVal = -TransVarObjVal;
+                 }
+-
+-                // User-defined convergence checker.
+-                previous = current;
+-                current = new UnivariatePointValuePair(u, isMinim ? fu : -fu);
+-
+-                if (checker != null) {
+-                    if (checker.converged(iter, previous, current)) {
+-                        return best(current, previous, isMinim);
++                TransVarPreviousPointValuePair = TransVarCurrentPoint;
++                TransVarCurrentPoint = new UnivariatePointValuePair(TransVarInitialValue,
++                        TransVarIsMinimize ? TransVarObjVal : -TransVarObjVal);
++                if (!(!(TransVarConvergenceChecker != null))) {
++                    if (!(!(TransVarConvergenceChecker.converged(TransVarI, TransVarPreviousPointValuePair,
++                            TransVarCurrentPoint)))) {
++                        return TransVarCurrentPoint;
+                     }
+                 }
+-
+-                // Update a, b, v, w and x.
+-                if (fu <= fx) {
+-                    if (u < x) {
+-                        b = x;
++                if (!(!(TransVarObjVal <= TransVarF))) {
++                    if (!(!(TransVarInitialValue < TransVarMid))) {
++                        TransVarBest = TransVarMid;
+                     } else {
+-                        a = x;
++                        TransVarB = TransVarMid;
+                     }
+-                    v = w;
+-                    fv = fw;
+-                    w = x;
+-                    fw = fx;
+-                    x = u;
+-                    fx = fu;
++                    TransVarVariable = TransVarW1;
++                    TransVarValueFunction = TransVarFxw;
++                    TransVarW1 = TransVarMid;
++                    TransVarFxw = TransVarF;
++                    TransVarMid = TransVarInitialValue;
++                    TransVarF = TransVarObjVal;
+                 } else {
+-                    if (u < x) {
+-                        a = u;
++                    if (!(!(TransVarInitialValue < TransVarMid))) {
++                        TransVarB = TransVarInitialValue;
+                     } else {
+-                        b = u;
++                        TransVarBest = TransVarInitialValue;
+                     }
+-                    if (fu <= fw ||
+-                        Precision.equals(w, x)) {
+-                        v = w;
+-                        fv = fw;
+-                        w = u;
+-                        fw = fu;
+-                    } else if (fu <= fv ||
+-                               Precision.equals(v, x) ||
+-                               Precision.equals(v, w)) {
+-                        v = u;
+-                        fv = fu;
++                    if (!(!(TransVarObjVal <= TransVarFxw || Precision.equals(TransVarW1, TransVarMid)))) {
++                        TransVarVariable = TransVarW1;
++                        TransVarValueFunction = TransVarFxw;
++                        TransVarW1 = TransVarInitialValue;
++                        TransVarFxw = TransVarObjVal;
++                    } else if (!(!(TransVarObjVal <= TransVarValueFunction || Precision.equals(TransVarVariable, TransVarMid)
++                            || Precision.equals(TransVarVariable, TransVarW1)))) {
++                        TransVarVariable = TransVarInitialValue;
++                        TransVarValueFunction = TransVarObjVal;
+                     }
+                 }
+-            } else { // Default termination (Brent's criterion).
+-                return best(current, previous, isMinim);
++            } else {
++                return TransVarCurrentPoint;
+             }
+-            ++iter;
++            ++TransVarI;
+         }
+     }
+ 

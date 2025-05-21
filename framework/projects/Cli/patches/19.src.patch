@@ -1,0 +1,36 @@
+--- src/java/org/apache/commons/cli/PosixParser.java	2025-05-20 23:02:48
++++ ./src/java/org/apache/commons/cli/PosixParser.java	2025-05-20 23:02:48
+@@ -224,18 +224,27 @@
+      * @param stopAtNonOption Specifies whether flattening should halt
+      * at the first non option.
+      */
+-    private void processOptionToken(String token, boolean stopAtNonOption)
++    private void processOptionToken(String TransVarStringToken, boolean TransVarStopAtNonOptionValue)
+     {
+-        if (options.hasOption(token))
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(options.hasOption(TransVarStringToken))))
+         {
+-            currentOption = options.getOption(token);
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        else if (stopAtNonOption)
++            currentOption = options.getOption(TransVarStringToken);
++            tokens.add(TransVarStringToken);
++        }
++        else if (!(!(TransVarStopAtNonOptionValue)))
+         {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             eatTheRest = true;
++            tokens.add(TransVarStringToken);
+         }
+-
+-        tokens.add(token);
+     }
+ 
+     /**

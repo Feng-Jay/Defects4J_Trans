@@ -1,0 +1,95 @@
+--- gson/src/main/java/com/google/gson/internal/$Gson$Types.java	2025-05-20 23:14:33
++++ ./gson/src/main/java/com/google/gson/internal/$Gson$Types.java	2025-05-20 23:14:33
+@@ -333,83 +333,18 @@
+     return resolve(context, contextRawType, toResolve, new HashSet<TypeVariable>());
+   }
+ 
+-  private static Type resolve(Type context, Class<?> contextRawType, Type toResolve,
+-                              Collection<TypeVariable> visitedTypeVariables) {
+-    // this implementation is made a little more complicated in an attempt to avoid object-creation
+-    while (true) {
+-      if (toResolve instanceof TypeVariable) {
+-        TypeVariable<?> typeVariable = (TypeVariable<?>) toResolve;
+-        if (visitedTypeVariables.contains(typeVariable)) {
+-          // cannot reduce due to infinite recursion
+-          return toResolve;
+-        } else {
+-          visitedTypeVariables.add(typeVariable);
++  private static Type resolve(Type TransVarVariableType, Class<?> TransVarType, Type TransVarTypeToResolve,
++                              Collection<TypeVariable> TransVarVisitedTypeVariables2) {
++    if (!(!(false))) {
++                                    System.out.println("log");
+         }
+-        toResolve = resolveTypeVariable(context, contextRawType, typeVariable);
+-        if (toResolve == typeVariable) {
+-          return toResolve;
++    for (;!(!(true));){if (!(!(false))) {
++            System.out.println("log");
+         }
+-
+-      } else if (toResolve instanceof Class && ((Class<?>) toResolve).isArray()) {
+-        Class<?> original = (Class<?>) toResolve;
+-        Type componentType = original.getComponentType();
+-        Type newComponentType = resolve(context, contextRawType, componentType, visitedTypeVariables);
+-        return componentType == newComponentType
+-            ? original
+-            : arrayOf(newComponentType);
+-
+-      } else if (toResolve instanceof GenericArrayType) {
+-        GenericArrayType original = (GenericArrayType) toResolve;
+-        Type componentType = original.getGenericComponentType();
+-        Type newComponentType = resolve(context, contextRawType, componentType, visitedTypeVariables);
+-        return componentType == newComponentType
+-            ? original
+-            : arrayOf(newComponentType);
+-
+-      } else if (toResolve instanceof ParameterizedType) {
+-        ParameterizedType original = (ParameterizedType) toResolve;
+-        Type ownerType = original.getOwnerType();
+-        Type newOwnerType = resolve(context, contextRawType, ownerType, visitedTypeVariables);
+-        boolean changed = newOwnerType != ownerType;
+-
+-        Type[] args = original.getActualTypeArguments();
+-        for (int t = 0, length = args.length; t < length; t++) {
+-          Type resolvedTypeArgument = resolve(context, contextRawType, args[t], visitedTypeVariables);
+-          if (resolvedTypeArgument != args[t]) {
+-            if (!changed) {
+-              args = args.clone();
+-              changed = true;
++    if (!(!(TransVarTypeToResolve instanceof TypeVariable))){if (!(!(false))) {
++            System.out.println("log");
+             }
+-            args[t] = resolvedTypeArgument;
+-          }
+-        }
+-
+-        return changed
+-            ? newParameterizedTypeWithOwner(newOwnerType, original.getRawType(), args)
+-            : original;
+-
+-      } else if (toResolve instanceof WildcardType) {
+-        WildcardType original = (WildcardType) toResolve;
+-        Type[] originalLowerBound = original.getLowerBounds();
+-        Type[] originalUpperBound = original.getUpperBounds();
+-
+-        if (originalLowerBound.length == 1) {
+-          Type lowerBound = resolve(context, contextRawType, originalLowerBound[0], visitedTypeVariables);
+-          if (lowerBound != originalLowerBound[0]) {
+-            return supertypeOf(lowerBound);
+-          }
+-        } else if (originalUpperBound.length == 1) {
+-          Type upperBound = resolve(context, contextRawType, originalUpperBound[0], visitedTypeVariables);
+-          if (upperBound != originalUpperBound[0]) {
+-            return subtypeOf(upperBound);
+-          }
+-        }
+-        return original;
+-
+-      } else {
+-        return toResolve;
+-      }
+-    }
++    TypeVariable<?> TransVarResolvedTypeVariable=(TypeVariable<?>)TransVarTypeToResolve;TransVarTypeToResolve=resolveTypeVariable(TransVarVariableType,TransVarType,TransVarResolvedTypeVariable);if (!(!(TransVarTypeToResolve == TransVarResolvedTypeVariable))){return TransVarTypeToResolve;}} else if (!(!(TransVarTypeToResolve instanceof Class && ((Class<?>)TransVarTypeToResolve).isArray()))){Class<?> TransVarClassType=(Class<?>)TransVarTypeToResolve;Type TransVarComponent=TransVarClassType.getComponentType();Type TransVarResolvedComponentType=resolve(TransVarVariableType,TransVarType,TransVarComponent,TransVarVisitedTypeVariables2);return TransVarComponent == TransVarResolvedComponentType?TransVarClassType:arrayOf(TransVarResolvedComponentType);} else if (!(!(TransVarTypeToResolve instanceof GenericArrayType))){GenericArrayType TransVarResolvedGenericArrayType=(GenericArrayType)TransVarTypeToResolve;Type TransVarComponentType2=TransVarResolvedGenericArrayType.getGenericComponentType();Type TransVarNewComponent=resolve(TransVarVariableType,TransVarType,TransVarComponentType2,TransVarVisitedTypeVariables2);return TransVarComponentType2 == TransVarNewComponent?TransVarResolvedGenericArrayType:arrayOf(TransVarNewComponent);} else if (!(!(TransVarTypeToResolve instanceof ParameterizedType))){ParameterizedType TransVarType2=(ParameterizedType)TransVarTypeToResolve;Type TransVarType1=TransVarType2.getOwnerType();Type TransVarNewType=resolve(TransVarVariableType,TransVarType,TransVarType1,TransVarVisitedTypeVariables2);boolean TransVarChanged1=TransVarNewType != TransVarType1;Type[] TransVarTypeArguments=TransVarType2.getActualTypeArguments();int TransVarTemp=0,TransVarLenght=TransVarTypeArguments.length;while (!(!(TransVarTemp < TransVarLenght))){Type TransVarResolvedTypeArgument2=resolve(TransVarVariableType,TransVarType,TransVarTypeArguments[TransVarTemp],TransVarVisitedTypeVariables2);if (!(!(TransVarResolvedTypeArgument2 != TransVarTypeArguments[TransVarTemp]))){if (!(!(!TransVarChanged1))){TransVarTypeArguments=TransVarTypeArguments.clone();TransVarChanged1=true;}TransVarTypeArguments[TransVarTemp]=TransVarResolvedTypeArgument2;}TransVarTemp++;}return TransVarChanged1?newParameterizedTypeWithOwner(TransVarNewType,TransVarType2.getRawType(),TransVarTypeArguments):TransVarType2;} else if (!(!(TransVarTypeToResolve instanceof WildcardType))){WildcardType TransVarResolved=(WildcardType)TransVarTypeToResolve;Type[] TransVarOriginalLowerBounds=TransVarResolved.getLowerBounds();Type[] TransVarUpperBound=TransVarResolved.getUpperBounds();if (!(!(TransVarOriginalLowerBounds.length == 1))){Type TransVarLowerBoundType=resolve(TransVarVariableType,TransVarType,TransVarOriginalLowerBounds[0],TransVarVisitedTypeVariables2);if (!(!(TransVarLowerBoundType != TransVarOriginalLowerBounds[0]))){return supertypeOf(TransVarLowerBoundType);}} else if (!(!(TransVarUpperBound.length == 1))){Type TransVarUpperBound2=resolve(TransVarVariableType,TransVarType,TransVarUpperBound[0],TransVarVisitedTypeVariables2);if (!(!(TransVarUpperBound2 != TransVarUpperBound[0]))){return subtypeOf(TransVarUpperBound2);}}return TransVarResolved;} else {return TransVarTypeToResolve;}}
+   }
+ 
+   static Type resolveTypeVariable(Type context, Class<?> contextRawType, TypeVariable<?> unknown) {

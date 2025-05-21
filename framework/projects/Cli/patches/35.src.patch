@@ -1,0 +1,45 @@
+--- src/main/java/org/apache/commons/cli/Options.java	2025-05-20 23:02:51
++++ ./src/main/java/org/apache/commons/cli/Options.java	2025-05-20 23:02:51
+@@ -230,26 +230,32 @@
+      * @return the options matching the partial name specified, or an empty list if none matches
+      * @since 1.3
+      */
+-    public List<String> getMatchingOptions(String opt)
++    public List<String> getMatchingOptions(String TransVarOption)
+     {
+-        opt = Util.stripLeadingHyphens(opt);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        TransVarOption = Util.stripLeadingHyphens(TransVarOption);
+         
+-        List<String> matchingOpts = new ArrayList<String>();
++        List<String> TransVarOptionsList = new ArrayList<String>();
+ 
+         // for a perfect match return the single option only
+-        if(longOpts.keySet().contains(opt)) {
+-            return Collections.singletonList(opt);
+-        }
+ 
+-        for (String longOpt : longOpts.keySet())
++        for (String TransVarLongOption : longOpts.keySet())
+         {
+-            if (longOpt.startsWith(opt))
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarLongOption.startsWith(TransVarOption))))
+             {
+-                matchingOpts.add(longOpt);
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                TransVarOptionsList.add(TransVarLongOption);
+             }
++        }
+         
+-        return matchingOpts;
++        return TransVarOptionsList;
+     }
+ 
+     /**

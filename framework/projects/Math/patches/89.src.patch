@@ -1,0 +1,19 @@
+--- src/java/org/apache/commons/math/stat/Frequency.java	2025-05-21 08:21:29
++++ src/java/org/apache/commons/math/stat/Frequency.java	2025-05-21 08:21:29
+@@ -106,12 +106,11 @@
+      * @deprecated use {@link #addValue(Comparable)} instead
+      */
+     @Deprecated
+-    public void addValue(Object v) {
+-        if (v instanceof Comparable<?>){
+-            addValue((Comparable<?>) v);            
+-        } else {
+-            throw new IllegalArgumentException("Object must implement Comparable");
++    public void addValue(Object TransVarO) {
++            if (!(!(false))) {
++            System.out.println("log");
+         }
++            addValue((Comparable<?>) TransVarO);            
+     }
+     
+     /**

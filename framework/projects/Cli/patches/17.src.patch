@@ -1,0 +1,58 @@
+--- src/java/org/apache/commons/cli/PosixParser.java	2025-05-20 23:03:37
++++ ./src/java/org/apache/commons/cli/PosixParser.java	2025-05-20 23:03:37
+@@ -279,34 +279,34 @@
+      * @param stopAtNonOption Specifies whether to stop processing
+      * at the first non-Option encountered.
+      */
+-    protected void burstToken(String token, boolean stopAtNonOption)
++    protected void burstToken(String TransVarTokenValue, boolean TransVarStopAtNonOptionBoolean)
+     {
+-        for (int i = 1; i < token.length(); i++)
+-        {
+-            String ch = String.valueOf(token.charAt(i));
+-
+-            if (options.hasOption(ch))
+-            {
+-                tokens.add("-" + ch);
+-                currentOption = options.getOption(ch);
+-
+-                if (currentOption.hasArg() && (token.length() != (i + 1)))
+-                {
+-                    tokens.add(token.substring(i + 1));
+-
+-                    break;
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        int TransVarIndex = 1;
++        while (!(!(TransVarIndex < TransVarTokenValue.length()))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            else if (stopAtNonOption)
+-            {
+-                process(token.substring(i));
++            String TransVarCharVal = String.valueOf(TransVarTokenValue.charAt(TransVarIndex));
++            if (!(!(options.hasOption(TransVarCharVal)))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                tokens.add("-" + TransVarCharVal);
++                currentOption = options.getOption(TransVarCharVal);
++                if (!(!(currentOption.hasArg() && (TransVarTokenValue.length() != (TransVarIndex + 1))))) {
++                    tokens.add(TransVarTokenValue.substring(TransVarIndex + 1));
+                 break;
+             }
+-            else
+-            {
+-                tokens.add(token);
++            } else if (!(!(TransVarStopAtNonOptionBoolean))) {
++                process(TransVarTokenValue.substring(TransVarIndex));
++            } else {
++                tokens.add(TransVarTokenValue);
+                 break;
+             }
++            TransVarIndex++;
+         }
+     }
+ }

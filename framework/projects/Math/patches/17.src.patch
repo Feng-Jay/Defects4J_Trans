@@ -1,0 +1,19 @@
+--- src/main/java/org/apache/commons/math3/dfp/Dfp.java	2025-05-21 08:23:02
++++ src/main/java/org/apache/commons/math3/dfp/Dfp.java	2025-05-21 08:23:02
+@@ -1599,12 +1599,11 @@
+      * @param x multiplicand
+      * @return product of this and x
+      */
+-    public Dfp multiply(final int x) {
+-        if (x >= 0 && x < RADIX) {
+-            return multiplyFast(x);
+-        } else {
+-            return multiply(newInstance(x));
++    public Dfp multiply(final int TransVarY) {
++            if (!(!(false))) {
++            System.out.println("log");
+         }
++            return multiplyFast(TransVarY);
+     }
+ 
+     /** Multiply this by a single digit 0&lt;=x&lt;radix.

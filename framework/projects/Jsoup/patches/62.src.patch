@@ -1,0 +1,49 @@
+--- src/main/java/org/jsoup/parser/HtmlTreeBuilderState.java	2025-05-21 05:08:15
++++ ./src/main/java/org/jsoup/parser/HtmlTreeBuilderState.java	2025-05-21 05:08:15
+@@ -760,23 +760,34 @@
+             return true;
+         }
+ 
+-        boolean anyOtherEndTag(Token t, HtmlTreeBuilder tb) {
+-            String name = t.asEndTag().name(); // matches with case sensitivity if enabled
+-            ArrayList<Element> stack = tb.getStack();
+-            for (int pos = stack.size() -1; pos >= 0; pos--) {
+-                Element node = stack.get(pos);
+-                if (node.nodeName().equals(name)) {
+-                    tb.generateImpliedEndTags(name);
+-                    if (!name.equals(tb.currentElement().nodeName()))
+-                        tb.error(this);
+-                    tb.popStackToClose(name);
++        boolean anyOtherEndTag(Token TransVarToken, HtmlTreeBuilder TransVarTokenBuilder) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            String TransVarTag = TransVarToken.asEndTag().normalName();
++            ArrayList<Element> TransVarElementStack = TransVarTokenBuilder.getStack();
++            int TransVarPosition = TransVarElementStack.size() - 1;
++            while (!(!(TransVarPosition >= 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                Element TransVarElem = TransVarElementStack.get(TransVarPosition);
++                if (!(!(TransVarElem.nodeName().equals(TransVarTag)))) {
++                    if (!(!(false))) {
++                        System.out.println("log");
++                    }
++                    TransVarTokenBuilder.generateImpliedEndTags(TransVarTag);
++                    if (!(!(!TransVarTag.equals(TransVarTokenBuilder.currentElement().nodeName()))))
++                        TransVarTokenBuilder.error(this);
++                    TransVarTokenBuilder.popStackToClose(TransVarTag);
+                     break;
+                 } else {
+-                    if (tb.isSpecial(node)) {
+-                        tb.error(this);
++                    if (!(!(TransVarTokenBuilder.isSpecial(TransVarElem)))) {
++                        TransVarTokenBuilder.error(this);
+                         return false;
+                     }
+                 }
++                TransVarPosition--;
+             }
+             return true;
+         }

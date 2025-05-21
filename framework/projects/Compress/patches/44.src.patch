@@ -1,0 +1,27 @@
+--- src/main/java/org/apache/commons/compress/utils/ChecksumCalculatingInputStream.java	2025-05-20 23:11:02
++++ ./src/main/java/org/apache/commons/compress/utils/ChecksumCalculatingInputStream.java	2025-05-20 23:11:02
+@@ -30,18 +30,15 @@
+     private final InputStream in;
+     private final Checksum checksum;
+ 
+-    public ChecksumCalculatingInputStream(final Checksum checksum, final InputStream in) {
++    public ChecksumCalculatingInputStream(final Checksum TransVarNewChecksum, final InputStream TransVarInputStream) {
+ 
+-        if ( checksum == null ){
+-            throw new NullPointerException("Parameter checksum must not be null");
+-        }
+ 
+-        if ( in == null ){
+-            throw new NullPointerException("Parameter in must not be null");
+-        }
+ 
+-        this.checksum = checksum;
+-        this.in = in;
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        this.checksum = TransVarNewChecksum;
++        this.in = TransVarInputStream;
+     }
+ 
+     /**

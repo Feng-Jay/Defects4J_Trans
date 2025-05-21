@@ -1,0 +1,16 @@
+--- src/java/org/apache/commons/lang/LocaleUtils.java	2025-05-21 08:15:35
++++ src/java/org/apache/commons/lang/LocaleUtils.java	2025-05-21 08:15:35
+@@ -219,8 +219,11 @@
+      * @param locale the Locale object to check if it is available
+      * @return true if the locale is a known locale
+      */
+-    public static boolean isAvailableLocale(Locale locale) {
+-        return availableLocaleList().contains(locale);
++    public static boolean isAvailableLocale(Locale TransVarLanguage) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        return cAvailableLocaleSet.contains(TransVarLanguage);
+     }
+ 
+     //-----------------------------------------------------------------------

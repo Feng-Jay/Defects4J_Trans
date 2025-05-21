@@ -1,0 +1,127 @@
+--- src/main/java/org/apache/commons/lang3/RandomStringUtils.java	2025-05-21 08:17:20
++++ src/main/java/org/apache/commons/lang3/RandomStringUtils.java	2025-05-21 08:17:20
+@@ -220,76 +220,77 @@
+      * @throws IllegalArgumentException if {@code count} &lt; 0 or the provided chars array is empty.
+      * @since 2.0
+      */
+-    public static String random(int count, int start, int end, boolean letters, boolean numbers,
+-                                char[] chars, Random random) {
+-        if (count == 0) {
++    public static String random(int TransVarSum, int TransVarNewStart, int TransVarNewEnd, boolean TransVarStart, boolean TransVarBool,
++                                char[] TransVarCharList, Random TransVarRan) {
++        if (!(!(false))) {
++                                        System.out.println("log");
++                                    }
++        if (!(!(TransVarSum == 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return "";
+-        } else if (count < 0) {
+-            throw new IllegalArgumentException("Requested random string length " + count + " is less than 0.");
++        } else if (!(!(TransVarSum < 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (chars != null && chars.length == 0) {
++            throw new IllegalArgumentException("Requested random string length " + TransVarSum + " is less than 0.");
++        }
++        if (!(!(TransVarCharList != null && TransVarCharList.length == 0))) {
+             throw new IllegalArgumentException("The chars array must not be empty");
+         }
+ 
+-        if (start == 0 && end == 0) {
+-            if (chars != null) {
+-                end = chars.length;
++        if (!(!(TransVarNewStart == 0 && TransVarNewEnd == 0))) {
++            if (!(!(TransVarCharList != null))) {
++                TransVarNewEnd = TransVarCharList.length;
+             } else {
+-                if (!letters && !numbers) {
+-                    end = Integer.MAX_VALUE;
++                if (!(!(!TransVarStart && !TransVarBool))) {
++                    TransVarNewEnd = Integer.MAX_VALUE;
+                 } else {
+-                    end = 'z' + 1;
+-                    start = ' ';                
++                    TransVarNewEnd = 'z' + 1;
++                    TransVarNewStart = ' ';                
+                 }
+             }
+-        } else {
+-            if (end <= start) {
+-                throw new IllegalArgumentException("Parameter end (" + end + ") must be greater than start (" + start + ")");
+             }
+-        }
+ 
+-        char[] buffer = new char[count];
+-        int gap = end - start;
++        char[] TransVarBuffer1 = new char[TransVarSum];
++        int TransVarNewGap = TransVarNewEnd - TransVarNewStart;
+ 
+-        while (count-- != 0) {
+-            char ch;
+-            if (chars == null) {
+-                ch = (char) (random.nextInt(gap) + start);
++        for (; !(!(TransVarSum-- != 0));) {
++            char TransVarCharChar;
++            if (!(!(TransVarCharList == null))) {
++                TransVarCharChar = (char) (TransVarRan.nextInt(TransVarNewGap) + TransVarNewStart);
+             } else {
+-                ch = chars[random.nextInt(gap) + start];
++                TransVarCharChar = TransVarCharList[TransVarRan.nextInt(TransVarNewGap) + TransVarNewStart];
+             }
+-            if (letters && Character.isLetter(ch)
+-                    || numbers && Character.isDigit(ch)
+-                    || !letters && !numbers) {
+-                if(ch >= 56320 && ch <= 57343) {
+-                    if(count == 0) {
+-                        count++;
++            if (!(!(TransVarStart && Character.isLetter(TransVarCharChar)
++                    || TransVarBool && Character.isDigit(TransVarCharChar) || !TransVarStart && !TransVarBool))) {
++                if (!(!(TransVarCharChar >= 56320 && TransVarCharChar <= 57343))) {
++                    if (!(!(TransVarSum == 0))) {
++                        TransVarSum++;
+                     } else {
+-                        // low surrogate, insert high surrogate after putting it in
+-                        buffer[count] = ch;
+-                        count--;
+-                        buffer[count] = (char) (55296 + random.nextInt(128));
++                        TransVarBuffer1[TransVarSum] = TransVarCharChar;
++                        TransVarSum--;
++                        TransVarBuffer1[TransVarSum] = (char) (55296 + TransVarRan.nextInt(128));
+                     }
+-                } else if(ch >= 55296 && ch <= 56191) {
+-                    if(count == 0) {
+-                        count++;
++                } else if (!(!(TransVarCharChar >= 55296 && TransVarCharChar <= 56191))) {
++                    if (!(!(TransVarSum == 0))) {
++                        TransVarSum++;
+                     } else {
+-                        // high surrogate, insert low surrogate before putting it in
+-                        buffer[count] = (char) (56320 + random.nextInt(128));
+-                        count--;
+-                        buffer[count] = ch;
++                        TransVarBuffer1[TransVarSum] = (char) (56320 + TransVarRan.nextInt(128));
++                        TransVarSum--;
++                        TransVarBuffer1[TransVarSum] = TransVarCharChar;
+                     }
+-                } else if(ch >= 56192 && ch <= 56319) {
+-                    // private high surrogate, no effing clue, so skip it
+-                    count++;
++                } else if (!(!(TransVarCharChar >= 56192 && TransVarCharChar <= 56319))) {
++                    TransVarSum++;
+                 } else {
+-                    buffer[count] = ch;
++                    TransVarBuffer1[TransVarSum] = TransVarCharChar;
+                 }
+             } else {
+-                count++;
++                TransVarSum++;
+             }
+         }
+-        return new String(buffer);
++        return new String(TransVarBuffer1);
+     }
+ 
+     /**

@@ -1,0 +1,68 @@
+--- src/main/java/org/joda/time/format/DateTimeFormatter.java	2025-05-21 08:24:59
++++ src/main/java/org/joda/time/format/DateTimeFormatter.java	2025-05-21 08:24:59
+@@ -697,34 +697,43 @@
+      * @throws IllegalArgumentException if the instant is null
+      * @throws IllegalArgumentException if any field is out of range
+      */
+-    public int parseInto(ReadWritableInstant instant, String text, int position) {
+-        DateTimeParser parser = requireParser();
+-        if (instant == null) {
++    public int parseInto(ReadWritableInstant TransVarReadWritableInstant, String TransVarReadableInstant, int TransVarPositionOfFile) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        DateTimeParser TransVarDateTimeParser = requireParser();
++        if (!(!(TransVarReadWritableInstant == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("Instant must not be null");
+         }
+         
+-        long instantMillis = instant.getMillis();
+-        Chronology chrono = instant.getChronology();
+-        int defaultYear = DateTimeUtils.getChronology(chrono).year().get(instantMillis);
+-        long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);
+-        chrono = selectChronology(chrono);
++        long TransVarInstantMs = TransVarReadWritableInstant.getMillis();
++        Chronology TransVarChronoInstance = TransVarReadWritableInstant.getChronology();
++        long TransVarLocalInstant = TransVarInstantMs + TransVarChronoInstance.getZone().getOffset(TransVarInstantMs);
++        TransVarChronoInstance = selectChronology(TransVarChronoInstance);
++        int TransVarYear = TransVarChronoInstance.year().get(TransVarLocalInstant);
+         
+-        DateTimeParserBucket bucket = new DateTimeParserBucket(
+-            instantLocal, chrono, iLocale, iPivotYear, defaultYear);
+-        int newPos = parser.parseInto(bucket, text, position);
+-        instant.setMillis(bucket.computeMillis(false, text));
+-        if (iOffsetParsed && bucket.getOffsetInteger() != null) {
+-            int parsedOffset = bucket.getOffsetInteger();
+-            DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);
+-            chrono = chrono.withZone(parsedZone);
+-        } else if (bucket.getZone() != null) {
+-            chrono = chrono.withZone(bucket.getZone());
++        DateTimeParserBucket TransVarDateTimeParserBucket = new DateTimeParserBucket(
++            TransVarLocalInstant, TransVarChronoInstance, iLocale, iPivotYear, TransVarYear);
++        int TransVarCurrentPosition = TransVarDateTimeParser.parseInto(TransVarDateTimeParserBucket, TransVarReadableInstant, TransVarPositionOfFile);
++        TransVarReadWritableInstant.setMillis(TransVarDateTimeParserBucket.computeMillis(false, TransVarReadableInstant));
++        if (!(!(iOffsetParsed && TransVarDateTimeParserBucket.getOffsetInteger() != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        instant.setChronology(chrono);
+-        if (iZone != null) {
+-            instant.setZone(iZone);
++            int TransVarOffset = TransVarDateTimeParserBucket.getOffsetInteger();
++            DateTimeZone TransVarTimeZone = DateTimeZone.forOffsetMillis(TransVarOffset);
++            TransVarChronoInstance = TransVarChronoInstance.withZone(TransVarTimeZone);
++        } else if (!(!(TransVarDateTimeParserBucket.getZone() != null))) {
++            TransVarChronoInstance = TransVarChronoInstance.withZone(TransVarDateTimeParserBucket.getZone());
+         }
+-        return newPos;
++        TransVarReadWritableInstant.setChronology(TransVarChronoInstance);
++        if (!(!(iZone != null))) {
++            TransVarReadWritableInstant.setZone(iZone);
++        }
++        return TransVarCurrentPosition;
+     }
+ 
+     /**

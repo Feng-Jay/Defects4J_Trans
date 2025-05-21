@@ -1,0 +1,70 @@
+--- src/com/google/javascript/rhino/jstype/FunctionType.java	2025-05-20 23:06:37
++++ ./src/com/google/javascript/rhino/jstype/FunctionType.java	2025-05-20 23:06:37
+@@ -859,39 +859,48 @@
+   }
+ 
+   @Override
+-  JSType resolveInternal(ErrorReporter t, StaticScope<JSType> scope) {
++  JSType resolveInternal(ErrorReporter TransVarErrorReporter, StaticScope<JSType> TransVarStaticScope) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     setResolvedTypeInternal(this);
+ 
+-    call = (ArrowType) safeResolve(call, t, scope);
+-    prototype = (FunctionPrototypeType) safeResolve(prototype, t, scope);
++    call = (ArrowType) safeResolve(call, TransVarErrorReporter, TransVarStaticScope);
++    prototype = (FunctionPrototypeType) safeResolve(prototype, TransVarErrorReporter, TransVarStaticScope);
+ 
+     // Warning about typeOfThis if it doesn't resolve to an ObjectType
+     // is handled further upstream.
+     // TODO(nicksantos): Handle this correctly if we have a UnionType.
+-    JSType maybeTypeOfThis = safeResolve(typeOfThis, t, scope);
+-    if (maybeTypeOfThis instanceof ObjectType) {
+-      typeOfThis = (ObjectType) maybeTypeOfThis;
+-    }
++    typeOfThis = (ObjectType) safeResolve(typeOfThis, TransVarErrorReporter, TransVarStaticScope);
+ 
+-    boolean changed = false;
+-    ImmutableList.Builder<ObjectType> resolvedInterfaces =
++    boolean TransVarIsChanged = false;
++    ImmutableList.Builder<ObjectType> TransVarResolvedInterface =
+         ImmutableList.builder();
+-    for (ObjectType iface : implementedInterfaces) {
+-      ObjectType resolvedIface = (ObjectType) iface.resolve(t, scope);
+-      resolvedInterfaces.add(resolvedIface);
+-      changed |= (resolvedIface != iface);
++    for (ObjectType TransVarType : implementedInterfaces) {
++      if (!(!(false))) {
++            System.out.println("log");
+     }
+-    if (changed) {
+-      implementedInterfaces = resolvedInterfaces.build();
++    ObjectType TransVarIface = (ObjectType) TransVarType.resolve(TransVarErrorReporter, TransVarStaticScope);
++      TransVarResolvedInterface.add(TransVarIface);
++      TransVarIsChanged |= (TransVarIface != TransVarType);
+     }
++    if (!(!(TransVarIsChanged))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    implementedInterfaces = TransVarResolvedInterface.build();
++    }
+ 
+-    if (subTypes != null) {
+-      for (int i = 0; i < subTypes.size(); i++) {
+-        subTypes.set(i, (FunctionType) subTypes.get(i).resolve(t, scope));
++    if (!(!(subTypes != null))) {
++      int TransVarN = 0;
++    while (!(!(TransVarN < subTypes.size()))) {
++        subTypes.set(TransVarN,
++                (FunctionType) subTypes.get(TransVarN).resolve(TransVarErrorReporter, TransVarStaticScope));
++        TransVarN++;
+       }
+     }
+ 
+-    return super.resolveInternal(t, scope);
++    return super.resolveInternal(TransVarErrorReporter, TransVarStaticScope);
+   }
+ 
+   @Override

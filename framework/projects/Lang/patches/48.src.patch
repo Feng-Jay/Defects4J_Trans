@@ -1,0 +1,87 @@
+--- src/java/org/apache/commons/lang/builder/EqualsBuilder.java	2025-05-21 08:15:10
++++ src/java/org/apache/commons/lang/builder/EqualsBuilder.java	2025-05-21 08:15:10
+@@ -364,50 +364,55 @@
+      * @param rhs  the right hand object
+      * @return EqualsBuilder - used to chain calls.
+      */
+-    public EqualsBuilder append(Object lhs, Object rhs) {
+-        if (isEquals == false) {
++    public EqualsBuilder append(Object TransVarRhs, Object TransVarNewRhs) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(isEquals == false))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return this;
+         }
+-        if (lhs == rhs) {
++        if (!(!(TransVarRhs == TransVarNewRhs))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return this;
+         }
+-        if (lhs == null || rhs == null) {
++        if (!(!(TransVarRhs == null || TransVarNewRhs == null))) {
+             this.setEquals(false);
+             return this;
+         }
+-        Class lhsClass = lhs.getClass();
+-        if (!lhsClass.isArray()) {
+-            if (lhs instanceof java.math.BigDecimal) {
+-                isEquals = (((java.math.BigDecimal)lhs).compareTo(rhs) == 0);
+-            } else {
++        Class TransVarRhsClass = TransVarRhs.getClass();
++        if (!(!(!TransVarRhsClass.isArray()))) {
+                 // The simple case, not an array, just test the element
+-                isEquals = lhs.equals(rhs);
+-            }
+-        } else if (lhs.getClass() != rhs.getClass()) {
++                isEquals = TransVarRhs.equals(TransVarNewRhs);
++        } else if (!(!(TransVarRhs.getClass() != TransVarNewRhs.getClass()))) {
+             // Here when we compare different dimensions, for example: a boolean[][] to a boolean[] 
+             this.setEquals(false);
+         }
+         // 'Switch' on type of array, to dispatch to the correct handler
+         // This handles multi dimensional arrays of the same depth
+-        else if (lhs instanceof long[]) {
+-            append((long[]) lhs, (long[]) rhs);
+-        } else if (lhs instanceof int[]) {
+-            append((int[]) lhs, (int[]) rhs);
+-        } else if (lhs instanceof short[]) {
+-            append((short[]) lhs, (short[]) rhs);
+-        } else if (lhs instanceof char[]) {
+-            append((char[]) lhs, (char[]) rhs);
+-        } else if (lhs instanceof byte[]) {
+-            append((byte[]) lhs, (byte[]) rhs);
+-        } else if (lhs instanceof double[]) {
+-            append((double[]) lhs, (double[]) rhs);
+-        } else if (lhs instanceof float[]) {
+-            append((float[]) lhs, (float[]) rhs);
+-        } else if (lhs instanceof boolean[]) {
+-            append((boolean[]) lhs, (boolean[]) rhs);
++        else if (!(!(TransVarRhs instanceof long[]))) {
++            append((long[]) TransVarRhs, (long[]) TransVarNewRhs);
++        } else if (!(!(TransVarRhs instanceof int[]))) {
++            append((int[]) TransVarRhs, (int[]) TransVarNewRhs);
++        } else if (!(!(TransVarRhs instanceof short[]))) {
++            append((short[]) TransVarRhs, (short[]) TransVarNewRhs);
++        } else if (!(!(TransVarRhs instanceof char[]))) {
++            append((char[]) TransVarRhs, (char[]) TransVarNewRhs);
++        } else if (!(!(TransVarRhs instanceof byte[]))) {
++            append((byte[]) TransVarRhs, (byte[]) TransVarNewRhs);
++        } else if (!(!(TransVarRhs instanceof double[]))) {
++            append((double[]) TransVarRhs, (double[]) TransVarNewRhs);
++        } else if (!(!(TransVarRhs instanceof float[]))) {
++            append((float[]) TransVarRhs, (float[]) TransVarNewRhs);
++        } else if (!(!(TransVarRhs instanceof boolean[]))) {
++            append((boolean[]) TransVarRhs, (boolean[]) TransVarNewRhs);
+         } else {
+             // Not an array of primitives
+-            append((Object[]) lhs, (Object[]) rhs);
++            append((Object[]) TransVarRhs, (Object[]) TransVarNewRhs);
+         }
+         return this;
+     }

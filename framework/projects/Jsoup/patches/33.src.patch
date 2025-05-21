@@ -1,0 +1,38 @@
+--- src/main/java/org/jsoup/parser/HtmlTreeBuilder.java	2025-05-21 03:15:38
++++ ./src/main/java/org/jsoup/parser/HtmlTreeBuilder.java	2025-05-21 03:15:38
+@@ -153,20 +153,25 @@
+             errors.add(new ParseError(reader.pos(), "Unexpected token [%s] when in state [%s]", currentToken.tokenType(), state));
+     }
+ 
+-    Element insert(Token.StartTag startTag) {
++    Element insert(Token.StartTag TransVarStartTag2) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // handle empty unknown tags
+         // when the spec expects an empty tag, will directly hit insertEmpty, so won't generate this fake end tag.
+-        if (startTag.isSelfClosing()) {
+-            Element el = insertEmpty(startTag);
+-            stack.add(el);
+-            tokeniser.transition(TokeniserState.Data); // handles <script />, otherwise needs breakout steps from script data
+-            tokeniser.emit(new Token.EndTag(el.tagName()));  // ensure we get out of whatever state we are in. emitted for yielded processing
+-            return el;
++        if (!(!(TransVarStartTag2.isSelfClosing()))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            Element TransVarEmptyElement = insertEmpty(TransVarStartTag2);
++            stack.add(TransVarEmptyElement);
++            tokeniser.emit(new Token.EndTag(TransVarEmptyElement.tagName()));  // ensure we get out of whatever state we are in. emitted for yielded processing
++            return TransVarEmptyElement;
++        }
+         
+-        Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);
+-        insert(el);
+-        return el;
++        Element TransVarNewElement = new Element(Tag.valueOf(TransVarStartTag2.name()), baseUri, TransVarStartTag2.attributes);
++        insert(TransVarNewElement);
++        return TransVarNewElement;
+     }
+ 
+     Element insert(String startTagName) {

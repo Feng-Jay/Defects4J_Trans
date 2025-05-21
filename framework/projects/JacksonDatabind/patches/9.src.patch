@@ -1,0 +1,39 @@
+--- src/main/java/com/fasterxml/jackson/databind/ser/std/StdKeySerializer.java	2025-05-21 01:16:02
++++ ./src/main/java/com/fasterxml/jackson/databind/ser/std/StdKeySerializer.java	2025-05-21 01:16:02
+@@ -22,21 +22,25 @@
+     public StdKeySerializer() { super(Object.class); }
+ 
+     @Override
+-    public void serialize(Object value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+-        String str;
+-        Class<?> cls = value.getClass();
++    public void serialize(Object TransVarValue2, JsonGenerator TransVarValue, SerializerProvider TransVarProvider1) throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        String TransVarValue3;
+         
+-        if (cls == String.class) {
+-            str = (String) value;
+-        } else if (Date.class.isAssignableFrom(cls)) {
+-            provider.defaultSerializeDateKey((Date) value, jgen);
++        if (!(!(TransVarValue2 instanceof Date))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarProvider1.defaultSerializeDateKey((Date) TransVarValue2, TransVarValue);
+             return;
+-        } else if (cls == Class.class) {
+-            str = ((Class<?>) value).getName();
+         } else {
+-            str = value.toString();
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        jgen.writeFieldName(str);
++            TransVarValue3 = TransVarValue2.toString();
++        }
++        TransVarValue.writeFieldName(TransVarValue3);
+     }
+ 
+     @Override

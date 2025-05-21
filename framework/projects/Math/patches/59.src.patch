@@ -1,0 +1,16 @@
+--- src/main/java/org/apache/commons/math/util/FastMath.java	2025-05-21 08:21:43
++++ src/main/java/org/apache/commons/math/util/FastMath.java	2025-05-21 08:21:43
+@@ -3478,8 +3478,11 @@
+      * @param b second value
+      * @return b if a is lesser or equal to b, a otherwise
+      */
+-    public static float max(final float a, final float b) {
+-        return (a <= b) ? b : (Float.isNaN(a + b) ? Float.NaN : a);
++    public static float max(final float TransVarB, final float TransVarC) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        return (TransVarB <= TransVarC) ? TransVarC : (Float.isNaN(TransVarB + TransVarC) ? Float.NaN : TransVarC);
+     }
+ 
+     /** Compute the maximum of two values

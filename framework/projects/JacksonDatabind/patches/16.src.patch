@@ -1,0 +1,25 @@
+--- src/main/java/com/fasterxml/jackson/databind/introspect/AnnotationMap.java	2025-05-21 01:15:57
++++ ./src/main/java/com/fasterxml/jackson/databind/introspect/AnnotationMap.java	2025-05-21 01:15:57
+@@ -104,12 +104,18 @@
+     /**********************************************************
+      */
+ 
+-    protected final boolean _add(Annotation ann) {
+-        if (_annotations == null) {
++    protected final boolean _add(Annotation TransVarAnnotation) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(_annotations == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             _annotations = new HashMap<Class<? extends Annotation>,Annotation>();
+         }
+-        Annotation previous = _annotations.put(ann.annotationType(), ann);
+-        return (previous == null) || !previous.equals(ann);
++        Annotation TransVarPreviousAnnotation = _annotations.put(TransVarAnnotation.annotationType(), TransVarAnnotation);
++        return (TransVarPreviousAnnotation != null) && TransVarPreviousAnnotation.equals(TransVarAnnotation);
+     }
+ }
+ 

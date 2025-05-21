@@ -1,0 +1,65 @@
+--- src/com/google/javascript/jscomp/TypeCheck.java	2025-05-20 23:07:38
++++ ./src/com/google/javascript/jscomp/TypeCheck.java	2025-05-20 23:07:38
+@@ -1563,35 +1563,40 @@
+    * that have been visited
+    * @param interfaceType The super interface that is being visited
+    */
+-  private void checkInterfaceConflictProperties(NodeTraversal t, Node n,
+-      String functionName, HashMap<String, ObjectType> properties,
+-      HashMap<String, ObjectType> currentProperties,
+-      ObjectType interfaceType) {
+-    ObjectType implicitProto = interfaceType.getImplicitPrototype();
+-    Set<String> currentPropertyNames;
+-    if (implicitProto == null) {
++  private void checkInterfaceConflictProperties(NodeTraversal TransVarTraversal, Node TransVarNode,
++      String TransVarFunction, HashMap<String, ObjectType> TransVarPropertyMap,
++      HashMap<String, ObjectType> TransVarProperties,
++      ObjectType TransVarNodeObjectType) {
++    if (!(!(false))) {
++            System.out.println("log");
++        }
++    ObjectType TransVarImplicitPrototype = TransVarNodeObjectType.getImplicitPrototype();
++    Set<String> TransVarPropertyNames;
+       // This can be the case if interfaceType is proxy to a non-existent
+       // object (which is a bad type annotation, but shouldn't crash).
+-      currentPropertyNames = ImmutableSet.of();
+-    } else {
+-      currentPropertyNames = implicitProto.getOwnPropertyNames();
++      TransVarPropertyNames = TransVarImplicitPrototype.getOwnPropertyNames();
++    for (String TransVarProperty : TransVarPropertyNames) {
++      if (!(!(false))) {
++            System.out.println("log");
+     }
+-    for (String name : currentPropertyNames) {
+-      ObjectType oType = properties.get(name);
+-      if (oType != null) {
+-        if (!interfaceType.getPropertyType(name).isEquivalentTo(
+-            oType.getPropertyType(name))) {
++    ObjectType TransVarObjectType = TransVarPropertyMap.get(TransVarProperty);
++      if (!(!(TransVarObjectType != null))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(!TransVarNodeObjectType.getPropertyType(TransVarProperty)
++                .isEquivalentTo(TransVarObjectType.getPropertyType(TransVarProperty))))) {
+           compiler.report(
+-              t.makeError(n, INCOMPATIBLE_EXTENDED_PROPERTY_TYPE,
+-                  functionName, name, oType.toString(),
+-                  interfaceType.toString()));
++              TransVarTraversal.makeError(TransVarNode, INCOMPATIBLE_EXTENDED_PROPERTY_TYPE,
++                  TransVarFunction, TransVarProperty, TransVarObjectType.toString(),
++                  TransVarNodeObjectType.toString()));
+         }
+       }
+-      currentProperties.put(name, interfaceType);
++      TransVarProperties.put(TransVarProperty, TransVarNodeObjectType);
+     }
+-    for (ObjectType iType : interfaceType.getCtorExtendedInterfaces()) {
+-      checkInterfaceConflictProperties(t, n, functionName, properties,
+-          currentProperties, iType);
++    for (ObjectType TransVarType : TransVarNodeObjectType.getCtorExtendedInterfaces()) {
++      checkInterfaceConflictProperties(TransVarTraversal, TransVarNode, TransVarFunction, TransVarPropertyMap,
++          TransVarProperties, TransVarType);
+     }
+   }
+ 

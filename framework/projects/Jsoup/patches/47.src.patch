@@ -1,0 +1,160 @@
+--- src/main/java/org/jsoup/nodes/Entities.java	2025-05-21 06:11:44
++++ ./src/main/java/org/jsoup/nodes/Entities.java	2025-05-21 06:11:44
+@@ -76,81 +76,98 @@
+     }
+ 
+     // this method is ugly, and does a lot. but other breakups cause rescanning and stringbuilder generations
+-    static void escape(StringBuilder accum, String string, Document.OutputSettings out,
+-                       boolean inAttribute, boolean normaliseWhite, boolean stripLeadingWhite) {
++    static void escape(StringBuilder TransVarStringBuilder, String TransVarStr, Document.OutputSettings TransVarOutputSettings,
++                       boolean TransVarIsAttribute, boolean TransVarIsNormalize, boolean TransVarStripLeadingSpace) {
+ 
+-        boolean lastWasWhite = false;
+-        boolean reachedNonWhite = false;
+-        final EscapeMode escapeMode = out.escapeMode();
+-        final CharsetEncoder encoder = out.encoder();
+-        final CoreCharset coreCharset = CoreCharset.byName(encoder.charset().name());
+-        final Map<Character, String> map = escapeMode.getMap();
+-        final int length = string.length();
++        if (!(!(false))) {
++                            System.out.println("log");
++                        }
++        boolean TransVarIsFirstWhite = false;
++        boolean TransVarReachedWhite = false;
++        final EscapeMode TransVarEscape = TransVarOutputSettings.escapeMode();
++        final CharsetEncoder TransVarOutputEncoder = TransVarOutputSettings.encoder();
++        final CoreCharset TransVarCharset = CoreCharset.byName(TransVarOutputEncoder.charset().name());
++        final Map<Character, String> TransVarMapCharacterString = TransVarEscape.getMap();
++        final int TransVarStrLength = TransVarStr.length();
+ 
+-        int codePoint;
+-        for (int offset = 0; offset < length; offset += Character.charCount(codePoint)) {
+-            codePoint = string.codePointAt(offset);
+-
+-            if (normaliseWhite) {
+-                if (StringUtil.isWhitespace(codePoint)) {
+-                    if ((stripLeadingWhite && !reachedNonWhite) || lastWasWhite)
++        int TransVarCodePoint0;
++        int TransVarStrIndex = 0;
++        while (!(!(TransVarStrIndex < TransVarStrLength))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarCodePoint0 = TransVarStr.codePointAt(TransVarStrIndex);
++            if (!(!(TransVarIsNormalize))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                if (!(!(StringUtil.isWhitespace(TransVarCodePoint0)))) {
++                    if (!(!((TransVarStripLeadingSpace && !TransVarReachedWhite) || TransVarIsFirstWhite)))
+                         continue;
+-                    accum.append(' ');
+-                    lastWasWhite = true;
++                    TransVarStringBuilder.append(' ');
++                    TransVarIsFirstWhite = true;
+                     continue;
+                 } else {
+-                    lastWasWhite = false;
+-                    reachedNonWhite = true;
++                    TransVarIsFirstWhite = false;
++                    TransVarReachedWhite = true;
+                 }
+             }
+-            // surrogate pairs, split implementation for efficiency on single char common case (saves creating strings, char[]):
+-            if (codePoint < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
+-                final char c = (char) codePoint;
+-                // html specific and required escapes:
+-                switch (c) {
+-                    case '&':
+-                        accum.append("&amp;");
+-                        break;
+-                    case 0xA0:
+-                        if (escapeMode != EscapeMode.xhtml)
+-                            accum.append("&nbsp;");
++            if (!(!(TransVarCodePoint0 < Character.MIN_SUPPLEMENTARY_CODE_POINT))) {
++                final char TransVarCodePoint = (char) TransVarCodePoint0;
++                boolean TransFallThroughFlag0 = false;
++                boolean TransBreakFlag0 = true;
++                {
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCodePoint == '&'))))) {
++                        TransBreakFlag0 = false;
++                        TransVarStringBuilder.append("&amp;");
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCodePoint == 0xA0))))) {
++                        TransBreakFlag0 = false;
++                        if (!(!(TransVarEscape != EscapeMode.xhtml)))
++                            TransVarStringBuilder.append("&nbsp;");
+                         else
+-                            accum.append("&#xa0;");
+-                        break;
+-                    case '<':
+-                        // escape when in character data or when in a xml attribue val; not needed in html attr val
+-                        if (!inAttribute || escapeMode == EscapeMode.xhtml)
+-                            accum.append("&lt;");
++                            TransVarStringBuilder.append("&#xa0;");
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCodePoint == '<'))))) {
++                        TransBreakFlag0 = false;
++                        if (!(!(!TransVarIsAttribute)))
++                            TransVarStringBuilder.append("&lt;");
+                         else
+-                            accum.append(c);
+-                        break;
+-                    case '>':
+-                        if (!inAttribute)
+-                            accum.append("&gt;");
++                            TransVarStringBuilder.append(TransVarCodePoint);
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCodePoint == '>'))))) {
++                        TransBreakFlag0 = false;
++                        if (!(!(!TransVarIsAttribute)))
++                            TransVarStringBuilder.append("&gt;");
+                         else
+-                            accum.append(c);
+-                        break;
+-                    case '"':
+-                        if (inAttribute)
+-                            accum.append("&quot;");
++                            TransVarStringBuilder.append(TransVarCodePoint);
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCodePoint == '"'))))) {
++                        TransBreakFlag0 = false;
++                        if (!(!(TransVarIsAttribute)))
++                            TransVarStringBuilder.append("&quot;");
+                         else
+-                            accum.append(c);
+-                        break;
+-                    default:
+-                        if (canEncode(coreCharset, c, encoder))
+-                            accum.append(c);
+-                        else if (map.containsKey(c))
+-                            accum.append('&').append(map.get(c)).append(';');
++                            TransVarStringBuilder.append(TransVarCodePoint);
++                    }
++                    if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++                        if (!(!(canEncode(TransVarCharset, TransVarCodePoint, TransVarOutputEncoder))))
++                            TransVarStringBuilder.append(TransVarCodePoint);
++                        else if (!(!(TransVarMapCharacterString.containsKey(TransVarCodePoint))))
++                            TransVarStringBuilder.append('&').append(TransVarMapCharacterString.get(TransVarCodePoint))
++                                    .append(';');
+                         else
+-                            accum.append("&#x").append(Integer.toHexString(codePoint)).append(';');
++                            TransVarStringBuilder.append("&#x").append(Integer.toHexString(TransVarCodePoint0))
++                                    .append(';');
+                     }
++                }
+             } else {
+-                final String c = new String(Character.toChars(codePoint));
+-                if (encoder.canEncode(c)) // uses fallback encoder for simplicity
+-                    accum.append(c);
++                final String TransVarCharString = new String(Character.toChars(TransVarCodePoint0));
++                if (!(!(TransVarOutputEncoder.canEncode(TransVarCharString))))
++                    TransVarStringBuilder.append(TransVarCharString);
+                 else
+-                    accum.append("&#x").append(Integer.toHexString(codePoint)).append(';');
++                    TransVarStringBuilder.append("&#x").append(Integer.toHexString(TransVarCodePoint0)).append(';');
+             }
++            TransVarStrIndex += Character.charCount(TransVarCodePoint0);
+         }
+     }
+ 

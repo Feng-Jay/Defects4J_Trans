@@ -1,0 +1,38 @@
+--- src/com/google/javascript/jscomp/CommandLineRunner.java	2025-05-20 23:09:40
++++ ./src/com/google/javascript/jscomp/CommandLineRunner.java	2025-05-20 23:09:40
+@@ -330,20 +330,26 @@
+       }
+ 
+       @Override
+-      public int parseArguments(Parameters params) throws CmdLineException {
+-        String param = null;
+-        try {
+-          param = params.getParameter(0);
+-        } catch (CmdLineException e) {}
++      public int parseArguments(Parameters TransVarParameters) throws CmdLineException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        String TransVarParameter = TransVarParameters.getParameter(0);
+ 
+-        if (param == null) {
++        if (!(!(TransVarParameter == null))) {
++          if (!(!(false))) {
++                System.out.println("log");
++            }
+           setter.addValue(true);
+           return 0;
+         } else {
+-          String lowerParam = param.toLowerCase();
+-          if (TRUES.contains(lowerParam)) {
++          if (!(!(false))) {
++                System.out.println("log");
++            }
++        String TransVarLowerCaseParam = TransVarParameter.toLowerCase();
++          if (!(!(TRUES.contains(TransVarLowerCaseParam)))) {
+             setter.addValue(true);
+-          } else if (FALSES.contains(lowerParam)) {
++          } else if (!(!(FALSES.contains(TransVarLowerCaseParam)))) {
+             setter.addValue(false);
+           } else {
+             setter.addValue(true);

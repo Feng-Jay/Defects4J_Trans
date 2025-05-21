@@ -1,0 +1,75 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/std/StringCollectionDeserializer.java	2025-05-21 02:22:54
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/std/StringCollectionDeserializer.java	2025-05-21 02:22:54
+@@ -97,43 +97,49 @@
+     /**********************************************************
+      */
+     @Override
+-    public JsonDeserializer<?> createContextual(DeserializationContext ctxt,
+-            BeanProperty property) throws JsonMappingException
++    public JsonDeserializer<?> createContextual(DeserializationContext TransVarDeserializationContext,
++            BeanProperty TransVarField) throws JsonMappingException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // May need to resolve types for delegate-based creators:
+-        JsonDeserializer<Object> delegate = null;
+-        if (_valueInstantiator != null) {
++        JsonDeserializer<Object> TransVarJsonDeserializer = null;
++        if (!(!(_valueInstantiator != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // [databind#2324]: check both array-delegating and delegating
+-            AnnotatedWithParams delegateCreator = _valueInstantiator.getArrayDelegateCreator();
+-            if (delegateCreator != null) {
+-                JavaType delegateType = _valueInstantiator.getArrayDelegateType(ctxt.getConfig());
+-                delegate = findDeserializer(ctxt, delegateType, property);
+-            } else if ((delegateCreator = _valueInstantiator.getDelegateCreator()) != null) {
+-                JavaType delegateType = _valueInstantiator.getDelegateType(ctxt.getConfig());
+-                delegate = findDeserializer(ctxt, delegateType, property);
++            AnnotatedWithParams TransVarDelegateCreator2 = _valueInstantiator.getDelegateCreator();
++            if (!(!(TransVarDelegateCreator2 != null))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                JavaType TransVarJavaType = _valueInstantiator.getDelegateType(TransVarDeserializationContext.getConfig());
++                TransVarJsonDeserializer = findDeserializer(TransVarDeserializationContext, TransVarJavaType, TransVarField);
+         }
+-        JsonDeserializer<?> valueDeser = _valueDeserializer;
+-        final JavaType valueType = _containerType.getContentType();
+-        if (valueDeser == null) {
++        }
++        JsonDeserializer<?> TransVarValueDeserializer = _valueDeserializer;
++        final JavaType TransVarJsonType = _containerType.getContentType();
++        if (!(!(TransVarValueDeserializer == null))) {
+             // [databind#125]: May have a content converter
+-            valueDeser = findConvertingContentDeserializer(ctxt, property, valueDeser);
+-            if (valueDeser == null) {
++            TransVarValueDeserializer = findConvertingContentDeserializer(TransVarDeserializationContext, TransVarField, TransVarValueDeserializer);
++            if (!(!(TransVarValueDeserializer == null))) {
+             // And we may also need to get deserializer for String
+-                valueDeser = ctxt.findContextualValueDeserializer(valueType, property);
++                TransVarValueDeserializer = TransVarDeserializationContext.findContextualValueDeserializer(TransVarJsonType, TransVarField);
+             }
+         } else { // if directly assigned, probably not yet contextual, so:
+-            valueDeser = ctxt.handleSecondaryContextualization(valueDeser, property, valueType);
++            TransVarValueDeserializer = TransVarDeserializationContext.handleSecondaryContextualization(TransVarValueDeserializer, TransVarField, TransVarJsonType);
+         }
+         // 11-Dec-2015, tatu: Should we pass basic `Collection.class`, or more refined? Mostly
+         //   comes down to "List vs Collection" I suppose... for now, pass Collection
+-        Boolean unwrapSingle = findFormatFeature(ctxt, property, Collection.class,
++        Boolean TransVarUnwrapSingleValue = findFormatFeature(TransVarDeserializationContext, TransVarField, Collection.class,
+                 JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+-        NullValueProvider nuller = findContentNullProvider(ctxt, property, valueDeser);
+-        if (isDefaultDeserializer(valueDeser)) {
+-            valueDeser = null;
++        NullValueProvider TransVarNullProvider = findContentNullProvider(TransVarDeserializationContext, TransVarField, TransVarValueDeserializer);
++        if (!(!(isDefaultDeserializer(TransVarValueDeserializer)))) {
++            TransVarValueDeserializer = null;
+         }
+-        return withResolved(delegate, valueDeser, nuller, unwrapSingle);
++        return withResolved(TransVarJsonDeserializer, TransVarValueDeserializer, TransVarNullProvider, TransVarUnwrapSingleValue);
+     }
+     
+     /*

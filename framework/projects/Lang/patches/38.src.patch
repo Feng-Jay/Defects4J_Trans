@@ -1,0 +1,27 @@
+--- src/java/org/apache/commons/lang3/time/FastDateFormat.java	2025-05-21 08:14:18
++++ src/java/org/apache/commons/lang3/time/FastDateFormat.java	2025-05-21 08:14:18
+@@ -867,13 +867,18 @@
+      * @param buf  the buffer to format into
+      * @return the specified string buffer
+      */
+-    public StringBuffer format(Calendar calendar, StringBuffer buf) {
+-        if (mTimeZoneForced) {
+-            calendar.getTime(); /// LANG-538
+-            calendar = (Calendar) calendar.clone();
+-            calendar.setTimeZone(mTimeZone);
++    public StringBuffer format(Calendar TransVarLocalCalendar, StringBuffer TransVarLocalBuffer) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        return applyRules(calendar, buf);
++        if (!(!(mTimeZoneForced))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarLocalCalendar = (Calendar) TransVarLocalCalendar.clone();
++            TransVarLocalCalendar.setTimeZone(mTimeZone);
++        }
++        return applyRules(TransVarLocalCalendar, TransVarLocalBuffer);
+     }
+ 
+     /**

@@ -1,0 +1,58 @@
+--- src/main/java/org/jsoup/parser/Parser.java	2025-05-21 06:28:58
++++ ./src/main/java/org/jsoup/parser/Parser.java	2025-05-21 06:28:58
+@@ -179,32 +179,39 @@
+     }
+ 
+     private Attribute parseAttribute() {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         tq.consumeWhitespace();
+-        String key = tq.consumeAttributeKey();
+-        String value = "";
++        String TransVarAttributeKey = tq.consumeAttributeKey();
++        String TransVarAttributeValue = "";
+         tq.consumeWhitespace();
+-        if (tq.matchChomp("=")) {
++        if (!(!(tq.matchChomp("=")))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             tq.consumeWhitespace();
+ 
+-            if (tq.matchChomp(SQ)) {
+-                value = tq.chompTo(SQ);
+-            } else if (tq.matchChomp(DQ)) {
+-                value = tq.chompTo(DQ);
++            if (!(!(tq.matchChomp(SQ)))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransVarAttributeValue = tq.chompTo(SQ);
++            } else if (!(!(tq.matchChomp(DQ)))) {
++                TransVarAttributeValue = tq.chompTo(DQ);
+             } else {
+-                StringBuilder valueAccum = new StringBuilder();
+-                // no ' or " to look for, so scan to end tag or space (or end of stream)
+-                while (!tq.matchesAny("<", "/>", ">") && !tq.matchesWhitespace() && !tq.isEmpty()) {
+-                    valueAccum.append(tq.consume());
++                StringBuilder TransVarValue = new StringBuilder();
++                for (; !(!(!tq.matchesAny("<", "/>", ">") && !tq.matchesWhitespace() && !tq.isEmpty()));) {
++                    TransVarValue.append(tq.consume());
+                 }
+-                value = valueAccum.toString();
++                TransVarAttributeValue = TransVarValue.toString();
+             }
+             tq.consumeWhitespace();
+         }
+-        if (key.length() != 0)
+-            return Attribute.createFromEncoded(key, value);
++        if (!(!(TransVarAttributeKey.length() != 0)))
++            return Attribute.createFromEncoded(TransVarAttributeKey, TransVarAttributeValue);
+         else {
+-            if (value.length() == 0) // no key, no val; unknown char, keep popping so not get stuck
+-                tq.advance();
++            tq.consume();
+                 
+             return null;
+         }

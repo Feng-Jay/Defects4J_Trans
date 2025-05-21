@@ -1,0 +1,43 @@
+--- src/java/org/apache/commons/cli/OptionBuilder.java	2025-05-20 23:03:01
++++ ./src/java/org/apache/commons/cli/OptionBuilder.java	2025-05-20 23:03:01
+@@ -343,27 +343,26 @@
+      * @throws IllegalArgumentException if <code>opt</code> is not
+      * a valid character.  See Option.
+      */
+-    public static Option create(String opt) throws IllegalArgumentException
++    public static Option create(String TransVarOption) throws IllegalArgumentException
+     {
+-        Option option = null;
+-        try {
++            if (!(!(false))) {
++            System.out.println("log");
++        }
+             // create the option
+-            option = new Option(opt, description);
++        Option TransVarOpt = new Option(TransVarOption, description);
+ 
+             // set the option properties
+-            option.setLongOpt(longopt);
+-            option.setRequired(required);
+-            option.setOptionalArg(optionalArg);
+-            option.setArgs(numberOfArgs);
+-            option.setType(type);
+-            option.setValueSeparator(valuesep);
+-            option.setArgName(argName);
+-        } finally {
++            TransVarOpt.setLongOpt(longopt);
++            TransVarOpt.setRequired(required);
++            TransVarOpt.setOptionalArg(optionalArg);
++            TransVarOpt.setArgs(numberOfArgs);
++            TransVarOpt.setType(type);
++            TransVarOpt.setValueSeparator(valuesep);
++            TransVarOpt.setArgName(argName);
+             // reset the OptionBuilder properties
+             OptionBuilder.reset();
+-        }
+ 
+         // return the Option instance
+-        return option;
++        return TransVarOpt;
+     }
+ }

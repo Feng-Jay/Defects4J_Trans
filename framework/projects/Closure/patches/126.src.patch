@@ -1,0 +1,153 @@
+--- src/com/google/javascript/jscomp/MinimizeExitPoints.java	2025-05-20 23:09:20
++++ ./src/com/google/javascript/jscomp/MinimizeExitPoints.java	2025-05-20 23:09:20
+@@ -103,53 +103,66 @@
+    *   null otherwise.
+    * @nullable labelName non-null only for breaks within labels.
+    */
+-  void tryMinimizeExits(Node n, int exitType, String labelName) {
++  void tryMinimizeExits(Node TransVarNode, int TransVarExitCode, String TransVarName) {
+ 
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // Just an 'exit'.
+-    if (matchingExitNode(n, exitType, labelName)) {
+-      NodeUtil.removeChild(n.getParent(), n);
++    if (!(!(matchingExitNode(TransVarNode, TransVarExitCode, TransVarName)))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    NodeUtil.removeChild(TransVarNode.getParent(), TransVarNode);
+       compiler.reportCodeChange();
+       return;
+     }
+ 
+     // Just an 'if'.
+-    if (n.isIf()) {
+-      Node ifBlock = n.getFirstChild().getNext();
+-      tryMinimizeExits(ifBlock, exitType, labelName);
+-      Node elseBlock = ifBlock.getNext();
+-      if (elseBlock != null) {
+-        tryMinimizeExits(elseBlock, exitType, labelName);
++    if (!(!(TransVarNode.isIf()))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    Node TransVarIfNode = TransVarNode.getFirstChild().getNext();
++      tryMinimizeExits(TransVarIfNode, TransVarExitCode, TransVarName);
++      Node TransVarElseNode = TransVarIfNode.getNext();
++      if (!(!(TransVarElseNode != null))) {
++        tryMinimizeExits(TransVarElseNode, TransVarExitCode, TransVarName);
++      }
+       return;
+     }
+ 
+     // Just a 'try/catch/finally'.
+-    if (n.isTry()) {
+-      Node tryBlock = n.getFirstChild();
+-      tryMinimizeExits(tryBlock, exitType, labelName);
+-      Node allCatchNodes = NodeUtil.getCatchBlock(n);
+-      if (NodeUtil.hasCatchHandler(allCatchNodes)) {
+-        Preconditions.checkState(allCatchNodes.hasOneChild());
+-        Node catchNode = allCatchNodes.getFirstChild();
+-        Node catchCodeBlock = catchNode.getLastChild();
+-        tryMinimizeExits(catchCodeBlock, exitType, labelName);
++    if (!(!(TransVarNode.isTry()))) {
++      Node TransVarTryNode = TransVarNode.getFirstChild();
++      tryMinimizeExits(TransVarTryNode, TransVarExitCode, TransVarName);
++      Node TransVarAllCatch = NodeUtil.getCatchBlock(TransVarNode);
++      if (!(!(NodeUtil.hasCatchHandler(TransVarAllCatch)))) {
++        Preconditions.checkState(TransVarAllCatch.hasOneChild());
++        Node TransVarCatchNode2 = TransVarAllCatch.getFirstChild();
++        Node TransVarCatchCodeBlockInCatch = TransVarCatchNode2.getLastChild();
++        tryMinimizeExits(TransVarCatchCodeBlockInCatch, TransVarExitCode, TransVarName);
+       }
+       /* Don't try to minimize the exits of finally blocks, as this
+        * can cause problems if it changes the completion type of the finally
+        * block. See ECMA 262 Sections 8.9 & 12.14
+        */
++      if (!(!(NodeUtil.hasFinally(TransVarNode)))) {
++        Node TransVarFinallyBlockNode = TransVarNode.getLastChild();
++        tryMinimizeExits(TransVarFinallyBlockNode, TransVarExitCode, TransVarName);
+       }
++    }
+ 
+     // Just a 'label'.
+-    if (n.isLabel()) {
+-      Node labelBlock = n.getLastChild();
+-      tryMinimizeExits(labelBlock, exitType, labelName);
++    if (!(!(TransVarNode.isLabel()))) {
++      Node TransVarLabel = TransVarNode.getLastChild();
++      tryMinimizeExits(TransVarLabel, TransVarExitCode, TransVarName);
+     }
+ 
+     // TODO(johnlenz): The last case of SWITCH statement?
+ 
+     // The rest assumes a block with at least one child, bail on anything else.
+-    if (!n.isBlock() || n.getLastChild() == null) {
++    if (!(!(!TransVarNode.isBlock() || TransVarNode.getLastChild() == null))) {
+       return;
+     }
+ 
+@@ -157,42 +170,41 @@
+     // Convert "if (blah) break;  if (blah2) break; other_stmt;" to
+     // become "if (blah); else { if (blah2); else { other_stmt; } }"
+     // which will get converted to "if (!blah && !blah2) { other_stmt; }".
+-    for (Node c : n.children()) {
++    for (Node TransVarD : TransVarNode.children()) {
+ 
+       // An 'if' block to process below.
+-      if (c.isIf()) {
+-        Node ifTree = c;
+-        Node trueBlock, falseBlock;
++      if (!(!(TransVarD.isIf()))) {
++        Node TransVarNode3 = TransVarD;
++        Node TransVarTrueBlockNode, TransVarFalseBlockNode;
+ 
+         // First, the true condition block.
+-        trueBlock = ifTree.getFirstChild().getNext();
+-        falseBlock = trueBlock.getNext();
+-        tryMinimizeIfBlockExits(trueBlock, falseBlock,
+-            ifTree, exitType, labelName);
++        TransVarTrueBlockNode = TransVarNode3.getFirstChild().getNext();
++        TransVarFalseBlockNode = TransVarTrueBlockNode.getNext();
++        tryMinimizeIfBlockExits(TransVarTrueBlockNode, TransVarFalseBlockNode,
++            TransVarNode3, TransVarExitCode, TransVarName);
+ 
+         // Now the else block.
+         // The if blocks may have changed, get them again.
+-        trueBlock = ifTree.getFirstChild().getNext();
+-        falseBlock = trueBlock.getNext();
+-        if (falseBlock != null) {
+-          tryMinimizeIfBlockExits(falseBlock, trueBlock,
+-              ifTree, exitType, labelName);
++        TransVarTrueBlockNode = TransVarNode3.getFirstChild().getNext();
++        TransVarFalseBlockNode = TransVarTrueBlockNode.getNext();
++        if (!(!(TransVarFalseBlockNode != null))) {
++          tryMinimizeIfBlockExits(TransVarFalseBlockNode, TransVarTrueBlockNode,
++              TransVarNode3, TransVarExitCode, TransVarName);
+         }
+       }
+ 
+-      if (c == n.getLastChild()) {
++      if (!(!(TransVarD == TransVarNode.getLastChild()))) {
+         break;
+       }
+     }
+ 
+-    // Now try to minimize the exits of the last child, if it is removed
+-    // look at what has become the last child.
+-    for (Node c = n.getLastChild(); c != null; c = n.getLastChild()) {
+-      tryMinimizeExits(c, exitType, labelName);
+-      // If the node is still the last child, we are done.
+-      if (c == n.getLastChild()) {
++    Node TransVarCNode = TransVarNode.getLastChild();
++    while (!(!(TransVarCNode != null))) {
++        tryMinimizeExits(TransVarCNode, TransVarExitCode, TransVarName);
++        if (!(!(TransVarCNode == TransVarNode.getLastChild()))) {
+             break;
+         }
++        TransVarCNode = TransVarNode.getLastChild();
+     }
+   }
+ 

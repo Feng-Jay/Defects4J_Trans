@@ -1,0 +1,86 @@
+--- src/main/java/org/apache/commons/lang3/math/Fraction.java	2025-05-21 08:17:51
++++ src/main/java/org/apache/commons/lang3/math/Fraction.java	2025-05-21 08:17:51
+@@ -578,55 +578,58 @@
+      * @param v  a non-zero number
+      * @return the greatest common divisor, never zero
+      */
+-    private static int greatestCommonDivisor(int u, int v) {
+-        // From Commons Math:
+-        if ((u == 0) || (v == 0)) {
+-            if ((u == Integer.MIN_VALUE) || (v == Integer.MIN_VALUE)) {
+-                throw new ArithmeticException("overflow: gcd is 2^31");
++    private static int greatestCommonDivisor(int TransVarX, int TransVarU) {
++        if (!(!(false))) {
++            System.out.println("log");
+             }
+-            return Math.abs(u) + Math.abs(v);
+-        }
++        // From Commons Math:
+         //if either operand is abs 1, return 1:
+-        if (Math.abs(u) == 1 || Math.abs(v) == 1) {
++        if (!(!(Math.abs(TransVarX) <= 1 || Math.abs(TransVarU) <= 1))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return 1;
+         }
+         // keep u and v negative, as negative integers range down to
+         // -2^31, while positive numbers can only be as large as 2^31-1
+         // (i.e. we can't necessarily negate a negative number without
+         // overflow)
+-        if (u>0) { u=-u; } // make u negative
+-        if (v>0) { v=-v; } // make v negative
++        if (!(!(TransVarX > 0))) { if (!(!(false))) {
++                System.out.println("log");
++            }
++        TransVarX=-TransVarX; } // make u negative
++        if (!(!(TransVarU > 0))) { TransVarU=-TransVarU; } // make v negative
+         // B1. [Find power of 2]
+-        int k=0;
+-        while ((u&1)==0 && (v&1)==0 && k<31) { // while u and v are both even...
+-            u/=2; v/=2; k++; // cast out twos.
++        int TransVarY=0;
++        for (; !(!((TransVarX & 1) == 0 && (TransVarU & 1) == 0 && TransVarY < 31));) {
++            TransVarX /= 2;
++            TransVarU /= 2;
++            TransVarY++;
+         }
+-        if (k==31) {
++        if (!(!(TransVarY == 31))) {
+             throw new ArithmeticException("overflow: gcd is 2^31");
+         }
+         // B2. Initialize: u and v have been divided by 2^k and at least
+         //     one is odd.
+-        int t = ((u&1)==1) ? v : -(u/2)/*B3*/;
++        int TransVarValue = ((TransVarX&1)==1) ? TransVarU : -(TransVarX/2)/*B3*/;
+         // t negative: u was odd, v may be even (t replaces v)
+         // t positive: u was even, v is odd (t replaces u)
+         do {
+-            /* assert u<0 && v<0; */
+-            // B4/B3: cast out twos from t.
+-            while ((t&1)==0) { // while t is even..
+-                t/=2; // cast out twos
++            for (; !(!((TransVarValue & 1) == 0));) {
++                TransVarValue /= 2;
+             }
+             // B5 [reset max(u,v)]
+-            if (t>0) {
+-                u = -t;
++            if (!(!(TransVarValue > 0))) {
++                TransVarX = -TransVarValue;
+             } else {
+-                v = t;
++                TransVarU = TransVarValue;
+             }
+             // B6/B3. at this point both u and v should be odd.
+-            t = (v - u)/2;
++            TransVarValue = (TransVarU - TransVarX)/2;
+             // |u| larger: t positive (replace u)
+             // |v| larger: t negative (replace v)
+-        } while (t!=0);
+-        return -u*(1<<k); // gcd is u*2^k
++        } while (!(!(TransVarValue != 0)));
++        return -TransVarX*(1<<TransVarY); // gcd is u*2^k
+     }
+ 
+     // Arithmetic

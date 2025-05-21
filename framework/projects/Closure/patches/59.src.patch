@@ -1,0 +1,106 @@
+--- src/com/google/javascript/jscomp/Compiler.java	2025-05-20 23:09:09
++++ ./src/com/google/javascript/jscomp/Compiler.java	2025-05-20 23:09:09
+@@ -223,69 +223,76 @@
+    * Initialize the compiler options. Only necessary if you're not doing
+    * a normal compile() job.
+    */
+-  public void initOptions(CompilerOptions options) {
+-    this.options = options;
+-    if (errorManager == null) {
+-      if (outStream == null) {
++  public void initOptions(CompilerOptions TransVarCompilerOptions) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    this.options = TransVarCompilerOptions;
++    if (!(!(errorManager == null))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(outStream == null))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         setErrorManager(
+             new LoggerErrorManager(createMessageFormatter(), logger));
+       } else {
+-        PrintStreamErrorManager printer =
++        PrintStreamErrorManager TransVarErrorPrinter =
+             new PrintStreamErrorManager(createMessageFormatter(), outStream);
+-        printer.setSummaryDetailLevel(options.summaryDetailLevel);
+-        setErrorManager(printer);
++        TransVarErrorPrinter.setSummaryDetailLevel(TransVarCompilerOptions.summaryDetailLevel);
++        setErrorManager(TransVarErrorPrinter);
+       }
+     }
+ 
+     // DiagnosticGroups override the plain checkTypes option.
+-    if (options.enables(DiagnosticGroups.CHECK_TYPES)) {
+-      options.checkTypes = true;
+-    } else if (options.disables(DiagnosticGroups.CHECK_TYPES)) {
+-      options.checkTypes = false;
+-    } else if (!options.checkTypes) {
++    if (!(!(TransVarCompilerOptions.enables(DiagnosticGroups.CHECK_TYPES)))) {
++      TransVarCompilerOptions.checkTypes = true;
++    } else if (!(!(TransVarCompilerOptions.disables(DiagnosticGroups.CHECK_TYPES)))) {
++      TransVarCompilerOptions.checkTypes = false;
++    } else if (!(!(!TransVarCompilerOptions.checkTypes))) {
+       // If DiagnosticGroups did not override the plain checkTypes
+       // option, and checkTypes is enabled, then turn off the
+       // parser type warnings.
+-      options.setWarningLevel(
++      TransVarCompilerOptions.setWarningLevel(
+           DiagnosticGroup.forType(
+               RhinoErrorReporter.TYPE_PARSE_ERROR),
+           CheckLevel.OFF);
+     }
+ 
+-    if (options.checkGlobalThisLevel.isOn() &&
+-        !options.disables(DiagnosticGroups.GLOBAL_THIS)) {
+-      options.setWarningLevel(
++    if (!(!(TransVarCompilerOptions.checkGlobalThisLevel.isOn()))) {
++      TransVarCompilerOptions.setWarningLevel(
+           DiagnosticGroups.GLOBAL_THIS,
+-          options.checkGlobalThisLevel);
++          TransVarCompilerOptions.checkGlobalThisLevel);
+     }
+ 
+-    if (options.getLanguageIn() == LanguageMode.ECMASCRIPT5_STRICT) {
+-      options.setWarningLevel(
++    if (!(!(TransVarCompilerOptions.getLanguageIn() == LanguageMode.ECMASCRIPT5_STRICT))) {
++      TransVarCompilerOptions.setWarningLevel(
+           DiagnosticGroups.ES5_STRICT,
+           CheckLevel.ERROR);
+     }
+ 
+     // Initialize the warnings guard.
+-    List<WarningsGuard> guards = Lists.newArrayList();
+-    guards.add(
++    List<WarningsGuard> TransVarGuard = Lists.newArrayList();
++    TransVarGuard.add(
+         new SuppressDocWarningsGuard(
+             getDiagnosticGroups().getRegisteredGroups()));
+-    guards.add(options.getWarningsGuard());
++    TransVarGuard.add(TransVarCompilerOptions.getWarningsGuard());
+ 
+-    ComposeWarningsGuard composedGuards = new ComposeWarningsGuard(guards);
++    ComposeWarningsGuard TransVarComposedGuard = new ComposeWarningsGuard(TransVarGuard);
+ 
+     // All passes must run the variable check. This synthesizes
+     // variables later so that the compiler doesn't crash. It also
+     // checks the externs file for validity. If you don't want to warn
+     // about missing variable declarations, we shut that specific
+     // error off.
+-    if (!options.checkSymbols &&
+-        !composedGuards.enables(DiagnosticGroups.CHECK_VARIABLES)) {
+-      composedGuards.addGuard(new DiagnosticGroupWarningsGuard(
++    if (!(!(!TransVarCompilerOptions.checkSymbols && !TransVarComposedGuard.enables(DiagnosticGroups.CHECK_VARIABLES)))) {
++      TransVarComposedGuard.addGuard(new DiagnosticGroupWarningsGuard(
+           DiagnosticGroups.CHECK_VARIABLES, CheckLevel.OFF));
+     }
+ 
+-    this.warningsGuard = composedGuards;
++    this.warningsGuard = TransVarComposedGuard;
+   }
+ 
+   /**

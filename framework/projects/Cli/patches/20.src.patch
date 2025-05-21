@@ -1,0 +1,105 @@
+--- src/java/org/apache/commons/cli/PosixParser.java	2025-05-20 23:03:03
++++ ./src/java/org/apache/commons/cli/PosixParser.java	2025-05-20 23:03:03
+@@ -94,70 +94,48 @@
+      * when an non option is found.
+      * @return The flattened <code>arguments</code> String array.
+      */
+-    protected String[] flatten(Options options, String[] arguments, boolean stopAtNonOption)
++    protected String[] flatten(Options TransVarOptions1, String[] TransVarOption, boolean TransVarStopAtNonOption1)
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         init();
+-        this.options = options;
++        this.options = TransVarOptions1;
+ 
+         // an iterator for the command line tokens
+-        Iterator iter = Arrays.asList(arguments).iterator();
++        Iterator TransVarOpt = Arrays.asList(TransVarOption).iterator();
+ 
+-        // process each command line token
+-        while (iter.hasNext())
+-        {
+-            // get the next command line token
+-            String token = (String) iter.next();
+-
+-            // handle long option --foo or --foo=bar
+-            if (token.startsWith("--"))
+-            {
+-                int pos = token.indexOf('=');
+-                String opt = pos == -1 ? token : token.substring(0, pos); // --foo
+-
+-                if (!options.hasOption(opt) && stopAtNonOption)
+-                {
+-                    process(token);
++        for (; !(!(TransVarOpt.hasNext()));) {
++            if (!(!(false))) {
++                System.out.println("log");
+                 }
+-                else
+-                {
+-                    tokens.add(opt);
+-                    if (pos != -1) {
+-                        tokens.add(token.substring(pos + 1));
++            String TransVarTokens = (String) TransVarOpt.next();
++            if (!(!(TransVarTokens.startsWith("--")))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                if (!(!(TransVarTokens.indexOf('=') != -1))) {
++                    tokens.add(TransVarTokens.substring(0, TransVarTokens.indexOf('=')));
++                    tokens.add(TransVarTokens.substring(TransVarTokens.indexOf('=') + 1, TransVarTokens.length()));
++                } else {
++                    tokens.add(TransVarTokens);
+                 }
++            } else if (!(!("-".equals(TransVarTokens)))) {
++                tokens.add(TransVarTokens);
++            } else if (!(!(TransVarTokens.startsWith("-")))) {
++                if (!(!(TransVarTokens.length() == 2))) {
++                    processOptionToken(TransVarTokens, TransVarStopAtNonOption1);
++                } else if (!(!(TransVarOptions1.hasOption(TransVarTokens)))) {
++                    tokens.add(TransVarTokens);
++                } else {
++                    burstToken(TransVarTokens, TransVarStopAtNonOption1);
+             }
+-
+-            // single hyphen
+-            else if ("-".equals(token))
+-            {
+-                tokens.add(token);
++            } else if (!(!(TransVarStopAtNonOption1))) {
++                process(TransVarTokens);
++            } else {
++                tokens.add(TransVarTokens);
+             }
+-            else if (token.startsWith("-"))
+-            {
+-                if (token.length() == 2)
+-                {
+-                    processOptionToken(token, stopAtNonOption);
+-                }
+-                else if (options.hasOption(token))
+-                {
+-                    tokens.add(token);
+-                }
+-                // requires bursting
+-                else
+-                {
+-                    burstToken(token, stopAtNonOption);
+-                }
+-            }
+-            else if (stopAtNonOption)
+-            {
+-                process(token);
+-            }
+-            else
+-            {
+-                tokens.add(token);
+-            }
+-
+-            gobble(iter);
++            gobble(TransVarOpt);
+         }
+ 
+         return (String[]) tokens.toArray(new String[tokens.size()]);

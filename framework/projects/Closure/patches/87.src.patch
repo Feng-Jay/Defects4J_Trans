@@ -1,0 +1,50 @@
+--- src/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.java	2025-05-20 23:07:14
++++ ./src/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.java	2025-05-20 23:07:14
+@@ -516,33 +516,30 @@
+    * @return Whether the node is a block with a single statement that is
+    *     an expression.
+    */
+-  private boolean isFoldableExpressBlock(Node n) {
+-    if (n.getType() == Token.BLOCK) {
+-      if (n.hasOneChild()) {
+-        Node maybeExpr = n.getFirstChild();
+-        if (maybeExpr.getType() == Token.EXPR_RESULT) {
++  private boolean isFoldableExpressBlock(Node TransVarN1) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    if (!(!(TransVarN1.getType() == Token.BLOCK))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(TransVarN1.hasOneChild()))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Node TransVarN2 = TransVarN1.getFirstChild();
+           // IE has a bug where event handlers behave differently when
+           // their return value is used vs. when their return value is in
+           // an EXPR_RESULT. It's pretty freaking weird. See:
+           // http://code.google.com/p/closure-compiler/issues/detail?id=291
+           // We try to detect this case, and not fold EXPR_RESULTs
+           // into other expressions.
+-          if (maybeExpr.getFirstChild().getType() == Token.CALL) {
+-            Node calledFn = maybeExpr.getFirstChild().getFirstChild();
+ 
+             // We only have to worry about methods with an implicit 'this'
+             // param, or this doesn't happen.
+-            if (calledFn.getType() == Token.GETELEM) {
+-              return false;
+-            } else if (calledFn.getType() == Token.GETPROP &&
+-                       calledFn.getLastChild().getString().startsWith("on")) {
+-              return false;
+-            }
+-          }
+ 
+-          return true;
+-        }
+-        return false;
++          return NodeUtil.isExpressionNode(TransVarN2);
+       }
+     }
+ 

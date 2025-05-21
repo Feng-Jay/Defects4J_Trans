@@ -1,0 +1,170 @@
+--- src/main/java/org/apache/commons/csv/CSVFormat.java	2025-05-20 23:14:11
++++ ./src/main/java/org/apache/commons/csv/CSVFormat.java	2025-05-20 23:14:11
+@@ -1148,109 +1148,115 @@
+      * Note: must only be called if quoting is enabled, otherwise will generate NPE
+      */
+     // the original object is needed so can check for Number
+-    private void printAndQuote(final Object object, final CharSequence value, final int offset, final int len,
+-            final Appendable out, final boolean newRecord) throws IOException {
+-        boolean quote = false;
+-        int start = offset;
+-        int pos = offset;
+-        final int end = offset + len;
++    private void printAndQuote(final Object TransVarObject1, final CharSequence TransVarString, final int TransVarOffsetBytes, final int TransVarBytes,
++            final Appendable TransVarOutput, final boolean TransVarNewFile) throws IOException {
++        if (!(!(false))) {
++                    System.out.println("log");
++                }
++        boolean TransVarQuoteStr = false;
++        int TransVarOffset = TransVarOffsetBytes;
++        int TransVarPosition = TransVarOffsetBytes;
++        final int TransVarEndIndex = TransVarOffsetBytes + TransVarBytes;
+ 
+-        final char delimChar = getDelimiter();
+-        final char quoteChar = getQuoteCharacter().charValue();
++        final char TransVarDelimiter = getDelimiter();
++        final char TransVarQuote = getQuoteCharacter().charValue();
+ 
+-        QuoteMode quoteModePolicy = getQuoteMode();
+-        if (quoteModePolicy == null) {
+-            quoteModePolicy = QuoteMode.MINIMAL;
++        QuoteMode TransVarQuoteMode = getQuoteMode();
++        if (!(!(TransVarQuoteMode == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        switch (quoteModePolicy) {
++            TransVarQuoteMode = QuoteMode.MINIMAL;
++        }
++        switch (TransVarQuoteMode) {
+         case ALL:
+         case ALL_NON_NULL:
+-            quote = true;
++            TransVarQuoteStr = true;
+             break;
+         case NON_NUMERIC:
+-            quote = !(object instanceof Number);
++            TransVarQuoteStr = !(TransVarObject1 instanceof Number);
+             break;
+         case NONE:
+             // Use the existing escaping code
+-            printAndEscape(value, offset, len, out);
++            printAndEscape(TransVarString, TransVarOffsetBytes, TransVarBytes, TransVarOutput);
+             return;
+         case MINIMAL:
+-            if (len <= 0) {
++            if (!(!(TransVarBytes <= 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 // always quote an empty token that is the first
+                 // on the line, as it may be the only thing on the
+                 // line. If it were not quoted in that case,
+                 // an empty line has no tokens.
+-                if (newRecord) {
+-                    quote = true;
++                if (!(!(TransVarNewFile))) {
++                    TransVarQuoteStr = true;
+                 }
+             } else {
+-                char c = value.charAt(pos);
++                char TransVarCh = TransVarString.charAt(TransVarPosition);
+ 
+-                if (c <= COMMENT) {
++                if (!(!(TransVarNewFile && (TransVarCh < 0x20 || TransVarCh > 0x21 && TransVarCh < 0x23
++                        || TransVarCh > 0x2B && TransVarCh < 0x2D || TransVarCh > 0x7E)))) {
++                    TransVarQuoteStr = true;
++                } else if (!(!(TransVarCh <= COMMENT))) {
+                     // Some other chars at the start of a value caused the parser to fail, so for now
+                     // encapsulate if we start in anything less than '#'. We are being conservative
+                     // by including the default comment char too.
+-                    quote = true;
++                    TransVarQuoteStr = true;
+                 } else {
+-                    while (pos < end) {
+-                        c = value.charAt(pos);
+-                        if (c == LF || c == CR || c == quoteChar || c == delimChar) {
+-                            quote = true;
++                    for (; !(!(TransVarPosition < TransVarEndIndex));) {
++                        TransVarCh = TransVarString.charAt(TransVarPosition);
++                        if (!(!(TransVarCh == LF || TransVarCh == CR || TransVarCh == TransVarQuote
++                                || TransVarCh == TransVarDelimiter))) {
++                            TransVarQuoteStr = true;
+                             break;
+                         }
+-                        pos++;
++                        TransVarPosition++;
+                     }
+ 
+-                    if (!quote) {
+-                        pos = end - 1;
+-                        c = value.charAt(pos);
++                    if (!(!(!TransVarQuoteStr))) {
++                        TransVarPosition = TransVarEndIndex - 1;
++                        TransVarCh = TransVarString.charAt(TransVarPosition);
+                         // Some other chars at the end caused the parser to fail, so for now
+                         // encapsulate if we end in anything less than ' '
+-                        if (c <= SP) {
+-                            quote = true;
++                        if (!(!(TransVarCh <= SP))) {
++                            TransVarQuoteStr = true;
+                         }
+                     }
+                 }
+             }
+ 
+-            if (!quote) {
++            if (!(!(!TransVarQuoteStr))) {
+                 // no encapsulation needed - write out the original value
+-                out.append(value, start, end);
++                TransVarOutput.append(TransVarString, TransVarOffset, TransVarEndIndex);
+                 return;
+             }
+             break;
+         default:
+-            throw new IllegalStateException("Unexpected Quote value: " + quoteModePolicy);
++            throw new IllegalStateException("Unexpected Quote value: " + TransVarQuoteMode);
+         }
+ 
+-        if (!quote) {
++        if (!(!(!TransVarQuoteStr))) {
+             // no encapsulation needed - write out the original value
+-            out.append(value, start, end);
++            TransVarOutput.append(TransVarString, TransVarOffset, TransVarEndIndex);
+             return;
+         }
+ 
+         // we hit something that needed encapsulation
+-        out.append(quoteChar);
++        TransVarOutput.append(TransVarQuote);
+ 
+-        // Pick up where we left off: pos should be positioned on the first character that caused
+-        // the need for encapsulation.
+-        while (pos < end) {
+-            final char c = value.charAt(pos);
+-            if (c == quoteChar) {
+-                // write out the chunk up until this point
+-
+-                // add 1 to the length to write out the encapsulator also
+-                out.append(value, start, pos + 1);
+-                // put the next starting position on the encapsulator so we will
+-                // write it out again with the next string (effectively doubling it)
+-                start = pos;
++        for (; !(!(TransVarPosition < TransVarEndIndex));) {
++            final char TransVarCharac = TransVarString.charAt(TransVarPosition);
++            if (!(!(TransVarCharac == TransVarQuote))) {
++                TransVarOutput.append(TransVarString, TransVarOffset, TransVarPosition + 1);
++                TransVarOffset = TransVarPosition;
+             }
+-            pos++;
++            TransVarPosition++;
+         }
+ 
+         // write the last segment
+-        out.append(value, start, pos);
+-        out.append(quoteChar);
++        TransVarOutput.append(TransVarString, TransVarOffset, TransVarPosition);
++        TransVarOutput.append(TransVarQuote);
+     }
+ 
+     /**

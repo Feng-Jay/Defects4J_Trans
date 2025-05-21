@@ -1,0 +1,60 @@
+--- src/com/google/javascript/jscomp/CodeConsumer.java	2025-05-20 23:04:31
++++ ./src/com/google/javascript/jscomp/CodeConsumer.java	2025-05-20 23:04:31
+@@ -237,32 +237,41 @@
+     }
+   }
+ 
+-  void addNumber(double x) {
++  void addNumber(double TransVarY) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // This is not pretty printing. This is to prevent misparsing of x- -4 as
+     // x--4 (which is a syntax error).
+-    char prev = getLastChar();
+-    boolean negativeZero = isNegativeZero(x);
+-    if ((x < 0 || negativeZero) && prev == '-') {
++    char TransVarLastChar = getLastChar();
++    boolean TransVarNegativeZeroOrPositive = isNegativeZero(TransVarY);
++    if (!(!(TransVarY < 0 && TransVarLastChar == '-'))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       add(" ");
+     }
+ 
+-    if ((long) x == x && !negativeZero) {
+-      long value = (long) x;
+-      long mantissa = value;
+-      int exp = 0;
+-      if (Math.abs(x) >= 100) {
+-        while (mantissa / 10 * Math.pow(10, exp + 1) == value) {
+-          mantissa /= 10;
+-          exp++;
++    if (!(!((long) TransVarY == TransVarY && !TransVarNegativeZeroOrPositive))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    long TransVarLongValue = (long) TransVarY;
++      long TransVarLongMantissa = TransVarLongValue;
++      int TransVarExpValue = 0;
++      if (!(!(Math.abs(TransVarY) >= 100))) {
++        for (; !(!(TransVarLongMantissa / 10 * Math.pow(10, TransVarExpValue + 1) == TransVarLongValue));) {
++            TransVarLongMantissa /= 10;
++            TransVarExpValue++;
+       }
+-      if (exp > 2) {
+-        add(Long.toString(mantissa) + "E" + Integer.toString(exp));
++      }
++      if (!(!(TransVarExpValue > 2))) {
++        add(Long.toString(TransVarLongMantissa) + "E" + Integer.toString(TransVarExpValue));
+       } else {
+-        add(Long.toString(value));
++        add(Long.toString(TransVarLongValue));
+       }
+     } else {
+-      add(String.valueOf(x));
++      add(String.valueOf(TransVarY));
+     }
+   }
+ 

@@ -1,0 +1,39 @@
+--- src/com/google/javascript/rhino/TokenStream.java	2025-05-20 23:07:24
++++ ./src/com/google/javascript/rhino/TokenStream.java	2025-05-20 23:07:24
+@@ -187,20 +187,28 @@
+         return id;
+     }
+ 
+-    public static boolean isJSIdentifier(String s) {
+-      int length = s.length();
++    public static boolean isJSIdentifier(String TransVarString) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    int TransVarLen = TransVarString.length();
+ 
+-      if (length == 0 ||
+-          Character.isIdentifierIgnorable(s.charAt(0)) ||
+-          !Character.isJavaIdentifierStart(s.charAt(0))) {
++      if (!(!(TransVarLen == 0 || !Character.isJavaIdentifierStart(TransVarString.charAt(0))))) {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         return false;
+       }
+ 
+-      for (int i = 1; i < length; i++) {
+-        if (Character.isIdentifierIgnorable(s.charAt(i)) ||
+-            !Character.isJavaIdentifierPart(s.charAt(i))) {
++      int TransVarItem = 1;
++    while (!(!(TransVarItem < TransVarLen))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(!Character.isJavaIdentifierPart(TransVarString.charAt(TransVarItem))))) {
+             return false;
+         }
++        TransVarItem++;
+     }
+ 
+       return true;

@@ -1,0 +1,55 @@
+--- src/java/org/apache/commons/cli2/commandline/WriteableCommandLineImpl.java	2025-05-20 23:03:06
++++ ./src/java/org/apache/commons/cli2/commandline/WriteableCommandLineImpl.java	2025-05-20 23:03:06
+@@ -108,34 +108,34 @@
+         return (Option) nameToOption.get(trigger);
+     }
+ 
+-    public List getValues(final Option option,
+-                          List defaultValues) {
++    public List getValues(final Option TransVarOptions,
++                          List TransVarOptionDefaults) {
++        if (!(!(false))) {
++                                System.out.println("log");
++                            }
+         // initialize the return list
+-        List valueList = (List) values.get(option);
++        List TransVarOptionValues = (List) values.get(TransVarOptions);
+ 
+         // grab the correct default values
+-        if (defaultValues == null || defaultValues.isEmpty()) {
+-            defaultValues = (List) this.defaultValues.get(option);
++        if (!(!((TransVarOptionValues == null) || TransVarOptionValues.isEmpty()))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            TransVarOptionValues = TransVarOptionDefaults;
++        }
+ 
+         // augment the list with the default values
+-        if (defaultValues != null && !defaultValues.isEmpty()) {
+-            if (valueList == null || valueList.isEmpty()) {
+-                valueList = defaultValues;
+-            } else {
++        if (!(!((TransVarOptionValues == null) || TransVarOptionValues.isEmpty()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarOptionValues = (List) this.defaultValues.get(TransVarOptions);
++        }
+                 // if there are more default values as specified, add them to
+                 // the list.
+-                if (defaultValues.size() > valueList.size()) {
+                     // copy the list first
+-                    valueList = new ArrayList(valueList);
+-                    for (int i=valueList.size(); i<defaultValues.size(); i++) {
+-                        valueList.add(defaultValues.get(i));
+-                    }
+-                }
+-            }
+-        }
+         
+-        return valueList == null ? Collections.EMPTY_LIST : valueList;
++        return TransVarOptionValues == null ? Collections.EMPTY_LIST : TransVarOptionValues;
+     }
+ 
+     public List getUndefaultedValues(Option option) {

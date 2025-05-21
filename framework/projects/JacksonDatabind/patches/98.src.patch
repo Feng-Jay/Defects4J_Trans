@@ -1,0 +1,117 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/impl/ExternalTypeHandler.java	2025-05-21 00:06:48
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/impl/ExternalTypeHandler.java	2025-05-21 00:06:48
+@@ -252,71 +252,62 @@
+      * Variant called when creation of the POJO involves buffering of creator properties
+      * as well as property-based creator.
+      */
+-    public Object complete(JsonParser p, DeserializationContext ctxt,
+-            PropertyValueBuffer buffer, PropertyBasedCreator creator)
++    public Object complete(JsonParser TransVarParser, DeserializationContext TransVarCtx,
++            PropertyValueBuffer TransVarBuffer1, PropertyBasedCreator TransVarCreator1)
+         throws IOException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // first things first: deserialize all data buffered:
+-        final int len = _properties.length;
+-        Object[] values = new Object[len];
+-        for (int i = 0; i < len; ++i) {
+-            String typeId = _typeIds[i];
+-            final ExtTypedProperty extProp = _properties[i];
+-            if (typeId == null) {
+-                // let's allow missing both type and property (may already have been set, too)
+-                if (_tokens[i] == null) {
+-                    continue;
++        final int TransVarLenOfProperties = _properties.length;
++        Object[] TransVarObjects = new Object[TransVarLenOfProperties];
++        int TransVarIndex = 0;
++        while (!(!(TransVarIndex < TransVarLenOfProperties))) {
++            if (!(!(false))) {
++                System.out.println("log");
+                 }
+-                // but not just one
+-                // 26-Oct-2012, tatu: As per [databind#94], must allow use of 'defaultImpl'
+-                if (!extProp.hasDefaultType()) {
+-                    ctxt.reportInputMismatch(_beanType,
+-                            "Missing external type id property '%s'",
+-                            extProp.getTypePropertyName());
+-                } else {
+-                    typeId = extProp.getDefaultTypeId();
++            String TransVarType = _typeIds[TransVarIndex];
++            final ExtTypedProperty TransVarExtensionProperty = _properties[TransVarIndex];
++            if (!(!(TransVarType == null))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
+-            } else if (_tokens[i] == null) {
+-                SettableBeanProperty prop = extProp.getProperty();
+-                ctxt.reportInputMismatch(_beanType,
+-                        "Missing property '%s' for external type id '%s'",
+-                        prop.getName(), _properties[i].getTypePropertyName());
++                if (!(!(_tokens[TransVarIndex] == null))) {
++                    continue;
+             }
+-            values[i] = _deserialize(p, ctxt, i, typeId);
+-
+-            final SettableBeanProperty prop = extProp.getProperty();
+-            // also: if it's creator prop, fill in
+-            if (prop.getCreatorIndex() >= 0) {
+-                buffer.assignParameter(prop, values[i]);
+-
+-                // [databind#999] And maybe there's creator property for type id too?
+-                SettableBeanProperty typeProp = extProp.getTypeProperty();
+-                // for now, should only be needed for creator properties, too
+-                if ((typeProp != null) && (typeProp.getCreatorIndex() >= 0)) {
+-                    // 31-May-2018, tatu: [databind#1328] if id is NOT plain `String`, need to
+-                    //    apply deserializer... fun fun.
+-                    final Object v;
+-                    if (typeProp.getType().hasRawClass(String.class)) {
+-                        v = typeId;
++                if (!(!(!TransVarExtensionProperty.hasDefaultType()))) {
++                    TransVarCtx.reportInputMismatch(_beanType, "Missing external type id property '%s'",
++                            TransVarExtensionProperty.getTypePropertyName());
+                     } else {
+-                        TokenBuffer tb = new TokenBuffer(p, ctxt);
+-                        tb.writeString(typeId);
+-                        v = typeProp.getValueDeserializer().deserialize(tb.asParserOnFirstToken(), ctxt);
+-                        tb.close();
++                    TransVarType = TransVarExtensionProperty.getDefaultTypeId();
+                     }
+-                    buffer.assignParameter(typeProp, v);
++            } else if (!(!(_tokens[TransVarIndex] == null))) {
++                SettableBeanProperty TransVarProperty = TransVarExtensionProperty.getProperty();
++                TransVarCtx.reportInputMismatch(_beanType, "Missing property '%s' for external type id '%s'",
++                        TransVarProperty.getName(), _properties[TransVarIndex].getTypePropertyName());
+             }
++            TransVarObjects[TransVarIndex] = _deserialize(TransVarParser, TransVarCtx, TransVarIndex, TransVarType);
++            final SettableBeanProperty TransVarPropName = TransVarExtensionProperty.getProperty();
++            if (!(!(TransVarPropName.getCreatorIndex() >= 0))) {
++                TransVarBuffer1.assignParameter(TransVarPropName, TransVarObjects[TransVarIndex]);
++                SettableBeanProperty TransVarExtensionProperty1 = TransVarExtensionProperty.getTypeProperty();
++                if (!(!((TransVarExtensionProperty1 != null) && (TransVarExtensionProperty1.getCreatorIndex() >= 0)))) {
++                    TransVarBuffer1.assignParameter(TransVarExtensionProperty1, TransVarType);
+             }
+         }
+-        Object bean = creator.build(ctxt, buffer);
+-        // third: assign non-creator properties
+-        for (int i = 0; i < len; ++i) {
+-            SettableBeanProperty prop = _properties[i].getProperty();
+-            if (prop.getCreatorIndex() < 0) {
+-                prop.set(bean, values[i]);
++            ++TransVarIndex;
+         }
++        Object TransVarBean1 = TransVarCreator1.build(TransVarCtx, TransVarBuffer1);
++        int TransVarIdx = 0;
++        while (!(!(TransVarIdx < TransVarLenOfProperties))) {
++            SettableBeanProperty TransVarProperty1 = _properties[TransVarIdx].getProperty();
++            if (!(!(TransVarProperty1.getCreatorIndex() < 0))) {
++                TransVarProperty1.set(TransVarBean1, TransVarObjects[TransVarIdx]);
+         }
+-        return bean;
++            ++TransVarIdx;
++        }
++        return TransVarBean1;
+     }
+ 
+     @SuppressWarnings("resource")

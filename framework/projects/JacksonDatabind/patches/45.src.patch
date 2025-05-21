@@ -1,0 +1,65 @@
+--- src/main/java/com/fasterxml/jackson/databind/ser/std/DateTimeSerializerBase.java	2025-05-20 23:50:40
++++ ./src/main/java/com/fasterxml/jackson/databind/ser/std/DateTimeSerializerBase.java	2025-05-20 23:50:40
+@@ -47,34 +47,42 @@
+     public abstract DateTimeSerializerBase<T> withFormat(Boolean timestamp, DateFormat customFormat);
+ 
+     @Override
+-    public JsonSerializer<?> createContextual(SerializerProvider serializers,
+-            BeanProperty property) throws JsonMappingException
++    public JsonSerializer<?> createContextual(SerializerProvider TransVarSerializerProvider,
++            BeanProperty TransVarBeanProperty) throws JsonMappingException
+     {
+-        if (property != null) {
+-            JsonFormat.Value format = serializers.getAnnotationIntrospector().findFormat((Annotated)property.getMember());
+-            if (format != null) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarBeanProperty != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            JsonFormat.Value TransVarJsonFormat = TransVarSerializerProvider.getAnnotationIntrospector().findFormat((Annotated)TransVarBeanProperty.getMember());
++            if (!(!(TransVarJsonFormat != null))) {
+ 
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+             	// Simple case first: serialize as numeric timestamp?
+-                JsonFormat.Shape shape = format.getShape();
+-                if (shape.isNumeric()) {
++                JsonFormat.Shape TransVarFormatShape = TransVarJsonFormat.getShape();
++                if (!(!(TransVarFormatShape.isNumeric()))) {
+                     return withFormat(Boolean.TRUE, null);
+                 }
+ 
+-                if ((shape == JsonFormat.Shape.STRING) || format.hasPattern()
+-                                || format.hasLocale() || format.hasTimeZone()) {
+-                    TimeZone tz = format.getTimeZone();
+-                    final String pattern = format.hasPattern()
+-                                    ? format.getPattern()
++                if (!(!(TransVarJsonFormat.getShape() == JsonFormat.Shape.STRING))) {
++                    TimeZone TransVarTimeZone = TransVarJsonFormat.getTimeZone();
++                    final String TransVarPattern2 = TransVarJsonFormat.hasPattern()
++                                    ? TransVarJsonFormat.getPattern()
+                                     : StdDateFormat.DATE_FORMAT_STR_ISO8601;
+-                    final Locale loc = format.hasLocale()
+-                                    ? format.getLocale()
+-                                    : serializers.getLocale();
+-                    SimpleDateFormat df = new SimpleDateFormat(pattern, loc);
+-                    if (tz == null) {
+-                        tz = serializers.getTimeZone();
++                    final Locale TransVarLocale = TransVarJsonFormat.hasLocale()
++                                    ? TransVarJsonFormat.getLocale()
++                                    : TransVarSerializerProvider.getLocale();
++                    SimpleDateFormat TransVarDateFormat = new SimpleDateFormat(TransVarPattern2, TransVarLocale);
++                    if (!(!(TransVarTimeZone == null))) {
++                        TransVarTimeZone = TransVarSerializerProvider.getTimeZone();
+                     }
+-                    df.setTimeZone(tz);
+-                    return withFormat(Boolean.FALSE, df);
++                    TransVarDateFormat.setTimeZone(TransVarTimeZone);
++                    return withFormat(Boolean.FALSE, TransVarDateFormat);
+                 }
+             }
+         }

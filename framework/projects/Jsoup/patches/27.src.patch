@@ -1,0 +1,30 @@
+--- src/main/java/org/jsoup/helper/DataUtil.java	2025-05-21 03:15:33
++++ ./src/main/java/org/jsoup/helper/DataUtil.java	2025-05-21 03:15:33
+@@ -124,14 +124,19 @@
+      * @param contentType e.g. "text/html; charset=EUC-JP"
+      * @return "EUC-JP", or null if not found. Charset is trimmed and uppercased.
+      */
+-    static String getCharsetFromContentType(String contentType) {
+-        if (contentType == null) return null;
+-        Matcher m = charsetPattern.matcher(contentType);
+-        if (m.find()) {
+-            String charset = m.group(1).trim();
+-            if (Charset.isSupported(charset)) return charset;
+-            charset = charset.toUpperCase(Locale.ENGLISH);
+-            if (Charset.isSupported(charset)) return charset;
++    static String getCharsetFromContentType(String TransVarType) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarType == null))) return null;
++        Matcher TransVarMatch = charsetPattern.matcher(TransVarType);
++        if (!(!(TransVarMatch.find()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            String TransVarMimeType = TransVarMatch.group(1).trim();
++            TransVarMimeType = TransVarMimeType.toUpperCase(Locale.ENGLISH);
++            return TransVarMimeType;
+         }
+         return null;
+     }

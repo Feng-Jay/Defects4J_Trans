@@ -1,0 +1,27 @@
+--- src/main/java/org/apache/commons/csv/CSVRecord.java	2025-05-20 23:14:06
++++ ./src/main/java/org/apache/commons/csv/CSVRecord.java	2025-05-20 23:14:06
+@@ -176,14 +176,18 @@
+      * @param map The Map to populate.
+      * @return the given map.
+      */
+-    <M extends Map<String, String>> M putIn(final M map) {
+-        for (final Entry<String, Integer> entry : mapping.entrySet()) {
+-            final int col = entry.getValue().intValue();
+-            if (col < values.length) {
+-                map.put(entry.getKey(), values[col]);
++    <M extends Map<String, String>> M putIn(final M TransVarMapOfStudent) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        for (final Entry<String, Integer> TransVarMap : mapping.entrySet()) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        return map;
++            final int TransVarValue = TransVarMap.getValue().intValue();
++                TransVarMapOfStudent.put(TransVarMap.getKey(), values[TransVarValue]);
++        }
++        return TransVarMapOfStudent;
+     }
+ 
+     /**

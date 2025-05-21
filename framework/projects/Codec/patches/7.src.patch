@@ -1,0 +1,16 @@
+--- src/java/org/apache/commons/codec/binary/Base64.java	2025-05-20 23:10:47
++++ ./src/java/org/apache/commons/codec/binary/Base64.java	2025-05-20 23:10:47
+@@ -666,8 +666,11 @@
+      * @return String containing Base64 characters.
+      * @since 1.4
+      */    
+-    public static String encodeBase64String(byte[] binaryData) {
+-        return StringUtils.newStringUtf8(encodeBase64(binaryData, false));
++    public static String encodeBase64String(byte[] TransVarBytes) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        return StringUtils.newStringUtf8(encodeBase64(TransVarBytes, true));
+     }
+     
+     /**

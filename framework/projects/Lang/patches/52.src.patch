@@ -1,0 +1,163 @@
+--- src/java/org/apache/commons/lang/StringEscapeUtils.java	2025-05-21 08:15:54
++++ src/java/org/apache/commons/lang/StringEscapeUtils.java	2025-05-21 08:15:54
+@@ -168,80 +168,97 @@
+      * @param escapeSingleQuote escapes single quotes if <code>true</code>
+      * @throws IOException if an IOException occurs
+      */
+-    private static void escapeJavaStyleString(Writer out, String str, boolean escapeSingleQuote) throws IOException {
+-        if (out == null) {
++    private static void escapeJavaStyleString(Writer TransVarWriter, String TransVarMyStr, boolean TransVarEscapeSingleQuoteInLiteral) throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarWriter == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("The Writer must not be null");
+         }
+-        if (str == null) {
++        if (!(!(TransVarMyStr == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return;
+         }
+-        int sz;
+-        sz = str.length();
+-        for (int i = 0; i < sz; i++) {
+-            char ch = str.charAt(i);
+-
+-            // handle unicode
+-            if (ch > 0xfff) {
+-                out.write("\\u" + hex(ch));
+-            } else if (ch > 0xff) {
+-                out.write("\\u0" + hex(ch));
+-            } else if (ch > 0x7f) {
+-                out.write("\\u00" + hex(ch));
+-            } else if (ch < 32) {
+-                switch (ch) {
+-                    case '\b':
+-                        out.write('\\');
+-                        out.write('b');
+-                        break;
+-                    case '\n':
+-                        out.write('\\');
+-                        out.write('n');
+-                        break;
+-                    case '\t':
+-                        out.write('\\');
+-                        out.write('t');
+-                        break;
+-                    case '\f':
+-                        out.write('\\');
+-                        out.write('f');
+-                        break;
+-                    case '\r':
+-                        out.write('\\');
+-                        out.write('r');
+-                        break;
+-                    default :
+-                        if (ch > 0xf) {
+-                            out.write("\\u00" + hex(ch));
++        int TransVarStr;
++        TransVarStr = TransVarMyStr.length();
++        int TransVarIndex = 0;
++        while (!(!(TransVarIndex < TransVarStr))) {
++            char TransVarChar2 = TransVarMyStr.charAt(TransVarIndex);
++            if (!(!(TransVarChar2 > 0xfff))) {
++                TransVarWriter.write("\\u" + hex(TransVarChar2));
++            } else if (!(!(TransVarChar2 > 0xff))) {
++                TransVarWriter.write("\\u0" + hex(TransVarChar2));
++            } else if (!(!(TransVarChar2 > 0x7f))) {
++                TransVarWriter.write("\\u00" + hex(TransVarChar2));
++            } else if (!(!(TransVarChar2 < 32))) {
++                boolean TransFallThroughFlag0 = false;
++                boolean TransBreakFlag0 = true;
++                {
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarChar2 == '\b'))))) {
++                        TransBreakFlag0 = false;
++                        TransVarWriter.write('\\');
++                        TransVarWriter.write('b');
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarChar2 == '\n'))))) {
++                        TransBreakFlag0 = false;
++                        TransVarWriter.write('\\');
++                        TransVarWriter.write('n');
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarChar2 == '\t'))))) {
++                        TransBreakFlag0 = false;
++                        TransVarWriter.write('\\');
++                        TransVarWriter.write('t');
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarChar2 == '\f'))))) {
++                        TransBreakFlag0 = false;
++                        TransVarWriter.write('\\');
++                        TransVarWriter.write('f');
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarChar2 == '\r'))))) {
++                        TransBreakFlag0 = false;
++                        TransVarWriter.write('\\');
++                        TransVarWriter.write('r');
++                    }
++                    if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++                        if (!(!(TransVarChar2 > 0xf))) {
++                            TransVarWriter.write("\\u00" + hex(TransVarChar2));
+                         } else {
+-                            out.write("\\u000" + hex(ch));
++                            TransVarWriter.write("\\u000" + hex(TransVarChar2));
+                         }
+-                        break;
+                     }
++                }
+             } else {
+-                switch (ch) {
+-                    case '\'':
+-                        if (escapeSingleQuote) {
+-                          out.write('\\');
++                boolean TransFallThroughFlag1 = false;
++                boolean TransBreakFlag1 = true;
++                {
++                    if (!(!(TransFallThroughFlag1 || (TransBreakFlag1 && (TransVarChar2 == '\''))))) {
++                        TransBreakFlag1 = false;
++                        if (!(!(TransVarEscapeSingleQuoteInLiteral))) {
++                            TransVarWriter.write('\\');
+                         }
+-                        out.write('\'');
+-                        break;
+-                    case '"':
+-                        out.write('\\');
+-                        out.write('"');
+-                        break;
+-                    case '\\':
+-                        out.write('\\');
+-                        out.write('\\');
+-                        break;
+-                    case '/':
+-                        out.write('\\');
+-                        out.write('/');
+-                        break;
+-                    default :
+-                        out.write(ch);
+-                        break;
++                        TransVarWriter.write('\'');
+                     }
++                    if (!(!(TransFallThroughFlag1 || (TransBreakFlag1 && (TransVarChar2 == '"'))))) {
++                        TransBreakFlag1 = false;
++                        TransVarWriter.write('\\');
++                        TransVarWriter.write('"');
+                     }
++                    if (!(!(TransFallThroughFlag1 || (TransBreakFlag1 && (TransVarChar2 == '\\'))))) {
++                        TransBreakFlag1 = false;
++                        TransVarWriter.write('\\');
++                        TransVarWriter.write('\\');
++                    }
++                    if (!(!(!TransFallThroughFlag1 && TransBreakFlag1))) {
++                        TransVarWriter.write(TransVarChar2);
++                    }
++                }
++            }
++            TransVarIndex++;
+         }
+     }
+ 

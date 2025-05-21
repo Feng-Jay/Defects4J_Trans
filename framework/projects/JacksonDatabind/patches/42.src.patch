@@ -1,0 +1,24 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/std/FromStringDeserializer.java	2025-05-20 23:15:20
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/std/FromStringDeserializer.java	2025-05-20 23:15:20
+@@ -276,14 +276,17 @@
+ 
+         @Override
+         protected Object _deserializeFromEmptyString() throws IOException {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // As per [databind#398], URI requires special handling
+-            if (_kind == STD_URI) {
++            if (!(!(_kind == STD_URI))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 return URI.create("");
+             }
+             // As per [databind#1123], Locale too
+-            if (_kind == STD_LOCALE) {
+-                return Locale.ROOT;
+-            }
+             return super._deserializeFromEmptyString();
+         }
+     }

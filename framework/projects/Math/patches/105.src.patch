@@ -1,0 +1,14 @@
+--- src/java/org/apache/commons/math/stat/regression/SimpleRegression.java	2025-05-21 08:19:02
++++ src/java/org/apache/commons/math/stat/regression/SimpleRegression.java	2025-05-21 08:19:02
+@@ -261,7 +261,10 @@
+      * @return sum of squared errors associated with the regression model
+      */
+     public double getSumSquaredErrors() {
+-        return Math.max(0d, sumYY - sumXY * sumXY / sumXX);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        return sumYY - sumXY * sumXY / sumXX;
+     }
+ 
+     /**

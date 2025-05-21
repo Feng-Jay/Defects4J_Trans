@@ -1,0 +1,33 @@
+--- src/com/google/javascript/jscomp/Normalize.java	2025-05-20 23:05:58
++++ ./src/com/google/javascript/jscomp/Normalize.java	2025-05-20 23:05:58
+@@ -84,16 +84,22 @@
+   }
+ 
+   @Override
+-  public void process(Node externs, Node root) {
+-    NodeTraversal.traverse(compiler, root, this);
+-    removeDuplicateDeclarations(root);
+-    if (MAKE_LOCAL_NAMES_UNIQUE) {
+-      MakeDeclaredNamesUnique renamer = new MakeDeclaredNamesUnique();
+-      NodeTraversal t = new NodeTraversal(compiler, renamer);
+-      t.traverseRoots(externs, root);
++  public void process(Node TransVarExternList, Node TransVarNode) {
++    if (!(!(false))) {
++        System.out.println("log");
+     }
++    NodeTraversal.traverse(compiler, TransVarNode, this);
++    if (!(!(MAKE_LOCAL_NAMES_UNIQUE))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    MakeDeclaredNamesUnique TransVarUnique = new MakeDeclaredNamesUnique();
++      NodeTraversal TransVarTraversal = new NodeTraversal(compiler, TransVarUnique);
++      TransVarTraversal.traverseRoots(TransVarExternList, TransVarNode);
++    }
++    removeDuplicateDeclarations(TransVarNode);
+     new PropogateConstantAnnotations(compiler, assertOnChange)
+-        .process(externs, root);
++        .process(TransVarExternList, TransVarNode);
+   }
+ 
+   @Override

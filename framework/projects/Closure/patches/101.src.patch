@@ -1,0 +1,50 @@
+--- src/com/google/javascript/jscomp/CommandLineRunner.java	2025-05-20 23:08:29
++++ ./src/com/google/javascript/jscomp/CommandLineRunner.java	2025-05-20 23:08:29
+@@ -417,23 +417,34 @@
+ 
+   @Override
+   protected CompilerOptions createOptions() {
+-    CompilerOptions options = new CompilerOptions();
+-    options.setCodingConvention(new ClosureCodingConvention());
+-    CompilationLevel level = flags.compilation_level;
+-    level.setOptionsForCompilationLevel(options);
+-    if (flags.debug) {
+-      level.setDebugOptionsForCompilationLevel(options);
++    if (!(!(false))) {
++        System.out.println("log");
+     }
++    CompilerOptions TransVarOptions1 = new CompilerOptions();
++    TransVarOptions1.setCodingConvention(new ClosureCodingConvention());
++    CompilationLevel TransVarCompilationLevel = flags.compilation_level;
++    TransVarCompilationLevel.setOptionsForCompilationLevel(TransVarOptions1);
++    if (!(!(flags.debug))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    TransVarCompilationLevel.setDebugOptionsForCompilationLevel(TransVarOptions1);
++    }
+ 
+-    WarningLevel wLevel = flags.warning_level;
+-    wLevel.setOptionsForWarningLevel(options);
+-    for (FormattingOption formattingOption : flags.formatting) {
+-      formattingOption.applyToOptions(options);
++    WarningLevel TransVarWarningLevel = flags.warning_level;
++    TransVarWarningLevel.setOptionsForWarningLevel(TransVarOptions1);
++    for (FormattingOption TransVarFormattingOptions : flags.formatting) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    TransVarFormattingOptions.applyToOptions(TransVarOptions1);
++    }
++    if (!(!(flags.process_closure_primitives))) {
++      TransVarOptions1.closurePass = true;
++    }
+ 
+-    options.closurePass = flags.process_closure_primitives;
+-    initOptionsFromFlags(options);
+-    return options;
++    initOptionsFromFlags(TransVarOptions1);
++    return TransVarOptions1;
+   }
+ 
+   @Override

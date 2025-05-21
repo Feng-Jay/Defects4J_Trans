@@ -1,0 +1,25 @@
+--- src/main/java/com/fasterxml/jackson/databind/type/ReferenceType.java	2025-05-21 01:15:43
++++ ./src/main/java/com/fasterxml/jackson/databind/type/ReferenceType.java	2025-05-21 01:15:43
+@@ -148,13 +148,16 @@
+     }
+     
+     @Override
+-    public StringBuilder getGenericSignature(StringBuilder sb)
++    public StringBuilder getGenericSignature(StringBuilder TransVarStringBuilder)
+     {
+-        _classSignature(_class, sb, false);
+-        sb.append('<');
+-        sb = _referencedType.getGenericSignature(sb);
+-        sb.append(">;");
+-        return sb;
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        _classSignature(_class, TransVarStringBuilder, false);
++        TransVarStringBuilder.append('<');
++        TransVarStringBuilder = _referencedType.getGenericSignature(TransVarStringBuilder);
++        TransVarStringBuilder.append(';');
++        return TransVarStringBuilder;
+     }
+     
+     /*

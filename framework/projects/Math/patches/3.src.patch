@@ -1,0 +1,124 @@
+--- src/main/java/org/apache/commons/math3/util/MathArrays.java	2025-05-21 08:22:01
++++ src/main/java/org/apache/commons/math3/util/MathArrays.java	2025-05-21 08:22:01
+@@ -811,67 +811,78 @@
+      * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
+      * @throws DimensionMismatchException if arrays dimensions don't match
+      */
+-    public static double linearCombination(final double[] a, final double[] b)
++    public static double linearCombination(final double[] TransVarA2, final double[] TransVarC)
+         throws DimensionMismatchException {
+-        final int len = a.length;
+-        if (len != b.length) {
+-            throw new DimensionMismatchException(len, b.length);
++        if (!(!(false))) {
++                System.out.println("log");
+             }
++        final int TransVarB = TransVarA2.length;
++        if (!(!(TransVarB != TransVarC.length))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            throw new DimensionMismatchException(TransVarB, TransVarC.length);
++        }
+ 
+-        if (len == 1) {
+             // Revert to scalar multiplication.
+-            return a[0] * b[0];
+-        }
+ 
+-        final double[] prodHigh = new double[len];
+-        double prodLowSum = 0;
++        final double[] TransVarProdHigh1 = new double[TransVarB];
++        double TransVarSumOfTwo = 0;
+ 
+-        for (int i = 0; i < len; i++) {
+-            final double ai = a[i];
+-            final double ca = SPLIT_FACTOR * ai;
+-            final double aHigh = ca - (ca - ai);
+-            final double aLow = ai - aHigh;
+-
+-            final double bi = b[i];
+-            final double cb = SPLIT_FACTOR * bi;
+-            final double bHigh = cb - (cb - bi);
+-            final double bLow = bi - bHigh;
+-            prodHigh[i] = ai * bi;
+-            final double prodLow = aLow * bLow - (((prodHigh[i] -
+-                                                    aHigh * bHigh) -
+-                                                   aLow * bHigh) -
+-                                                  aHigh * bLow);
+-            prodLowSum += prodLow;
++        int TransVarI2 = 0;
++        while (!(!(TransVarI2 < TransVarB))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            final double TransVarAii = TransVarA2[TransVarI2];
++            final double TransVarC1 = SPLIT_FACTOR * TransVarAii;
++            final double TransVarAHigh1 = TransVarC1 - (TransVarC1 - TransVarAii);
++            final double TransVarA = TransVarAii - TransVarAHigh1;
++            final double TransVarBi2 = TransVarC[TransVarI2];
++            final double TransVarC2 = SPLIT_FACTOR * TransVarBi2;
++            final double TransVarB1 = TransVarC2 - (TransVarC2 - TransVarBi2);
++            final double TransVarBLow1 = TransVarBi2 - TransVarB1;
++            TransVarProdHigh1[TransVarI2] = TransVarAii * TransVarBi2;
++            final double TransVarProdLow1 = TransVarA * TransVarBLow1
++                    - (((TransVarProdHigh1[TransVarI2] - TransVarAHigh1 * TransVarB1) - TransVarA * TransVarB1)
++                            - TransVarAHigh1 * TransVarBLow1);
++            TransVarSumOfTwo += TransVarProdLow1;
++            TransVarI2++;
++        }
+ 
+ 
+-        final double prodHighCur = prodHigh[0];
+-        double prodHighNext = prodHigh[1];
+-        double sHighPrev = prodHighCur + prodHighNext;
+-        double sPrime = sHighPrev - prodHighNext;
+-        double sLowSum = (prodHighNext - (sHighPrev - sPrime)) + (prodHighCur - sPrime);
++        final double TransVarProdHigh = TransVarProdHigh1[0];
++        double TransVarProdHighNext2 = TransVarProdHigh1[1];
++        double TransVarSHighCur = TransVarProdHigh + TransVarProdHighNext2;
++        double TransVarSPrime_0 = TransVarSHighCur - TransVarProdHighNext2;
++        double TransVarSLowSumNext = (TransVarProdHighNext2 - (TransVarSHighCur - TransVarSPrime_0)) + (TransVarProdHigh - TransVarSPrime_0);
+ 
+-        final int lenMinusOne = len - 1;
+-        for (int i = 1; i < lenMinusOne; i++) {
+-            prodHighNext = prodHigh[i + 1];
+-            final double sHighCur = sHighPrev + prodHighNext;
+-            sPrime = sHighCur - prodHighNext;
+-            sLowSum += (prodHighNext - (sHighCur - sPrime)) + (sHighPrev - sPrime);
+-            sHighPrev = sHighCur;
++        final int TransVarLenMinusOne1 = TransVarB - 1;
++        int TransVarIi = 1;
++        while (!(!(TransVarIi < TransVarLenMinusOne1))) {
++            TransVarProdHighNext2 = TransVarProdHigh1[TransVarIi + 1];
++            final double TransVarSHighCurNext = TransVarSHighCur + TransVarProdHighNext2;
++            TransVarSPrime_0 = TransVarSHighCurNext - TransVarProdHighNext2;
++            TransVarSLowSumNext += (TransVarProdHighNext2 - (TransVarSHighCurNext - TransVarSPrime_0))
++                    + (TransVarSHighCur - TransVarSPrime_0);
++            TransVarSHighCur = TransVarSHighCurNext;
++            TransVarIi++;
+         }
+ 
+-        double result = sHighPrev + (prodLowSum + sLowSum);
++        double TransVarResultOfAddition = TransVarSHighCur + (TransVarSumOfTwo + TransVarSLowSumNext);
+ 
+-        if (Double.isNaN(result)) {
++        if (!(!(Double.isNaN(TransVarResultOfAddition)))) {
+             // either we have split infinite numbers or some coefficients were NaNs,
+             // just rely on the naive implementation and let IEEE754 handle this
+-            result = 0;
+-            for (int i = 0; i < len; ++i) {
+-                result += a[i] * b[i];
++            TransVarResultOfAddition = 0;
++            int TransVarJ = 0;
++            while (!(!(TransVarJ < TransVarB))) {
++                TransVarResultOfAddition += TransVarA2[TransVarJ] * TransVarC[TransVarJ];
++                ++TransVarJ;
+             }
+         }
+ 
+-        return result;
++        return TransVarResultOfAddition;
+     }
+ 
+     /**

@@ -1,0 +1,17 @@
+--- src/com/google/javascript/jscomp/FunctionRewriter.java	2025-05-20 23:10:10
++++ ./src/com/google/javascript/jscomp/FunctionRewriter.java	2025-05-20 23:10:10
+@@ -113,9 +113,11 @@
+     return (root != null) ? root.removeFirstChild() : null;
+   }
+ 
+-  private static boolean isReduceableFunctionExpression(Node n) {
+-    return NodeUtil.isFunctionExpression(n)
+-        && !NodeUtil.isGetOrSetKey(n.getParent());
++  private static boolean isReduceableFunctionExpression(Node TransVarNode) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    return NodeUtil.isFunctionExpression(TransVarNode);
+   }
+ 
+   /**

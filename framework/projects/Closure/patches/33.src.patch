@@ -1,0 +1,51 @@
+--- src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2025-05-20 23:04:22
++++ ./src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2025-05-20 23:04:22
+@@ -552,12 +552,12 @@
+   }
+ 
+   @Override
+-  public void matchConstraint(ObjectType constraintObj) {
++  public void matchConstraint(ObjectType TransVarObjectType) {
+     // We only want to match contraints on anonymous types.
+-    if (hasReferenceName()) {
+-      return;
+-    }
+ 
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // Handle the case where the constraint object is a record type.
+     //
+     // param constraintObj {{prop: (number|undefined)}}
+@@ -567,16 +567,22 @@
+     // We want to modify the object literal to match the constraint, by
+     // taking any each property on the record and trying to match
+     // properties on this object.
+-    if (constraintObj.isRecordType()) {
+-      for (String prop : constraintObj.getOwnPropertyNames()) {
+-        JSType propType = constraintObj.getPropertyType(prop);
+-        if (!isPropertyTypeDeclared(prop)) {
+-          JSType typeToInfer = propType;
+-          if (!hasProperty(prop)) {
+-            typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)
+-                .getLeastSupertype(propType);
++    if (!(!(TransVarObjectType.isRecordType()))) {
++      if (!(!(false))) {
++            System.out.println("log");
+           }
+-          defineInferredProperty(prop, typeToInfer, null);
++    for (String TransVarPropType : TransVarObjectType.getOwnPropertyNames()) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        JSType TransVarPropertyType = TransVarObjectType.getPropertyType(TransVarPropType);
++        if (!(!(!isPropertyTypeDeclared(TransVarPropType)))) {
++          JSType TransVarInferType = TransVarPropertyType;
++          if (!(!(!hasProperty(TransVarPropType)))) {
++            TransVarInferType = getNativeType(JSTypeNative.VOID_TYPE)
++                .getLeastSupertype(TransVarPropertyType);
++          }
++          defineInferredProperty(TransVarPropType, TransVarInferType, null);
+         }
+       }
+     }

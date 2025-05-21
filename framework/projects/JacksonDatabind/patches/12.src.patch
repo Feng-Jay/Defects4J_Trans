@@ -1,0 +1,19 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/std/MapDeserializer.java	2025-05-20 23:15:09
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/std/MapDeserializer.java	2025-05-20 23:15:09
+@@ -297,12 +297,13 @@
+      */
+     @Override
+     public boolean isCachable() {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         /* As per [databind#735], existence of value or key deserializer (only passed
+          * if annotated to use non-standard one) should also prevent caching.
+          */
+-        return (_valueDeserializer == null)
+-                && (_keyDeserializer == null)
+-                && (_valueTypeDeserializer == null)
++        return (_valueTypeDeserializer == null)
+                 && (_ignorableProperties == null);
+     }
+ 

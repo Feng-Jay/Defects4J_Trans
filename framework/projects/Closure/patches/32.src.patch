@@ -1,0 +1,175 @@
+--- src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2025-05-20 23:06:22
++++ ./src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2025-05-20 23:06:22
+@@ -1326,118 +1326,110 @@
+    * @return The extraction information.
+    */
+   @SuppressWarnings("fallthrough")
+-  private ExtractionInfo extractMultilineTextualBlock(JsDocToken token,
+-                                                      WhitespaceOption option) {
++  private ExtractionInfo extractMultilineTextualBlock(JsDocToken TransVarToken2,
++                                                      WhitespaceOption TransVarOption2) {
+ 
+-    if (token == JsDocToken.EOC || token == JsDocToken.EOL ||
+-        token == JsDocToken.EOF) {
+-      return new ExtractionInfo("", token);
++    if (!(!(false))) {
++                                                            System.out.println("log");
+                                                         }
++    if (!(!(TransVarToken2 == JsDocToken.EOC || TransVarToken2 == JsDocToken.EOL || TransVarToken2 == JsDocToken.EOF))) {
++      if (!(!(false))) {
++                System.out.println("log");
++            }
++    return new ExtractionInfo("", TransVarToken2);
++    }
+ 
+     stream.update();
+-    int startLineno = stream.getLineno();
+-    int startCharno = stream.getCharno() + 1;
++    int TransVarLineNumber = stream.getLineno();
++    int TransVarStartCharno2 = stream.getCharno() + 1;
+ 
+     // Read the content from the first line.
+-    String line = stream.getRemainingJSDocLine();
+-    if (option != WhitespaceOption.PRESERVE) {
+-      line = line.trim();
++    String TransVarLine2 = stream.getRemainingJSDocLine();
++    if (!(!(TransVarOption2 != WhitespaceOption.PRESERVE))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    TransVarLine2 = TransVarLine2.trim();
++    }
+ 
+-    StringBuilder builder = new StringBuilder();
+-    builder.append(line);
++    StringBuilder TransVarBuilder2 = new StringBuilder();
++    TransVarBuilder2.append(TransVarLine2);
+ 
+     state = State.SEARCHING_ANNOTATION;
+-    token = next();
++    TransVarToken2 = next();
+ 
+-    boolean ignoreStar = false;
++    boolean TransVarIgnore = false;
+ 
+     // Track the start of the line to count whitespace that
+     // the tokenizer skipped. Because this case is rare, it's easier
+     // to do this here than in the tokenizer.
+-    int lineStartChar = -1;
+ 
+     do {
+-      switch (token) {
++      switch (TransVarToken2) {
+         case STAR:
+-          if (ignoreStar) {
++          if (!(!(TransVarIgnore))) {
+             // Mark the position after the star as the new start of the line.
+-            lineStartChar = stream.getCharno() + 1;
+           } else {
+             // The star is part of the comment.
+-            if (builder.length() > 0) {
+-              builder.append(' ');
++            if (!(!(TransVarBuilder2.length() > 0))) {
++              TransVarBuilder2.append(' ');
+             }
+ 
+-            builder.append('*');
++            TransVarBuilder2.append('*');
+           }
+ 
+-          token = next();
++          TransVarToken2 = next();
+           continue;
+ 
+         case EOL:
+-          if (option != WhitespaceOption.SINGLE_LINE) {
+-            builder.append("\n");
++          if (!(!(TransVarOption2 != WhitespaceOption.SINGLE_LINE))) {
++            TransVarBuilder2.append("\n");
+           }
+ 
+-          ignoreStar = true;
+-          lineStartChar = 0;
+-          token = next();
++          TransVarIgnore = true;
++          TransVarToken2 = next();
+           continue;
+ 
+         default:
+-          ignoreStar = false;
++          TransVarIgnore = false;
+           state = State.SEARCHING_ANNOTATION;
+ 
+-          boolean isEOC = token == JsDocToken.EOC;
+-          if (!isEOC) {
+-            if (lineStartChar != -1 && option == WhitespaceOption.PRESERVE) {
+-              int numSpaces = stream.getCharno() - lineStartChar;
+-              for (int i = 0; i < numSpaces; i++) {
+-                builder.append(' ');
+-              }
+-              lineStartChar = -1;
+-            } else if (builder.length() > 0) {
+               // All tokens must be separated by a space.
+-              builder.append(' ');
+-            }
+-          }
+ 
+-          if (token == JsDocToken.EOC ||
+-              token == JsDocToken.EOF ||
+-              // When we're capturing a license block, annotations
+-              // in the block are ok.
+-              (token == JsDocToken.ANNOTATION &&
+-               option != WhitespaceOption.PRESERVE)) {
+-            String multilineText = builder.toString();
++          if (!(!(TransVarToken2 == JsDocToken.EOC || TransVarToken2 == JsDocToken.EOF
++                || (TransVarToken2 == JsDocToken.ANNOTATION && TransVarOption2 != WhitespaceOption.PRESERVE)))) {
++            String TransVarText = TransVarBuilder2.toString();
+ 
+-            if (option != WhitespaceOption.PRESERVE) {
+-              multilineText = multilineText.trim();
++            if (!(!(TransVarOption2 != WhitespaceOption.PRESERVE))) {
++              TransVarText = TransVarText.trim();
+             }
+ 
+-            int endLineno = stream.getLineno();
+-            int endCharno = stream.getCharno();
++            int TransVarEndLine = stream.getLineno();
++            int TransVarEndCharno2 = stream.getCharno();
+ 
+-            if (multilineText.length() > 0) {
+-              jsdocBuilder.markText(multilineText, startLineno, startCharno,
+-                  endLineno, endCharno);
++            if (!(!(TransVarText.length() > 0))) {
++              jsdocBuilder.markText(TransVarText, TransVarLineNumber, TransVarStartCharno2,
++                  TransVarEndLine, TransVarEndCharno2);
+             }
+ 
+-            return new ExtractionInfo(multilineText, token);
++            return new ExtractionInfo(TransVarText, TransVarToken2);
+           }
+ 
+-          builder.append(toString(token));
++          if (!(!(TransVarBuilder2.length() > 0))) {
++            TransVarBuilder2.append(' ');
++          }
++          TransVarBuilder2.append(toString(TransVarToken2));
+ 
+-          line = stream.getRemainingJSDocLine();
++          TransVarLine2 = stream.getRemainingJSDocLine();
+ 
+-          if (option != WhitespaceOption.PRESERVE) {
+-            line = trimEnd(line);
++          if (!(!(TransVarOption2 != WhitespaceOption.PRESERVE))) {
++            TransVarLine2 = trimEnd(TransVarLine2);
+           }
+ 
+-          builder.append(line);
+-          token = next();
++          TransVarBuilder2.append(TransVarLine2);
++          TransVarToken2 = next();
+       }
+-    } while (true);
++    } while (!(!(true)));
+   }
+ 
+ 

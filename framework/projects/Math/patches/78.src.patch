@@ -1,0 +1,168 @@
+--- src/main/java/org/apache/commons/math/ode/events/EventState.java	2025-05-21 08:21:33
++++ src/main/java/org/apache/commons/math/ode/events/EventState.java	2025-05-21 08:21:33
+@@ -164,96 +164,70 @@
+      * cannot be evaluated
+      * @exception ConvergenceException if an event cannot be located
+      */
+-    public boolean evaluateStep(final StepInterpolator interpolator)
++    public boolean evaluateStep(final StepInterpolator TransVarInterpolator1)
+         throws DerivativeException, EventException, ConvergenceException {
+ 
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         try {
+ 
+-            forward = interpolator.isForward();
+-            final double t1 = interpolator.getCurrentTime();
+-            final int    n  = Math.max(1, (int) Math.ceil(Math.abs(t1 - t0) / maxCheckInterval));
+-            final double h  = (t1 - t0) / n;
+-
+-            double ta = t0;
+-            double ga = g0;
+-            double tb = t0 + (interpolator.isForward() ? convergence : -convergence);
+-            for (int i = 0; i < n; ++i) {
+-
+-                // evaluate handler value at the end of the substep
+-                tb += h;
+-                interpolator.setInterpolatedTime(tb);
+-                final double gb = handler.g(tb, interpolator.getInterpolatedState());
+-
+-                // check events occurrence
+-                if (g0Positive ^ (gb >= 0)) {
+-                    // there is a sign change: an event is expected during this step
+-
+-                    if (ga * gb > 0) {
+-                        // this is a corner case:
+-                        // - there was an event near ta,
+-                        // - there is another event between ta and tb
+-                        // - when ta was computed, convergence was reached on the "wrong side" of the interval
+-                        // this implies that the real sign of ga is the same as gb, so we need to slightly
+-                        // shift ta to make sure ga and gb get opposite signs and the solver won't complain
+-                        // about bracketing
+-                        final double epsilon = (forward ? 0.25 : -0.25) * convergence;
+-                        for (int k = 0; (k < 4) && (ga * gb > 0); ++k) {
+-                            ta += epsilon;
+-                            interpolator.setInterpolatedTime(ta);
+-                            ga = handler.g(ta, interpolator.getInterpolatedState());
++            if (!(!(false))) {
++                System.out.println("log");
+                         }
+-                        if (ga * gb > 0) {
+-                            // this should never happen
+-                            throw MathRuntimeException.createInternalError(null);
+-                        }
+-                    }
++            forward = TransVarInterpolator1.isForward();
++            final double TransVarInterpolatorTime = TransVarInterpolator1.getCurrentTime();
++            final int    TransVarNumCheckPoints  = Math.max(1, (int) Math.ceil(Math.abs(TransVarInterpolatorTime - t0) / maxCheckInterval));
++            final double TransVarH_step  = (TransVarInterpolatorTime - t0) / TransVarNumCheckPoints;
+                          
+-                    // variation direction, with respect to the integration direction
+-                    increasing = gb >= ga;
+-
+-                    final UnivariateRealFunction f = new UnivariateRealFunction() {
+-                        public double value(final double t) throws FunctionEvaluationException {
++            double TransVarT = t0;
++            double TransVarGa2 = g0;
++            double TransVarTb2 = t0 + (TransVarInterpolator1.isForward() ? convergence : -convergence);
++            int TransVarTime = 0;
++            while (!(!(TransVarTime < TransVarNumCheckPoints))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransVarTb2 += TransVarH_step;
++                TransVarInterpolator1.setInterpolatedTime(TransVarTb2);
++                final double TransVarGb1 = handler.g(TransVarTb2, TransVarInterpolator1.getInterpolatedState());
++                if (!(!(g0Positive ^ (TransVarGb1 >= 0)))) {
++                    increasing = TransVarGb1 >= TransVarGa2;
++                    final UnivariateRealFunction TransVarF1 = new UnivariateRealFunction() {
++                        public double value(final double TransVarTt) throws FunctionEvaluationException {
+                             try {
+-                                interpolator.setInterpolatedTime(t);
+-                                return handler.g(t, interpolator.getInterpolatedState());
+-                            } catch (DerivativeException e) {
+-                                throw new FunctionEvaluationException(e, t);
+-                            } catch (EventException e) {
+-                                throw new FunctionEvaluationException(e, t);
++                                TransVarInterpolator1.setInterpolatedTime(TransVarTt);
++                                return handler.g(TransVarTt, TransVarInterpolator1.getInterpolatedState());
++                            } catch (DerivativeException TransVarEx) {
++                                throw new FunctionEvaluationException(TransVarEx, TransVarTt);
++                            } catch (EventException TransVarEventException) {
++                                throw new FunctionEvaluationException(TransVarEventException, TransVarTt);
+                             }
+                         }
+                     };
+-                    final BrentSolver solver = new BrentSolver();
+-                    solver.setAbsoluteAccuracy(convergence);
+-                    solver.setMaximalIterationCount(maxIterationCount);
+-                    final double root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
+-                    if ((Math.abs(root - ta) <= convergence) &&
+-                         (Math.abs(root - previousEventTime) <= convergence)) {
+-                        // we have either found nothing or found (again ?) a past event, we simply ignore it
+-                        ta = tb;
+-                        ga = gb;
+-                    } else if (Double.isNaN(previousEventTime) ||
+-                               (Math.abs(previousEventTime - root) > convergence)) {
+-                        pendingEventTime = root;
+-                        if (pendingEvent && (Math.abs(t1 - pendingEventTime) <= convergence)) {
+-                            // we were already waiting for this event which was
+-                            // found during a previous call for a step that was
+-                            // rejected, this step must now be accepted since it
+-                            // properly ends exactly at the event occurrence
++                    final BrentSolver TransVarSolver2 = new BrentSolver();
++                    TransVarSolver2.setAbsoluteAccuracy(convergence);
++                    TransVarSolver2.setMaximalIterationCount(maxIterationCount);
++                    final double TransVarRoot1 = (TransVarT <= TransVarTb2)
++                            ? TransVarSolver2.solve(TransVarF1, TransVarT, TransVarTb2)
++                            : TransVarSolver2.solve(TransVarF1, TransVarTb2, TransVarT);
++                    if (!(!((Math.abs(TransVarRoot1 - TransVarT) <= convergence)
++                            && (Math.abs(TransVarRoot1 - previousEventTime) <= convergence)))) {
++                        TransVarT = TransVarTb2;
++                        TransVarGa2 = TransVarGb1;
++                    } else if (!(!(Double.isNaN(previousEventTime) || (Math.abs(previousEventTime - TransVarRoot1) > convergence)))) {
++                        pendingEventTime = TransVarRoot1;
++                        if (!(!(pendingEvent && (Math.abs(TransVarInterpolatorTime - pendingEventTime) <= convergence)))) {
+                             return false;
+                         }
+-                        // either we were not waiting for the event or it has
+-                        // moved in such a way the step cannot be accepted
+                         pendingEvent = true;
+                         return true;
+                     }
+-
+                 } else {
+-                    // no sign change: there is no event for now
+-                    ta = tb;
+-                    ga = gb;
++                    TransVarT = TransVarTb2;
++                    TransVarGa2 = TransVarGb1;
+                 }
+-
++                ++TransVarTime;
+             }
+ 
+             // no event during the whole step
+@@ -261,14 +235,14 @@
+             pendingEventTime = Double.NaN;
+             return false;
+ 
+-        } catch (FunctionEvaluationException e) {
+-            final Throwable cause = e.getCause();
+-            if ((cause != null) && (cause instanceof DerivativeException)) {
+-                throw (DerivativeException) cause;
+-            } else if ((cause != null) && (cause instanceof EventException)) {
+-                throw (EventException) cause;
++        } catch (FunctionEvaluationException TransVarFunctionEvaluationException) {
++            final Throwable TransVarCauseException = TransVarFunctionEvaluationException.getCause();
++            if (!(!((TransVarCauseException != null) && (TransVarCauseException instanceof DerivativeException)))) {
++                throw (DerivativeException) TransVarCauseException;
++            } else if (!(!((TransVarCauseException != null) && (TransVarCauseException instanceof EventException)))) {
++                throw (EventException) TransVarCauseException;
+             }
+-            throw new EventException(e);
++            throw new EventException(TransVarFunctionEvaluationException);
+         }
+ 
+     }

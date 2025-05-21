@@ -1,0 +1,159 @@
+--- src/com/google/javascript/jscomp/NodeUtil.java	2025-05-20 23:05:18
++++ ./src/com/google/javascript/jscomp/NodeUtil.java	2025-05-20 23:05:18
+@@ -2421,70 +2421,100 @@
+    * @return Whether the node is known to be a value that is not a reference
+    *     outside the expression scope.
+    */
+-  static boolean evaluatesToLocalValue(Node value, Predicate<Node> locals) {
+-    switch (value.getType()) {
+-      case Token.ASSIGN:
+-        // A result that is aliased by a non-local name, is the effectively the
+-        // same as returning a non-local name, but this doesn't matter if the
+-        // value is immutable.
+-        return NodeUtil.isImmutableValue(value.getLastChild())
+-            || (locals.apply(value)
+-                && evaluatesToLocalValue(value.getLastChild(), locals));
+-      case Token.COMMA:
+-        return evaluatesToLocalValue(value.getLastChild(), locals);
+-      case Token.AND:
+-      case Token.OR:
+-        return evaluatesToLocalValue(value.getFirstChild(), locals)
+-           && evaluatesToLocalValue(value.getLastChild(), locals);
+-      case Token.HOOK:
+-        return evaluatesToLocalValue(value.getFirstChild().getNext(), locals)
+-           && evaluatesToLocalValue(value.getLastChild(), locals);
+-      case Token.INC:
+-      case Token.DEC:
+-        if (value.getBooleanProp(Node.INCRDECR_PROP)) {
+-          return evaluatesToLocalValue(value.getFirstChild(), locals);
++  static boolean evaluatesToLocalValue(Node TransVarNode, Predicate<Node> TransVarPredicate) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    boolean TransFallThroughFlag0 = false;
++    boolean TransBreakFlag0 = true;
++    {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.ASSIGN))))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransFallThroughFlag0 = true;
++            return NodeUtil.isImmutableValue(TransVarNode.getLastChild()) || (TransVarPredicate.apply(TransVarNode)
++                    && evaluatesToLocalValue(TransVarNode.getLastChild(), TransVarPredicate));
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.COMMA))))) {
++            TransFallThroughFlag0 = true;
++            return evaluatesToLocalValue(TransVarNode.getLastChild(), TransVarPredicate);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.AND))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.OR))))) {
++            TransFallThroughFlag0 = true;
++            return evaluatesToLocalValue(TransVarNode.getFirstChild(), TransVarPredicate)
++                    && evaluatesToLocalValue(TransVarNode.getLastChild(), TransVarPredicate);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.HOOK))))) {
++            TransFallThroughFlag0 = true;
++            return evaluatesToLocalValue(TransVarNode.getFirstChild().getNext(), TransVarPredicate)
++                    && evaluatesToLocalValue(TransVarNode.getLastChild(), TransVarPredicate);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.INC))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.DEC))))) {
++            TransFallThroughFlag0 = true;
++            if (!(!(TransVarNode.getBooleanProp(Node.INCRDECR_PROP)))) {
++                return evaluatesToLocalValue(TransVarNode.getFirstChild(), TransVarPredicate);
+         } else {
+           return true;
+         }
+-      case Token.THIS:
+-        return locals.apply(value);
+-      case Token.NAME:
+-        return isImmutableValue(value) || locals.apply(value);
+-      case Token.GETELEM:
+-      case Token.GETPROP:
+-        // There is no information about the locality of object properties.
+-        return locals.apply(value);
+-      case Token.CALL:
+-        return callHasLocalResult(value)
+-            || isToStringMethodCall(value)
+-            || locals.apply(value);
+-      case Token.NEW:
+-        // TODO(nicksantos): This needs to be changed so that it
+-        // returns true iff we're sure the value was never aliased from inside
+-        // the constructor (similar to callHasLocalResult)
+-        return false;
+-      case Token.FUNCTION:
+-      case Token.REGEXP:
+-      case Token.ARRAYLIT:
+-      case Token.OBJECTLIT:
+-        // Literals objects with non-literal children are allowed.
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.THIS))))) {
++            TransFallThroughFlag0 = true;
++            return TransVarPredicate.apply(TransVarNode);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.NAME))))) {
++            TransFallThroughFlag0 = true;
++            return isImmutableValue(TransVarNode) || TransVarPredicate.apply(TransVarNode);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.GETELEM))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.GETPROP))))) {
++            TransFallThroughFlag0 = true;
++            return TransVarPredicate.apply(TransVarNode);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.CALL))))) {
++            TransFallThroughFlag0 = true;
++            return callHasLocalResult(TransVarNode) || isToStringMethodCall(TransVarNode)
++                    || TransVarPredicate.apply(TransVarNode);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.NEW))))) {
++            TransFallThroughFlag0 = true;
+         return true;
+-      case Token.IN:
+-        // TODO(johnlenz): should IN operator be included in #isSimpleOperator?
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.FUNCTION))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.REGEXP))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.ARRAYLIT))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.OBJECTLIT))))) {
++            TransFallThroughFlag0 = true;
+         return true;
+-      default:
+-        // Other op force a local value:
+-        //  x = '' + g (x is now an local string)
+-        //  x -= g (x is now an local number)
+-        if (isAssignmentOp(value)
+-            || isSimpleOperator(value)
+-            || isImmutableValue(value)) {
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.IN))))) {
++            TransFallThroughFlag0 = true;
+           return true;
+         }
+-
++        if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++            if (!(!(isAssignmentOp(TransVarNode) || isSimpleOperator(TransVarNode) || isImmutableValue(TransVarNode)))) {
++                return true;
++            }
+         throw new IllegalStateException(
+-            "Unexpected expression node" + value +
+-            "\n parent:" + value.getParent());
++                    "Unexpected expression node" + TransVarNode + "\n parent:" + TransVarNode.getParent());
++        }
+     }
+   }
+ 

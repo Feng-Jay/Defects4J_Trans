@@ -1,0 +1,380 @@
+--- src/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.java	2025-05-20 23:09:12
++++ ./src/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.java	2025-05-20 23:09:12
+@@ -633,240 +633,237 @@
+    * Returns the replacement for n or the original if no replacement was
+    * necessary.
+    */
+-  private Node tryMinimizeIf(Node n) {
++  private Node tryMinimizeIf(Node TransVarNode) {
+ 
+-    Node parent = n.getParent();
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    Node TransVarParentNode = TransVarNode.getParent();
+ 
+-    Node cond = n.getFirstChild();
++    Node TransVarNode2 = TransVarNode.getFirstChild();
+ 
+     /* If the condition is a literal, we'll let other
+      * optimizations try to remove useless code.
+      */
+-    if (NodeUtil.isLiteralValue(cond, true)) {
+-      return n;
++    if (!(!(NodeUtil.isLiteralValue(TransVarNode2, true)))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    return TransVarNode;
++    }
+ 
+-    Node thenBranch = cond.getNext();
+-    Node elseBranch = thenBranch.getNext();
++    Node TransVarThen = TransVarNode2.getNext();
++    Node TransVarElseIfBranch = TransVarThen.getNext();
+ 
+-    if (elseBranch == null) {
+-      if (isFoldableExpressBlock(thenBranch)) {
+-        Node expr = getBlockExpression(thenBranch);
+-        if (!late && isPropertyAssignmentInExpression(expr)) {
++    if (!(!(TransVarElseIfBranch == null))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(isFoldableExpressBlock(TransVarThen)))) {
++        Node TransVarThenExpr = getBlockExpression(TransVarThen);
++        if (!(!(!late && isPropertyAssignmentInExpression(TransVarThenExpr)))) {
+           // Keep opportunities for CollapseProperties such as
+           // a.longIdentifier || a.longIdentifier = ... -> var a = ...;
+           // until CollapseProperties has been run.
+-          return n;
++          return TransVarNode;
+         }
+ 
+-        if (cond.isNot()) {
++        if (!(!(TransVarNode2.isNot()))) {
+           // if(!x)bar(); -> x||bar();
+-          if (isLowerPrecedenceInExpression(cond, OR_PRECEDENCE) &&
+-              isLowerPrecedenceInExpression(expr.getFirstChild(),
+-                  OR_PRECEDENCE)) {
++          if (!(!(isLowerPrecedenceInExpression(TransVarNode2, OR_PRECEDENCE)
++                && isLowerPrecedenceInExpression(TransVarThenExpr.getFirstChild(), OR_PRECEDENCE)))) {
+             // It's not okay to add two sets of parentheses.
+-            return n;
++            return TransVarNode;
+           }
+ 
+-          Node or = IR.or(
+-              cond.removeFirstChild(),
+-              expr.removeFirstChild()).srcref(n);
+-          Node newExpr = NodeUtil.newExpr(or);
+-          parent.replaceChild(n, newExpr);
++          Node TransVarOrNode = IR.or(
++              TransVarNode2.removeFirstChild(),
++              TransVarThenExpr.removeFirstChild()).srcref(TransVarNode);
++          Node TransVarIfNode = NodeUtil.newExpr(TransVarOrNode);
++          TransVarParentNode.replaceChild(TransVarNode, TransVarIfNode);
+           reportCodeChange();
+ 
+-          return newExpr;
++          return TransVarIfNode;
+         }
+ 
+         // if(x)foo(); -> x&&foo();
+-        if (isLowerPrecedenceInExpression(cond, AND_PRECEDENCE) &&
+-            isLowerPrecedenceInExpression(expr.getFirstChild(),
+-                AND_PRECEDENCE)) {
++        if (!(!(isLowerPrecedenceInExpression(TransVarNode2, AND_PRECEDENCE)
++                && isLowerPrecedenceInExpression(TransVarThenExpr.getFirstChild(), AND_PRECEDENCE)))) {
+           // One additional set of parentheses is worth the change even if
+           // there is no immediate code size win. However, two extra pair of
+           // {}, we would have to think twice. (unless we know for sure the
+           // we can further optimize its parent.
+-          return n;
++          return TransVarNode;
+         }
+ 
+-        n.removeChild(cond);
+-        Node and = IR.and(cond, expr.removeFirstChild()).srcref(n);
+-        Node newExpr = NodeUtil.newExpr(and);
+-        parent.replaceChild(n, newExpr);
++        TransVarNode.removeChild(TransVarNode2);
++        Node TransVarAndNode = IR.and(TransVarNode2, TransVarThenExpr.removeFirstChild()).srcref(TransVarNode);
++        Node TransVarNewNode = NodeUtil.newExpr(TransVarAndNode);
++        TransVarParentNode.replaceChild(TransVarNode, TransVarNewNode);
+         reportCodeChange();
+ 
+-        return newExpr;
++        return TransVarNewNode;
+       } else {
+ 
+         // Try to combine two IF-ELSE
+-        if (NodeUtil.isStatementBlock(thenBranch) &&
+-            thenBranch.hasOneChild()) {
+-          Node innerIf = thenBranch.getFirstChild();
++        if (!(!(NodeUtil.isStatementBlock(TransVarThen) && TransVarThen.hasOneChild()))) {
++          Node TransVarInnerNode = TransVarThen.getFirstChild();
+ 
+-          if (innerIf.isIf()) {
+-            Node innerCond = innerIf.getFirstChild();
+-            Node innerThenBranch = innerCond.getNext();
+-            Node innerElseBranch = innerThenBranch.getNext();
++          if (!(!(TransVarInnerNode.isIf()))) {
++            Node TransVarInnerCondNode = TransVarInnerNode.getFirstChild();
++            Node TransVarThenBranch = TransVarInnerCondNode.getNext();
++            Node TransVarInnerThenBranch = TransVarThenBranch.getNext();
+ 
+-            if (innerElseBranch == null &&
+-                 !(isLowerPrecedenceInExpression(cond, AND_PRECEDENCE) &&
+-                   isLowerPrecedenceInExpression(innerCond, AND_PRECEDENCE))) {
+-              n.detachChildren();
+-              n.addChildToBack(
++            if (!(!(TransVarInnerThenBranch == null && !(isLowerPrecedenceInExpression(TransVarNode2, AND_PRECEDENCE)
++                    && isLowerPrecedenceInExpression(TransVarInnerCondNode, AND_PRECEDENCE))))) {
++              TransVarNode.detachChildren();
++              TransVarNode.addChildToBack(
+                   IR.and(
+-                      cond,
+-                      innerCond.detachFromParent())
+-                      .srcref(cond));
+-              n.addChildrenToBack(innerThenBranch.detachFromParent());
++                      TransVarNode2,
++                      TransVarInnerCondNode.detachFromParent())
++                      .srcref(TransVarNode2));
++              TransVarNode.addChildrenToBack(TransVarThenBranch.detachFromParent());
+               reportCodeChange();
+               // Not worth trying to fold the current IF-ELSE into && because
+               // the inner IF-ELSE wasn't able to be folded into && anyways.
+-              return n;
++              return TransVarNode;
+             }
+           }
+         }
+       }
+ 
+-      return n;
++      return TransVarNode;
+     }
+ 
+     /* TODO(dcc) This modifies the siblings of n, which is undesirable for a
+      * peephole optimization. This should probably get moved to another pass.
+      */
+-    tryRemoveRepeatedStatements(n);
++    tryRemoveRepeatedStatements(TransVarNode);
+ 
+     // if(!x)foo();else bar(); -> if(x)bar();else foo();
+     // An additional set of curly braces isn't worth it.
+-    if (cond.isNot() && !consumesDanglingElse(elseBranch)) {
+-      n.replaceChild(cond, cond.removeFirstChild());
+-      n.removeChild(thenBranch);
+-      n.addChildToBack(thenBranch);
++    if (!(!(TransVarNode2.isNot() && !consumesDanglingElse(TransVarElseIfBranch)))) {
++      TransVarNode.replaceChild(TransVarNode2, TransVarNode2.removeFirstChild());
++      TransVarNode.removeChild(TransVarThen);
++      TransVarNode.addChildToBack(TransVarThen);
+       reportCodeChange();
+-      return n;
++      return TransVarNode;
+     }
+ 
+     // if(x)return 1;else return 2; -> return x?1:2;
+-    if (isReturnExpressBlock(thenBranch) && isReturnExpressBlock(elseBranch)) {
+-      Node thenExpr = getBlockReturnExpression(thenBranch);
+-      Node elseExpr = getBlockReturnExpression(elseBranch);
+-      n.removeChild(cond);
+-      thenExpr.detachFromParent();
+-      elseExpr.detachFromParent();
++    if (!(!(isReturnExpressBlock(TransVarThen) && isReturnExpressBlock(TransVarElseIfBranch)))) {
++      Node TransVarThenExpr1 = getBlockReturnExpression(TransVarThen);
++      Node TransVarExpr = getBlockReturnExpression(TransVarElseIfBranch);
++      TransVarNode.removeChild(TransVarNode2);
++      TransVarThenExpr1.detachFromParent();
++      TransVarExpr.detachFromParent();
+ 
+       // note - we ignore any cases with "return;", technically this
+       // can be converted to "return undefined;" or some variant, but
+       // that does not help code size.
+-      Node returnNode = IR.returnNode(
+-                            IR.hook(cond, thenExpr, elseExpr)
+-                                .srcref(n));
+-      parent.replaceChild(n, returnNode);
++      Node TransVarReturnNode1 = IR.returnNode(
++                            IR.hook(TransVarNode2, TransVarThenExpr1, TransVarExpr)
++                                .srcref(TransVarNode));
++      TransVarParentNode.replaceChild(TransVarNode, TransVarReturnNode1);
+       reportCodeChange();
+-      return returnNode;
++      return TransVarReturnNode1;
+     }
+ 
+-    boolean thenBranchIsExpressionBlock = isFoldableExpressBlock(thenBranch);
+-    boolean elseBranchIsExpressionBlock = isFoldableExpressBlock(elseBranch);
++    boolean TransVarThenBranchIsExpressionBlock1 = isFoldableExpressBlock(TransVarThen);
++    boolean TransVarElseBranchIsExpressionBlock1 = isFoldableExpressBlock(TransVarElseIfBranch);
+ 
+-    if (thenBranchIsExpressionBlock && elseBranchIsExpressionBlock) {
+-      Node thenOp = getBlockExpression(thenBranch).getFirstChild();
+-      Node elseOp = getBlockExpression(elseBranch).getFirstChild();
+-      if (thenOp.getType() == elseOp.getType()) {
++    if (!(!(TransVarThenBranchIsExpressionBlock1 && TransVarElseBranchIsExpressionBlock1))) {
++      Node TransVarThenNode = getBlockExpression(TransVarThen).getFirstChild();
++      Node TransVarElseNode = getBlockExpression(TransVarElseIfBranch).getFirstChild();
++      if (!(!(TransVarThenNode.getType() == TransVarElseNode.getType()))) {
+         // if(x)a=1;else a=2; -> a=x?1:2;
+-        if (NodeUtil.isAssignmentOp(thenOp)) {
+-          Node lhs = thenOp.getFirstChild();
+-          if (areNodesEqualForInlining(lhs, elseOp.getFirstChild()) &&
+-              // if LHS has side effects, don't proceed [since the optimization
+-              // evaluates LHS before cond]
+-              // NOTE - there are some circumstances where we can
+-              // proceed even if there are side effects...
+-              !mayEffectMutableState(lhs) &&
+-              (!mayHaveSideEffects(cond) ||
+-                  (thenOp.isAssign() && thenOp.getFirstChild().isName()))) {
++        if (!(!(NodeUtil.isAssignmentOp(TransVarThenNode)))) {
++          Node TransVarLhs1 = TransVarThenNode.getFirstChild();
++          if (!(!(areNodesEqualForInlining(TransVarLhs1, TransVarElseNode.getFirstChild())
++                && !mayEffectMutableState(TransVarLhs1)))) {
+ 
+-            n.removeChild(cond);
+-            Node assignName = thenOp.removeFirstChild();
+-            Node thenExpr = thenOp.removeFirstChild();
+-            Node elseExpr = elseOp.getLastChild();
+-            elseOp.removeChild(elseExpr);
++            TransVarNode.removeChild(TransVarNode2);
++            Node TransVarAssignNode = TransVarThenNode.removeFirstChild();
++            Node TransVarThenExpr2 = TransVarThenNode.removeFirstChild();
++            Node TransVarElseBranch = TransVarElseNode.getLastChild();
++            TransVarElseNode.removeChild(TransVarElseBranch);
+ 
+-            Node hookNode = IR.hook(cond, thenExpr, elseExpr).srcref(n);
+-            Node assign = new Node(thenOp.getType(), assignName, hookNode)
+-                              .srcref(thenOp);
+-            Node expr = NodeUtil.newExpr(assign);
+-            parent.replaceChild(n, expr);
++            Node TransVarHook = IR.hook(TransVarNode2, TransVarThenExpr2, TransVarElseBranch).srcref(TransVarNode);
++            Node TransVarThenAssign = new Node(TransVarThenNode.getType(), TransVarAssignNode, TransVarHook)
++                              .srcref(TransVarThenNode);
++            Node TransVarExpr1 = NodeUtil.newExpr(TransVarThenAssign);
++            TransVarParentNode.replaceChild(TransVarNode, TransVarExpr1);
+             reportCodeChange();
+ 
+-            return expr;
++            return TransVarExpr1;
+           }
+         }
+       }
+       // if(x)foo();else bar(); -> x?foo():bar()
+-      n.removeChild(cond);
+-      thenOp.detachFromParent();
+-      elseOp.detachFromParent();
+-      Node expr = IR.exprResult(
+-          IR.hook(cond, thenOp, elseOp).srcref(n));
+-      parent.replaceChild(n, expr);
++      TransVarNode.removeChild(TransVarNode2);
++      TransVarThenNode.detachFromParent();
++      TransVarElseNode.detachFromParent();
++      Node TransVarExp = IR.exprResult(
++          IR.hook(TransVarNode2, TransVarThenNode, TransVarElseNode).srcref(TransVarNode));
++      TransVarParentNode.replaceChild(TransVarNode, TransVarExp);
+       reportCodeChange();
+-      return expr;
++      return TransVarExp;
+     }
+ 
+-    boolean thenBranchIsVar = isVarBlock(thenBranch);
+-    boolean elseBranchIsVar = isVarBlock(elseBranch);
++    boolean TransVarThenBranchIsExpressionBlock = isVarBlock(TransVarThen);
++    boolean TransVarElseBranchIsVariableBlock = isVarBlock(TransVarElseIfBranch);
+ 
+     // if(x)var y=1;else y=2  ->  var y=x?1:2
+-    if (thenBranchIsVar && elseBranchIsExpressionBlock &&
+-        getBlockExpression(elseBranch).getFirstChild().isAssign()) {
++    if (!(!(TransVarThenBranchIsExpressionBlock && TransVarElseBranchIsExpressionBlock1
++            && getBlockExpression(TransVarElseIfBranch).getFirstChild().isAssign()))) {
+ 
+-      Node var = getBlockVar(thenBranch);
+-      Node elseAssign = getBlockExpression(elseBranch).getFirstChild();
++      Node TransVarThenVar = getBlockVar(TransVarThen);
++      Node TransVarElseExpr = getBlockExpression(TransVarElseIfBranch).getFirstChild();
+ 
+-      Node name1 = var.getFirstChild();
+-      Node maybeName2 = elseAssign.getFirstChild();
++      Node TransVarName = TransVarThenVar.getFirstChild();
++      Node TransVarElseName = TransVarElseExpr.getFirstChild();
+ 
+-      if (name1.hasChildren()
+-          && maybeName2.isName()
+-          && name1.getString().equals(maybeName2.getString())) {
+-        Node thenExpr = name1.removeChildren();
+-        Node elseExpr = elseAssign.getLastChild().detachFromParent();
+-        cond.detachFromParent();
+-        Node hookNode = IR.hook(cond, thenExpr, elseExpr)
+-                            .srcref(n);
+-        var.detachFromParent();
+-        name1.addChildrenToBack(hookNode);
+-        parent.replaceChild(n, var);
++      if (!(!(TransVarName.hasChildren() && TransVarElseName.isName()
++            && TransVarName.getString().equals(TransVarElseName.getString())))) {
++        Node TransVarExpr2 = TransVarName.removeChildren();
++        Node TransVarElseExpression = TransVarElseExpr.getLastChild().detachFromParent();
++        TransVarNode2.detachFromParent();
++        Node TransVarThenHook = IR.hook(TransVarNode2, TransVarExpr2, TransVarElseExpression)
++                            .srcref(TransVarNode);
++        TransVarThenVar.detachFromParent();
++        TransVarName.addChildrenToBack(TransVarThenHook);
++        TransVarParentNode.replaceChild(TransVarNode, TransVarThenVar);
+         reportCodeChange();
+-        return var;
++        return TransVarThenVar;
+       }
+ 
+     // if(x)y=1;else var y=2  ->  var y=x?1:2
+-    } else if (elseBranchIsVar && thenBranchIsExpressionBlock &&
+-        getBlockExpression(thenBranch).getFirstChild().isAssign()) {
++    } else if (!(!(TransVarElseBranchIsVariableBlock && TransVarThenBranchIsExpressionBlock1
++            && getBlockExpression(TransVarThen).getFirstChild().isAssign()))) {
+ 
+-      Node var = getBlockVar(elseBranch);
+-      Node thenAssign = getBlockExpression(thenBranch).getFirstChild();
++      Node TransVarVar1 = getBlockVar(TransVarElseIfBranch);
++      Node TransVarThenAssign2 = getBlockExpression(TransVarThen).getFirstChild();
+ 
+-      Node maybeName1 = thenAssign.getFirstChild();
+-      Node name2 = var.getFirstChild();
++      Node TransVarNameNode = TransVarThenAssign2.getFirstChild();
++      Node TransVarName3 = TransVarVar1.getFirstChild();
+ 
+-      if (name2.hasChildren()
+-          && maybeName1.isName()
+-          && maybeName1.getString().equals(name2.getString())) {
+-        Node thenExpr = thenAssign.getLastChild().detachFromParent();
+-        Node elseExpr = name2.removeChildren();
+-        cond.detachFromParent();
+-        Node hookNode = IR.hook(cond, thenExpr, elseExpr)
+-                            .srcref(n);
+-        var.detachFromParent();
+-        name2.addChildrenToBack(hookNode);
+-        parent.replaceChild(n, var);
++      if (!(!(TransVarName3.hasChildren() && TransVarNameNode.isName()
++            && TransVarNameNode.getString().equals(TransVarName3.getString())))) {
++        Node TransVarThenAssign3 = TransVarThenAssign2.getLastChild().detachFromParent();
++        Node TransVarElseExpr1 = TransVarName3.removeChildren();
++        TransVarNode2.detachFromParent();
++        Node TransVarHookExpr = IR.hook(TransVarNode2, TransVarThenAssign3, TransVarElseExpr1)
++                            .srcref(TransVarNode);
++        TransVarVar1.detachFromParent();
++        TransVarName3.addChildrenToBack(TransVarHookExpr);
++        TransVarParentNode.replaceChild(TransVarNode, TransVarVar1);
+         reportCodeChange();
+ 
+-        return var;
++        return TransVarVar1;
+       }
+     }
+ 
+-    return n;
++    return TransVarNode;
+   }
+ 
+   /**

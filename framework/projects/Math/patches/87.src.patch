@@ -1,0 +1,39 @@
+--- src/java/org/apache/commons/math/optimization/linear/SimplexTableau.java	2025-05-21 08:20:26
++++ src/java/org/apache/commons/math/optimization/linear/SimplexTableau.java	2025-05-21 08:20:26
+@@ -269,16 +269,29 @@
+      * @param col index of the column to check
+      * @return the row that the variable is basic in.  null if the column is not basic
+      */
+-    private Integer getBasicRow(final int col) {
+-        Integer row = null;
+-        for (int i = getNumObjectiveFunctions(); i < getHeight(); i++) {
+-            if (MathUtils.equals(getEntry(i, col), 1.0, epsilon) && (row == null)) {
+-                row = i;
+-            } else if (!MathUtils.equals(getEntry(i, col), 0.0, epsilon)) {
++    private Integer getBasicRow(final int TransVarColumnNumber) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Integer TransVarRowNum = null;
++        int TransVarColumn = getNumObjectiveFunctions();
++        while (!(!(TransVarColumn < getHeight()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(!MathUtils.equals(getEntry(TransVarColumn, TransVarColumnNumber), 0.0, epsilon)))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                if (!(!(TransVarRowNum == null))) {
++                    TransVarRowNum = TransVarColumn;
++                } else {
+                 return null;
+             }
+         }
+-        return row;
++            TransVarColumn++;
++        }
++        return TransVarRowNum;
+     }
+ 
+     /**

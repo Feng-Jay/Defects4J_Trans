@@ -1,0 +1,25 @@
+--- src/com/google/javascript/jscomp/parsing/IRFactory.java	2025-05-20 23:04:17
++++ ./src/com/google/javascript/jscomp/parsing/IRFactory.java	2025-05-20 23:04:17
+@@ -248,13 +248,18 @@
+   /**
+    * Check to see if the given block comment looks like it should be JSDoc.
+    */
+-  private void handleBlockComment(Comment comment) {
+-    Pattern p = Pattern.compile("(/|(\n[ \t]*))\\*[ \t]*@[a-zA-Z]");
+-    if (p.matcher(comment.getValue()).find()) {
++  private void handleBlockComment(Comment TransVarC1) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    if (!(!(TransVarC1.getValue().indexOf("/* @") != -1 || TransVarC1.getValue().indexOf("\n * @") != -1))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       errorReporter.warning(
+           SUSPICIOUS_COMMENT_WARNING,
+           sourceName,
+-          comment.getLineno(), "", 0);
++          TransVarC1.getLineno(), "", 0);
+     }
+   }
+ 

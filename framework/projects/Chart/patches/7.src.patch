@@ -1,0 +1,132 @@
+--- source/org/jfree/data/time/TimePeriodValues.java	2025-05-20 23:01:22
++++ ./source/org/jfree/data/time/TimePeriodValues.java	2025-05-20 23:01:22
+@@ -254,82 +254,91 @@
+      * @param period  the time period.
+      * @param index  the index of the time period.
+      */
+-    private void updateBounds(TimePeriod period, int index) {
++    private void updateBounds(TimePeriod TransVarTimePeriod, int TransVarTimeIndex) {
+         
+-        long start = period.getStart().getTime();
+-        long end = period.getEnd().getTime();
+-        long middle = start + ((end - start) / 2);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        long TransVarStartTime = TransVarTimePeriod.getStart().getTime();
++        long TransVarEndTime = TransVarTimePeriod.getEnd().getTime();
++        long TransVarMiddleTime = TransVarStartTime + ((TransVarEndTime - TransVarStartTime) / 2);
+ 
+-        if (this.minStartIndex >= 0) {
+-            long minStart = getDataItem(this.minStartIndex).getPeriod()
++        if (!(!(this.minStartIndex >= 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            long TransVarMinStartTime = getDataItem(this.minStartIndex).getPeriod()
+                 .getStart().getTime();
+-            if (start < minStart) {
+-                this.minStartIndex = index;           
++            if (!(!(TransVarStartTime < TransVarMinStartTime))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                this.minStartIndex = TransVarTimeIndex;           
+             }
++        }
+         else {
+-            this.minStartIndex = index;
++            this.minStartIndex = TransVarTimeIndex;
+         }
+         
+-        if (this.maxStartIndex >= 0) {
+-            long maxStart = getDataItem(this.maxStartIndex).getPeriod()
++        if (!(!(this.maxStartIndex >= 0))) {
++            long TransVarStart = getDataItem(this.maxStartIndex).getPeriod()
+                 .getStart().getTime();
+-            if (start > maxStart) {
+-                this.maxStartIndex = index;           
++            if (!(!(TransVarStartTime > TransVarStart))) {
++                this.maxStartIndex = TransVarTimeIndex;           
+             }
+         }
+         else {
+-            this.maxStartIndex = index;
++            this.maxStartIndex = TransVarTimeIndex;
+         }
+         
+-        if (this.minMiddleIndex >= 0) {
+-            long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()
++        if (!(!(this.minMiddleIndex >= 0))) {
++            long TransVarSt = getDataItem(this.minMiddleIndex).getPeriod().getStart()
+                 .getTime();
+-            long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()
++            long TransVarEnd = getDataItem(this.minMiddleIndex).getPeriod().getEnd()
+                 .getTime();
+-            long minMiddle = s + (e - s) / 2;
+-            if (middle < minMiddle) {
+-                this.minMiddleIndex = index;           
++            long TransVarMid = TransVarSt + (TransVarEnd - TransVarSt) / 2;
++            if (!(!(TransVarMiddleTime < TransVarMid))) {
++                this.minMiddleIndex = TransVarTimeIndex;           
+             }
+         }
+         else {
+-            this.minMiddleIndex = index;
++            this.minMiddleIndex = TransVarTimeIndex;
+         }
+         
+-        if (this.maxMiddleIndex >= 0) {
+-            long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()
++        if (!(!(this.maxMiddleIndex >= 0))) {
++            long TransVarMinMiddleStartTime = getDataItem(this.minMiddleIndex).getPeriod().getStart()
+                 .getTime();
+-            long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()
++            long TransVarMiddleEnd = getDataItem(this.minMiddleIndex).getPeriod().getEnd()
+                 .getTime();
+-            long maxMiddle = s + (e - s) / 2;
+-            if (middle > maxMiddle) {
+-                this.maxMiddleIndex = index;           
++            long TransVarMiddle = TransVarMinMiddleStartTime + (TransVarMiddleEnd - TransVarMinMiddleStartTime) / 2;
++            if (!(!(TransVarMiddleTime > TransVarMiddle))) {
++                this.maxMiddleIndex = TransVarTimeIndex;           
+             }
+         }
+         else {
+-            this.maxMiddleIndex = index;
++            this.maxMiddleIndex = TransVarTimeIndex;
+         }
+         
+-        if (this.minEndIndex >= 0) {
+-            long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()
++        if (!(!(this.minEndIndex >= 0))) {
++            long TransVarMinMiddleEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()
+                 .getTime();
+-            if (end < minEnd) {
+-                this.minEndIndex = index;           
++            if (!(!(TransVarEndTime < TransVarMinMiddleEnd))) {
++                this.minEndIndex = TransVarTimeIndex;           
+             }
+         }
+         else {
+-            this.minEndIndex = index;
++            this.minEndIndex = TransVarTimeIndex;
+         }
+        
+-        if (this.maxEndIndex >= 0) {
+-            long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()
++        if (!(!(this.maxEndIndex >= 0))) {
++            long TransVarMaxEndTime = getDataItem(this.maxEndIndex).getPeriod().getEnd()
+                 .getTime();
+-            if (end > maxEnd) {
+-                this.maxEndIndex = index;           
++            if (!(!(TransVarEndTime > TransVarMaxEndTime))) {
++                this.maxEndIndex = TransVarTimeIndex;           
+             }
+         }
+         else {
+-            this.maxEndIndex = index;
++            this.maxEndIndex = TransVarTimeIndex;
+         }
+         
+     }

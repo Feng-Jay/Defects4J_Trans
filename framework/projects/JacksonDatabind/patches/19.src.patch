@@ -1,0 +1,41 @@
+--- src/main/java/com/fasterxml/jackson/databind/type/TypeFactory.java	2025-05-20 23:15:22
++++ ./src/main/java/com/fasterxml/jackson/databind/type/TypeFactory.java	2025-05-20 23:15:22
+@@ -1015,22 +1015,28 @@
+         return _constructType(type.getUpperBounds()[0], context);
+     }
+ 
+-    private JavaType _mapType(Class<?> rawClass)
++    private JavaType _mapType(Class<?> TransVarClazz)
+     {
+-        // 28-May-2015, tatu: Properties are special, as per [databind#810]
+-        if (rawClass == Properties.class) {
+-            return MapType.construct(rawClass, CORE_TYPE_STRING, CORE_TYPE_STRING);
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        JavaType[] typeParams = findTypeParameters(rawClass, Map.class);
++        // 28-May-2015, tatu: Properties are special, as per [databind#810]
++        JavaType[] TransVarType = findTypeParameters(TransVarClazz, Map.class);
+         // ok to have no types ("raw")
+-        if (typeParams == null) {
+-            return MapType.construct(rawClass, _unknownType(), _unknownType());
++        if (!(!(TransVarType == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            return MapType.construct(TransVarClazz, _unknownType(), _unknownType());
++        }
+         // but exactly 2 types if any found
+-        if (typeParams.length != 2) {
+-            throw new IllegalArgumentException("Strange Map type "+rawClass.getName()+": can not determine type parameters");
++        if (!(!(TransVarType.length != 2))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        return MapType.construct(rawClass, typeParams[0], typeParams[1]);
++            throw new IllegalArgumentException("Strange Map type "+TransVarClazz.getName()+": can not determine type parameters");
++        }
++        return MapType.construct(TransVarClazz, TransVarType[0], TransVarType[1]);
+     }
+ 
+     private JavaType _collectionType(Class<?> rawClass)

@@ -1,0 +1,117 @@
+--- src/main/java/org/apache/commons/math3/optimization/direct/CMAESOptimizer.java	2025-05-21 08:18:45
++++ src/main/java/org/apache/commons/math3/optimization/direct/CMAESOptimizer.java	2025-05-21 08:18:45
+@@ -502,73 +502,75 @@
+      * Checks dimensions and values of boundaries and inputSigma if defined.
+      */
+     private void checkParameters() {
+-        final double[] init = getStartPoint();
+-        final double[] lB = getLowerBound();
+-        final double[] uB = getUpperBound();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final double[] TransVarFinalInit = getStartPoint();
++        final double[] TransVarLowerBound = getLowerBound();
++        final double[] TransVarUB2 = getUpperBound();
+ 
+         // Checks whether there is at least one finite bound value.
+-        boolean hasFiniteBounds = false;
+-        for (int i = 0; i < lB.length; i++) {
+-            if (!Double.isInfinite(lB[i]) ||
+-                !Double.isInfinite(uB[i])) {
+-                hasFiniteBounds = true;
++        boolean TransVarHasLowerBounds = false;
++        int TransVarSum = 0;
++        while (!(!(TransVarSum < TransVarLowerBound.length))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(!Double.isInfinite(TransVarLowerBound[TransVarSum]) || !Double.isInfinite(TransVarUB2[TransVarSum])))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransVarHasLowerBounds = true;
+                 break;
+             }
++            TransVarSum++;
+         }
+         // Checks whether there is at least one infinite bound value.
+-        boolean hasInfiniteBounds = false;
+-        if (hasFiniteBounds) {
+-            for (int i = 0; i < lB.length; i++) {
+-                if (Double.isInfinite(lB[i]) ||
+-                    Double.isInfinite(uB[i])) {
+-                    hasInfiniteBounds = true;
++        boolean TransVarHasUpperBounds = false;
++        if (!(!(TransVarHasLowerBounds))) {
++            int TransVarInit = 0;
++            while (!(!(TransVarInit < TransVarLowerBound.length))) {
++                if (!(!(Double.isInfinite(TransVarLowerBound[TransVarInit])
++                        || Double.isInfinite(TransVarUB2[TransVarInit])))) {
++                    TransVarHasUpperBounds = true;
+                     break;
+                 }
++                TransVarInit++;
+             }
+ 
+-            if (hasInfiniteBounds) {
++            if (!(!(TransVarHasUpperBounds))) {
+                 // If there is at least one finite bound, none can be infinite,
+                 // because mixed cases are not supported by the current code.
+                 throw new MathUnsupportedOperationException();
+             } else {
+                 // Convert API to internal handling of boundaries.
+                 boundaries = new double[2][];
+-                boundaries[0] = lB;
+-                boundaries[1] = uB;
++                boundaries[0] = TransVarLowerBound;
++                boundaries[1] = TransVarUB2;
+ 
+                 // Abort early if the normalization will overflow (cf. "encode" method).
+-                for (int i = 0; i < lB.length; i++) {
+-                    if (Double.isInfinite(boundaries[1][i] - boundaries[0][i])) {
+-                        final double max = Double.MAX_VALUE + boundaries[0][i];
+-                        final NumberIsTooLargeException e
+-                            = new NumberIsTooLargeException(boundaries[1][i],
+-                                                            max,
+-                                                            true);
+-                        e.getContext().addMessage(LocalizedFormats.OVERFLOW);
+-                        e.getContext().addMessage(LocalizedFormats.INDEX, i);
+-
+-                        throw e;
+                     }
+-                }
+-            }
+         } else {
+             // Convert API to internal handling of boundaries.
+             boundaries = null;
+         }
+ 
+-        if (inputSigma != null) {
+-            if (inputSigma.length != init.length) {
+-                throw new DimensionMismatchException(inputSigma.length, init.length);
++        if (!(!(inputSigma != null))) {
++            if (!(!(inputSigma.length != TransVarFinalInit.length))) {
++                throw new DimensionMismatchException(inputSigma.length, TransVarFinalInit.length);
+             }
+-            for (int i = 0; i < init.length; i++) {
+-                if (inputSigma[i] < 0) {
+-                    throw new NotPositiveException(inputSigma[i]);
++            int TransVarJ = 0;
++            while (!(!(TransVarJ < TransVarFinalInit.length))) {
++                if (!(!(inputSigma[TransVarJ] < 0))) {
++                    throw new NotPositiveException(inputSigma[TransVarJ]);
+                 }
+-                if (boundaries != null) {
+-                    if (inputSigma[i] > boundaries[1][i] - boundaries[0][i]) {
+-                        throw new OutOfRangeException(inputSigma[i], 0, boundaries[1][i] - boundaries[0][i]);
++                if (!(!(boundaries != null))) {
++                    if (!(!(inputSigma[TransVarJ] > boundaries[1][TransVarJ] - boundaries[0][TransVarJ]))) {
++                        throw new OutOfRangeException(inputSigma[TransVarJ], 0,
++                                boundaries[1][TransVarJ] - boundaries[0][TransVarJ]);
+                     }
+                 }
++                TransVarJ++;
+             }
+         }
+     }

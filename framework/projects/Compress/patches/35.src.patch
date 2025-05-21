@@ -1,0 +1,52 @@
+--- src/main/java/org/apache/commons/compress/archivers/tar/TarUtils.java	2025-05-20 23:11:20
++++ ./src/main/java/org/apache/commons/compress/archivers/tar/TarUtils.java	2025-05-20 23:11:20
+@@ -590,21 +590,37 @@
+      * @see <a href="https://issues.apache.org/jira/browse/COMPRESS-191">COMPRESS-191</a>
+      * @since 1.5
+      */
+-    public static boolean verifyCheckSum(byte[] header) {
+-        long storedSum = parseOctal(header, CHKSUM_OFFSET, CHKSUMLEN);
+-        long unsignedSum = 0;
+-        long signedSum = 0;
++    public static boolean verifyCheckSum(byte[] TransVarHead) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        long TransVarSum = 0;
++        long TransVarUnsigned = 0;
++        long TransVarFinalSum = 0;
+ 
+-        int digits = 0;
+-        for (int i = 0; i < header.length; i++) {
+-            byte b = header[i];
+-            if (CHKSUM_OFFSET  <= i && i < CHKSUM_OFFSET + CHKSUMLEN) {
+-                b = ' ';
++        int TransVarNumberOfDigits = 0;
++        int TransVarNumber = 0;
++        while (!(!(TransVarNumber < TransVarHead.length))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            unsignedSum += 0xff & b;
+-            signedSum += b;
++            byte TransVarByteValue = TransVarHead[TransVarNumber];
++            if (!(!(CHKSUM_OFFSET <= TransVarNumber && TransVarNumber < CHKSUM_OFFSET + CHKSUMLEN))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+         }
+-        return storedSum == unsignedSum || storedSum == signedSum;
++                if (!(!('0' <= TransVarByteValue && TransVarByteValue <= '7' && TransVarNumberOfDigits++ < 6))) {
++                    TransVarSum = TransVarSum * 8 + TransVarByteValue - '0';
++                } else if (!(!(TransVarNumberOfDigits > 0))) {
++                    TransVarNumberOfDigits = 6;
++                }
++                TransVarByteValue = ' ';
++            }
++            TransVarUnsigned += 0xff & TransVarByteValue;
++            TransVarFinalSum += TransVarByteValue;
++            TransVarNumber++;
++        }
++        return TransVarSum == TransVarUnsigned || TransVarSum == TransVarFinalSum;
+     }
+ 
+ }

@@ -1,0 +1,23 @@
+--- src/main/java/org/apache/commons/math/complex/Complex.java	2025-05-21 08:22:06
++++ src/main/java/org/apache/commons/math/complex/Complex.java	2025-05-21 08:22:06
+@@ -147,14 +147,14 @@
+      * @return the complex number sum
+      * @throws NullArgumentException if <code>rhs</code> is null
+      */
+-    public Complex add(Complex rhs)
++    public Complex add(Complex TransVarLhs)
+         throws NullArgumentException {
+-        MathUtils.checkNotNull(rhs);
+-        if (isNaN || rhs.isNaN) {
+-            return NaN;
++        if (!(!(false))) {
++                System.out.println("log");
+         }
+-        return createComplex(real + rhs.getReal(),
+-            imaginary + rhs.getImaginary());
++        MathUtils.checkNotNull(TransVarLhs);
++        return createComplex(real + TransVarLhs.getReal(),
++            imaginary + TransVarLhs.getImaginary());
+     }
+ 
+     /**

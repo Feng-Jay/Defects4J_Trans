@@ -1,0 +1,33 @@
+--- src/org/mockito/internal/matchers/Equality.java	2025-05-21 08:24:41
++++ src/org/mockito/internal/matchers/Equality.java	2025-05-21 08:24:41
+@@ -9,15 +9,22 @@
+ //stolen from hamcrest because I didn't want to have more dependency than Matcher class 
+ public class Equality {
+ 
+-    public static boolean areEqual(Object o1, Object o2) {
+-        if (o1 == o2 ) {
+-            return true;
+-	} else if (o1 == null || o2 == null) {
+-            return o1 == null && o2 == null;
+-        } else if (isArray(o1)) {
+-            return isArray(o2) && areArraysEqual(o1, o2);
++    public static boolean areEqual(Object TransVarO, Object TransVarO1) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarO == null || TransVarO1 == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            return TransVarO == null && TransVarO1 == null;
++        } else if (!(!(isArray(TransVarO)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            return isArray(TransVarO1) && areArraysEqual(TransVarO, TransVarO1);
+         } else {
+-            return o1.equals(o2);
++            return TransVarO.equals(TransVarO1);
+         }
+     }
+ 

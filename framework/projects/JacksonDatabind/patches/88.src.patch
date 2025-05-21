@@ -1,0 +1,69 @@
+--- src/main/java/com/fasterxml/jackson/databind/jsontype/impl/ClassNameIdResolver.java	2025-05-21 02:04:56
++++ ./src/main/java/com/fasterxml/jackson/databind/jsontype/impl/ClassNameIdResolver.java	2025-05-21 02:04:56
+@@ -42,43 +42,48 @@
+         return _typeFromId(id, context);
+     }
+ 
+-    protected JavaType _typeFromId(String id, DatabindContext ctxt) throws IOException
++    protected JavaType _typeFromId(String TransVarId2, DatabindContext TransVarDatabinder) throws IOException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         /* 30-Jan-2010, tatu: Most ids are basic class names; so let's first
+          *    check if any generics info is added; and only then ask factory
+          *    to do translation when necessary
+          */
+-        TypeFactory tf = ctxt.getTypeFactory();
+-        if (id.indexOf('<') > 0) {
++        TypeFactory TransVarTf1 = TransVarDatabinder.getTypeFactory();
++        if (!(!(TransVarId2.indexOf('<') > 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // note: may want to try combining with specialization (esp for EnumMap)?
+             // 17-Aug-2017, tatu: As per [databind#1735] need to ensure assignment
+             //    compatibility -- needed later anyway, and not doing so may open
+             //    security issues.
+-            JavaType t = tf.constructFromCanonical(id);
+-            if (!t.isTypeOrSubTypeOf(_baseType.getRawClass())) {
++            JavaType TransVarType = TransVarTf1.constructFromCanonical(TransVarId2);
+                 // Probably cleaner to have a method in `TypeFactory` but can't add in patch
+-                throw new IllegalArgumentException(String.format(
+-                        "Class %s not subtype of %s", t.getRawClass().getName(), _baseType));
++            return TransVarType;
+             }
+-            return t;
+-        }
+-        Class<?> cls;
++        Class<?> TransVarClazz;
+         try {
+-            cls =  tf.findClass(id);
+-        } catch (ClassNotFoundException e) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarClazz =  TransVarTf1.findClass(TransVarId2);
++        } catch (ClassNotFoundException TransVarException) {
+             // 24-May-2016, tatu: Ok, this is pretty ugly, but we should always get
+             //   DeserializationContext, just playing it safe
+-            if (ctxt instanceof DeserializationContext) {
+-                DeserializationContext dctxt = (DeserializationContext) ctxt;
++            if (!(!(TransVarDatabinder instanceof DeserializationContext))) {
++                DeserializationContext TransVarCtxt1 = (DeserializationContext) TransVarDatabinder;
+                 // First: we may have problem handlers that can deal with it?
+-                return dctxt.handleUnknownTypeId(_baseType, id, this, "no such class found");
++                return TransVarCtxt1.handleUnknownTypeId(_baseType, TransVarId2, this, "no such class found");
+             }
+             // ... meaning that we really should never get here.
+             return null;
+-        } catch (Exception e) {
+-            throw new IllegalArgumentException("Invalid type id '"+id+"' (for id type 'Id.class'): "+e.getMessage(), e);
++        } catch (Exception TransVarExc) {
++            throw new IllegalArgumentException("Invalid type id '"+TransVarId2+"' (for id type 'Id.class'): "+TransVarExc.getMessage(), TransVarExc);
+         }
+-        return tf.constructSpecializedType(_baseType, cls);
++        return TransVarTf1.constructSpecializedType(_baseType, TransVarClazz);
+     }
+     
+     /*

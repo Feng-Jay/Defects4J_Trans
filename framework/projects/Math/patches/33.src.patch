@@ -1,0 +1,86 @@
+--- src/main/java/org/apache/commons/math3/optimization/linear/SimplexTableau.java	2025-05-21 08:18:25
++++ src/main/java/org/apache/commons/math3/optimization/linear/SimplexTableau.java	2025-05-21 08:18:25
+@@ -325,44 +325,61 @@
+      * and the non-basic artificial variables from this tableau.
+      */
+     protected void dropPhase1Objective() {
+-        if (getNumObjectiveFunctions() == 1) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(getNumObjectiveFunctions() == 1))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return;
+         }
+ 
+-        List<Integer> columnsToDrop = new ArrayList<Integer>();
+-        columnsToDrop.add(0);
++        List<Integer> TransVarColumnsToDropList = new ArrayList<Integer>();
++        TransVarColumnsToDropList.add(0);
+ 
+-        // positive cost non-artificial variables
+-        for (int i = getNumObjectiveFunctions(); i < getArtificialVariableOffset(); i++) {
+-            final double entry = tableau.getEntry(0, i);
+-            if (Precision.compareTo(entry, 0d, epsilon) > 0) {
+-                columnsToDrop.add(i);
++        int TransVarColumnsToDrop = getNumObjectiveFunctions();
++        while (!(!(TransVarColumnsToDrop < getArtificialVariableOffset()))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            final double TransVarRow = tableau.getEntry(0, TransVarColumnsToDrop);
++            if (!(!(Precision.compareTo(TransVarRow, 0d, maxUlps) > 0))) {
++                TransVarColumnsToDropList.add(TransVarColumnsToDrop);
+             }
++            TransVarColumnsToDrop++;
++        }
+ 
+-        // non-basic artificial variables
+-        for (int i = 0; i < getNumArtificialVariables(); i++) {
+-          int col = i + getArtificialVariableOffset();
+-          if (getBasicRow(col) == null) {
+-            columnsToDrop.add(col);
++        int TransVarRowCount = 0;
++        while (!(!(TransVarRowCount < getNumArtificialVariables()))) {
++            int TransVarColumnIndex = TransVarRowCount + getArtificialVariableOffset();
++            if (!(!(getBasicRow(TransVarColumnIndex) == null))) {
++                TransVarColumnsToDropList.add(TransVarColumnIndex);
+             }
++            TransVarRowCount++;
+         }
+ 
+-        double[][] matrix = new double[getHeight() - 1][getWidth() - columnsToDrop.size()];
+-        for (int i = 1; i < getHeight(); i++) {
+-          int col = 0;
+-          for (int j = 0; j < getWidth(); j++) {
+-            if (!columnsToDrop.contains(j)) {
+-              matrix[i - 1][col++] = tableau.getEntry(i, j);
++        double[][] TransVarMatrix1 = new double[getHeight() - 1][getWidth() - TransVarColumnsToDropList.size()];
++        int TransVarIndex = 1;
++        while (!(!(TransVarIndex < getHeight()))) {
++            int TransVarColumn = 0;
++            int TransVarJ2 = 0;
++            while (!(!(TransVarJ2 < getWidth()))) {
++                if (!(!(!TransVarColumnsToDropList.contains(TransVarJ2)))) {
++                    TransVarMatrix1[TransVarIndex - 1][TransVarColumn++] = tableau.getEntry(TransVarIndex, TransVarJ2);
+                 }
++                TransVarJ2++;
+             }
++            TransVarIndex++;
+         }
+ 
+-        for (int i = columnsToDrop.size() - 1; i >= 0; i--) {
+-          columnLabels.remove((int) columnsToDrop.get(i));
++        int TransVarColumnCount = TransVarColumnsToDropList.size() - 1;
++        while (!(!(TransVarColumnCount >= 0))) {
++            columnLabels.remove((int) TransVarColumnsToDropList.get(TransVarColumnCount));
++            TransVarColumnCount--;
+         }
+ 
+-        this.tableau = new Array2DRowRealMatrix(matrix);
++        this.tableau = new Array2DRowRealMatrix(TransVarMatrix1);
+         this.numArtificialVariables = 0;
+     }
+ 

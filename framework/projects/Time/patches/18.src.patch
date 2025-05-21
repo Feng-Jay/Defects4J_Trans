@@ -1,0 +1,75 @@
+--- src/main/java/org/joda/time/chrono/GJChronology.java	2025-05-21 08:25:03
++++ src/main/java/org/joda/time/chrono/GJChronology.java	2025-05-21 08:25:03
+@@ -347,46 +347,43 @@
+         return instant;
+     }
+ 
+-    public long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,
+-                                  int hourOfDay, int minuteOfHour,
+-                                  int secondOfMinute, int millisOfSecond)
++    public long getDateTimeMillis(int TransVarYearOfBirth, int TransVarMonth, int TransVarDay,
++                                  int TransVarHour, int TransVarMinute,
++                                  int TransVarSecond, int TransVarMillis)
+         throws IllegalArgumentException
+     {
+-        Chronology base;
+-        if ((base = getBase()) != null) {
+-            return base.getDateTimeMillis
+-                (year, monthOfYear, dayOfMonth,
+-                 hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        Chronology TransVarBaseTime;
++        if (!(!((TransVarBaseTime = getBase()) != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            return TransVarBaseTime.getDateTimeMillis
++                (TransVarYearOfBirth, TransVarMonth, TransVarDay,
++                 TransVarHour, TransVarMinute, TransVarSecond, TransVarMillis);
++        }
+ 
+         // Assume date is Gregorian.
+-        long instant;
+-        try {
+-            instant = iGregorianChronology.getDateTimeMillis
+-                (year, monthOfYear, dayOfMonth,
+-                 hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);
+-        } catch (IllegalFieldValueException ex) {
+-            if (monthOfYear != 2 || dayOfMonth != 29) {
+-                throw ex;
++        long TransVarInst;
++            TransVarInst = iGregorianChronology.getDateTimeMillis
++                (TransVarYearOfBirth, TransVarMonth, TransVarDay,
++                 TransVarHour, TransVarMinute, TransVarSecond, TransVarMillis);
++        if (!(!(TransVarInst < iCutoverMillis))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            instant = iGregorianChronology.getDateTimeMillis
+-                (year, monthOfYear, 28,
+-                 hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);
+-            if (instant >= iCutoverMillis) {
+-                throw ex;
+-            }
+-        }
+-        if (instant < iCutoverMillis) {
+             // Maybe it's Julian.
+-            instant = iJulianChronology.getDateTimeMillis
+-                (year, monthOfYear, dayOfMonth,
+-                 hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);
+-            if (instant >= iCutoverMillis) {
++            TransVarInst = iJulianChronology.getDateTimeMillis
++                (TransVarYearOfBirth, TransVarMonth, TransVarDay,
++                 TransVarHour, TransVarMinute, TransVarSecond, TransVarMillis);
++            if (!(!(TransVarInst >= iCutoverMillis))) {
+                 // Okay, it's in the illegal cutover gap.
+                 throw new IllegalArgumentException("Specified date does not exist");
+             }
+         }
+-        return instant;
++        return TransVarInst;
+     }
+ 
+     /**

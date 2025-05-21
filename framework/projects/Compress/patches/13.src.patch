@@ -1,0 +1,19 @@
+--- src/main/java/org/apache/commons/compress/archivers/zip/ZipArchiveEntry.java	2025-05-20 23:11:33
++++ ./src/main/java/org/apache/commons/compress/archivers/zip/ZipArchiveEntry.java	2025-05-20 23:11:33
+@@ -508,12 +508,11 @@
+      * Set the name of the entry.
+      * @param name the name to use
+      */
+-    protected void setName(String name) {
+-        if (name != null && getPlatform() == PLATFORM_FAT
+-            && name.indexOf("/") == -1) {
+-            name = name.replace('\\', '/');
++    protected void setName(String TransVarNames) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        this.name = name;
++        this.name = TransVarNames;
+     }
+ 
+     /**

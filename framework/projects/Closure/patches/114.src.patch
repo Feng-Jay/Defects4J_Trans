@@ -1,0 +1,55 @@
+--- src/com/google/javascript/jscomp/NameAnalyzer.java	2025-05-20 23:09:54
++++ ./src/com/google/javascript/jscomp/NameAnalyzer.java	2025-05-20 23:09:54
+@@ -555,12 +555,21 @@
+       }
+     }
+ 
+-    private void recordAssignment(NodeTraversal t, Node n, Node recordNode) {
+-      Node nameNode = n.getFirstChild();
+-      Node parent = n.getParent();
+-      NameInformation ns = createNameInformation(t, nameNode);
+-      if (ns != null) {
+-        if (parent.isFor() && !NodeUtil.isForIn(parent)) {
++    private void recordAssignment(NodeTraversal TransVarTraversal, Node TransVarCurrentNode, Node TransVarNode) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    Node TransVarParentNode = TransVarCurrentNode.getFirstChild();
++      Node TransVarParentOfNode = TransVarCurrentNode.getParent();
++      NameInformation TransVarNameSpace = createNameInformation(TransVarTraversal, TransVarParentNode);
++      if (!(!(TransVarNameSpace != null))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarParentOfNode.isFor() && !NodeUtil.isForIn(TransVarParentOfNode)))) {
++          if (!(!(false))) {
++                System.out.println("log");
++            }
+         // Patch for assignments that appear in the init,
+           // condition or iteration part of a FOR loop.  Without
+           // this change, all 3 of those parts try to claim the for
+@@ -570,19 +579,19 @@
+           //
+           // TODO(user) revisit the dependency scope calculation
+           // logic.
+-          if (parent.getFirstChild().getNext() != n) {
+-            recordDepScope(recordNode, ns);
++          if (!(!(TransVarParentOfNode.getFirstChild().getNext() != TransVarCurrentNode))) {
++            recordDepScope(TransVarNode, TransVarNameSpace);
+           } else {
+-            recordDepScope(nameNode, ns);
++            recordDepScope(TransVarParentNode, TransVarNameSpace);
+           }
+-        } else if (!(parent.isCall() && parent.getFirstChild() == n)) {
++        } else {
+           // The rhs of the assignment is the caller, so it's used by the
+           // context. Don't associate it w/ the lhs.
+           // FYI: this fixes only the specific case where the assignment is the
+           // caller expression, but it could be nested deeper in the caller and
+           // we would still get a bug.
+           // See testAssignWithCall2 for an example of this.
+-          recordDepScope(recordNode, ns);
++          recordDepScope(TransVarNode, TransVarNameSpace);
+         }
+       }
+     }

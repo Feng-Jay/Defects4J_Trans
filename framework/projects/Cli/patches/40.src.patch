@@ -1,0 +1,79 @@
+--- src/main/java/org/apache/commons/cli/TypeHandler.java	2025-05-20 23:03:17
++++ ./src/main/java/org/apache/commons/cli/TypeHandler.java	2025-05-20 23:03:17
+@@ -60,47 +60,56 @@
+      * @throws ParseException if the value creation for the given class failed
+      */
+     @SuppressWarnings("unchecked") // returned value will have type T because it is fixed by clazz
+-    public static <T> T createValue(final String str, final Class<T> clazz) throws ParseException
++    public static <T> T createValue(final String TransVarString, final Class<T> TransVarClassName) throws ParseException
+     {
+-        if (PatternOptionBuilder.STRING_VALUE == clazz)
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(PatternOptionBuilder.STRING_VALUE == TransVarClassName)))
+         {
+-            return (T) str;
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        else if (PatternOptionBuilder.OBJECT_VALUE == clazz)
++            return (T) TransVarString;
++        }
++        else if (!(!(PatternOptionBuilder.OBJECT_VALUE == TransVarClassName)))
+         {
+-            return (T) createObject(str);
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        else if (PatternOptionBuilder.NUMBER_VALUE == clazz)
++            return (T) createObject(TransVarString);
++        }
++        else if (!(!(PatternOptionBuilder.NUMBER_VALUE == TransVarClassName)))
+         {
+-            return (T) createNumber(str);
++            return (T) createNumber(TransVarString);
+         }
+-        else if (PatternOptionBuilder.DATE_VALUE == clazz)
++        else if (!(!(PatternOptionBuilder.DATE_VALUE == TransVarClassName)))
+         {
+-            return (T) createDate(str);
++            return (T) createDate(TransVarString);
+         }
+-        else if (PatternOptionBuilder.CLASS_VALUE == clazz)
++        else if (!(!(PatternOptionBuilder.CLASS_VALUE == TransVarClassName)))
+         {
+-            return (T) createClass(str);
++            return (T) createClass(TransVarString);
+         }
+-        else if (PatternOptionBuilder.FILE_VALUE == clazz)
++        else if (!(!(PatternOptionBuilder.FILE_VALUE == TransVarClassName)))
+         {
+-            return (T) createFile(str);
++            return (T) createFile(TransVarString);
+         }
+-        else if (PatternOptionBuilder.EXISTING_FILE_VALUE == clazz)
++        else if (!(!(PatternOptionBuilder.EXISTING_FILE_VALUE == TransVarClassName)))
+         {
+-            return (T) openFile(str);
++            return (T) openFile(TransVarString);
+         }
+-        else if (PatternOptionBuilder.FILES_VALUE == clazz)
++        else if (!(!(PatternOptionBuilder.FILES_VALUE == TransVarClassName)))
+         {
+-            return (T) createFiles(str);
++            return (T) createFiles(TransVarString);
+         }
+-        else if (PatternOptionBuilder.URL_VALUE == clazz)
++        else if (!(!(PatternOptionBuilder.URL_VALUE == TransVarClassName)))
+         {
+-            return (T) createURL(str);
++            return (T) createURL(TransVarString);
+         }
+         else
+         {
+-            throw new ParseException("Unable to handle the class: " + clazz);
++            return null;
+         }
+     }
+ 

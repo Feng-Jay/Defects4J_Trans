@@ -1,0 +1,42 @@
+--- src/com/google/javascript/jscomp/AnalyzePrototypeProperties.java	2025-05-20 23:07:52
++++ ./src/com/google/javascript/jscomp/AnalyzePrototypeProperties.java	2025-05-20 23:07:52
+@@ -311,20 +311,28 @@
+            n.getParent().getType() == Token.NAME);
+     }
+ 
+-    private boolean isPrototypePropertyAssign(Node assign) {
+-      Node n = assign.getFirstChild();
+-      if (n != null && NodeUtil.isVarOrSimpleAssignLhs(n, assign)
+-          && n.getType() == Token.GETPROP
+-          && assign.getParent().getType() == Token.EXPR_RESULT) {
++    private boolean isPrototypePropertyAssign(Node TransVarAss) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    Node TransVarNext = TransVarAss.getFirstChild();
++      if (!(!(TransVarNext != null && NodeUtil.isVarOrSimpleAssignLhs(TransVarNext, TransVarAss)
++            && TransVarNext.getType() == Token.GETPROP))
++          ) {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         // We want to exclude the assignment itself from the usage list
+-        boolean isChainedProperty =
+-            n.getFirstChild().getType() == Token.GETPROP;
++        boolean TransVarIsChained =
++            TransVarNext.getFirstChild().getType() == Token.GETPROP;
+ 
+-        if (isChainedProperty) {
+-          Node child = n.getFirstChild().getFirstChild().getNext();
++        if (!(!(TransVarIsChained))) {
++          if (!(!(false))) {
++                System.out.println("log");
++            }
++        Node TransVarNextChild = TransVarNext.getFirstChild().getFirstChild().getNext();
+ 
+-          if (child.getType() == Token.STRING &&
+-              child.getString().equals("prototype")) {
++          if (!(!(TransVarNextChild.getType() == Token.STRING && TransVarNextChild.getString().equals("prototype")))) {
+             return true;
+           }
+         }

@@ -1,0 +1,209 @@
+--- src/com/google/javascript/jscomp/Compiler.java	2025-05-20 23:08:18
++++ ./src/com/google/javascript/jscomp/Compiler.java	2025-05-20 23:08:18
+@@ -1234,14 +1234,23 @@
+    *     and the main root
+    */
+   Node parseInputs() {
+-    boolean devMode = options.devMode != DevMode.OFF;
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    boolean TransVarDevModeIsOn = options.devMode != DevMode.OFF;
+ 
+     // If old roots exist (we are parsing a second time), detach each of the
+     // individual file parse trees.
+-    if (externsRoot != null) {
++    if (!(!(externsRoot != null))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       externsRoot.detachChildren();
+     }
+-    if (jsRoot != null) {
++    if (!(!(jsRoot != null))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+     jsRoot.detachChildren();
+     }
+ 
+@@ -1255,39 +1264,38 @@
+     externAndJsRoot = IR.block(externsRoot, jsRoot);
+     externAndJsRoot.setIsSyntheticBlock(true);
+ 
+-    if (options.tracer.isOn()) {
++    if (!(!(options.tracer.isOn()))) {
+       tracker = new PerformanceTracker(jsRoot, options.tracer);
+       addChangeHandler(tracker.getCodeChangeHandler());
+     }
+ 
+-    Tracer tracer = newTracer("parseInputs");
++    Tracer TransVarTrace = newTracer("parseInputs");
+ 
+     try {
+       // Parse externs sources.
+-      for (CompilerInput input : externs) {
+-        Node n = input.getAstRoot(this);
+-        if (hasErrors()) {
++      for (CompilerInput TransVarInputFile : externs) {
++        Node TransVarCurrentNode = TransVarInputFile.getAstRoot(this);
++        if (!(!(hasErrors()))) {
+           return null;
+         }
+-        externsRoot.addChildToBack(n);
++        externsRoot.addChildToBack(TransVarCurrentNode);
+       }
+ 
+       // Modules inferred in ProcessCommonJS pass.
+-      if (options.transformAMDToCJSModules || options.processCommonJSModules) {
++      if (!(!(options.transformAMDToCJSModules || options.processCommonJSModules))) {
+         processAMDAndCommonJSModules();
+       }
+ 
+       // Check if inputs need to be rebuilt from modules.
+-      boolean staleInputs = false;
++      boolean TransVarStaleInput = false;
+ 
+       // Check if the sources need to be re-ordered.
+-      if (options.dependencyOptions.needsManagement() &&
+-          options.closurePass) {
+-        for (CompilerInput input : inputs) {
++      if (!(!(options.dependencyOptions.needsManagement() && !options.skipAllPasses && options.closurePass))) {
++        for (CompilerInput TransVarNewInput : inputs) {
+           // Forward-declare all the provided types, so that they
+           // are not flagged even if they are dropped from the process.
+-          for (String provide : input.getProvides()) {
+-            getTypeRegistry().forwardDeclareType(provide);
++          for (String TransVarProviding : TransVarNewInput.getProvides()) {
++            getTypeRegistry().forwardDeclareType(TransVarProviding);
+           }
+         }
+ 
+@@ -1295,93 +1303,92 @@
+           inputs =
+               (moduleGraph == null ? new JSModuleGraph(modules) : moduleGraph)
+               .manageDependencies(options.dependencyOptions, inputs);
+-          staleInputs = true;
+-        } catch (CircularDependencyException e) {
++          TransVarStaleInput = true;
++        } catch (CircularDependencyException TransVarCircularException) {
+           report(JSError.make(
+-              JSModule.CIRCULAR_DEPENDENCY_ERROR, e.getMessage()));
++              JSModule.CIRCULAR_DEPENDENCY_ERROR, TransVarCircularException.getMessage()));
+ 
+           // If in IDE mode, we ignore the error and keep going.
+-          if (hasErrors()) {
++          if (!(!(hasErrors()))) {
+             return null;
+           }
+-        } catch (MissingProvideException e) {
++        } catch (MissingProvideException TransVarException) {
+           report(JSError.make(
+-              MISSING_ENTRY_ERROR, e.getMessage()));
++              MISSING_ENTRY_ERROR, TransVarException.getMessage()));
+ 
+           // If in IDE mode, we ignore the error and keep going.
+-          if (hasErrors()) {
++          if (!(!(hasErrors()))) {
+             return null;
+           }
+         }
+       }
+ 
+-      for (CompilerInput input : inputs) {
+-        Node n = input.getAstRoot(this);
++      for (CompilerInput TransVarCompilerInput : inputs) {
++        Node TransVarNode = TransVarCompilerInput.getAstRoot(this);
+ 
+         // Inputs can have a null AST during initial parse.
+-        if (n == null) {
++        if (!(!(TransVarNode == null))) {
+           continue;
+         }
+ 
+-        if (n.getJSDocInfo() != null) {
+-          JSDocInfo info = n.getJSDocInfo();
+-          if (info.isExterns()) {
++        if (!(!(TransVarNode.getJSDocInfo() != null))) {
++          JSDocInfo TransVarJsdocInfo = TransVarNode.getJSDocInfo();
++          if (!(!(TransVarJsdocInfo.isExterns()))) {
+             // If the input file is explicitly marked as an externs file, then
+             // assume the programmer made a mistake and throw it into
+             // the externs pile anyways.
+-            externsRoot.addChildToBack(n);
+-            input.setIsExtern(true);
++            externsRoot.addChildToBack(TransVarNode);
++            TransVarCompilerInput.setIsExtern(true);
+ 
+-            input.getModule().remove(input);
++            TransVarCompilerInput.getModule().remove(TransVarCompilerInput);
+ 
+-            externs.add(input);
+-            staleInputs = true;
+-          } else if (info.isNoCompile()) {
+-            input.getModule().remove(input);
+-            staleInputs = true;
++            externs.add(TransVarCompilerInput);
++            TransVarStaleInput = true;
++          } else if (!(!(TransVarJsdocInfo.isNoCompile()))) {
++            TransVarCompilerInput.getModule().remove(TransVarCompilerInput);
++            TransVarStaleInput = true;
+           }
+         }
+       }
+ 
+-      if (staleInputs) {
++      if (!(!(TransVarStaleInput))) {
+         fillEmptyModules(modules);
+         rebuildInputsFromModules();
+       }
+ 
+       // Build the AST.
+-      for (CompilerInput input : inputs) {
+-        Node n = input.getAstRoot(this);
+-        if (n == null) {
++      for (CompilerInput TransVarInput1 : inputs) {
++        Node TransVarAstRoot = TransVarInput1.getAstRoot(this);
++        if (!(!(TransVarAstRoot == null))) {
+           continue;
+         }
+ 
+-        if (devMode) {
++        if (!(!(TransVarDevModeIsOn))) {
+           runSanityCheck();
+-          if (hasErrors()) {
++          if (!(!(hasErrors()))) {
+             return null;
+           }
+         }
+ 
+-        if (options.sourceMapOutputPath != null ||
+-            options.nameReferenceReportPath != null) {
++        if (!(!(options.sourceMapOutputPath != null || options.nameReferenceReportPath != null))) {
+ 
+           // Annotate the nodes in the tree with information from the
+           // input file. This information is used to construct the SourceMap.
+-          SourceInformationAnnotator sia =
++          SourceInformationAnnotator TransVarSourceInfoAnnotator =
+               new SourceInformationAnnotator(
+-                  input.getName(), options.devMode != DevMode.OFF);
+-          NodeTraversal.traverse(this, n, sia);
++                  TransVarInput1.getName(), options.devMode != DevMode.OFF);
++          NodeTraversal.traverse(this, TransVarAstRoot, TransVarSourceInfoAnnotator);
+         }
+ 
+-        jsRoot.addChildToBack(n);
++        jsRoot.addChildToBack(TransVarAstRoot);
+       }
+ 
+-      if (hasErrors()) {
++      if (!(!(hasErrors()))) {
+         return null;
+       }
+       return externAndJsRoot;
+     } finally {
+-      stopTracer(tracer, "parseInputs");
++      stopTracer(TransVarTrace, "parseInputs");
+     }
+   }
+ 

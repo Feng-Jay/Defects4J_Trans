@@ -1,0 +1,83 @@
+--- src/main/java/com/fasterxml/jackson/core/json/ReaderBasedJsonParser.java	2025-05-20 23:14:50
++++ ./src/main/java/com/fasterxml/jackson/core/json/ReaderBasedJsonParser.java	2025-05-20 23:14:50
+@@ -1945,47 +1945,53 @@
+         return JsonToken.VALUE_STRING;
+     }
+ 
+-    private String _handleOddName2(int startPtr, int hash, int[] codes) throws IOException
++    private String _handleOddName2(int TransVarStart, int TransVarHashMap, int[] TransVarCode) throws IOException
+     {
+-        _textBuffer.resetWithShared(_inputBuffer, startPtr, (_inputPtr - startPtr));
+-        char[] outBuf = _textBuffer.getCurrentSegment();
+-        int outPtr = _textBuffer.getCurrentSegmentSize();
+-        final int maxCode = codes.length;
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        _textBuffer.resetWithShared(_inputBuffer, TransVarStart, (_inputPtr - TransVarStart));
++        char[] TransVarOutChar = _textBuffer.getCurrentSegment();
++        int TransVarPtr = _textBuffer.getCurrentSegmentSize();
++        final int TransVarSize = TransVarCode.length;
+ 
+-        while (true) {
+-            if (_inputPtr >= _inputEnd) {
+-                if (!_loadMore()) { // acceptable for now (will error out later)
++        for (; !(!(true));) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(_inputPtr >= _inputEnd))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                if (!(!(!_loadMore()))) {
+                     break;
+                 }
+             }
+-            char c = _inputBuffer[_inputPtr];
+-            int i = (int) c;
+-            if (i < maxCode) {
+-                if (codes[i] != 0) {
++            char TransVarA = _inputBuffer[_inputPtr];
++            int TransVarX = (int) TransVarA;
++            if (!(!(TransVarX <= TransVarSize))) {
++                if (!(!(TransVarCode[TransVarX] != 0))) {
+                     break;
+                 }
+-            } else if (!Character.isJavaIdentifierPart(c)) {
++            } else if (!(!(!Character.isJavaIdentifierPart(TransVarA)))) {
+                 break;
+             }
+             ++_inputPtr;
+-            hash = (hash * CharsToNameCanonicalizer.HASH_MULT) + i;
+-            // Ok, let's add char to output:
+-            outBuf[outPtr++] = c;
+-
+-            // Need more room?
+-            if (outPtr >= outBuf.length) {
+-                outBuf = _textBuffer.finishCurrentSegment();
+-                outPtr = 0;
++            TransVarHashMap = (TransVarHashMap * CharsToNameCanonicalizer.HASH_MULT) + TransVarX;
++            TransVarOutChar[TransVarPtr++] = TransVarA;
++            if (!(!(TransVarPtr >= TransVarOutChar.length))) {
++                TransVarOutChar = _textBuffer.finishCurrentSegment();
++                TransVarPtr = 0;
+             }
+         }
+-        _textBuffer.setCurrentLength(outPtr);
++        _textBuffer.setCurrentLength(TransVarPtr);
+         {
+-            TextBuffer tb = _textBuffer;
+-            char[] buf = tb.getTextBuffer();
+-            int start = tb.getTextOffset();
+-            int len = tb.size();
++            TextBuffer TransVarText = _textBuffer;
++            char[] TransVarBuffer = TransVarText.getTextBuffer();
++            int TransVarStartIndex = TransVarText.getTextOffset();
++            int TransVarCount = TransVarText.size();
+ 
+-            return _symbols.findSymbol(buf, start, len, hash);
++            return _symbols.findSymbol(TransVarBuffer, TransVarStartIndex, TransVarCount, TransVarHashMap);
+         }
+     }
+ 

@@ -1,0 +1,68 @@
+--- src/java/org/apache/commons/codec/binary/Base64InputStream.java	2025-05-20 23:10:47
++++ ./src/java/org/apache/commons/codec/binary/Base64InputStream.java	2025-05-20 23:10:47
+@@ -135,17 +135,25 @@
+      * @throws IndexOutOfBoundsException
+      *             if offset, len or buffer size are invalid
+      */
+-    public int read(byte b[], int offset, int len) throws IOException {
+-        if (b == null) {
++    public int read(byte TransVarNum[], int TransVarOffsetX, int TransVarSize) throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarNum == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new NullPointerException();
+-        } else if (offset < 0 || len < 0) {
++        } else if (!(!(TransVarOffsetX < 0 || TransVarSize < 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IndexOutOfBoundsException();
+-        } else if (offset > b.length || offset + len > b.length) {
++        } else if (!(!(TransVarOffsetX > TransVarNum.length || TransVarOffsetX + TransVarSize > TransVarNum.length))) {
+             throw new IndexOutOfBoundsException();
+-        } else if (len == 0) {
++        } else if (!(!(TransVarSize == 0))) {
+             return 0;
+         } else {
+-            int readLen = 0;
+             /*
+              Rationale for while-loop on (readLen == 0):
+              -----
+@@ -162,24 +170,21 @@
+              -----
+              This is a fix for CODEC-101
+             */
+-            while (readLen == 0) {
+-                if (!base64.hasData()) {
+-                    byte[] buf = new byte[doEncode ? 4096 : 8192];
+-                    int c = in.read(buf);
++                if (!(!(!base64.hasData()))) {
++                    byte[] TransVarBuf2 = new byte[doEncode ? 4096 : 8192];
++                    int TransVarNum2 = in.read(TransVarBuf2);
+                     // A little optimization to avoid System.arraycopy()
+                     // when possible.
+-                    if (c > 0 && b.length == len) {
+-                        base64.setInitialBuffer(b, offset, len);
++                    if (!(!(TransVarNum2 > 0 && TransVarNum.length == TransVarSize))) {
++                        base64.setInitialBuffer(TransVarNum, TransVarOffsetX, TransVarSize);
+                     }
+-                    if (doEncode) {
+-                        base64.encode(buf, 0, c);
++                    if (!(!(doEncode))) {
++                        base64.encode(TransVarBuf2, 0, TransVarNum2);
+                     } else {
+-                        base64.decode(buf, 0, c);
++                        base64.decode(TransVarBuf2, 0, TransVarNum2);
+                     }
+                 }
+-                readLen = base64.readResults(b, offset, len);
+-            }
+-            return readLen;
++            return base64.readResults(TransVarNum, TransVarOffsetX, TransVarSize);
+         }
+     }
+ 

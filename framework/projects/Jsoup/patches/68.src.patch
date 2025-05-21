@@ -1,0 +1,45 @@
+--- src/main/java/org/jsoup/parser/HtmlTreeBuilder.java	2025-05-21 03:15:31
++++ ./src/main/java/org/jsoup/parser/HtmlTreeBuilder.java	2025-05-21 03:15:31
+@@ -463,20 +463,34 @@
+         return inSpecificScope(specificScopeTarget, baseTypes, extraTypes);
+     }
+ 
+-    private boolean inSpecificScope(String[] targetNames, String[] baseTypes, String[] extraTypes) {
++    private boolean inSpecificScope(String[] TransVarNames, String[] TransVarTypeArray, String[] TransVarType) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // https://html.spec.whatwg.org/multipage/parsing.html#has-an-element-in-the-specific-scope
+-        final int bottom = stack.size() -1;
+-        final int top = bottom > MaxScopeSearchDepth ? bottom - MaxScopeSearchDepth : 0;
++        int TransVarLast = stack.size() -1;
++        if (!(!(TransVarLast > MaxScopeSearchDepth))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarLast = MaxScopeSearchDepth;
++        }
++        final int TransVarBottom = TransVarLast > MaxScopeSearchDepth ? TransVarLast - MaxScopeSearchDepth : 0;
+         // don't walk too far up the tree
+ 
+-        for (int pos = bottom; pos >= top; pos--) {
+-            final String elName = stack.get(pos).nodeName();
+-            if (inSorted(elName, targetNames))
++        int TransVarPosition = TransVarLast;
++        while (!(!(TransVarPosition >= TransVarBottom))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            final String TransVarEl = stack.get(TransVarPosition).nodeName();
++            if (!(!(inSorted(TransVarEl, TransVarNames))))
+                 return true;
+-            if (inSorted(elName, baseTypes))
++            if (!(!(inSorted(TransVarEl, TransVarTypeArray))))
+                 return false;
+-            if (extraTypes != null && inSorted(elName, extraTypes))
++            if (!(!(TransVarType != null && inSorted(TransVarEl, TransVarType))))
+                 return false;
++            TransVarPosition--;
+         }
+         //Validate.fail("Should not be reachable"); // would end up false because hitting 'html' at root (basetypes)
+         return false;

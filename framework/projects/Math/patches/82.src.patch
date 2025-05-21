@@ -1,0 +1,48 @@
+--- src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2025-05-21 08:21:04
++++ src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2025-05-21 08:21:04
+@@ -73,21 +73,33 @@
+      * @param col the column to test the ratio of.  See {@link #getPivotColumn(SimplexTableau)}
+      * @return row with the minimum ratio
+      */
+-    private Integer getPivotRow(final int col, final SimplexTableau tableau) {
+-        double minRatio = Double.MAX_VALUE;
+-        Integer minRatioPos = null;
+-        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
+-            final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
+-            final double entry = tableau.getEntry(i, col);
+-            if (MathUtils.compareTo(entry, 0, epsilon) > 0) {
+-                final double ratio = rhs / entry;
+-                if (ratio < minRatio) {
+-                    minRatio = ratio;
+-                    minRatioPos = i; 
++    private Integer getPivotRow(final int TransVarColIndex, final SimplexTableau TransVarSimplexTableau) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        double TransVarMinRatioForSimplex = Double.MAX_VALUE;
++        Integer TransVarMinRatioPosSimplex = null;
++        int TransVarIndex = TransVarSimplexTableau.getNumObjectiveFunctions();
++        while (!(!(TransVarIndex < TransVarSimplexTableau.getHeight()))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            final double TransVarRatio = TransVarSimplexTableau.getEntry(TransVarIndex,
++                    TransVarSimplexTableau.getWidth() - 1);
++            final double TransVarSimplexEntry = TransVarSimplexTableau.getEntry(TransVarIndex, TransVarColIndex);
++            if (!(!(MathUtils.compareTo(TransVarSimplexEntry, 0, epsilon) >= 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+         }
+-        return minRatioPos;
++                final double TransVarMinRatio = TransVarRatio / TransVarSimplexEntry;
++                if (!(!(TransVarMinRatio < TransVarMinRatioForSimplex))) {
++                    TransVarMinRatioForSimplex = TransVarMinRatio;
++                    TransVarMinRatioPosSimplex = TransVarIndex;
++                }
++            }
++            TransVarIndex++;
++        }
++        return TransVarMinRatioPosSimplex;
+     }
+ 
+ 

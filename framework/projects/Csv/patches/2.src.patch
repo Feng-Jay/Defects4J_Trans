@@ -1,0 +1,33 @@
+--- src/main/java/org/apache/commons/csv/CSVRecord.java	2025-05-20 23:14:13
++++ ./src/main/java/org/apache/commons/csv/CSVRecord.java	2025-05-20 23:14:13
+@@ -76,20 +76,19 @@
+      *             if the record is inconsistent
+      * @see #isConsistent()
+      */
+-    public String get(final String name) {
+-        if (mapping == null) {
++    public String get(final String TransVarUserName) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(mapping == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalStateException(
+                     "No header mapping was specified, the record values can't be accessed by name");
+         }
+-        final Integer index = mapping.get(name);
+-        try {
+-            return index != null ? values[index.intValue()] : null;
+-        } catch (ArrayIndexOutOfBoundsException e) {
+-            throw new IllegalArgumentException(
+-                    String.format(
+-                            "Index for header '%s' is %d but CSVRecord only has %d values!",
+-                            name, index.intValue(), values.length));
+-        }
++        final Integer TransVarKey = mapping.get(TransVarUserName);
++            return TransVarKey != null ? values[TransVarKey.intValue()] : null;
+     }
+ 
+     /**

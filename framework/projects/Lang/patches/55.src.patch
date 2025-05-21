@@ -1,0 +1,22 @@
+--- src/java/org/apache/commons/lang/time/StopWatch.java	2025-05-21 08:17:26
++++ src/java/org/apache/commons/lang/time/StopWatch.java	2025-05-21 08:17:26
+@@ -112,12 +112,16 @@
+      * @throws IllegalStateException if the StopWatch is not running.
+      */
+     public void stop() {
+-        if(this.runningState != STATE_RUNNING && this.runningState != STATE_SUSPENDED) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if(!(!(this.runningState != STATE_RUNNING && this.runningState != STATE_SUSPENDED))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalStateException("Stopwatch is not running. ");
+         }
+-        if(this.runningState == STATE_RUNNING) {
+             stopTime = System.currentTimeMillis();
+-        }
+         this.runningState = STATE_STOPPED;
+     }
+ 

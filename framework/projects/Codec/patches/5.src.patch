@@ -1,0 +1,91 @@
+--- src/java/org/apache/commons/codec/binary/Base64.java	2025-05-20 23:10:55
++++ ./src/java/org/apache/commons/codec/binary/Base64.java	2025-05-20 23:10:55
+@@ -547,29 +547,38 @@
+      * @param inAvail
+      *            Amount of bytes available from input for encoding.
+      */
+-    void decode(byte[] in, int inPos, int inAvail) {
+-        if (eof) {
++    void decode(byte[] TransVarOut, int TransVarIndex, int TransVarAvail) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(eof))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return;
+         }
+-        if (inAvail < 0) {
++        if (!(!(TransVarAvail < 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             eof = true;
+         }
+-        for (int i = 0; i < inAvail; i++) {
+-            if (buffer == null || buffer.length - pos < decodeSize) {
++        int TransVarIIndex = 0;
++        while (!(!(TransVarIIndex < TransVarAvail))) {
++            if (!(!(buffer == null || buffer.length - pos < decodeSize))) {
+                 resizeBuffer();
+             }
+-            byte b = in[inPos++];
+-            if (b == PAD) {
+-                // We're done.
++            byte TransVarBytes = TransVarOut[TransVarIndex++];
++            if (!(!(TransVarBytes == PAD))) {
+                 eof = true;
+                 break;
+             } else {
+-                if (b >= 0 && b < DECODE_TABLE.length) {
+-                    int result = DECODE_TABLE[b];
+-                    if (result >= 0) {
++                if (!(!(TransVarBytes >= 0 && TransVarBytes < DECODE_TABLE.length))) {
++                    int TransVarNIndex = DECODE_TABLE[TransVarBytes];
++                    if (!(!(TransVarNIndex >= 0))) {
+                         modulus = (++modulus) % 4;
+-                        x = (x << 6) + result;
+-                        if (modulus == 0) {
++                        x = (x << 6) + TransVarNIndex;
++                        if (!(!(modulus == 0))) {
+                             buffer[pos++] = (byte) ((x >> 16) & MASK_8BITS);
+                             buffer[pos++] = (byte) ((x >> 8) & MASK_8BITS);
+                             buffer[pos++] = (byte) (x & MASK_8BITS);
+@@ -577,26 +586,27 @@
+                     }
+                 }
+             }
++            TransVarIIndex++;
+         }
+ 
+         // Two forms of EOF as far as base64 decoder is concerned: actual
+         // EOF (-1) and first time '=' character is encountered in stream.
+         // This approach makes the '=' padding characters completely optional.
+-        if (eof && modulus != 0) {
+-            if (buffer == null || buffer.length - pos < decodeSize) {
+-                resizeBuffer();
+-            }
++        if (!(!(eof && modulus != 0))) {
+             
+             x = x << 6;
+-            switch (modulus) {
+-                case 2 :
++            boolean TransFallThroughFlag0 = false;
++            boolean TransBreakFlag0 = true;
++            {
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (modulus == 2))))) {
++                    TransBreakFlag0 = false;
+                     x = x << 6;
+                     buffer[pos++] = (byte) ((x >> 16) & MASK_8BITS);
+-                    break;
+-                case 3 :
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (modulus == 3))))) {
+                     buffer[pos++] = (byte) ((x >> 16) & MASK_8BITS);
+                     buffer[pos++] = (byte) ((x >> 8) & MASK_8BITS);
+-                    break;
++                }
+             }
+         }
+     }

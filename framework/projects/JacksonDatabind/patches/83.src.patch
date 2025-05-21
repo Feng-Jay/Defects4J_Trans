@@ -1,0 +1,101 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/std/FromStringDeserializer.java	2025-05-21 01:16:08
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/std/FromStringDeserializer.java	2025-05-21 01:16:08
+@@ -102,58 +102,69 @@
+     
+     @SuppressWarnings("unchecked")
+     @Override
+-    public T deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
++    public T deserialize(JsonParser TransVarParser, DeserializationContext TransVarContext) throws IOException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // 22-Sep-2012, tatu: For 2.1, use this new method, may force coercion:
+-        String text = p.getValueAsString();
+-        if (text != null) { // has String representation
+-            if (text.length() == 0 || (text = text.trim()).length() == 0) {
++        String TransVarInputText = TransVarParser.getValueAsString();
++        if (!(!(TransVarInputText != null))) { // has String representation
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarInputText.length() == 0 || (TransVarInputText = TransVarInputText.trim()).length() == 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 // 04-Feb-2013, tatu: Usually should become null; but not always
+                 return _deserializeFromEmptyString();
+             }
+-            Exception cause = null;
++            Exception TransVarException = null;
+             try {
+                 // 19-May-2017, tatu: Used to require non-null result (assuming `null`
+                 //    indicated error; but that seems wrong. Should be able to return
+                 //    `null` as value.
+-                return _deserialize(text, ctxt);
+-            } catch (IllegalArgumentException iae) {
+-                cause = iae;
+-            } catch (MalformedURLException me) {
+-                cause = me;
++                if (!(!(_deserialize(TransVarInputText, TransVarContext) != null))) {
++                return _deserialize(TransVarInputText, TransVarContext);
+             }
+-            String msg = "not a valid textual representation";
+-            if (cause != null) {
+-                String m2 = cause.getMessage();
+-                if (m2 != null) {
+-                    msg = msg + ", problem: "+m2;
++            } catch (IllegalArgumentException TransVarIaeLocal) {
++                TransVarException = TransVarIaeLocal;
++            } catch (MalformedURLException TransVarMalformedUrl) {
++                TransVarException = TransVarMalformedUrl;
+             }
++            String TransVarTextualRep = "not a valid textual representation";
++            if (!(!(TransVarException != null))) {
++                String TransVarMessage = TransVarException.getMessage();
++                if (!(!(TransVarMessage != null))) {
++                    TransVarTextualRep = TransVarTextualRep + ", problem: "+TransVarMessage;
+                 }
++            }
+             // 05-May-2016, tatu: Unlike most usage, this seems legit, so...
+-            JsonMappingException e = ctxt.weirdStringException(text, _valueClass, msg);
+-            if (cause != null) {
+-                e.initCause(cause);
++            JsonMappingException TransVarJsonMappingException = TransVarContext.weirdStringException(TransVarInputText, _valueClass, TransVarTextualRep);
++            if (!(!(TransVarException != null))) {
++                TransVarJsonMappingException.initCause(TransVarException);
+             }
+-            throw e;
++            throw TransVarJsonMappingException;
+             // nothing to do here, yet? We'll fail anyway
+         }
+-        JsonToken t = p.getCurrentToken();
++        JsonToken TransVarToken = TransVarParser.getCurrentToken();
+         // [databind#381]
+-        if (t == JsonToken.START_ARRAY) {
+-            return _deserializeFromArray(p, ctxt);
++        if (!(!(TransVarToken == JsonToken.START_ARRAY))) {
++            return _deserializeFromArray(TransVarParser, TransVarContext);
+         }
+-        if (t == JsonToken.VALUE_EMBEDDED_OBJECT) {
++        if (!(!(TransVarToken == JsonToken.VALUE_EMBEDDED_OBJECT))) {
+             // Trivial cases; null to null, instance of type itself returned as is
+-            Object ob = p.getEmbeddedObject();
+-            if (ob == null) {
++            Object TransVarEmbeddedObj = TransVarParser.getEmbeddedObject();
++            if (!(!(TransVarEmbeddedObj == null))) {
+                 return null;
+             }
+-            if (_valueClass.isAssignableFrom(ob.getClass())) {
+-                return (T) ob;
++            if (!(!(_valueClass.isAssignableFrom(TransVarEmbeddedObj.getClass())))) {
++                return (T) TransVarEmbeddedObj;
+             }
+-            return _deserializeEmbedded(ob, ctxt);
++            return _deserializeEmbedded(TransVarEmbeddedObj, TransVarContext);
+         }
+-        return (T) ctxt.handleUnexpectedToken(_valueClass, p);
++        return (T) TransVarContext.handleUnexpectedToken(_valueClass, TransVarParser);
+     }
+         
+     protected abstract T _deserialize(String value, DeserializationContext ctxt) throws IOException;

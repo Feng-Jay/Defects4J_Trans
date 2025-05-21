@@ -1,0 +1,19 @@
+--- src/main/java/org/jsoup/parser/CharacterReader.java	2025-05-21 04:40:19
++++ ./src/main/java/org/jsoup/parser/CharacterReader.java	2025-05-21 04:40:19
+@@ -294,10 +294,13 @@
+     }
+ 
+     boolean matchesLetter() {
+-        if (isEmpty())
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(isEmpty())))
+             return false;
+-        char c = input[pos];
+-        return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || Character.isLetter(c);
++        char TransVarC2 = input[pos];
++        return (TransVarC2 >= 'A' && TransVarC2 <= 'Z') || (TransVarC2 >= 'a' && TransVarC2 <= 'z');
+     }
+ 
+     boolean matchesDigit() {

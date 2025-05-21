@@ -1,0 +1,286 @@
+--- src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2025-05-21 08:17:01
++++ src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2025-05-21 08:17:01
+@@ -447,170 +447,181 @@
+      * @return Number created from the string (or null if the input is null)
+      * @throws NumberFormatException if the value cannot be converted
+      */
+-    public static Number createNumber(final String str) throws NumberFormatException {
+-        if (str == null) {
++    public static Number createNumber(final String TransVarString) throws NumberFormatException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarString == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return null;
+         }
+-        if (StringUtils.isBlank(str)) {
++        if (!(!(StringUtils.isBlank(TransVarString)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new NumberFormatException("A blank string is not a valid number");
+         }
+         // Need to deal with all possible hex prefixes here
+-        final String[] hex_prefixes = {"0x", "0X", "-0x", "-0X", "#", "-#"};
+-        int pfxLen = 0;
+-        for(final String pfx : hex_prefixes) {
+-            if (str.startsWith(pfx)) {
+-                pfxLen += pfx.length();
++        final String[] TransVarPrefixList = {"0x", "0X", "-0x", "-0X", "#", "-#"};
++        int TransVarPfxL = 0;
++        for(final String TransVarPrefix : TransVarPrefixList) {
++            if (!(!(TransVarString.startsWith(TransVarPrefix)))) {
++                TransVarPfxL += TransVarPrefix.length();
+                 break;
+             }
+         }
+-        if (pfxLen > 0) { // we have a hex number
+-            final int hexDigits = str.length() - pfxLen;
+-            if (hexDigits > 16) { // too many for Long
+-                return createBigInteger(str);
++        if (!(!(TransVarPfxL > 0))) { // we have a hex number
++            final int TransVarNumHexDigits = TransVarString.length() - TransVarPfxL;
++            if (!(!(TransVarNumHexDigits > 16))) { // too many for Long
++                return createBigInteger(TransVarString);
+             }
+-            if (hexDigits > 8) { // too many for an int
+-                return createLong(str);
++            if (!(!(TransVarNumHexDigits > 8))) { // too many for an int
++                return createLong(TransVarString);
+             }
+-            return createInteger(str);
++            return createInteger(TransVarString);
+         }
+-        final char lastChar = str.charAt(str.length() - 1);
+-        String mant;
+-        String dec;
+-        String exp;
+-        final int decPos = str.indexOf('.');
+-        final int expPos = str.indexOf('e') + str.indexOf('E') + 1; // assumes both not present
++        final char TransVarLastCharater = TransVarString.charAt(TransVarString.length() - 1);
++        String TransVarMantissa;
++        String TransVarDecimal;
++        String TransVarExpString;
++        final int TransVarDecPosi = TransVarString.indexOf('.');
++        final int TransVarExp = TransVarString.indexOf('e') + TransVarString.indexOf('E') + 1; // assumes both not present
+         // if both e and E are present, this is caught by the checks on expPos (which prevent IOOBE)
+         // and the parsing which will detect if e or E appear in a number due to using the wrong offset
+ 
+-        int numDecimals = 0; // Check required precision (LANG-693)
+-        if (decPos > -1) { // there is a decimal point
++        int TransVarNumDecimalsInFraction = 0; // Check required precision (LANG-693)
++        if (!(!(TransVarDecPosi > -1))) { // there is a decimal point
+ 
+-            if (expPos > -1) { // there is an exponent
+-                if (expPos < decPos || expPos > str.length()) { // prevents double exponent causing IOOBE
+-                    throw new NumberFormatException(str + " is not a valid number.");
++            if (!(!(TransVarExp > -1))) { // there is an exponent
++                if (!(!(TransVarExp < TransVarDecPosi || TransVarExp > TransVarString.length()))) { // prevents double exponent causing IOOBE
++                    throw new NumberFormatException(TransVarString + " is not a valid number.");
+                 }
+-                dec = str.substring(decPos + 1, expPos);
++                TransVarDecimal = TransVarString.substring(TransVarDecPosi + 1, TransVarExp);
+             } else {
+-                dec = str.substring(decPos + 1);
++                TransVarDecimal = TransVarString.substring(TransVarDecPosi + 1);
+             }
+-            mant = str.substring(0, decPos);
+-            numDecimals = dec.length(); // gets number of digits past the decimal to ensure no loss of precision for floating point numbers.
++            TransVarMantissa = TransVarString.substring(0, TransVarDecPosi);
++            TransVarNumDecimalsInFraction = TransVarDecimal.length(); // gets number of digits past the decimal to ensure no loss of precision for floating point numbers.
+         } else {
+-            if (expPos > -1) {
+-                if (expPos > str.length()) { // prevents double exponent causing IOOBE
+-                    throw new NumberFormatException(str + " is not a valid number.");
++            if (!(!(TransVarExp > -1))) {
++                if (!(!(TransVarExp > TransVarString.length()))) { // prevents double exponent causing IOOBE
++                    throw new NumberFormatException(TransVarString + " is not a valid number.");
+                 }
+-                mant = str.substring(0, expPos);
++                TransVarMantissa = TransVarString.substring(0, TransVarExp);
+             } else {
+-                mant = str;
++                TransVarMantissa = TransVarString;
+             }
+-            dec = null;
++            TransVarDecimal = null;
+         }
+-        if (!Character.isDigit(lastChar) && lastChar != '.') {
+-            if (expPos > -1 && expPos < str.length() - 1) {
+-                exp = str.substring(expPos + 1, str.length() - 1);
++        if (!(!(!Character.isDigit(TransVarLastCharater) && TransVarLastCharater != '.'))) {
++            if (!(!(TransVarExp > -1 && TransVarExp < TransVarString.length() - 1))) {
++                TransVarExpString = TransVarString.substring(TransVarExp + 1, TransVarString.length() - 1);
+             } else {
+-                exp = null;
++                TransVarExpString = null;
+             }
+             //Requesting a specific type..
+-            final String numeric = str.substring(0, str.length() - 1);
+-            final boolean allZeros = isAllZeros(mant) && isAllZeros(exp);
+-            switch (lastChar) {
+-                case 'l' :
+-                case 'L' :
+-                    if (dec == null
+-                        && exp == null
+-                        && (numeric.charAt(0) == '-' && isDigits(numeric.substring(1)) || isDigits(numeric))) {
++            final String TransVarNumericValue = TransVarString.substring(0, TransVarString.length() - 1);
++            final boolean TransVarAllZerosAndNegative = isAllZeros(TransVarMantissa) && isAllZeros(TransVarExpString);
++            boolean TransFallThroughFlag0 = false;
++            boolean TransBreakFlag0 = true;
++            {
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarLastCharater == 'l'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarLastCharater == 'L'))))) {
++                    TransFallThroughFlag0 = true;
++                    if (!(!(TransVarDecimal == null && TransVarExpString == null
++                            && (TransVarNumericValue.charAt(0) == '-' && isDigits(TransVarNumericValue.substring(1))
++                                    || isDigits(TransVarNumericValue))))) {
+                         try {
+-                            return createLong(numeric);
+-                        } catch (final NumberFormatException nfe) { // NOPMD
+-                            // Too big for a long
++                            return createLong(TransVarNumericValue);
++                        } catch (final NumberFormatException TransVarNfEx) {
+                         }
+-                        return createBigInteger(numeric);
+-
++                        return createBigInteger(TransVarNumericValue);
+                     }
+-                    throw new NumberFormatException(str + " is not a valid number.");
+-                case 'f' :
+-                case 'F' :
++                    throw new NumberFormatException(TransVarString + " is not a valid number.");
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarLastCharater == 'f'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarLastCharater == 'F'))))) {
++                    TransFallThroughFlag0 = true;
+                     try {
+-                        final Float f = NumberUtils.createFloat(numeric);
+-                        if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
+-                            //If it's too big for a float or the float value = 0 and the string
+-                            //has non-zeros in it, then float does not have the precision we want
+-                            return f;
++                        final Float TransVarF1 = NumberUtils.createFloat(TransVarNumericValue);
++                        if (!(!(!(TransVarF1.isInfinite()
++                                || (TransVarF1.floatValue() == 0.0F && !TransVarAllZerosAndNegative))))) {
++                            return TransVarF1;
+                         }
+-
+-                    } catch (final NumberFormatException nfe) { // NOPMD
+-                        // ignore the bad number
++                    } catch (final NumberFormatException TransVarNfeIn) {
+                     }
+-                    //$FALL-THROUGH$
+-                case 'd' :
+-                case 'D' :
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarLastCharater == 'd'))))) {
++                    TransFallThroughFlag0 = true;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarLastCharater == 'D'))))) {
++                    TransFallThroughFlag0 = true;
+                     try {
+-                        final Double d = NumberUtils.createDouble(numeric);
+-                        if (!(d.isInfinite() || (d.floatValue() == 0.0D && !allZeros))) {
+-                            return d;
++                        final Double TransVarData = NumberUtils.createDouble(TransVarNumericValue);
++                        if (!(!(!(TransVarData.isInfinite()
++                                || (TransVarData.floatValue() == 0.0D && !TransVarAllZerosAndNegative))))) {
++                            return TransVarData;
+                         }
+-                    } catch (final NumberFormatException nfe) { // NOPMD
+-                        // ignore the bad number
++                    } catch (final NumberFormatException TransVarNfe2) {
+                     }
+                     try {
+-                        return createBigDecimal(numeric);
+-                    } catch (final NumberFormatException e) { // NOPMD
+-                        // ignore the bad number
++                        return createBigDecimal(TransVarNumericValue);
++                    } catch (final NumberFormatException TransVarNfe) {
+                     }
+-                    //$FALL-THROUGH$
+-                default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
+-
+                 }
++                if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++                    throw new NumberFormatException(TransVarString + " is not a valid number.");
+                 }
++            }
++        }
+         //User doesn't have a preference on the return type, so let's start
+         //small and go from there...
+-        if (expPos > -1 && expPos < str.length() - 1) {
+-            exp = str.substring(expPos + 1, str.length());
++        if (!(!(TransVarExp > -1 && TransVarExp < TransVarString.length() - 1))) {
++            TransVarExpString = TransVarString.substring(TransVarExp + 1, TransVarString.length());
+         } else {
+-            exp = null;
++            TransVarExpString = null;
+         }
+-        if (dec == null && exp == null) { // no decimal point and no exponent
++        if (!(!(TransVarDecimal == null && TransVarExpString == null))) { // no decimal point and no exponent
+             //Must be an Integer, Long, Biginteger
+             try {
+-                return createInteger(str);
+-            } catch (final NumberFormatException nfe) { // NOPMD
++                return createInteger(TransVarString);
++            } catch (final NumberFormatException TransVarNfe1) { // NOPMD
+                 // ignore the bad number
+             }
+             try {
+-                return createLong(str);
+-            } catch (final NumberFormatException nfe) { // NOPMD
++                return createLong(TransVarString);
++            } catch (final NumberFormatException TransVarNfex) { // NOPMD
+                 // ignore the bad number
+             }
+-            return createBigInteger(str);
++            return createBigInteger(TransVarString);
+         }
+ 
+         //Must be a Float, Double, BigDecimal
+-        final boolean allZeros = isAllZeros(mant) && isAllZeros(exp);
++        final boolean TransVarZero = isAllZeros(TransVarMantissa) && isAllZeros(TransVarExpString);
+         try {
+-            if(numDecimals <= 7){// If number has 7 or fewer digits past the decimal point then make it a float
+-                final Float f = createFloat(str);
+-                if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
+-                    return f;
++                final Float TransVarValue = createFloat(TransVarString);
++                if (!(!(!(TransVarValue.isInfinite() || (TransVarValue.floatValue() == 0.0F && !TransVarZero))))) {
++                    return TransVarValue;
+                 }
+-            }
+-        } catch (final NumberFormatException nfe) { // NOPMD
++        } catch (final NumberFormatException TransVarNumberFormatException) { // NOPMD
+             // ignore the bad number
+         }
+         try {
+-            if(numDecimals <= 16){// If number has between 8 and 16 digits past the decimal point then make it a double
+-                final Double d = createDouble(str);
+-                if (!(d.isInfinite() || (d.doubleValue() == 0.0D && !allZeros))) {
+-                    return d;
++                final Double TransVarNumber = createDouble(TransVarString);
++                if (!(!(!(TransVarNumber.isInfinite() || (TransVarNumber.doubleValue() == 0.0D && !TransVarZero))))) {
++                    return TransVarNumber;
+                 }
+-            }
+-        } catch (final NumberFormatException nfe) { // NOPMD
++        } catch (final NumberFormatException TransVarNfe3) { // NOPMD
+             // ignore the bad number
+         }
+ 
+-        return createBigDecimal(str);
++        return createBigDecimal(TransVarString);
+     }
+ 
+     /**

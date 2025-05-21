@@ -1,0 +1,23 @@
+--- source/org/jfree/chart/renderer/GrayPaintScale.java	2025-05-20 23:02:06
++++ ./source/org/jfree/chart/renderer/GrayPaintScale.java	2025-05-20 23:02:06
+@@ -120,12 +120,15 @@
+      * 
+      * @return A paint for the specified value.
+      */
+-    public Paint getPaint(double value) {
+-        double v = Math.max(value, this.lowerBound);
+-        v = Math.min(v, this.upperBound);
+-        int g = (int) ((v - this.lowerBound) / (this.upperBound 
++    public Paint getPaint(double TransVarDoubleValue) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        double TransVarMaxValue = Math.max(TransVarDoubleValue, this.lowerBound);
++        TransVarMaxValue = Math.min(TransVarMaxValue, this.upperBound);
++        int TransVarValue = (int) ((TransVarDoubleValue - this.lowerBound) / (this.upperBound 
+                 - this.lowerBound) * 255.0);
+-        return new Color(g, g, g);
++        return new Color(TransVarValue, TransVarValue, TransVarValue);
+     }
+     
+     /**

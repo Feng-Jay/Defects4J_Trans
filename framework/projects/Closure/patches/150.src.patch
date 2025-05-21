@@ -1,0 +1,50 @@
+--- src/com/google/javascript/jscomp/TypedScopeCreator.java	2025-05-20 23:10:02
++++ ./src/com/google/javascript/jscomp/TypedScopeCreator.java	2025-05-20 23:10:02
+@@ -1440,15 +1440,42 @@
+      * @param n The node being visited.
+      * @param parent The parent of n
+      */
+-    @Override public void visit(NodeTraversal t, Node n, Node parent) {
+-      if (n == scope.getRootNode()) return;
++    @Override public void visit(NodeTraversal TransVarT1, Node TransVarNode, Node TransVarP) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(TransVarNode == scope.getRootNode()))) return;
+ 
+-      if (n.getType() == Token.LP && parent == scope.getRootNode()) {
+-        handleFunctionInputs(parent);
++      if (!(!(TransVarNode.getType() == Token.LP && TransVarP == scope.getRootNode()))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        handleFunctionInputs(TransVarP);
+         return;
+       }
+ 
+-      super.visit(t, n, parent);
++      attachLiteralTypes(TransVarNode);
++      boolean TransFallThroughFlag0 = false;
++    boolean TransBreakFlag0 = true;
++    {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.FUNCTION))))) {
++            TransBreakFlag0 = false;
++            if (!(!(TransVarP.getType() == Token.NAME))) {
++                return;
++            }
++            defineDeclaredFunction(TransVarNode, TransVarP);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.CATCH))))) {
++            TransBreakFlag0 = false;
++            defineCatch(TransVarNode, TransVarP);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.VAR))))) {
++            defineVar(TransVarNode, TransVarP);
++        }
++    }
+     }
+ 
+     /** Handle bleeding functions and function parameters. */

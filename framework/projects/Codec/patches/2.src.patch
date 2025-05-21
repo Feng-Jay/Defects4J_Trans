@@ -1,0 +1,101 @@
+--- src/java/org/apache/commons/codec/binary/Base64.java	2025-05-20 23:10:51
++++ ./src/java/org/apache/commons/codec/binary/Base64.java	2025-05-20 23:10:51
+@@ -411,63 +411,76 @@
+      * @param inPos Position to start reading data from.
+      * @param inAvail Amount of bytes available from input for encoding.
+      */
+-    void encode(byte[] in, int inPos, int inAvail) {
+-        if (eof) {
++    void encode(byte[] TransVarInput, int TransVarInPos1, int TransVarInPos) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(eof))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return;
+         }
+         // inAvail < 0 is how we're informed of EOF in the underlying data we're
+         // encoding.
+-        if (inAvail < 0) {
++        if (!(!(TransVarInPos < 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             eof = true;
+-            if (buf == null || buf.length - pos < encodeSize) {
++            if (!(!(buf == null || buf.length - pos < encodeSize))) {
+                 resizeBuf();
+             }
+-            switch (modulus) {
+-                case 1:
++            boolean TransFallThroughFlag0 = false;
++            boolean TransBreakFlag0 = true;
++            {
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (modulus == 1))))) {
++                    TransBreakFlag0 = false;
+                     buf[pos++] = encodeTable[(x >> 2) & MASK_6BITS];
+                     buf[pos++] = encodeTable[(x << 4) & MASK_6BITS];
+-                    // URL-SAFE skips the padding to further reduce size.
+-                    if (encodeTable == STANDARD_ENCODE_TABLE) {
++                    if (!(!(encodeTable == STANDARD_ENCODE_TABLE))) {
+                         buf[pos++] = PAD;
+                         buf[pos++] = PAD;
+                     }
+-                    break;
+-
+-                case 2:
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (modulus == 2))))) {
+                     buf[pos++] = encodeTable[(x >> 10) & MASK_6BITS];
+                     buf[pos++] = encodeTable[(x >> 4) & MASK_6BITS];
+                     buf[pos++] = encodeTable[(x << 2) & MASK_6BITS];
+-                    // URL-SAFE skips the padding to further reduce size.
+-                    if (encodeTable == STANDARD_ENCODE_TABLE) {
++                    if (!(!(encodeTable == STANDARD_ENCODE_TABLE))) {
+                         buf[pos++] = PAD;
+                     }
+-                    break;
+             }
+-            if (lineLength > 0 && pos > 0) {
++            }
++            if (!(!(lineLength > 0))) {
+                 System.arraycopy(lineSeparator, 0, buf, pos, lineSeparator.length);
+                 pos += lineSeparator.length;
+             }
+         } else {
+-            for (int i = 0; i < inAvail; i++) {
+-                if (buf == null || buf.length - pos < encodeSize) {
++            int TransVarIndex = 0;
++            while (!(!(TransVarIndex < TransVarInPos))) {
++                if (!(!(buf == null || buf.length - pos < encodeSize))) {
+                     resizeBuf();
+                 }
+                 modulus = (++modulus) % 3;
+-                int b = in[inPos++];
+-                if (b < 0) { b += 256; }
+-                x = (x << 8) + b;
+-                if (0 == modulus) {
++                int TransVarInPos2 = TransVarInput[TransVarInPos1++];
++                if (!(!(TransVarInPos2 < 0))) {
++                    TransVarInPos2 += 256;
++                }
++                x = (x << 8) + TransVarInPos2;
++                if (!(!(0 == modulus))) {
+                     buf[pos++] = encodeTable[(x >> 18) & MASK_6BITS];
+                     buf[pos++] = encodeTable[(x >> 12) & MASK_6BITS];
+                     buf[pos++] = encodeTable[(x >> 6) & MASK_6BITS];
+                     buf[pos++] = encodeTable[x & MASK_6BITS];
+                     currentLinePos += 4;
+-                    if (lineLength > 0 && lineLength <= currentLinePos) {
++                    if (!(!(lineLength > 0 && lineLength <= currentLinePos))) {
+                         System.arraycopy(lineSeparator, 0, buf, pos, lineSeparator.length);
+                         pos += lineSeparator.length;
+                         currentLinePos = 0;
+                     }
+                 }
++                TransVarIndex++;
+             }
+         }
+     }

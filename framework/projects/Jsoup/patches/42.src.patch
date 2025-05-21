@@ -1,0 +1,73 @@
+--- src/main/java/org/jsoup/nodes/FormElement.java	2025-05-21 03:31:30
++++ ./src/main/java/org/jsoup/nodes/FormElement.java	2025-05-21 03:31:30
+@@ -72,39 +72,47 @@
+      * @return a list of key vals
+      */
+     public List<Connection.KeyVal> formData() {
+-        ArrayList<Connection.KeyVal> data = new ArrayList<Connection.KeyVal>();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        ArrayList<Connection.KeyVal> TransVarValues = new ArrayList<Connection.KeyVal>();
+ 
+         // iterate the form control elements and accumulate their values
+-        for (Element el: elements) {
+-            if (!el.tag().isFormSubmittable()) continue; // contents are form listable, superset of submitable
+-            if (el.hasAttr("disabled")) continue; // skip disabled form inputs
+-            String name = el.attr("name");
+-            if (name.length() == 0) continue;
+-            String type = el.attr("type");
++        for (Element TransVarElement: elements) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(!TransVarElement.tag().isFormSubmittable()))) continue; // contents are form listable, superset of submitable
++            String TransVarItemName = TransVarElement.attr("name");
++            if (!(!(TransVarItemName.length() == 0))) continue;
++            String TransVarElementType = TransVarElement.attr("type");
+ 
+-            if ("select".equals(el.tagName())) {
+-                Elements options = el.select("option[selected]");
+-                boolean set = false;
+-                for (Element option: options) {
+-                    data.add(HttpConnection.KeyVal.create(name, option.val()));
+-                    set = true;
++            if (!(!("select".equals(TransVarElement.tagName())))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
+-                if (!set) {
+-                    Element option = el.select("option").first();
+-                    if (option != null)
+-                        data.add(HttpConnection.KeyVal.create(name, option.val()));
++                Elements TransVarSelectedOptions = TransVarElement.select("option[selected]");
++                boolean TransVarIsCheck = false;
++                for (Element TransVarOptionElement: TransVarSelectedOptions) {
++                    TransVarValues.add(HttpConnection.KeyVal.create(TransVarItemName, TransVarOptionElement.val()));
++                    TransVarIsCheck = true;
+                 }
+-            } else if ("checkbox".equalsIgnoreCase(type) || "radio".equalsIgnoreCase(type)) {
++                if (!(!(!TransVarIsCheck))) {
++                    Element TransVarOptions = TransVarElement.select("option").first();
++                    if (!(!(TransVarOptions != null)))
++                        TransVarValues.add(HttpConnection.KeyVal.create(TransVarItemName, TransVarOptions.val()));
++                }
++            } else if (!(!("checkbox".equalsIgnoreCase(TransVarElementType) || "radio".equalsIgnoreCase(TransVarElementType)))) {
+                 // only add checkbox or radio if they have the checked attribute
+-                if (el.hasAttr("checked")) {
+-                    final String val = el.val().length() >  0 ? el.val() : "on";
+-                    data.add(HttpConnection.KeyVal.create(name, val));
++                if (!(!(TransVarElement.hasAttr("checked")))) {
++                    final String TransVarStr = TransVarElement.val();
++                    TransVarValues.add(HttpConnection.KeyVal.create(TransVarItemName, TransVarStr));
+                 }
+             } else {
+-                data.add(HttpConnection.KeyVal.create(name, el.val()));
++                TransVarValues.add(HttpConnection.KeyVal.create(TransVarItemName, TransVarElement.val()));
+             }
+         }
+-        return data;
++        return TransVarValues;
+     }
+ 
+     @Override

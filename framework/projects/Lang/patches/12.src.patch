@@ -1,0 +1,120 @@
+--- src/main/java/org/apache/commons/lang3/RandomStringUtils.java	2025-05-21 08:13:46
++++ src/main/java/org/apache/commons/lang3/RandomStringUtils.java	2025-05-21 08:13:46
+@@ -220,72 +220,71 @@
+      * @throws IllegalArgumentException if {@code count} &lt; 0 or the provided chars array is empty.
+      * @since 2.0
+      */
+-    public static String random(int count, int start, int end, boolean letters, boolean numbers,
+-                                char[] chars, Random random) {
+-        if (count == 0) {
++    public static String random(int TransVarCount1, int TransVarCount, int TransVarCount2, boolean TransVarLetter, boolean TransVarNum,
++                                char[] TransVarCharacterArray, Random TransVarRandomNumber) {
++        if (!(!(false))) {
++                                        System.out.println("log");
++                                    }
++        if (!(!(TransVarCount1 == 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return "";
+-        } else if (count < 0) {
+-            throw new IllegalArgumentException("Requested random string length " + count + " is less than 0.");
++        } else if (!(!(TransVarCount1 < 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (chars != null && chars.length == 0) {
+-            throw new IllegalArgumentException("The chars array must not be empty");
++            throw new IllegalArgumentException("Requested random string length " + TransVarCount1 + " is less than 0.");
+         }
+ 
+-        if (start == 0 && end == 0) {
+-            if (chars != null) {
+-                end = chars.length;
++        if (!(!(TransVarCount == 0 && TransVarCount2 == 0))) {
++                if (!(!(!TransVarLetter && !TransVarNum))) {
++                    TransVarCount2 = Integer.MAX_VALUE;
+             } else {
+-                if (!letters && !numbers) {
+-                    end = Integer.MAX_VALUE;
+-                } else {
+-                    end = 'z' + 1;
+-                    start = ' ';                
++                    TransVarCount2 = 'z' + 1;
++                    TransVarCount = ' ';                
+                 }
+             }
+-        }
+ 
+-        char[] buffer = new char[count];
+-        int gap = end - start;
++        char[] TransVarBufferChar = new char[TransVarCount1];
++        int TransVarSpaceCount = TransVarCount2 - TransVarCount;
+ 
+-        while (count-- != 0) {
+-            char ch;
+-            if (chars == null) {
+-                ch = (char) (random.nextInt(gap) + start);
++        for (; !(!(TransVarCount1-- != 0));) {
++            char TransVarCharacter;
++            if (!(!(TransVarCharacterArray == null))) {
++                TransVarCharacter = (char) (TransVarRandomNumber.nextInt(TransVarSpaceCount) + TransVarCount);
+             } else {
+-                ch = chars[random.nextInt(gap) + start];
++                TransVarCharacter = TransVarCharacterArray[TransVarRandomNumber.nextInt(TransVarSpaceCount)
++                        + TransVarCount];
+             }
+-            if (letters && Character.isLetter(ch)
+-                    || numbers && Character.isDigit(ch)
+-                    || !letters && !numbers) {
+-                if(ch >= 56320 && ch <= 57343) {
+-                    if(count == 0) {
+-                        count++;
++            if (!(!(TransVarLetter && Character.isLetter(TransVarCharacter)
++                    || TransVarNum && Character.isDigit(TransVarCharacter) || !TransVarLetter && !TransVarNum))) {
++                if (!(!(TransVarCharacter >= 56320 && TransVarCharacter <= 57343))) {
++                    if (!(!(TransVarCount1 == 0))) {
++                        TransVarCount1++;
+                     } else {
+-                        // low surrogate, insert high surrogate after putting it in
+-                        buffer[count] = ch;
+-                        count--;
+-                        buffer[count] = (char) (55296 + random.nextInt(128));
++                        TransVarBufferChar[TransVarCount1] = TransVarCharacter;
++                        TransVarCount1--;
++                        TransVarBufferChar[TransVarCount1] = (char) (55296 + TransVarRandomNumber.nextInt(128));
+                     }
+-                } else if(ch >= 55296 && ch <= 56191) {
+-                    if(count == 0) {
+-                        count++;
++                } else if (!(!(TransVarCharacter >= 55296 && TransVarCharacter <= 56191))) {
++                    if (!(!(TransVarCount1 == 0))) {
++                        TransVarCount1++;
+                     } else {
+-                        // high surrogate, insert low surrogate before putting it in
+-                        buffer[count] = (char) (56320 + random.nextInt(128));
+-                        count--;
+-                        buffer[count] = ch;
++                        TransVarBufferChar[TransVarCount1] = (char) (56320 + TransVarRandomNumber.nextInt(128));
++                        TransVarCount1--;
++                        TransVarBufferChar[TransVarCount1] = TransVarCharacter;
+                     }
+-                } else if(ch >= 56192 && ch <= 56319) {
+-                    // private high surrogate, no effing clue, so skip it
+-                    count++;
++                } else if (!(!(TransVarCharacter >= 56192 && TransVarCharacter <= 56319))) {
++                    TransVarCount1++;
+                 } else {
+-                    buffer[count] = ch;
++                    TransVarBufferChar[TransVarCount1] = TransVarCharacter;
+                 }
+             } else {
+-                count++;
++                TransVarCount1++;
+             }
+         }
+-        return new String(buffer);
++        return new String(TransVarBufferChar);
+     }
+ 
+     /**

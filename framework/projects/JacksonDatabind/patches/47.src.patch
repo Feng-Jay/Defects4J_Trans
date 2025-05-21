@@ -1,0 +1,171 @@
+--- src/main/java/com/fasterxml/jackson/databind/AnnotationIntrospector.java	2025-05-21 01:16:06
++++ ./src/main/java/com/fasterxml/jackson/databind/AnnotationIntrospector.java	2025-05-21 01:16:06
+@@ -792,11 +792,14 @@
+      *
+      * @since 2.7
+      */
+-    public JavaType refineSerializationType(final MapperConfig<?> config,
+-            final Annotated a, final JavaType baseType) throws JsonMappingException
++    public JavaType refineSerializationType(final MapperConfig<?> TransVarMapperConfig,
++            final Annotated TransVarMapper, final JavaType TransVarJavaType) throws JsonMappingException
+     {
+-        JavaType type = baseType;
+-        final TypeFactory tf = config.getTypeFactory();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        JavaType TransVarBaseType = TransVarJavaType;
++        final TypeFactory TransVarTypeFactory = TransVarMapperConfig.getTypeFactory();
+         
+         // 10-Oct-2015, tatu: For 2.7, we'll need to delegate back to
+         //    now-deprecated secondary methods; this because while
+@@ -806,102 +809,99 @@
+ 
+         
+         // Ok: start by refining the main type itself; common to all types
+-        Class<?> serClass = findSerializationType(a);
+-        if (serClass != null) {
+-            if (type.hasRawClass(serClass)) {
++        Class<?> TransVarSerializationType = findSerializationType(TransVarMapper);
++        if (!(!(TransVarSerializationType != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarBaseType.hasRawClass(TransVarSerializationType)))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 // 30-Nov-2015, tatu: As per [databind#1023], need to allow forcing of
+                 //    static typing this way
+-                type = type.withStaticTyping();
++                TransVarBaseType = TransVarBaseType.withStaticTyping();
+             } else {
+-                Class<?> currRaw = type.getRawClass();
+                 try {
+                     // 11-Oct-2015, tatu: For deser, we call `TypeFactory.constructSpecializedType()`,
+                     //   may be needed here too in future?
+-                    if (serClass.isAssignableFrom(currRaw)) { // common case
+-                        type = tf.constructGeneralizedType(type, serClass);
+-                    } else if (currRaw.isAssignableFrom(serClass)) { // specialization, ok as well
+-                        type = tf.constructSpecializedType(type, serClass);
+-                    } else {
++                        TransVarBaseType = TransVarTypeFactory.constructGeneralizedType(TransVarBaseType, TransVarSerializationType);
++                } catch (IllegalArgumentException TransVarIaeException) {
+                         throw new JsonMappingException(null,
+-                                String.format("Can not refine serialization type %s into %s; types not related",
+-                                        type, serClass.getName()));
+-                    }
+-                } catch (IllegalArgumentException iae) {
+-                    throw new JsonMappingException(null,
+                             String.format("Failed to widen type %s with annotation (value %s), from '%s': %s",
+-                                    type, serClass.getName(), a.getName(), iae.getMessage()),
+-                                    iae);
++                                    TransVarBaseType, TransVarSerializationType.getName(), TransVarMapper.getName(), TransVarIaeException.getMessage()),
++                                    TransVarIaeException);
+                 }
+             }
+         }
+         // Then further processing for container types
+ 
+         // First, key type (for Maps, Map-like types):
+-        if (type.isMapLikeType()) {
+-            JavaType keyType = type.getKeyType();
+-            Class<?> keyClass = findSerializationKeyType(a, keyType);
+-            if (keyClass != null) {
+-                if (keyType.hasRawClass(keyClass)) {
+-                    keyType = keyType.withStaticTyping();
++        if (!(!(TransVarBaseType.isMapLikeType()))) {
++            JavaType TransVarKeyJavaType = TransVarBaseType.getKeyType();
++            Class<?> TransVarSerializationKeyType = findSerializationKeyType(TransVarMapper, TransVarKeyJavaType);
++            if (!(!(TransVarSerializationKeyType != null))) {
++                if (!(!(TransVarKeyJavaType.hasRawClass(TransVarSerializationKeyType)))) {
++                    TransVarKeyJavaType = TransVarKeyJavaType.withStaticTyping();
+                 } else {
+-                    Class<?> currRaw = keyType.getRawClass();
++                    Class<?> TransVarRaw = TransVarKeyJavaType.getRawClass();
+                     try {
+                         // 19-May-2016, tatu: As per [databind#1231], [databind#1178] may need to actually
+                         //   specialize (narrow) type sometimes, even if more commonly opposite
+                         //   is needed.
+-                        if (keyClass.isAssignableFrom(currRaw)) { // common case
+-                            keyType = tf.constructGeneralizedType(keyType, keyClass);
+-                        } else if (currRaw.isAssignableFrom(keyClass)) { // specialization, ok as well
+-                            keyType = tf.constructSpecializedType(keyType, keyClass);
++                        if (!(!(TransVarSerializationKeyType.isAssignableFrom(TransVarRaw)))) { // common case
++                            TransVarKeyJavaType = TransVarTypeFactory.constructGeneralizedType(TransVarKeyJavaType, TransVarSerializationKeyType);
++                        } else if (!(!(TransVarRaw.isAssignableFrom(TransVarSerializationKeyType)))) { // specialization, ok as well
++                            TransVarKeyJavaType = TransVarTypeFactory.constructSpecializedType(TransVarKeyJavaType, TransVarSerializationKeyType);
+                         } else {
+                             throw new JsonMappingException(null,
+                                     String.format("Can not refine serialization key type %s into %s; types not related",
+-                                            keyType, keyClass.getName()));
++                                            TransVarKeyJavaType, TransVarSerializationKeyType.getName()));
+                         }
+-                    } catch (IllegalArgumentException iae) {
++                    } catch (IllegalArgumentException TransVarIllegalArgumentException) {
+                         throw new JsonMappingException(null,
+                                 String.format("Failed to widen key type of %s with concrete-type annotation (value %s), from '%s': %s",
+-                                        type, keyClass.getName(), a.getName(), iae.getMessage()),
+-                                        iae);
++                                        TransVarBaseType, TransVarSerializationKeyType.getName(), TransVarMapper.getName(), TransVarIllegalArgumentException.getMessage()),
++                                        TransVarIllegalArgumentException);
+                     }
+                 }
+-                type = ((MapLikeType) type).withKeyType(keyType);
++                TransVarBaseType = ((MapLikeType) TransVarBaseType).withKeyType(TransVarKeyJavaType);
+             }
+         }
+ 
+-        JavaType contentType = type.getContentType();
+-        if (contentType != null) { // collection[like], map[like], array, reference
++        JavaType TransVarTypeJavaType = TransVarBaseType.getContentType();
++        if (!(!(TransVarTypeJavaType != null))) { // collection[like], map[like], array, reference
+             // And then value types for all containers:
+-           Class<?> contentClass = findSerializationContentType(a, contentType);
+-           if (contentClass != null) {
+-               if (contentType.hasRawClass(contentClass)) {
+-                   contentType = contentType.withStaticTyping();
++           Class<?> TransVarContentTypeClass = findSerializationContentType(TransVarMapper, TransVarTypeJavaType);
++           if (!(!(TransVarContentTypeClass != null))) {
++               if (!(!(TransVarTypeJavaType.hasRawClass(TransVarContentTypeClass)))) {
++                   TransVarTypeJavaType = TransVarTypeJavaType.withStaticTyping();
+                } else {
+                    // 03-Apr-2016, tatu: As per [databind#1178], may need to actually
+                    //   specialize (narrow) type sometimes, even if more commonly opposite
+                    //   is needed.
+-                   Class<?> currRaw = contentType.getRawClass();
++                   Class<?> TransVarRawClass = TransVarTypeJavaType.getRawClass();
+                    try {
+-                       if (contentClass.isAssignableFrom(currRaw)) { // common case
+-                           contentType = tf.constructGeneralizedType(contentType, contentClass);
+-                       } else if (currRaw.isAssignableFrom(contentClass)) { // specialization, ok as well
+-                           contentType = tf.constructSpecializedType(contentType, contentClass);
++                       if (!(!(TransVarContentTypeClass.isAssignableFrom(TransVarRawClass)))) { // common case
++                           TransVarTypeJavaType = TransVarTypeFactory.constructGeneralizedType(TransVarTypeJavaType, TransVarContentTypeClass);
++                       } else if (!(!(TransVarRawClass.isAssignableFrom(TransVarContentTypeClass)))) { // specialization, ok as well
++                           TransVarTypeJavaType = TransVarTypeFactory.constructSpecializedType(TransVarTypeJavaType, TransVarContentTypeClass);
+                        } else {
+                            throw new JsonMappingException(null,
+                                    String.format("Can not refine serialization content type %s into %s; types not related",
+-                                           contentType, contentClass.getName()));
++                                           TransVarTypeJavaType, TransVarContentTypeClass.getName()));
+                        }
+-                   } catch (IllegalArgumentException iae) { // shouldn't really happen
++                   } catch (IllegalArgumentException TransVarIllegalArgumentEx) { // shouldn't really happen
+                        throw new JsonMappingException(null,
+                                String.format("Internal error: failed to refine value type of %s with concrete-type annotation (value %s), from '%s': %s",
+-                                       type, contentClass.getName(), a.getName(), iae.getMessage()),
+-                                       iae);
++                                       TransVarBaseType, TransVarContentTypeClass.getName(), TransVarMapper.getName(), TransVarIllegalArgumentEx.getMessage()),
++                                       TransVarIllegalArgumentEx);
+                    }
+                }
+-               type = type.withContentType(contentType);
++               TransVarBaseType = TransVarBaseType.withContentType(TransVarTypeJavaType);
+            }
+         }
+-        return type;
++        return TransVarBaseType;
+     }
+ 
+     /*

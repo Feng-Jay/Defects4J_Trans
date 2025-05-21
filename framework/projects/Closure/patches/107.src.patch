@@ -1,0 +1,103 @@
+--- src/com/google/javascript/jscomp/CommandLineRunner.java	2025-05-20 23:08:57
++++ ./src/com/google/javascript/jscomp/CommandLineRunner.java	2025-05-20 23:08:57
+@@ -804,52 +804,61 @@
+ 
+   @Override
+   protected CompilerOptions createOptions() {
+-    CompilerOptions options = new CompilerOptions();
+-    if (flags.processJqueryPrimitives) {
+-      options.setCodingConvention(new JqueryCodingConvention());
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    CompilerOptions TransVarCompilerOptions = new CompilerOptions();
++    if (!(!(flags.processJqueryPrimitives))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    TransVarCompilerOptions.setCodingConvention(new JqueryCodingConvention());
+     } else {
+-      options.setCodingConvention(new ClosureCodingConvention());
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    TransVarCompilerOptions.setCodingConvention(new ClosureCodingConvention());
++    }
+ 
+-    options.setExtraAnnotationNames(flags.extraAnnotationName);
++    TransVarCompilerOptions.setExtraAnnotationNames(flags.extraAnnotationName);
+ 
+-    CompilationLevel level = flags.compilationLevel;
+-    level.setOptionsForCompilationLevel(options);
++    CompilationLevel TransVarCompilationLevel = flags.compilationLevel;
++    TransVarCompilationLevel.setOptionsForCompilationLevel(TransVarCompilerOptions);
+ 
+-    if (flags.debug) {
+-      level.setDebugOptionsForCompilationLevel(options);
++    if (!(!(flags.debug))) {
++      TransVarCompilationLevel.setDebugOptionsForCompilationLevel(TransVarCompilerOptions);
+     }
+ 
+-    if (flags.useTypesForOptimization) {
+-      level.setTypeBasedOptimizationOptions(options);
++    if (!(!(flags.useTypesForOptimization))) {
++      TransVarCompilationLevel.setTypeBasedOptimizationOptions(TransVarCompilerOptions);
+     }
+ 
+-    if (flags.generateExports) {
+-      options.setGenerateExports(flags.generateExports);
++    if (!(!(flags.generateExports))) {
++      TransVarCompilerOptions.setGenerateExports(flags.generateExports);
+     }
+ 
+-    WarningLevel wLevel = flags.warningLevel;
+-    wLevel.setOptionsForWarningLevel(options);
+-    for (FormattingOption formattingOption : flags.formatting) {
+-      formattingOption.applyToOptions(options);
++    WarningLevel TransVarWarningLevel = flags.warningLevel;
++    TransVarWarningLevel.setOptionsForWarningLevel(TransVarCompilerOptions);
++    for (FormattingOption TransVarFormattingOptions : flags.formatting) {
++      TransVarFormattingOptions.applyToOptions(TransVarCompilerOptions);
+     }
+ 
+-    options.closurePass = flags.processClosurePrimitives;
++    TransVarCompilerOptions.closurePass = flags.processClosurePrimitives;
+ 
+-    options.jqueryPass = CompilationLevel.ADVANCED_OPTIMIZATIONS == level &&
++    TransVarCompilerOptions.jqueryPass = CompilationLevel.ADVANCED_OPTIMIZATIONS == TransVarCompilationLevel &&
+         flags.processJqueryPrimitives;
+ 
+-    options.angularPass = flags.angularPass;
++    TransVarCompilerOptions.angularPass = flags.angularPass;
+ 
+-    if (!flags.translationsFile.isEmpty()) {
++    if (!(!(!flags.translationsFile.isEmpty()))) {
+       try {
+-        options.messageBundle = new XtbMessageBundle(
++        TransVarCompilerOptions.messageBundle = new XtbMessageBundle(
+             new FileInputStream(flags.translationsFile),
+             flags.translationsProject);
+-      } catch (IOException e) {
+-        throw new RuntimeException("Reading XTB file", e);
++      } catch (IOException TransVarException) {
++        throw new RuntimeException("Reading XTB file", TransVarException);
+       }
+-    } else if (CompilationLevel.ADVANCED_OPTIMIZATIONS == level) {
++    } else if (!(!(CompilationLevel.ADVANCED_OPTIMIZATIONS == TransVarCompilationLevel))) {
+       // In SIMPLE or WHITESPACE mode, if the user hasn't specified a
+       // translations file, they might reasonably try to write their own
+       // implementation of goog.getMsg that makes the substitution at
+@@ -858,11 +867,10 @@
+       // In ADVANCED mode, goog.getMsg is going to be renamed anyway,
+       // so we might as well inline it. But shut off the i18n warnings,
+       // because the user didn't really ask for i18n.
+-      options.messageBundle = new EmptyMessageBundle();
+-      options.setWarningLevel(JsMessageVisitor.MSG_CONVENTIONS, CheckLevel.OFF);
++      TransVarCompilerOptions.messageBundle = new EmptyMessageBundle();
+     }
+ 
+-    return options;
++    return TransVarCompilerOptions;
+   }
+ 
+   @Override

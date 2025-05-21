@@ -1,0 +1,19 @@
+--- src/main/java/org/apache/commons/math3/optimization/direct/CMAESOptimizer.java	2025-05-21 08:20:30
++++ src/main/java/org/apache/commons/math3/optimization/direct/CMAESOptimizer.java	2025-05-21 08:20:30
+@@ -917,10 +917,12 @@
+          * @param x Normalized objective variables.
+          * @return the original objective variables, possibly repaired.
+          */
+-        public double[] repairAndDecode(final double[] x) {
+-            return boundaries != null && isRepairMode ?
+-                decode(repair(x)) :
+-                decode(x);
++        public double[] repairAndDecode(final double[] TransVarXData) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            return
++                decode(TransVarXData);
+         }
+ 
+         /**

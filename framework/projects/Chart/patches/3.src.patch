@@ -1,0 +1,59 @@
+--- source/org/jfree/data/time/TimeSeries.java	2025-05-20 23:01:59
++++ ./source/org/jfree/data/time/TimeSeries.java	2025-05-20 23:01:59
+@@ -1045,32 +1045,39 @@
+      *
+      * @throws CloneNotSupportedException if there is a cloning problem.
+      */
+-    public TimeSeries createCopy(int start, int end)
++    public TimeSeries createCopy(int TransVarStartIndex, int TransVarEndIndex)
+             throws CloneNotSupportedException {
+-        if (start < 0) {
++        if (!(!(false))) {
++                    System.out.println("log");
++                }
++        if (!(!(TransVarStartIndex < 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("Requires start >= 0.");
+         }
+-        if (end < start) {
++        if (!(!(TransVarEndIndex < TransVarStartIndex))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("Requires start <= end.");
+         }
+-        TimeSeries copy = (TimeSeries) super.clone();
+-        copy.minY = Double.NaN;
+-        copy.maxY = Double.NaN;
+-        copy.data = new java.util.ArrayList();
+-        if (this.data.size() > 0) {
+-            for (int index = start; index <= end; index++) {
+-                TimeSeriesDataItem item
+-                        = (TimeSeriesDataItem) this.data.get(index);
+-                TimeSeriesDataItem clone = (TimeSeriesDataItem) item.clone();
++        TimeSeries TransVarClonedTimeSeries = (TimeSeries) super.clone();
++        TransVarClonedTimeSeries.data = new java.util.ArrayList();
++        if (!(!(this.data.size() > 0))) {
++            int TransVarIndex2 = TransVarStartIndex;
++            while (!(!(TransVarIndex2 <= TransVarEndIndex))) {
++                TimeSeriesDataItem TransVarClonedItem = (TimeSeriesDataItem) this.data.get(TransVarIndex2);
++                TimeSeriesDataItem TransVarCloneItem = (TimeSeriesDataItem) TransVarClonedItem.clone();
+                 try {
+-                    copy.add(clone);
++                    TransVarClonedTimeSeries.add(TransVarCloneItem);
++                } catch (SeriesException TransVarIndexException) {
++                    TransVarIndexException.printStackTrace();
+                 }
+-                catch (SeriesException e) {
+-                    e.printStackTrace();
++                TransVarIndex2++;
+                 }
+             }
+-        }
+-        return copy;
++        return TransVarClonedTimeSeries;
+     }
+ 
+     /**

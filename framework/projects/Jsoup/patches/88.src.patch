@@ -1,0 +1,14 @@
+--- src/main/java/org/jsoup/nodes/Attribute.java	2025-05-21 06:28:55
++++ ./src/main/java/org/jsoup/nodes/Attribute.java	2025-05-21 06:28:55
+@@ -77,7 +77,10 @@
+      @return the attribute value
+      */
+     public String getValue() {
+-        return Attributes.checkNotNull(val);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        return val;
+     }
+ 
+     /**

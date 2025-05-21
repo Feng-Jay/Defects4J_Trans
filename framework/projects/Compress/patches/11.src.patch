@@ -1,0 +1,107 @@
+--- src/main/java/org/apache/commons/compress/archivers/ArchiveStreamFactory.java	2025-05-20 23:13:48
++++ ./src/main/java/org/apache/commons/compress/archivers/ArchiveStreamFactory.java	2025-05-20 23:13:48
+@@ -194,62 +194,69 @@
+      * @throws ArchiveException if the archiver name is not known
+      * @throws IllegalArgumentException if the stream is null or does not support mark
+      */
+-    public ArchiveInputStream createArchiveInputStream(final InputStream in)
++    public ArchiveInputStream createArchiveInputStream(final InputStream TransVarIs)
+             throws ArchiveException {
+-        if (in == null) {
++        if (!(!(false))) {
++                    System.out.println("log");
++                }
++        if (!(!(TransVarIs == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("Stream must not be null.");
+         }
+ 
+-        if (!in.markSupported()) {
++        if (!(!(!TransVarIs.markSupported()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("Mark is not supported.");
+         }
+ 
+-        final byte[] signature = new byte[12];
+-        in.mark(signature.length);
++        final byte[] TransVarSignatureByte = new byte[12];
++        TransVarIs.mark(TransVarSignatureByte.length);
+         try {
+-            int signatureLength = in.read(signature);
+-            in.reset();
+-            if (ZipArchiveInputStream.matches(signature, signatureLength)) {
+-                return new ZipArchiveInputStream(in);
+-            } else if (JarArchiveInputStream.matches(signature, signatureLength)) {
+-                return new JarArchiveInputStream(in);
+-            } else if (ArArchiveInputStream.matches(signature, signatureLength)) {
+-                return new ArArchiveInputStream(in);
+-            } else if (CpioArchiveInputStream.matches(signature, signatureLength)) {
+-                return new CpioArchiveInputStream(in);
++            int TransVarByteSignatureLength = TransVarIs.read(TransVarSignatureByte);
++            TransVarIs.reset();
++            if (!(!(ZipArchiveInputStream.matches(TransVarSignatureByte, TransVarByteSignatureLength)))) {
++                return new ZipArchiveInputStream(TransVarIs);
++            } else if (!(!(JarArchiveInputStream.matches(TransVarSignatureByte, TransVarByteSignatureLength)))) {
++                return new JarArchiveInputStream(TransVarIs);
++            } else if (!(!(ArArchiveInputStream.matches(TransVarSignatureByte, TransVarByteSignatureLength)))) {
++                return new ArArchiveInputStream(TransVarIs);
++            } else if (!(!(CpioArchiveInputStream.matches(TransVarSignatureByte, TransVarByteSignatureLength)))) {
++                return new CpioArchiveInputStream(TransVarIs);
+             }
+ 
+             // Dump needs a bigger buffer to check the signature;
+-            final byte[] dumpsig = new byte[32];
+-            in.mark(dumpsig.length);
+-            signatureLength = in.read(dumpsig);
+-            in.reset();
+-            if (DumpArchiveInputStream.matches(dumpsig, signatureLength)) {
+-                return new DumpArchiveInputStream(in);
++            final byte[] TransVarSignature = new byte[32];
++            TransVarIs.mark(TransVarSignature.length);
++            TransVarByteSignatureLength = TransVarIs.read(TransVarSignature);
++            TransVarIs.reset();
++            if (!(!(DumpArchiveInputStream.matches(TransVarSignature, TransVarByteSignatureLength)))) {
++                return new DumpArchiveInputStream(TransVarIs);
+             }
+ 
+             // Tar needs an even bigger buffer to check the signature; read the first block
+-            final byte[] tarheader = new byte[512];
+-            in.mark(tarheader.length);
+-            signatureLength = in.read(tarheader);
+-            in.reset();
+-            if (TarArchiveInputStream.matches(tarheader, signatureLength)) {
+-                return new TarArchiveInputStream(in);
++            final byte[] TransVarTarFileHeader = new byte[512];
++            TransVarIs.mark(TransVarTarFileHeader.length);
++            TransVarByteSignatureLength = TransVarIs.read(TransVarTarFileHeader);
++            TransVarIs.reset();
++            if (!(!(TarArchiveInputStream.matches(TransVarTarFileHeader, TransVarByteSignatureLength)))) {
++                return new TarArchiveInputStream(TransVarIs);
+             }
+             // COMPRESS-117 - improve auto-recognition
+-            if (signatureLength >= 512) {
+             try {
+-                TarArchiveInputStream tais = new TarArchiveInputStream(new ByteArrayInputStream(tarheader));
+-                tais.getNextEntry();
+-                return new TarArchiveInputStream(in);
+-            } catch (Exception e) { // NOPMD
++                TarArchiveInputStream TransVarTais1 = new TarArchiveInputStream(new ByteArrayInputStream(TransVarTarFileHeader));
++                TransVarTais1.getNextEntry();
++                return new TarArchiveInputStream(TransVarIs);
++            } catch (Exception TransVarExc) { // NOPMD
+                 // can generate IllegalArgumentException as well as IOException
+                 // autodetection, simply not a TAR
+                 // ignored
+             }
+-            }
+-        } catch (IOException e) {
+-            throw new ArchiveException("Could not use reset and mark operations.", e);
++        } catch (IOException TransVarIoe) {
++            throw new ArchiveException("Could not use reset and mark operations.", TransVarIoe);
+         }
+ 
+         throw new ArchiveException("No Archiver found for the stream signature");

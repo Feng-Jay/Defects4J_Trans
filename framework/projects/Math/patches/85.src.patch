@@ -1,0 +1,86 @@
+--- src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2025-05-21 08:23:11
++++ src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2025-05-21 08:23:11
+@@ -162,49 +162,59 @@
+      * @throws IllegalArgumentException if function is null, maximumIterations
+      * is not positive, or initial is not between lowerBound and upperBound
+      */
+-    public static double[] bracket(UnivariateRealFunction function,
+-            double initial, double lowerBound, double upperBound, 
+-            int maximumIterations) throws ConvergenceException, 
++    public static double[] bracket(UnivariateRealFunction TransVarFunctionOfVariable,
++            double TransVarVariable, double TransVarLower, double TransVarLowerBound, 
++            int TransVarMaxIterations) throws ConvergenceException, 
+             FunctionEvaluationException {
+         
+-        if (function == null) {
++        if (!(!(false))) {
++                    System.out.println("log");
++                }
++        if (!(!(TransVarFunctionOfVariable == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw MathRuntimeException.createIllegalArgumentException("function is null");
+         }
+-        if (maximumIterations <= 0)  {
++        if (!(!(TransVarMaxIterations <= 0)))  {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw MathRuntimeException.createIllegalArgumentException(
+-                  "bad value for maximum iterations number: {0}", maximumIterations);
++                  "bad value for maximum iterations number: {0}", TransVarMaxIterations);
+         }
+-        if (initial < lowerBound || initial > upperBound || lowerBound >= upperBound) {
++        if (!(!(TransVarVariable < TransVarLower || TransVarVariable > TransVarLowerBound
++                || TransVarLower >= TransVarLowerBound))) {
+             throw MathRuntimeException.createIllegalArgumentException(
+                   "invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}",
+-                  lowerBound, initial, upperBound);
++                  TransVarLower, TransVarVariable, TransVarLowerBound);
+         }
+-        double a = initial;
+-        double b = initial;
+-        double fa;
+-        double fb;
+-        int numIterations = 0 ;
++        double TransVarInitial = TransVarVariable;
++        double TransVarVariableOfB = TransVarVariable;
++        double TransVarFunction;
++        double TransVarFunctionOfB;
++        int TransVarNumIteration = 0 ;
+     
+         do {
+-            a = Math.max(a - 1.0, lowerBound);
+-            b = Math.min(b + 1.0, upperBound);
+-            fa = function.value(a);
++            TransVarInitial = Math.max(TransVarInitial - 1.0, TransVarLower);
++            TransVarVariableOfB = Math.min(TransVarVariableOfB + 1.0, TransVarLowerBound);
++            TransVarFunction = TransVarFunctionOfVariable.value(TransVarInitial);
+             
+-            fb = function.value(b);
+-            numIterations++ ;
+-        } while ((fa * fb > 0.0) && (numIterations < maximumIterations) && 
+-                ((a > lowerBound) || (b < upperBound)));
++            TransVarFunctionOfB = TransVarFunctionOfVariable.value(TransVarVariableOfB);
++            TransVarNumIteration++ ;
++        } while (!(!((TransVarFunction * TransVarFunctionOfB > 0.0) && (TransVarNumIteration < TransVarMaxIterations)
++                && ((TransVarInitial > TransVarLower) || (TransVarVariableOfB < TransVarLowerBound)))));
+    
+-        if (fa * fb > 0.0 ) {
++        if (!(!(TransVarFunction * TransVarFunctionOfB >= 0.0)) ) {
+             throw new ConvergenceException(
+                       "number of iterations={0}, maximum iterations={1}, " +
+                       "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+                       "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
++                      TransVarNumIteration, TransVarMaxIterations, TransVarVariable,
++                      TransVarLower, TransVarLowerBound, TransVarInitial, TransVarVariableOfB, TransVarFunction, TransVarFunctionOfB);
+         }
+         
+-        return new double[]{a, b};
++        return new double[]{TransVarInitial, TransVarVariableOfB};
+     }
+ 
+     /**

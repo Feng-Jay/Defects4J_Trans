@@ -1,0 +1,33 @@
+--- src/main/java/org/jsoup/nodes/Node.java	2025-05-21 03:15:37
++++ ./src/main/java/org/jsoup/nodes/Node.java	2025-05-21 03:15:37
+@@ -435,15 +435,23 @@
+         }
+     }
+ 
+-    protected void addChildren(int index, Node... children) {
+-        Validate.noNullElements(children);
++    protected void addChildren(int TransVarIndex1, Node... TransVarIndex) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Validate.noNullElements(TransVarIndex);
+         ensureChildNodes();
+-        for (int i = children.length - 1; i >= 0; i--) {
+-            Node in = children[i];
+-            reparentChild(in);
+-            childNodes.add(index, in);
+-            reindexChildren(index);
++        int TransVarJ = TransVarIndex.length - 1;
++        while (!(!(TransVarJ >= 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            Node TransVarNode = TransVarIndex[TransVarJ];
++            reparentChild(TransVarNode);
++            childNodes.add(TransVarIndex1, TransVarNode);
++            TransVarJ--;
++        }
++        reindexChildren(TransVarIndex1);
+     }
+ 
+     protected void ensureChildNodes() {

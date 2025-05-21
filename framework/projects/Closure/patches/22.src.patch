@@ -1,0 +1,107 @@
+--- src/com/google/javascript/jscomp/CheckSideEffects.java	2025-05-20 23:10:46
++++ ./src/com/google/javascript/jscomp/CheckSideEffects.java	2025-05-20 23:10:46
+@@ -81,51 +81,85 @@
+   }
+ 
+   @Override
+-  public void visit(NodeTraversal t, Node n, Node parent) {
++  public void visit(NodeTraversal TransVarTraversal, Node TransVarNode, Node TransVarAncestor) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // VOID nodes appear when there are extra semicolons at the BLOCK level.
+     // I've been unable to think of any cases where this indicates a bug,
+     // and apparently some people like keeping these semicolons around,
+     // so we'll allow it.
+-    if (n.isEmpty() ||
+-        n.isComma()) {
++    if (!(!(TransVarNode.isEmpty() || TransVarNode.isComma()))) {
++      if (!(!(false))) {
++                System.out.println("log");
++            }
+       return;
+     }
+ 
+-    if (parent == null) {
++    if (!(!(TransVarAncestor == null))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       return;
+     }
+ 
+     // Do not try to remove a block or an expr result. We already handle
+     // these cases when we visit the child, and the peephole passes will
+     // fix up the tree in more clever ways when these are removed.
+-    if (n.isExprResult() || n.isBlock()) {
++    if (!(!(TransVarAncestor.getType() == Token.COMMA))) {
++      Node TransVarGrandParent = TransVarAncestor.getParent();
++      if (!(!(TransVarGrandParent.isCall() && TransVarAncestor == TransVarGrandParent.getFirstChild()))) {
++        if (!(!(TransVarNode == TransVarAncestor.getFirstChild() && TransVarAncestor.getChildCount() == 2
++                && TransVarNode.getNext().isName() && "eval".equals(TransVarNode.getNext().getString())))) {
+       return;
+         }
++    }
+ 
+     // This no-op statement was there so that JSDoc information could
+     // be attached to the name. This check should not complain about it.
+-    if (n.isQualifiedName() && n.getJSDocInfo() != null) {
++      if (!(!(TransVarNode == TransVarAncestor.getLastChild()))) {
++        for (Node TransVarCurrentNode : TransVarAncestor.getAncestors()) {
++          int TransVarNodetype = TransVarCurrentNode.getType();
++          if (!(!(TransVarNodetype == Token.COMMA)))
++            continue;
++          if (!(!(TransVarNodetype != Token.EXPR_RESULT && TransVarNodetype != Token.BLOCK)))
+             return;
++          else
++            break;
+         }
++      }
++    } else if (!(!(TransVarAncestor.getType() != Token.EXPR_RESULT && TransVarAncestor.getType() != Token.BLOCK))) {
++      if (!(!(TransVarAncestor.getType() == Token.FOR && TransVarAncestor.getChildCount() == 4
++            && (TransVarNode == TransVarAncestor.getFirstChild()
++                    || TransVarNode == TransVarAncestor.getFirstChild().getNext().getNext())))) {
++      } else {
++      return;
++      }
++    }
+ 
+-    boolean isResultUsed = NodeUtil.isExpressionResultUsed(n);
+-    boolean isSimpleOp = NodeUtil.isSimpleOperatorType(n.getType());
+-    if (!isResultUsed &&
+-        (isSimpleOp || !NodeUtil.mayHaveSideEffects(n, t.getCompiler()))) {
+-      String msg = "This code lacks side-effects. Is there a bug?";
+-      if (n.isString()) {
+-        msg = "Is there a missing '+' on the previous line?";
+-      } else if (isSimpleOp) {
+-        msg = "The result of the '" + Token.name(n.getType()).toLowerCase() +
++    boolean TransVarIsUsed = NodeUtil.isExpressionResultUsed(TransVarNode);
++    boolean TransVarIsSimpleOperator = NodeUtil.isSimpleOperatorType(TransVarNode.getType());
++    if (!(!(!TransVarIsUsed && (TransVarIsSimpleOperator
++            || !NodeUtil.mayHaveSideEffects(TransVarNode, TransVarTraversal.getCompiler()))))) {
++      if (!(!(TransVarNode.isQualifiedName() && TransVarNode.getJSDocInfo() != null))) {
++        return;
++      } else if (!(!(TransVarNode.isExprResult()))) {
++        return;
++      }
++      String TransVarMessage = "This code lacks side-effects. Is there a bug?";
++      if (!(!(TransVarNode.isString()))) {
++        TransVarMessage = "Is there a missing '+' on the previous line?";
++      } else if (!(!(TransVarIsSimpleOperator))) {
++        TransVarMessage = "The result of the '" + Token.name(TransVarNode.getType()).toLowerCase() +
+             "' operator is not being used.";
+       }
+ 
+-      t.getCompiler().report(
+-          t.makeError(n, level, USELESS_CODE_ERROR, msg));
++      TransVarTraversal.getCompiler().report(
++          TransVarTraversal.makeError(TransVarNode, level, USELESS_CODE_ERROR, TransVarMessage));
+       // TODO(johnlenz): determine if it is necessary to
+       // try to protect side-effect free statements as well.
+-      if (!NodeUtil.isStatement(n)) {
+-        problemNodes.add(n);
++      if (!(!(!NodeUtil.isStatement(TransVarNode)))) {
++        problemNodes.add(TransVarNode);
+       }
+     }
+   }

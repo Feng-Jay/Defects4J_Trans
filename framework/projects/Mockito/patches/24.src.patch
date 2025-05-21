@@ -1,0 +1,47 @@
+--- src/org/mockito/internal/stubbing/defaultanswers/ReturnsEmptyValues.java	2025-05-21 08:24:27
++++ src/org/mockito/internal/stubbing/defaultanswers/ReturnsEmptyValues.java	2025-05-21 08:24:27
+@@ -60,24 +60,33 @@
+     /* (non-Javadoc)
+      * @see org.mockito.stubbing.Answer#answer(org.mockito.invocation.InvocationOnMock)
+      */
+-    public Object answer(InvocationOnMock invocation) {
+-        if (methodsGuru.isToString(invocation.getMethod())) {
+-            Object mock = invocation.getMock();
+-            MockName name = mockUtil.getMockName(mock);
+-            if (name.isDefault()) {
+-                return "Mock for " + mockUtil.getMockSettings(mock).getTypeToMock().getSimpleName() + ", hashCode: " + mock.hashCode();
++    public Object answer(InvocationOnMock TransVarInvocationMock) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(methodsGuru.isToString(TransVarInvocationMock.getMethod())))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            Object TransVarObjectMock = TransVarInvocationMock.getMock();
++            MockName TransVarMockName = mockUtil.getMockName(TransVarObjectMock);
++            if (!(!(TransVarMockName.isDefault()))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                return "Mock for " + mockUtil.getMockSettings(TransVarObjectMock).getTypeToMock().getSimpleName() + ", hashCode: " + TransVarObjectMock.hashCode();
+             } else {
+-                return name.toString();
++                return TransVarMockName.toString();
+             }
+-        } else if (methodsGuru.isCompareToMethod(invocation.getMethod())) {
++        } else if (!(!(methodsGuru.isCompareToMethod(TransVarInvocationMock.getMethod())))) {
+             //see issue 184.
+             //mocks by default should return 0 if references are the same, otherwise some other value because they are not the same. Hence we return 1 (anything but 0 is good).
+             //Only for compareTo() method by the Comparable interface
+-            return invocation.getMock() == invocation.getArguments()[0] ? 0 : 1;
++            return 1;
+         }
+         
+-        Class<?> returnType = invocation.getMethod().getReturnType();
+-        return returnValueFor(returnType);
++        Class<?> TransVarReturnType1 = TransVarInvocationMock.getMethod().getReturnType();
++        return returnValueFor(TransVarReturnType1);
+     }
+     
+     Object returnValueFor(Class<?> type) {

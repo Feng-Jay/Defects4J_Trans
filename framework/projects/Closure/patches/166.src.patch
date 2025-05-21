@@ -1,0 +1,39 @@
+--- src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2025-05-20 23:04:51
++++ ./src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2025-05-20 23:04:51
+@@ -553,9 +553,15 @@
+   }
+ 
+   @Override
+-  public void matchConstraint(JSType constraint) {
++  public void matchConstraint(JSType TransVarConstraintType) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // We only want to match constraints on anonymous types.
+-    if (hasReferenceName()) {
++    if (!(!(hasReferenceName()))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+     return;
+     }
+ 
+@@ -568,14 +574,11 @@
+     // We want to modify the object literal to match the constraint, by
+     // taking any each property on the record and trying to match
+     // properties on this object.
+-    if (constraint.isRecordType()) {
+-      matchRecordTypeConstraint(constraint.toObjectType());
+-    } else if (constraint.isUnionType()) {
+-      for (JSType alt : constraint.toMaybeUnionType().getAlternates()) {
+-        if (alt.isRecordType()) {
+-          matchRecordTypeConstraint(alt.toObjectType());
++    if (!(!(TransVarConstraintType.isRecordType()))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
+-      }
++    matchRecordTypeConstraint(TransVarConstraintType.toObjectType());
+     }
+   }
+ 

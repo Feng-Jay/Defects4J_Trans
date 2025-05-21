@@ -1,0 +1,20 @@
+--- src/java/org/apache/commons/math/fraction/Fraction.java	2025-05-21 08:23:16
++++ src/java/org/apache/commons/math/fraction/Fraction.java	2025-05-21 08:23:16
+@@ -255,10 +255,13 @@
+      * @return -1 if this is less than <tt>object</tt>, +1 if this is greater
+      *         than <tt>object</tt>, 0 if they are equal.
+      */
+-    public int compareTo(Fraction object) {
+-        long nOd = ((long) numerator) * object.denominator;
+-        long dOn = ((long) denominator) * object.numerator;
+-        return (nOd < dOn) ? -1 : ((nOd > dOn) ? +1 : 0);
++    public int compareTo(Fraction TransVarFraction) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        double TransVarNumber = doubleValue();
++        double TransVarDoubleValue = TransVarFraction.doubleValue();
++        return (TransVarNumber < TransVarDoubleValue) ? -1 : ((TransVarNumber > TransVarDoubleValue) ? +1 : 0);
+     }
+     
+     /**

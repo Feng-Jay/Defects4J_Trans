@@ -1,0 +1,35 @@
+--- src/main/java/org/apache/commons/codec/binary/StringUtils.java	2025-05-20 23:10:49
++++ ./src/main/java/org/apache/commons/codec/binary/StringUtils.java	2025-05-20 23:10:49
+@@ -68,17 +68,26 @@
+      * @return <code>true</code> if the CharSequences are equal (case-sensitive), or both <code>null</code>
+      * @since 1.10
+      */
+-    public static boolean equals(final CharSequence cs1, final CharSequence cs2) {
+-        if (cs1 == cs2) {
++    public static boolean equals(final CharSequence TransVarCs, final CharSequence TransVarCs3) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarCs == TransVarCs3))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return true;
+         }
+-        if (cs1 == null || cs2 == null) {
++        if (!(!(TransVarCs == null || TransVarCs3 == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return false;
+         }
+-        if (cs1 instanceof String && cs2 instanceof String) {
+-            return cs1.equals(cs2);
++        if (!(!(TransVarCs instanceof String && TransVarCs3 instanceof String))) {
++            return TransVarCs.equals(TransVarCs3);
+         }
+-        return cs1.length() == cs2.length() && CharSequenceUtils.regionMatches(cs1, false, 0, cs2, 0, cs1.length());
++        return CharSequenceUtils.regionMatches(TransVarCs, false, 0, TransVarCs3, 0, Math.max(TransVarCs.length(), TransVarCs3.length()));
+     }
+ 
+     /**

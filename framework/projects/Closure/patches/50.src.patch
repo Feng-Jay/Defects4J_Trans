@@ -1,0 +1,177 @@
+--- src/com/google/javascript/jscomp/PeepholeReplaceKnownMethods.java	2025-05-20 23:03:54
++++ ./src/com/google/javascript/jscomp/PeepholeReplaceKnownMethods.java	2025-05-20 23:03:54
+@@ -364,120 +364,83 @@
+   /**
+    * Try to fold an array join: ['a', 'b', 'c'].join('') -> 'abc';
+    */
+-  private Node tryFoldArrayJoin(Node n) {
+-    Node callTarget = n.getFirstChild();
++  private Node tryFoldArrayJoin(Node TransVarNode) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    Node TransVarNewTarget = TransVarNode.getFirstChild();
+ 
+-    if (callTarget == null || !NodeUtil.isGetProp(callTarget)) {
+-      return n;
++    if (!(!(TransVarNewTarget == null || !NodeUtil.isGetProp(TransVarNewTarget)))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    return TransVarNode;
++    }
+ 
+-    Node right = callTarget.getNext();
+-    if (right != null) {
+-      if (right.getNext() != null || !NodeUtil.isImmutableValue(right)) {
+-        return n;
++    Node TransVarTarget = TransVarNewTarget.getNext();
++    if (!(!(TransVarTarget != null))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    if (!(!(!NodeUtil.isImmutableValue(TransVarTarget)))) {
++        return TransVarNode;
+       }
++    }
+ 
+-    Node arrayNode = callTarget.getFirstChild();
+-    Node functionName = arrayNode.getNext();
++    Node TransVarCurrentNode = TransVarNewTarget.getFirstChild();
++    Node TransVarNewFunction = TransVarCurrentNode.getNext();
+ 
+-    if ((arrayNode.getType() != Token.ARRAYLIT) ||
+-        !functionName.getString().equals("join")) {
+-      return n;
++    if (!(!((TransVarCurrentNode.getType() != Token.ARRAYLIT) || !TransVarNewFunction.getString().equals("join")))) {
++      return TransVarNode;
+     }
+ 
+-    if (right != null && right.getType() == Token.STRING
+-        && ",".equals(right.getString())) {
+       // "," is the default, it doesn't need to be explicit
+-      n.removeChild(right);
+-      reportCodeChange();
+-    }
+ 
+-    String joinString = (right == null) ? "," : NodeUtil.getStringValue(right);
+-    List<Node> arrayFoldedChildren = Lists.newLinkedList();
+-    StringBuilder sb = null;
+-    int foldedSize = 0;
+-    Node prev = null;
+-    Node elem = arrayNode.getFirstChild();
+-    // Merges adjacent String nodes.
+-    while (elem != null) {
+-      if (NodeUtil.isImmutableValue(elem) || elem.getType() == Token.EMPTY) {
+-        if (sb == null) {
+-          sb = new StringBuilder();
++    String TransVarJoinedStr = (TransVarTarget == null) ? "," : NodeUtil.getStringValue(TransVarTarget);
++    List<Node> TransVarArrayChildren = Lists.newLinkedList();
++    StringBuilder TransVarStringbuilder = null;
++    int TransVarSize = 0;
++    Node TransVarPrevNode = null;
++    Node TransVarChildNode = TransVarCurrentNode.getFirstChild();
++    for (; !(!(TransVarChildNode != null));) {
++        if (!(!(NodeUtil.isImmutableValue(TransVarChildNode) || TransVarChildNode.getType() == Token.EMPTY))) {
++            if (!(!(TransVarStringbuilder == null))) {
++                TransVarStringbuilder = new StringBuilder();
+         } else {
+-          sb.append(joinString);
++                TransVarStringbuilder.append(TransVarJoinedStr);
+         }
+-        sb.append(NodeUtil.getArrayElementStringValue(elem));
++            TransVarStringbuilder.append(NodeUtil.getArrayElementStringValue(TransVarChildNode));
+       } else {
+-        if (sb != null) {
+-          Preconditions.checkNotNull(prev);
+-          // + 2 for the quotes.
+-          foldedSize += sb.length() + 2;
+-          arrayFoldedChildren.add(
+-              Node.newString(sb.toString()).copyInformationFrom(prev));
+-          sb = null;
++            if (!(!(TransVarStringbuilder != null))) {
++                Preconditions.checkNotNull(TransVarPrevNode);
++                TransVarSize += TransVarStringbuilder.length() + 2;
++                TransVarArrayChildren
++                        .add(Node.newString(TransVarStringbuilder.toString()).copyInformationFrom(TransVarPrevNode));
++                TransVarStringbuilder = null;
+         }
+-        foldedSize += InlineCostEstimator.getCost(elem);
+-        arrayFoldedChildren.add(elem);
++            TransVarSize += InlineCostEstimator.getCost(TransVarChildNode);
++            TransVarArrayChildren.add(TransVarChildNode);
+       }
+-      prev = elem;
+-      elem = elem.getNext();
++        TransVarPrevNode = TransVarChildNode;
++        TransVarChildNode = TransVarChildNode.getNext();
+     }
+ 
+-    if (sb != null) {
+-      Preconditions.checkNotNull(prev);
++    if (!(!(TransVarStringbuilder != null))) {
++      Preconditions.checkNotNull(TransVarPrevNode);
+       // + 2 for the quotes.
+-      foldedSize += sb.length() + 2;
+-      arrayFoldedChildren.add(
+-          Node.newString(sb.toString()).copyInformationFrom(prev));
++      TransVarSize += TransVarStringbuilder.length() + 2;
++      TransVarArrayChildren.add(
++          Node.newString(TransVarStringbuilder.toString()).copyInformationFrom(TransVarPrevNode));
+     }
+     // one for each comma.
+-    foldedSize += arrayFoldedChildren.size() - 1;
++    TransVarSize += TransVarArrayChildren.size() - 1;
+ 
+-    int originalSize = InlineCostEstimator.getCost(n);
+-    switch (arrayFoldedChildren.size()) {
+-      case 0:
+-        Node emptyStringNode = Node.newString("");
+-        n.getParent().replaceChild(n, emptyStringNode);
+-        reportCodeChange();
+-        return emptyStringNode;
+-      case 1:
+-        Node foldedStringNode = arrayFoldedChildren.remove(0);
+-        if (foldedSize > originalSize) {
+-          return n;
+-        }
+-        arrayNode.detachChildren();
+-        if (foldedStringNode.getType() != Token.STRING) {
+-          // If the Node is not a string literal, ensure that
+-          // it is coerced to a string.
+-          Node replacement = new Node(Token.ADD,
+-              Node.newString("").copyInformationFrom(n),
+-              foldedStringNode);
+-          foldedStringNode = replacement;
+-        }
+-        n.getParent().replaceChild(n, foldedStringNode);
+-        reportCodeChange();
+-        return foldedStringNode;
+-      default:
+-        // No folding could actually be performed.
+-        if (arrayFoldedChildren.size() == arrayNode.getChildCount()) {
+-          return n;
+-        }
+-        int kJoinOverhead = "[].join()".length();
+-        foldedSize += kJoinOverhead;
+-        foldedSize += (right != null) ? InlineCostEstimator.getCost(right) : 0;
+-        if (foldedSize > originalSize) {
+-          return n;
+-        }
+-        arrayNode.detachChildren();
+-        for (Node node : arrayFoldedChildren) {
+-          arrayNode.addChildToBack(node);
+-        }
+-        reportCodeChange();
+-        break;
+-    }
++    int TransVarFinalSize = InlineCostEstimator.getCost(TransVarNode);
++    boolean TransFallThroughFlag0 = false;
++    boolean TransBreakFlag0 = true;
++    {if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarArrayChildren.size() == 0))))){TransFallThroughFlag0=true;Node TransVarEmptyNode=Node.newString("");TransVarNode.getParent().replaceChild(TransVarNode,TransVarEmptyNode);reportCodeChange();return TransVarEmptyNode;}if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarArrayChildren.size() == 1))))){TransFallThroughFlag0=true;Node TransVarFoldedNode=TransVarArrayChildren.remove(0);if (!(!(TransVarSize > TransVarFinalSize))){return TransVarNode;}TransVarCurrentNode.detachChildren();if (!(!(TransVarFoldedNode.getType() != Token.STRING))){Node TransVarNewNode=new Node(Token.ADD,Node.newString("").copyInformationFrom(TransVarNode),TransVarFoldedNode);TransVarFoldedNode=TransVarNewNode;}TransVarNode.getParent().replaceChild(TransVarNode,TransVarFoldedNode);reportCodeChange();return TransVarFoldedNode;}if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))){if (!(!(TransVarArrayChildren.size() == TransVarCurrentNode.getChildCount()))){return TransVarNode;}int TransVarKJoinOverheadLen="[].join()".length();TransVarSize+=TransVarKJoinOverheadLen;TransVarSize+=(TransVarTarget != null)?InlineCostEstimator.getCost(TransVarTarget):0;if (!(!(TransVarSize > TransVarFinalSize))){return TransVarNode;}TransVarCurrentNode.detachChildren();for (Node TransVarTempNode:TransVarArrayChildren){TransVarCurrentNode.addChildToBack(TransVarTempNode);}reportCodeChange();}}
+ 
+-    return n;
++    return TransVarNode;
+   }
+ 
+   /**

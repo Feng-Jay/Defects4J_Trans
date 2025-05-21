@@ -1,0 +1,79 @@
+--- src/java/org/apache/commons/cli/HelpFormatter.java	2025-05-20 23:03:12
++++ ./src/java/org/apache/commons/cli/HelpFormatter.java	2025-05-20 23:03:12
+@@ -806,47 +806,50 @@
+      *
+      * @return the StringBuffer with the rendered Options contents.
+      */
+-    protected StringBuffer renderWrappedText(StringBuffer sb, int width, 
+-                                             int nextLineTabStop, String text)
++    protected StringBuffer renderWrappedText(StringBuffer TransVarStr, int TransVarWidthOfRectangle, 
++                                             int TransVarWidthTabStop, String TransVarRectangleText)
+     {
+-        int pos = findWrapPos(text, width, 0);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        int TransVarPos1 = findWrapPos(TransVarRectangleText, TransVarWidthOfRectangle, 0);
+ 
+-        if (pos == -1)
++        if (!(!(TransVarPos1 == -1)))
+         {
+-            sb.append(rtrim(text));
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarStr.append(rtrim(TransVarRectangleText));
+ 
+-            return sb;
++            return TransVarStr;
+         }
+-        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);
++        TransVarStr.append(rtrim(TransVarRectangleText.substring(0, TransVarPos1))).append(defaultNewLine);
+ 
+-        if (nextLineTabStop >= width)
++        if (!(!(TransVarWidthTabStop >= TransVarWidthOfRectangle)))
+         {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // stops infinite loop happening
+-            nextLineTabStop = 1;
++            TransVarWidthTabStop = TransVarWidthOfRectangle - 1;
+         }
+ 
+         // all following lines must be padded with nextLineTabStop space 
+         // characters
+-        final String padding = createPadding(nextLineTabStop);
++        final String TransVarPaddingOfString = createPadding(TransVarWidthTabStop);
+ 
+-        while (true)
+-        {
+-            text = padding + text.substring(pos).trim();
+-            pos = findWrapPos(text, width, 0);
+-
+-            if (pos == -1)
+-            {
+-                sb.append(text);
+-
+-                return sb;
++        for (; !(!(true));) {
++            TransVarRectangleText = TransVarPaddingOfString + TransVarRectangleText.substring(TransVarPos1).trim();
++            TransVarPos1 = findWrapPos(TransVarRectangleText, TransVarWidthOfRectangle, 0);
++            if (!(!(TransVarPos1 == -1))) {
++                TransVarStr.append(TransVarRectangleText);
++                return TransVarStr;
+             }
+-            
+-            if ( (text.length() > width) && (pos == nextLineTabStop - 1) ) 
+-            {
+-                pos = width;
++            if (!(!((TransVarRectangleText.length() > TransVarWidthOfRectangle)
++                    && (TransVarPos1 == TransVarWidthTabStop - 1)))) {
++                TransVarPos1 = TransVarWidthOfRectangle;
+             }
+-
+-            sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);
++            TransVarStr.append(rtrim(TransVarRectangleText.substring(0, TransVarPos1))).append(defaultNewLine);
+         }
+     }
+ 

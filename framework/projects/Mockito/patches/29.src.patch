@@ -1,0 +1,24 @@
+--- src/org/mockito/internal/matchers/Same.java	2025-05-21 08:24:22
++++ src/org/mockito/internal/matchers/Same.java	2025-05-21 08:24:22
+@@ -23,12 +23,15 @@
+         return wanted == actual;
+     }
+ 
+-    public void describeTo(Description description) {
+-        description.appendText("same(");
+-        appendQuoting(description);
+-        description.appendText(wanted == null ? "null" : wanted.toString());
+-        appendQuoting(description);
+-        description.appendText(")");
++    public void describeTo(Description TransVarDesc) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        TransVarDesc.appendText("same(");
++        appendQuoting(TransVarDesc);
++        TransVarDesc.appendText(wanted.toString());
++        appendQuoting(TransVarDesc);
++        TransVarDesc.appendText(")");
+     }
+ 
+     private void appendQuoting(Description description) {

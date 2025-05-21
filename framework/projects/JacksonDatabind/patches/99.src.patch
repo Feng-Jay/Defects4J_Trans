@@ -1,0 +1,23 @@
+--- src/main/java/com/fasterxml/jackson/databind/type/ReferenceType.java	2025-05-20 23:15:04
++++ ./src/main/java/com/fasterxml/jackson/databind/type/ReferenceType.java	2025-05-20 23:15:04
+@@ -162,12 +162,14 @@
+     @Override
+     protected String buildCanonicalName()
+     {
+-        StringBuilder sb = new StringBuilder();
+-        sb.append(_class.getName());
+-        sb.append('<');
+-        sb.append(_referencedType.toCanonical());
+-        sb.append('>');
+-        return sb.toString();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        StringBuilder TransVarBuilder = new StringBuilder();
++        TransVarBuilder.append(_class.getName());
++        TransVarBuilder.append('<');
++        TransVarBuilder.append(_referencedType.toCanonical());
++        return TransVarBuilder.toString();
+     }
+ 
+     /*

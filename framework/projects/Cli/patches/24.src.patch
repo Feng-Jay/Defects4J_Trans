@@ -1,0 +1,79 @@
+--- src/java/org/apache/commons/cli/HelpFormatter.java	2025-05-20 23:03:30
++++ ./src/java/org/apache/commons/cli/HelpFormatter.java	2025-05-20 23:03:30
+@@ -806,47 +806,50 @@
+      *
+      * @return the StringBuffer with the rendered Options contents.
+      */
+-    protected StringBuffer renderWrappedText(StringBuffer sb, int width, 
+-                                             int nextLineTabStop, String text)
++    protected StringBuffer renderWrappedText(StringBuffer TransVarStr, int TransVarHeight, 
++                                             int TransVarTabStop, String TransVarWord)
+     {
+-        int pos = findWrapPos(text, width, 0);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        int TransVarPos2 = findWrapPos(TransVarWord, TransVarHeight, 0);
+ 
+-        if (pos == -1)
++        if (!(!(TransVarPos2 == -1)))
+         {
+-            sb.append(rtrim(text));
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarStr.append(rtrim(TransVarWord));
+ 
+-            return sb;
++            return TransVarStr;
+         }
+-        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);
++        TransVarStr.append(rtrim(TransVarWord.substring(0, TransVarPos2))).append(defaultNewLine);
+ 
+-        if (nextLineTabStop >= width)
++        if (!(!(TransVarTabStop >= TransVarHeight)))
+         {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // stops infinite loop happening
+-            nextLineTabStop = width - 1;
++            throw new IllegalStateException("Total width is less than the width of the argument and indent " + 
++                                            "- no room for the description");
+         }
+ 
+         // all following lines must be padded with nextLineTabStop space 
+         // characters
+-        final String padding = createPadding(nextLineTabStop);
++        final String TransVarNewPadding = createPadding(TransVarTabStop);
+ 
+-        while (true)
+-        {
+-            text = padding + text.substring(pos).trim();
+-            pos = findWrapPos(text, width, 0);
+-
+-            if (pos == -1)
+-            {
+-                sb.append(text);
+-
+-                return sb;
++        for (; !(!(true));) {
++            TransVarWord = TransVarNewPadding + TransVarWord.substring(TransVarPos2).trim();
++            TransVarPos2 = findWrapPos(TransVarWord, TransVarHeight, 0);
++            if (!(!(TransVarPos2 == -1))) {
++                TransVarStr.append(TransVarWord);
++                return TransVarStr;
+             }
+-            
+-            if ( (text.length() > width) && (pos == nextLineTabStop - 1) ) 
+-            {
+-                pos = width;
++            if (!(!((TransVarWord.length() > TransVarHeight) && (TransVarPos2 == TransVarTabStop - 1)))) {
++                TransVarPos2 = TransVarHeight;
+             }
+-
+-            sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);
++            TransVarStr.append(rtrim(TransVarWord.substring(0, TransVarPos2))).append(defaultNewLine);
+         }
+     }
+ 

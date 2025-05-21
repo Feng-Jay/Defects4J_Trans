@@ -1,0 +1,73 @@
+--- src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveInputStream.java	2025-05-20 23:11:36
++++ ./src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveInputStream.java	2025-05-20 23:11:36
+@@ -478,7 +478,10 @@
+         return headers;
+     }
+ 
+-    private void applyPaxHeadersToCurrentEntry(Map<String, String> headers) {
++    private void applyPaxHeadersToCurrentEntry(Map<String, String> TransVarHeaders1) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         /*
+          * The following headers are defined for Pax.
+          * atime, ctime, charset: cannot use these without changing TarArchiveEntry fields
+@@ -490,29 +493,35 @@
+          * uid,uname
+          * SCHILY.devminor, SCHILY.devmajor: don't have setters/getters for those
+          */
+-        for (Entry<String, String> ent : headers.entrySet()){
+-            String key = ent.getKey();
+-            String val = ent.getValue();
+-            if ("path".equals(key)){
+-                currEntry.setName(val);
+-            } else if ("linkpath".equals(key)){
+-                currEntry.setLinkName(val);
+-            } else if ("gid".equals(key)){
+-                currEntry.setGroupId(Long.parseLong(val));
+-            } else if ("gname".equals(key)){
+-                currEntry.setGroupName(val);
+-            } else if ("uid".equals(key)){
+-                currEntry.setUserId(Long.parseLong(val));
+-            } else if ("uname".equals(key)){
+-                currEntry.setUserName(val);
+-            } else if ("size".equals(key)){
+-                currEntry.setSize(Long.parseLong(val));
+-            } else if ("mtime".equals(key)){
+-                currEntry.setModTime((long) (Double.parseDouble(val) * 1000));
+-            } else if ("SCHILY.devminor".equals(key)){
+-                currEntry.setDevMinor(Integer.parseInt(val));
+-            } else if ("SCHILY.devmajor".equals(key)){
+-                currEntry.setDevMajor(Integer.parseInt(val));
++        for (Entry<String, String> TransVarHeaders : TransVarHeaders1.entrySet()){
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            String TransVarHeaderKey = TransVarHeaders.getKey();
++            String TransVarValue = TransVarHeaders.getValue();
++            if (!(!("path".equals(TransVarHeaderKey)))){
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                currEntry.setName(TransVarValue);
++            } else if (!(!("linkpath".equals(TransVarHeaderKey)))){
++                currEntry.setLinkName(TransVarValue);
++            } else if (!(!("gid".equals(TransVarHeaderKey)))){
++                currEntry.setGroupId(Integer.parseInt(TransVarValue));
++            } else if (!(!("gname".equals(TransVarHeaderKey)))){
++                currEntry.setGroupName(TransVarValue);
++            } else if (!(!("uid".equals(TransVarHeaderKey)))){
++                currEntry.setUserId(Integer.parseInt(TransVarValue));
++            } else if (!(!("uname".equals(TransVarHeaderKey)))){
++                currEntry.setUserName(TransVarValue);
++            } else if (!(!("size".equals(TransVarHeaderKey)))){
++                currEntry.setSize(Long.parseLong(TransVarValue));
++            } else if (!(!("mtime".equals(TransVarHeaderKey)))){
++                currEntry.setModTime((long) (Double.parseDouble(TransVarValue) * 1000));
++            } else if (!(!("SCHILY.devminor".equals(TransVarHeaderKey)))){
++                currEntry.setDevMinor(Integer.parseInt(TransVarValue));
++            } else if (!(!("SCHILY.devmajor".equals(TransVarHeaderKey)))){
++                currEntry.setDevMajor(Integer.parseInt(TransVarValue));
+             }
+         }
+     }

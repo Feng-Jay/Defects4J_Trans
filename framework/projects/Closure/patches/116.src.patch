@@ -1,0 +1,104 @@
+--- src/com/google/javascript/jscomp/FunctionInjector.java	2025-05-20 23:05:49
++++ ./src/com/google/javascript/jscomp/FunctionInjector.java	2025-05-20 23:05:49
+@@ -687,73 +687,59 @@
+    * </pre>
+    */
+   private CanInlineResult canInlineReferenceDirectly(
+-      Node callNode, Node fnNode) {
+-    if (!isDirectCallNodeReplacementPossible(fnNode)) {
++      Node TransVarNode, Node TransVarFnnode) {
++    if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(!isDirectCallNodeReplacementPossible(TransVarFnnode)))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       return CanInlineResult.NO;
+     }
+ 
+-    Node block = fnNode.getLastChild();
++    Node TransVarFnBlock = TransVarFnnode.getLastChild();
+ 
+-    boolean hasSideEffects = false;  // empty function case
+-    if (block.hasChildren()) {
+-      Preconditions.checkState(block.hasOneChild());
+-      Node stmt = block.getFirstChild();
+-      if (stmt.isReturn()) {
+-        hasSideEffects = NodeUtil.mayHaveSideEffects(
+-            stmt.getFirstChild(), compiler);
+-      }
+-    }
+ 
+     // CALL NODE: [ NAME, ARG1, ARG2, ... ]
+-    Node cArg = callNode.getFirstChild().getNext();
++    Node TransVarCArg2 = TransVarNode.getFirstChild().getNext();
+ 
+     // Functions called via 'call' and 'apply' have a this-object as
+     // the first parameter, but this is not part of the called function's
+     // parameter list.
+-    if (!callNode.getFirstChild().isName()) {
+-      if (NodeUtil.isFunctionObjectCall(callNode)) {
++    if (!(!(!TransVarNode.getFirstChild().isName()))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(NodeUtil.isFunctionObjectCall(TransVarNode)))) {
+         // TODO(johnlenz): Support replace this with a value.
+-        if (cArg == null || !cArg.isThis()) {
++        if (!(!(TransVarCArg2 == null || !TransVarCArg2.isThis()))) {
+           return CanInlineResult.NO;
+         }
+-        cArg = cArg.getNext();
++        TransVarCArg2 = TransVarCArg2.getNext();
+       } else {
+         // ".apply" call should be filtered before this.
+-        Preconditions.checkState(!NodeUtil.isFunctionObjectApply(callNode));
++        Preconditions.checkState(!NodeUtil.isFunctionObjectApply(TransVarNode));
+       }
+     }
+ 
+     // FUNCTION NODE -> LP NODE: [ ARG1, ARG2, ... ]
+-    Node fnParam = NodeUtil.getFunctionParameters(fnNode).getFirstChild();
+-    while (cArg != null || fnParam != null) {
+-      // For each named parameter check if a mutable argument use more than one.
+-      if (fnParam != null) {
+-        if (cArg != null) {
+-          if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
++    Node TransVarFnNode = NodeUtil.getFunctionParameters(TransVarFnnode).getFirstChild();
++    for (; !(!(TransVarCArg2 != null || TransVarFnNode != null));) {
++        if (!(!(TransVarFnNode != null))) {
++            if (!(!(TransVarCArg2 != null))) {
++                if (!(!(NodeUtil.mayEffectMutableState(TransVarCArg2, compiler)
++                        && NodeUtil.getNameReferenceCount(TransVarFnBlock, TransVarFnNode.getString()) > 1))) {
+             return CanInlineResult.NO;
+           }
+-
+-          // Check for arguments that are evaluated more than once.
+-          // Note: Unlike block inlining, there it is not possible that a
+-          // parameter reference will be in a loop.
+-          if (NodeUtil.mayEffectMutableState(cArg, compiler)
+-              && NodeUtil.getNameReferenceCount(
+-                  block, fnParam.getString()) > 1) {
+-            return CanInlineResult.NO;
+             }
++            TransVarFnNode = TransVarFnNode.getNext();
+         }
+-
+-        // Move to the next name.
+-        fnParam = fnParam.getNext();
+-      }
+-
+-      // For every call argument check for side-effects, even if there
+-      // isn't a named parameter to match.
+-      if (cArg != null) {
+-        if (NodeUtil.mayHaveSideEffects(cArg, compiler)) {
++        if (!(!(TransVarCArg2 != null))) {
++            if (!(!(NodeUtil.mayHaveSideEffects(TransVarCArg2, compiler)))) {
+           return CanInlineResult.NO;
+         }
+-        cArg = cArg.getNext();
++            TransVarCArg2 = TransVarCArg2.getNext();
+         }
+     }
+ 

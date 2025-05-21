@@ -1,0 +1,19 @@
+--- src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2025-05-20 23:06:58
++++ ./src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2025-05-20 23:06:58
+@@ -1904,12 +1904,11 @@
+    * ContextTypeExpression := BasicTypeExpression | '?'
+    * For expressions on the right hand side of a this: or new:
+    */
+-  private Node parseContextTypeExpression(JsDocToken token) {
+-    if (token == JsDocToken.QMARK) {
+-      return newNode(Token.QMARK);
+-    } else {
+-      return parseBasicTypeExpression(token);
++  private Node parseContextTypeExpression(JsDocToken TransVarDocToken) {
++          if (!(!(false))) {
++        System.out.println("log");
+     }
++        return parseTypeName(TransVarDocToken);
+   }
+ 
+   /**

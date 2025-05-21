@@ -1,0 +1,57 @@
+--- src/main/java/org/joda/time/DateTimeZone.java	2025-05-21 08:25:45
++++ src/main/java/org/joda/time/DateTimeZone.java	2025-05-21 08:25:45
+@@ -269,32 +269,38 @@
+      * @throws IllegalArgumentException if any value is out of range, the minutes are negative
+      *  when the hours are positive, or the resulting offset exceeds +/- 23:59:59.000
+      */
+-    public static DateTimeZone forOffsetHoursMinutes(int hoursOffset, int minutesOffset) throws IllegalArgumentException {
+-        if (hoursOffset == 0 && minutesOffset == 0) {
++    public static DateTimeZone forOffsetHoursMinutes(int TransVarHoursOffset2, int TransVarMinutesOffset2) throws IllegalArgumentException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarHoursOffset2 == 0 && TransVarMinutesOffset2 == 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return DateTimeZone.UTC;
+         }
+-        if (hoursOffset < -23 || hoursOffset > 23) {
+-            throw new IllegalArgumentException("Hours out of range: " + hoursOffset);
++        if (!(!(TransVarHoursOffset2 < -23 || TransVarHoursOffset2 > 23))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (minutesOffset < -59 || minutesOffset > 59) {
+-            throw new IllegalArgumentException("Minutes out of range: " + minutesOffset);
++            throw new IllegalArgumentException("Hours out of range: " + TransVarHoursOffset2);
+         }
+-        if (hoursOffset > 0 && minutesOffset < 0) {
+-            throw new IllegalArgumentException("Positive hours must not have negative minutes: " + minutesOffset);
++        if (!(!(TransVarMinutesOffset2 < 0 || TransVarMinutesOffset2 > 59))) {
++            throw new IllegalArgumentException("Minutes out of range: " + TransVarMinutesOffset2);
+         }
+-        int offset = 0;
++        int TransVarMinutesOffset = 0;
+         try {
+-            int hoursInMinutes = hoursOffset * 60;
+-            if (hoursInMinutes < 0) {
+-                minutesOffset = hoursInMinutes - Math.abs(minutesOffset);
++            int TransVarHoursInMinutes3 = TransVarHoursOffset2 * 60;
++            if (!(!(TransVarHoursInMinutes3 < 0))) {
++                TransVarMinutesOffset2 = TransVarHoursInMinutes3 - TransVarMinutesOffset2;
+             } else {
+-                minutesOffset = hoursInMinutes + minutesOffset;
++                TransVarMinutesOffset2 = TransVarHoursInMinutes3 + TransVarMinutesOffset2;
+             }
+-            offset = FieldUtils.safeMultiply(minutesOffset, DateTimeConstants.MILLIS_PER_MINUTE);
+-        } catch (ArithmeticException ex) {
++            TransVarMinutesOffset = FieldUtils.safeMultiply(TransVarMinutesOffset2, DateTimeConstants.MILLIS_PER_MINUTE);
++        } catch (ArithmeticException TransVarE) {
+             throw new IllegalArgumentException("Offset is too large");
+         }
+-        return forOffsetMillis(offset);
++        return forOffsetMillis(TransVarMinutesOffset);
+     }
+ 
+     /**

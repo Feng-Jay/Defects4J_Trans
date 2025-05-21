@@ -1,0 +1,30 @@
+--- src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveEntry.java	2025-05-20 23:11:11
++++ ./src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveEntry.java	2025-05-20 23:11:11
+@@ -848,15 +848,24 @@
+      */
+     @Override
+     public boolean isDirectory() {
+-        if (file != null) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(file != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return file.isDirectory();
+         }
+ 
+-        if (linkFlag == LF_DIR) {
++        if (!(!(linkFlag == LF_DIR))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return true;
+         }
+ 
+-        if (!isPaxHeader() && !isGlobalPaxHeader() && getName().endsWith("/")) {
++        if (!(!(getName().endsWith("/")))) {
+             return true;
+         }
+ 

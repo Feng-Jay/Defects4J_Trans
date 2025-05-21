@@ -1,0 +1,29 @@
+--- src/main/java/com/fasterxml/jackson/databind/type/SimpleType.java	2025-05-21 01:16:04
++++ ./src/main/java/com/fasterxml/jackson/databind/type/SimpleType.java	2025-05-21 01:16:04
+@@ -117,9 +117,15 @@
+     }
+ 
+     @Override
+-    protected JavaType _narrow(Class<?> subclass)
++    protected JavaType _narrow(Class<?> TransVarSubcl)
+     {
+-        if (_class == subclass) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(_class == TransVarSubcl))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return this;
+         }
+         // Should we check that there is a sub-class relationship?
+@@ -132,7 +138,7 @@
+         }
+         */
+         // 15-Jan-2015, tatu: Not correct; should really re-resolve...
+-        return new SimpleType(subclass, _bindings, this, _superInterfaces,
++        return new SimpleType(TransVarSubcl, _bindings, _superClass, _superInterfaces,
+                 _valueHandler, _typeHandler, _asStatic);
+     }
+     

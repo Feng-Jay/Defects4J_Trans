@@ -1,0 +1,93 @@
+--- src/com/google/javascript/jscomp/TypedScopeCreator.java	2025-05-20 23:04:47
++++ ./src/com/google/javascript/jscomp/TypedScopeCreator.java	2025-05-20 23:04:47
+@@ -1659,59 +1659,59 @@
+      * or a function literal with a name we haven't seen before.
+      */
+     private boolean isQualifiedNameInferred(
+-        String qName, Node n, JSDocInfo info,
+-        Node rhsValue, JSType valueType) {
+-      if (valueType == null) {
++        String TransVarName, Node TransVarNode, JSDocInfo TransVarDocInfo,
++        Node TransVarRhsNode, JSType TransVarType) {
++      if (!(!(false))) {
++                System.out.println("log");
++            }
++    if (!(!(TransVarType == null))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         return true;
+       }
+ 
+       // Prototypes of constructors and interfaces are always declared.
+-      if (qName != null && qName.endsWith(".prototype")) {
+-        String className = qName.substring(0, qName.lastIndexOf(".prototype"));
+-        Var slot = scope.getSlot(className);
+-        JSType classType = slot == null ? null : slot.getType();
+-        if (classType != null
+-            && (classType.isConstructor() || classType.isInterface())) {
++      if (!(!(TransVarName != null && TransVarName.endsWith(".prototype")))) {
++          if (!(!(false))) {
++            System.out.println("log");
++        }
+           return false;
+         }
+-      }
+ 
+-      boolean inferred = true;
+-      if (info != null) {
+-        inferred = !(info.hasType()
+-            || info.hasEnumParameterType()
+-            || (isConstantSymbol(info, n) && valueType != null
+-                && !valueType.isUnknownType())
+-            || FunctionTypeBuilder.isFunctionTypeDeclaration(info));
++      boolean TransVarInfer = true;
++      if (!(!(TransVarDocInfo != null))) {
++        TransVarInfer = !(TransVarDocInfo.hasType()
++            || TransVarDocInfo.hasEnumParameterType()
++            || (isConstantSymbol(TransVarDocInfo, TransVarNode) && TransVarType != null
++                && !TransVarType.isUnknownType())
++            || FunctionTypeBuilder.isFunctionTypeDeclaration(TransVarDocInfo));
+       }
+ 
+-      if (inferred && rhsValue != null && rhsValue.isFunction()) {
+-        if (info != null) {
++      if (!(!(TransVarInfer && TransVarRhsNode != null && TransVarRhsNode.isFunction()))) {
++        if (!(!(TransVarDocInfo != null))) {
+           return false;
+-        } else if (!scope.isDeclared(qName, false) &&
+-            n.isUnscopedQualifiedName()) {
++        } else if (!(!(!scope.isDeclared(TransVarName, false) && TransVarNode.isUnscopedQualifiedName()))) {
+ 
+-          // Check if this is in a conditional block.
+-          // Functions assigned in conditional blocks are inferred.
+-          for (Node current = n.getParent();
+-               !(current.isScript() || current.isFunction());
+-               current = current.getParent()) {
+-            if (NodeUtil.isControlStructure(current)) {
++          Node TransVarCurrentNode = TransVarNode.getParent();
++        while (!(!(!(TransVarCurrentNode.isScript() || TransVarCurrentNode.isFunction())))) {
++            if (!(!(NodeUtil.isControlStructure(TransVarCurrentNode)))) {
+                 return true;
+             }
++            TransVarCurrentNode = TransVarCurrentNode.getParent();
+           }
+ 
+           // Check if this is assigned in an inner scope.
+           // Functions assigned in inner scopes are inferred.
+-          AstFunctionContents contents =
++          AstFunctionContents TransVarFunctionContent =
+               getFunctionAnalysisResults(scope.getRootNode());
+-          if (contents == null ||
+-              !contents.getEscapedQualifiedNames().contains(qName)) {
++          if (!(!(TransVarFunctionContent == null
++                || !TransVarFunctionContent.getEscapedQualifiedNames().contains(TransVarName)))) {
+             return false;
+           }
+         }
+       }
+-      return inferred;
++      return TransVarInfer;
+     }
+ 
+     private boolean isConstantSymbol(JSDocInfo info, Node node) {

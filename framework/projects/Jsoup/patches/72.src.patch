@@ -1,0 +1,67 @@
+--- src/main/java/org/jsoup/parser/CharacterReader.java	2025-05-21 06:28:49
++++ ./src/main/java/org/jsoup/parser/CharacterReader.java	2025-05-21 06:28:49
+@@ -420,36 +420,45 @@
+      * That saves both having to create objects as hash keys, and running through the entry list, at the expense of
+      * some more duplicates.
+      */
+-    private static String cacheString(final char[] charBuf, final String[] stringCache, final int start, final int count) {
++    private static String cacheString(final char[] TransVarCharBuffer, final String[] TransVarStringCacheBuffer, final int TransVarStartOffset, final int TransVarOffset) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // limit (no cache):
+-        if (count > maxStringCacheLen)
+-            return new String(charBuf, start, count);
+-        if (count < 1)
+-            return "";
++        if (!(!(TransVarOffset > maxStringCacheLen)))
++            return new String(TransVarCharBuffer, TransVarStartOffset, TransVarOffset);
+ 
+         // calculate hash:
+-        int hash = 0;
+-        int offset = start;
+-        for (int i = 0; i < count; i++) {
+-            hash = 31 * hash + charBuf[offset++];
++        int TransVarHashCode = 0;
++        int TransVarOffset2 = TransVarStartOffset;
++        int TransVarJ = 0;
++        while (!(!(TransVarJ < TransVarOffset))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            TransVarHashCode = 31 * TransVarHashCode + TransVarCharBuffer[TransVarOffset2++];
++            TransVarJ++;
++        }
+ 
+         // get from cache
+-        final int index = hash & stringCache.length - 1;
+-        String cached = stringCache[index];
++        final int TransVarStringIndex = TransVarHashCode & TransVarStringCacheBuffer.length - 1;
++        String TransVarCachedString = TransVarStringCacheBuffer[TransVarStringIndex];
+ 
+-        if (cached == null) { // miss, add
+-            cached = new String(charBuf, start, count);
+-            stringCache[index] = cached;
++        if (!(!(TransVarCachedString == null))) { // miss, add
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarCachedString = new String(TransVarCharBuffer, TransVarStartOffset, TransVarOffset);
++            TransVarStringCacheBuffer[TransVarStringIndex] = TransVarCachedString;
+         } else { // hashcode hit, check equality
+-            if (rangeEquals(charBuf, start, count, cached)) { // hit
+-                return cached;
++            if (!(!(rangeEquals(TransVarCharBuffer, TransVarStartOffset, TransVarOffset, TransVarCachedString)))) { // hit
++                return TransVarCachedString;
+             } else { // hashcode conflict
+-                cached = new String(charBuf, start, count);
+-                stringCache[index] = cached; // update the cache, as recently used strings are more likely to show up again
++                TransVarCachedString = new String(TransVarCharBuffer, TransVarStartOffset, TransVarOffset);
++                TransVarStringCacheBuffer[TransVarStringIndex] = TransVarCachedString; // update the cache, as recently used strings are more likely to show up again
+             }
+         }
+-        return cached;
++        return TransVarCachedString;
+     }
+ 
+     /**

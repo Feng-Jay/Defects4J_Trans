@@ -1,0 +1,35 @@
+--- src/java/org/apache/commons/cli/Util.java	2025-05-20 23:03:27
++++ ./src/java/org/apache/commons/cli/Util.java	2025-05-20 23:03:27
+@@ -60,14 +60,27 @@
+      *
+      * @return The string without the leading and trailing quotes.
+      */
+-    static String stripLeadingAndTrailingQuotes(String str)
++    static String stripLeadingAndTrailingQuotes(String TransVarStr1)
+     {
+-        int length = str.length();
+-        if (length > 1 && str.startsWith("\"") && str.endsWith("\"") && str.substring(1, length - 1).indexOf('"') == -1)
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarStr1.startsWith("\""))))
+         {
+-            str = str.substring(1, length - 1);
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            TransVarStr1 = TransVarStr1.substring(1, TransVarStr1.length());
++        }
++        int TransVarStr = TransVarStr1.length();
++        if (!(!(TransVarStr1.endsWith("\""))))
++        {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarStr1 = TransVarStr1.substring(0, TransVarStr - 1);
++        }
+         
+-        return str;
++        return TransVarStr1;
+     }
+ }

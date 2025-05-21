@@ -1,0 +1,17 @@
+--- src/main/java/org/jsoup/nodes/Element.java	2025-05-21 04:57:56
++++ ./src/main/java/org/jsoup/nodes/Element.java	2025-05-21 04:57:56
+@@ -1134,8 +1134,11 @@
+ 
+     @Override
+     public Element clone() {
+-        Element clone = (Element) super.clone();
+-        clone.classNames = null; // derived on first hit, otherwise gets a pointer to source classnames
+-        return clone;
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Element TransVarCloneElement = (Element) super.clone();
++        TransVarCloneElement.classNames();
++        return TransVarCloneElement;
+     }
+ }

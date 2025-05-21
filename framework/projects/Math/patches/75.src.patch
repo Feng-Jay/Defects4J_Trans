@@ -1,0 +1,16 @@
+--- src/main/java/org/apache/commons/math/stat/Frequency.java	2025-05-21 08:21:20
++++ src/main/java/org/apache/commons/math/stat/Frequency.java	2025-05-21 08:21:20
+@@ -299,8 +299,11 @@
+      * @deprecated replaced by {@link #getPct(Comparable)} as of 2.0
+      */
+     @Deprecated
+-    public double getPct(Object v) {
+-        return getPct((Comparable<?>) v);
++    public double getPct(Object TransVarObject) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        return getCumPct((Comparable<?>) TransVarObject);
+     }
+ 
+     /**

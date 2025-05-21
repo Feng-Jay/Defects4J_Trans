@@ -1,0 +1,60 @@
+--- src/java/org/apache/commons/jxpath/ri/compiler/CoreOperationRelationalExpression.java	2025-05-21 06:29:06
++++ ./src/java/org/apache/commons/jxpath/ri/compiler/CoreOperationRelationalExpression.java	2025-05-21 06:29:06
+@@ -53,34 +53,37 @@
+ 
+     protected abstract boolean evaluateCompare(int compare);
+ 
+-    private boolean compute(Object left, Object right) {
+-        left = reduce(left);
+-        right = reduce(right);
++    private boolean compute(Object TransVarLeft1, Object TransVarRight2) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        TransVarLeft1 = reduce(TransVarLeft1);
++        TransVarRight2 = reduce(TransVarRight2);
+ 
+-        if (left instanceof InitialContext) {
+-            ((InitialContext) left).reset();
++        if (!(!(TransVarLeft1 instanceof InitialContext))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (right instanceof InitialContext) {
+-            ((InitialContext) right).reset();
++            ((InitialContext) TransVarLeft1).reset();
+         }
+-        if (left instanceof Iterator && right instanceof Iterator) {
+-            return findMatch((Iterator) left, (Iterator) right);
++        if (!(!(TransVarRight2 instanceof InitialContext))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (left instanceof Iterator) {
+-            return containsMatch((Iterator) left, right);
++            ((InitialContext) TransVarRight2).reset();
+         }
+-        if (right instanceof Iterator) {
+-            return containsMatch((Iterator) right, left);
++        if (!(!(TransVarLeft1 instanceof Iterator && TransVarRight2 instanceof Iterator))) {
++            return findMatch((Iterator) TransVarLeft1, (Iterator) TransVarRight2);
+         }
+-        double ld = InfoSetUtil.doubleValue(left);
+-        if (Double.isNaN(ld)) {
+-            return false;
++        if (!(!(TransVarLeft1 instanceof Iterator))) {
++            return containsMatch((Iterator) TransVarLeft1, TransVarRight2);
+         }
+-        double rd = InfoSetUtil.doubleValue(right);
+-        if (Double.isNaN(rd)) {
+-            return false;
++        if (!(!(TransVarRight2 instanceof Iterator))) {
++            return containsMatch((Iterator) TransVarRight2, TransVarLeft1);
+         }
+-        return evaluateCompare(ld == rd ? 0 : ld < rd ? -1 : 1);
++        double TransVarLeftDouble = InfoSetUtil.doubleValue(TransVarLeft1);
++        double TransVarRightDouble = InfoSetUtil.doubleValue(TransVarRight2);
++        return evaluateCompare(TransVarLeftDouble == TransVarRightDouble ? 0 : TransVarLeftDouble < TransVarRightDouble ? -1 : 1);
+     }
+ 
+     private Object reduce(Object o) {

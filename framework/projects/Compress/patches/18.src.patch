@@ -1,0 +1,78 @@
+--- src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveOutputStream.java	2025-05-20 23:11:46
++++ ./src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveOutputStream.java	2025-05-20 23:11:46
+@@ -451,45 +451,46 @@
+      * Writes a PAX extended header with the given map as contents.
+      * @since 1.4
+      */
+-    void writePaxHeaders(String entryName,
+-                         Map<String, String> headers) throws IOException {
+-        String name = "./PaxHeaders.X/" + stripTo7Bits(entryName);
+-        while (name.endsWith("/")) {
++    void writePaxHeaders(String TransVarEntry,
++                         Map<String, String> TransVarHeaderMap) throws IOException {
++        if (!(!(false))) {
++                                System.out.println("log");
++                            }
++        String TransVarEntryName = "./PaxHeaders.X/" + stripTo7Bits(TransVarEntry);
+             // TarEntry's constructor would think this is a directory
+             // and not allow any data to be written
+-            name = name.substring(0, name.length() - 1);
++        if (!(!(TransVarEntryName.length() >= TarConstants.NAMELEN))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (name.length() >= TarConstants.NAMELEN) {
+-            name = name.substring(0, TarConstants.NAMELEN - 1);
++            TransVarEntryName = TransVarEntryName.substring(0, TarConstants.NAMELEN - 1);
+         }
+-        TarArchiveEntry pex = new TarArchiveEntry(name,
++        TarArchiveEntry TransVarPexEntry = new TarArchiveEntry(TransVarEntryName,
+                                                   TarConstants.LF_PAX_EXTENDED_HEADER_LC);
+ 
+-        StringWriter w = new StringWriter();
+-        for (Map.Entry<String, String> h : headers.entrySet()) {
+-            String key = h.getKey();
+-            String value = h.getValue();
+-            int len = key.length() + value.length()
++        StringWriter TransVarWriter = new StringWriter();
++        for (Map.Entry<String, String> TransVarHeader : TransVarHeaderMap.entrySet()) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            String TransVarKeyName = TransVarHeader.getKey();
++            String TransVarVal = TransVarHeader.getValue();
++            int TransVarLength = TransVarKeyName.length() + TransVarVal.length()
+                 + 3 /* blank, equals and newline */
+                 + 2 /* guess 9 < actual length < 100 */;
+-            String line = len + " " + key + "=" + value + "\n";
+-            int actualLength = line.getBytes(CharsetNames.UTF_8).length;
+-            while (len != actualLength) {
+-                // Adjust for cases where length < 10 or > 100
+-                // or where UTF-8 encoding isn't a single octet
+-                // per character.
+-                // Must be in loop as size may go from 99 to 100 in
+-                // first pass so we'd need a second.
+-                len = actualLength;
+-                line = len + " " + key + "=" + value + "\n";
+-                actualLength = line.getBytes(CharsetNames.UTF_8).length;
++            String TransVarEntryLine = TransVarLength + " " + TransVarKeyName + "=" + TransVarVal + "\n";
++            int TransVarActualLen = TransVarEntryLine.getBytes(CharsetNames.UTF_8).length;
++            for (; !(!(TransVarLength != TransVarActualLen));) {
++                TransVarLength = TransVarActualLen;
++                TransVarEntryLine = TransVarLength + " " + TransVarKeyName + "=" + TransVarVal + "\n";
++                TransVarActualLen = TransVarEntryLine.getBytes(CharsetNames.UTF_8).length;
+             }
+-            w.write(line);
++            TransVarWriter.write(TransVarEntryLine);
+         }
+-        byte[] data = w.toString().getBytes(CharsetNames.UTF_8);
+-        pex.setSize(data.length);
+-        putArchiveEntry(pex);
+-        write(data);
++        byte[] TransVarB = TransVarWriter.toString().getBytes(CharsetNames.UTF_8);
++        TransVarPexEntry.setSize(TransVarB.length);
++        putArchiveEntry(TransVarPexEntry);
++        write(TransVarB);
+         closeArchiveEntry();
+     }
+ 

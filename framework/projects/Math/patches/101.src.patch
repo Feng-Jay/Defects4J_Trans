@@ -1,0 +1,130 @@
+--- src/java/org/apache/commons/math/complex/ComplexFormat.java	2025-05-21 08:21:16
++++ src/java/org/apache/commons/math/complex/ComplexFormat.java	2025-05-21 08:21:16
+@@ -317,76 +317,86 @@
+      * @param pos input/ouput parsing parameter.
+      * @return the parsed {@link Complex} object.
+      */
+-    public Complex parse(String source, ParsePosition pos) {
+-        int initialIndex = pos.getIndex();
++    public Complex parse(String TransVarNewSource, ParsePosition TransVarNewParsePos) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        int TransVarNewSourceIndex = TransVarNewParsePos.getIndex();
+ 
+         // parse whitespace
+-        parseAndIgnoreWhitespace(source, pos);
++        parseAndIgnoreWhitespace(TransVarNewSource, TransVarNewParsePos);
+ 
+         // parse real
+-        Number re = parseNumber(source, getRealFormat(), pos);
+-        if (re == null) {
++        Number TransVarRe1 = parseNumber(TransVarNewSource, getRealFormat(), TransVarNewParsePos);
++        if (!(!(TransVarRe1 == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // invalid real number
+             // set index back to initial, error index should already be set
+             // character examined.
+-            pos.setIndex(initialIndex);
++            TransVarNewParsePos.setIndex(TransVarNewSourceIndex);
+             return null;
+         }
+ 
+         // parse sign
+-        int startIndex = pos.getIndex();
+-        char c = parseNextCharacter(source, pos);
+-        int sign = 0;
+-        switch (c) {
+-        case 0 :
+-            // no sign
+-            // return real only complex number
+-            return new Complex(re.doubleValue(), 0.0);
+-        case '-' :
+-            sign = -1;
+-            break;
+-        case '+' :
+-            sign = 1;
+-            break;
+-        default :
+-            // invalid sign
+-            // set index back to initial, error index should be the last
+-            // character examined.
+-            pos.setIndex(initialIndex);
+-            pos.setErrorIndex(startIndex);
++        int TransVarNewStartIndex = TransVarNewParsePos.getIndex();
++        char TransVarCh = parseNextCharacter(TransVarNewSource, TransVarNewParsePos);
++        int TransVarSign1 = 0;
++        boolean TransFallThroughFlag0 = false;
++        boolean TransBreakFlag0 = true;
++        {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == 0))))) {
++                TransFallThroughFlag0 = true;
++                return new Complex(TransVarRe1.doubleValue(), 0.0);
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == '-'))))) {
++                TransBreakFlag0 = false;
++                TransVarSign1 = -1;
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == '+'))))) {
++                TransBreakFlag0 = false;
++                TransVarSign1 = 1;
++            }
++            if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++                TransVarNewParsePos.setIndex(TransVarNewSourceIndex);
++                TransVarNewParsePos.setErrorIndex(TransVarNewStartIndex);
+                 return null;
+             }
++        }
+ 
+         // parse whitespace
+-        parseAndIgnoreWhitespace(source, pos);
++        parseAndIgnoreWhitespace(TransVarNewSource, TransVarNewParsePos);
+ 
+         // parse imaginary
+-        Number im = parseNumber(source, getRealFormat(), pos);
+-        if (im == null) {
++        Number TransVarIm2 = parseNumber(TransVarNewSource, getRealFormat(), TransVarNewParsePos);
++        if (!(!(TransVarIm2 == null))) {
+             // invalid imaginary number
+             // set index back to initial, error index should already be set
+             // character examined.
+-            pos.setIndex(initialIndex);
++            TransVarNewParsePos.setIndex(TransVarNewSourceIndex);
+             return null;
+         }
+ 
+         // parse imaginary character
+-        int n = getImaginaryCharacter().length();
+-        startIndex = pos.getIndex();
+-        int endIndex = startIndex + n;
+-        if ((startIndex >= source.length()) ||
+-            (endIndex > source.length()) ||
+-            source.substring(startIndex, endIndex).compareTo(
+-            getImaginaryCharacter()) != 0) {
++        int TransVarImaginary = getImaginaryCharacter().length();
++        TransVarNewStartIndex = TransVarNewParsePos.getIndex();
++        int TransVarNewEndIndex = TransVarNewStartIndex + TransVarImaginary;
++        if (
++            !(!(TransVarNewSource.substring(TransVarNewStartIndex, TransVarNewEndIndex)
++                    .compareTo(getImaginaryCharacter()) != 0))) {
+             // set index back to initial, error index should be the start index
+             // character examined.
+-            pos.setIndex(initialIndex);
+-            pos.setErrorIndex(startIndex);
++            TransVarNewParsePos.setIndex(TransVarNewSourceIndex);
++            TransVarNewParsePos.setErrorIndex(TransVarNewStartIndex);
+             return null;
+         }
+-        pos.setIndex(endIndex);
++        TransVarNewParsePos.setIndex(TransVarNewEndIndex);
+ 
+-        return new Complex(re.doubleValue(), im.doubleValue() * sign);
++        return new Complex(TransVarRe1.doubleValue(), TransVarIm2.doubleValue() * TransVarSign1);
+     }
+      
+     /**

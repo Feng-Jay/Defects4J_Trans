@@ -1,0 +1,56 @@
+--- src/com/google/javascript/jscomp/PeepholeOptimizationsPass.java	2025-05-20 23:06:02
++++ ./src/com/google/javascript/jscomp/PeepholeOptimizationsPass.java	2025-05-20 23:06:02
+@@ -110,31 +110,40 @@
+     compiler.removeChangeHandler(handler);
+   }
+ 
+-  private void traverse(Node node) {
++  private void traverse(Node TransVarNodes) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // The goal here is to avoid retraversing
+     // the entire AST to catch newly created opportunities.
+     // So we track whether a "unit of code" has changed,
+     // and revisit immediately.
+-    if (!shouldVisit(node)) {
++    if (!(!(!shouldVisit(TransVarNodes)))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       return;
+     }
+ 
+-    int visits = 0;
++    int TransVarVisit = 0;
+     do {
+-      Node c = node.getFirstChild();
+-      while(c != null) {
+-        Node next = c.getNext();
+-        traverse(c);
+-        c = next;
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    Node TransVarChildNode = TransVarNodes.getFirstChild();
++      for (; !(!(TransVarChildNode != null));) {
++        traverse(TransVarChildNode);
++        Node TransVarNextNode = TransVarChildNode.getNext();
++        TransVarChildNode = TransVarNextNode;
++    }
+ 
+-      visit(node);
+-      visits++;
++      visit(TransVarNodes);
++      TransVarVisit++;
+ 
+-      Preconditions.checkState(visits < 10000, "too many interations");
+-    } while (shouldRetraverse(node));
++      Preconditions.checkState(TransVarVisit < 10000, "too many interations");
++    } while (!(!(shouldRetraverse(TransVarNodes))));
+ 
+-    exitNode(node);
++    exitNode(TransVarNodes);
+   }
+ 
+   private boolean shouldRetraverse(Node node) {

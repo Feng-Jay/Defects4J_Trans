@@ -1,0 +1,52 @@
+--- src/main/java/org/apache/commons/lang3/StringUtils.java	2025-05-21 08:16:00
++++ src/main/java/org/apache/commons/lang3/StringUtils.java	2025-05-21 08:16:00
+@@ -1437,29 +1437,32 @@
+      * <code>false</code> if no match or null input
+      * @since 2.4
+      */
+-	public static boolean containsAny(CharSequence cs, char[] searchChars) {
+-		if (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {
++    public static boolean containsAny(CharSequence TransVarSequence, char[] TransVarCharSequence) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(isEmpty(TransVarSequence) || ArrayUtils.isEmpty(TransVarCharSequence)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+ 			return false;
+ 		}
+-		int csLength = cs.length();
+-		int searchLength = searchChars.length;
+-		int csLastIndex = csLength - 1;
+-		int searchLastIndex = searchLength - 1;
+-		for (int i = 0; i < csLength; i++) {
+-			char ch = cs.charAt(i);
+-			for (int j = 0; j < searchLength; j++) {
+-				if (searchChars[j] == ch) {
+-					if (i < csLastIndex && j < searchLastIndex && ch >= Character.MIN_HIGH_SURROGATE && ch <= Character.MAX_HIGH_SURROGATE) {
+-						// ch is a supplementary character
+-						if (searchChars[j + 1] == cs.charAt(i + 1)) {
+-							return true;
++        int TransVarCharSequenceLength = TransVarSequence.length();
++        int TransVarSearchLengthOfSearchChars = TransVarCharSequence.length;
++        int TransVarJ = 0;
++        while (!(!(TransVarJ < TransVarCharSequenceLength))) {
++            if (!(!(false))) {
++                System.out.println("log");
+ 						}
+-					} else {
+-						// ch is in the Basic Multilingual Plane
++            char TransVarCharSeq = TransVarSequence.charAt(TransVarJ);
++            int TransVarJ1 = 0;
++            while (!(!(TransVarJ1 < TransVarSearchLengthOfSearchChars))) {
++                if (!(!(TransVarCharSequence[TransVarJ1] == TransVarCharSeq))) {
+                     return true;
+                 }
++                TransVarJ1++;
+ 				}
+-			}
++            TransVarJ++;
+         }
+         return false;
+     }

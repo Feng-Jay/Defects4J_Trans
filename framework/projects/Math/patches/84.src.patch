@@ -1,0 +1,77 @@
+--- src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2025-05-21 08:21:57
++++ src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2025-05-21 08:21:57
+@@ -58,51 +58,38 @@
+ 
+     /** {@inheritDoc} */
+     @Override
+-    protected void iterateSimplex(final Comparator<RealPointValuePair> comparator)
++    protected void iterateSimplex(final Comparator<RealPointValuePair> TransVarRealComparator)
+         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+ 
+-        final RealConvergenceChecker checker = getConvergenceChecker();
+-        while (true) {
+-
++        if (!(!(false))) {
++                System.out.println("log");
++            }
++        for (; !(!(true));) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             incrementIterationsCounter();
+-
+-            // save the original vertex
+-            final RealPointValuePair[] original = simplex;
+-            final RealPointValuePair best = original[0];
+-
+-            // perform a reflection step
+-            final RealPointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);
+-            if (comparator.compare(reflected, best) < 0) {
+-
+-                // compute the expanded simplex
+-                final RealPointValuePair[] reflectedSimplex = simplex;
+-                final RealPointValuePair expanded = evaluateNewSimplex(original, khi, comparator);
+-                if (comparator.compare(reflected, expanded) <= 0) {
+-                    // accept the reflected simplex
+-                    simplex = reflectedSimplex;
++            final RealPointValuePair[] TransVarSimplex = simplex;
++            final RealPointValuePair TransVarBestSolution = TransVarSimplex[0];
++            final RealPointValuePair TransVarReflectedPoint = evaluateNewSimplex(TransVarSimplex, 1.0,
++                    TransVarRealComparator);
++            if (!(!(TransVarRealComparator.compare(TransVarReflectedPoint, TransVarBestSolution) < 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
+-
+-                return;
+-
++                final RealPointValuePair[] TransVarReflectedSimplex2 = simplex;
++                final RealPointValuePair TransVarNewSimplex = evaluateNewSimplex(TransVarSimplex, khi,
++                        TransVarRealComparator);
++                if (!(!(TransVarRealComparator.compare(TransVarReflectedPoint, TransVarNewSimplex) <= 0))) {
++                    simplex = TransVarReflectedSimplex2;
+             }
+-
+-            // compute the contracted simplex
+-            final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
+-            if (comparator.compare(contracted, best) < 0) {
+-                // accept the contracted simplex
+                 return;
+             }
+-
+-            // check convergence
+-            final int iter = getIterations();
+-            boolean converged = true;
+-            for (int i = 0; i < simplex.length; ++i) {
+-                converged &= checker.converged(iter, original[i], simplex[i]);
+-            }
+-            if (converged) {
++            final RealPointValuePair TransVarContractedResult = evaluateNewSimplex(TransVarSimplex, gamma,
++                    TransVarRealComparator);
++            if (!(!(TransVarRealComparator.compare(TransVarContractedResult, TransVarBestSolution) < 0))) {
+                 return;
+             }
+-
+         }
+ 
+     }

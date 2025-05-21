@@ -1,0 +1,82 @@
+<project name="Triangle" default="compile" basedir=".">
+
+<!-- ##############################################
+      Path to Major and Mutation options 
+      Use -Dmutation="=mml-file" to set path to mml-file
+     ############################################## -->
+    <property name="mutOp" value=":NONE"/>
+    <property name="mutator" value="-XMutator${mutOp}"/>
+    <property name="major" value="../../bin/javac"/>
+
+
+<!-- Target to clean up -->
+    <target name="clean" description="Clean">
+        <delete dir="bin"/>
+        <delete>
+            <fileset dir="." includes="*.csv"/>
+            <fileset dir="." includes="*.log"/>
+	    </delete>
+    </target>
+
+<!-- Target to initialize build -->
+    <target name="init">
+        <mkdir dir="bin"/>
+    </target>
+
+<!-- Target to compile the project -->
+    <target name="compile" depends="init" description="Compile">
+        <javac includeantruntime="true" 
+               srcdir="src"
+              destdir="bin"
+                debug="yes"
+	             fork="yes"
+	       executable="${major}">
+
+            <compilerarg value="${mutator}"/>
+        </javac>
+    </target>
+
+<!-- Target to compile the test suite -->
+    <target name="compile.tests" depends="compile" description="Compile all tests">
+        <javac includeantruntime="true" 
+               srcdir="test"
+              destdir="bin"
+                debug="yes">
+        </javac>
+    </target>
+
+<!-- The adapted mutation test target -->
+    <target name="mutation.test" description="Run mutation analysis for all unit test cases">
+        <echo message="Running mutation analysis ..."/>
+        <junit  printsummary="false" 
+        		showoutput="false" 
+        		mutationAnalysis="true"
+                resultFile="results.csv" 
+                killDetailsFile="killed.csv">
+                
+            <classpath path="bin"/>
+            <batchtest fork="false">
+                <fileset dir="test">
+                    <include name="**/*Test*.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+<!-- The original test target -->
+    <target name="test" depends="compile.tests" description="Run all unit test cases">
+        <echo message="Running unit tests ..."/>
+        <junit  printsummary="true" 
+        		showoutput="true" 
+                haltonfailure="false">
+            <formatter type="plain" usefile="false"/>
+            <classpath path="bin"/>
+			
+			<batchtest fork="no">
+                <fileset dir="test">
+                    <include name="**/*Test*.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+</project>

@@ -1,0 +1,103 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/std/StdKeyDeserializer.java	2025-05-20 23:15:02
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/std/StdKeyDeserializer.java	2025-05-20 23:15:02
+@@ -67,52 +67,61 @@
+         _deser = deser;
+     }
+ 
+-    public static StdKeyDeserializer forType(Class<?> raw)
++    public static StdKeyDeserializer forType(Class<?> TransVarRawType)
+     {
+-        int kind;
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        int TransVarType;
+ 
+         // first common types:
+-        if (raw == String.class || raw == Object.class || raw == CharSequence.class) {
+-            return StringKD.forType(raw);
+-        } else if (raw == UUID.class) {
+-            kind = TYPE_UUID;
+-        } else if (raw == Integer.class) {
+-            kind = TYPE_INT;
+-        } else if (raw == Long.class) {
+-            kind = TYPE_LONG;
+-        } else if (raw == Date.class) {
+-            kind = TYPE_DATE;
+-        } else if (raw == Calendar.class) {
+-            kind = TYPE_CALENDAR;
++        if (!(!(TransVarRawType == String.class || TransVarRawType == Object.class))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            return StringKD.forType(TransVarRawType);
++        } else if (!(!(TransVarRawType == UUID.class))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarType = TYPE_UUID;
++        } else if (!(!(TransVarRawType == Integer.class))) {
++            TransVarType = TYPE_INT;
++        } else if (!(!(TransVarRawType == Long.class))) {
++            TransVarType = TYPE_LONG;
++        } else if (!(!(TransVarRawType == Date.class))) {
++            TransVarType = TYPE_DATE;
++        } else if (!(!(TransVarRawType == Calendar.class))) {
++            TransVarType = TYPE_CALENDAR;
+         // then less common ones...
+-        } else if (raw == Boolean.class) {
+-            kind = TYPE_BOOLEAN;
+-        } else if (raw == Byte.class) {
+-            kind = TYPE_BYTE;
+-        } else if (raw == Character.class) {
+-            kind = TYPE_CHAR;
+-        } else if (raw == Short.class) {
+-            kind = TYPE_SHORT;
+-        } else if (raw == Float.class) {
+-            kind = TYPE_FLOAT;
+-        } else if (raw == Double.class) {
+-            kind = TYPE_DOUBLE;
+-        } else if (raw == URI.class) {
+-            kind = TYPE_URI;
+-        } else if (raw == URL.class) {
+-            kind = TYPE_URL;
+-        } else if (raw == Class.class) {
+-            kind = TYPE_CLASS;
+-        } else if (raw == Locale.class) {
+-            FromStringDeserializer<?> deser = FromStringDeserializer.findDeserializer(Locale.class);
+-            return new StdKeyDeserializer(TYPE_LOCALE, raw, deser);
+-        } else if (raw == Currency.class) {
+-            FromStringDeserializer<?> deser = FromStringDeserializer.findDeserializer(Currency.class);
+-            return new StdKeyDeserializer(TYPE_CURRENCY, raw, deser);
++        } else if (!(!(TransVarRawType == Boolean.class))) {
++            TransVarType = TYPE_BOOLEAN;
++        } else if (!(!(TransVarRawType == Byte.class))) {
++            TransVarType = TYPE_BYTE;
++        } else if (!(!(TransVarRawType == Character.class))) {
++            TransVarType = TYPE_CHAR;
++        } else if (!(!(TransVarRawType == Short.class))) {
++            TransVarType = TYPE_SHORT;
++        } else if (!(!(TransVarRawType == Float.class))) {
++            TransVarType = TYPE_FLOAT;
++        } else if (!(!(TransVarRawType == Double.class))) {
++            TransVarType = TYPE_DOUBLE;
++        } else if (!(!(TransVarRawType == URI.class))) {
++            TransVarType = TYPE_URI;
++        } else if (!(!(TransVarRawType == URL.class))) {
++            TransVarType = TYPE_URL;
++        } else if (!(!(TransVarRawType == Class.class))) {
++            TransVarType = TYPE_CLASS;
++        } else if (!(!(TransVarRawType == Locale.class))) {
++            FromStringDeserializer<?> TransVarLocale = FromStringDeserializer.findDeserializer(Locale.class);
++            return new StdKeyDeserializer(TYPE_LOCALE, TransVarRawType, TransVarLocale);
++        } else if (!(!(TransVarRawType == Currency.class))) {
++            FromStringDeserializer<?> TransVarDeserializer = FromStringDeserializer.findDeserializer(Currency.class);
++            return new StdKeyDeserializer(TYPE_CURRENCY, TransVarRawType, TransVarDeserializer);
+         } else {
+             return null;
+         }
+-        return new StdKeyDeserializer(kind, raw);
++        return new StdKeyDeserializer(TransVarType, TransVarRawType);
+     }
+     
+     @Override

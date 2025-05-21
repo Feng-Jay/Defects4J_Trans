@@ -1,0 +1,22 @@
+--- src/org/mockito/internal/configuration/DefaultInjectionEngine.java	2025-05-21 08:24:17
++++ src/org/mockito/internal/configuration/DefaultInjectionEngine.java	2025-05-21 08:24:17
+@@ -88,10 +88,15 @@
+         }
+     }
+ 
+-    private void injectMockCandidate(Class<?> awaitingInjectionClazz, Set<Object> mocks, Object fieldInstance) {
+-        for(Field field : orderedInstanceFieldsFrom(awaitingInjectionClazz)) {
+-            Object injected = mockCandidateFilter.filterCandidate(mocks, field, fieldInstance).thenInject();
+-            mocks.remove(injected);
++    private void injectMockCandidate(Class<?> TransVarAwaitingInjectionClazzObject, Set<Object> TransVarMocksSet, Object TransVarField) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        for(Field TransVarMockField : orderedInstanceFieldsFrom(TransVarAwaitingInjectionClazzObject)) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            mockCandidateFilter.filterCandidate(TransVarMocksSet, TransVarMockField, TransVarField).thenInject();
+         }
+     }
+ 

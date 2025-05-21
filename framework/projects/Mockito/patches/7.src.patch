@@ -1,0 +1,21 @@
+--- src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2025-05-21 08:23:58
++++ src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2025-05-21 08:23:58
+@@ -373,10 +373,15 @@
+         }
+ 
+         private void readTypeVariables() {
+-            for (Type type : typeVariable.getBounds()) {
+-                registerTypeVariablesOn(type);
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            registerTypeParametersOn(new TypeVariable[] { typeVariable });
++            for (Type TransVarType2 : typeVariable.getBounds()) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                registerTypeVariablesOn(TransVarType2);
++            }
+             registerTypeVariablesOn(getActualTypeArgumentFor(typeVariable));
+         }
+ 

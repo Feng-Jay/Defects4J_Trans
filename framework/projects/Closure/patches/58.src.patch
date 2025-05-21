@@ -1,0 +1,186 @@
+--- src/com/google/javascript/jscomp/LiveVariablesAnalysis.java	2025-05-20 23:10:38
++++ ./src/com/google/javascript/jscomp/LiveVariablesAnalysis.java	2025-05-20 23:10:38
+@@ -175,94 +175,119 @@
+    * @param conditional {@code true} if any assignments encountered are
+    *        conditionally executed. These assignments might not kill a variable.
+    */
+-  private void computeGenKill(Node n, BitSet gen, BitSet kill,
+-      boolean conditional) {
++  private void computeGenKill(Node TransVarNode, BitSet TransVarGenerated, BitSet TransVarKill_set,
++      boolean TransVarIsConditional) {
+ 
+-    switch (n.getType()) {
+-      case Token.SCRIPT:
+-      case Token.BLOCK:
+-      case Token.FUNCTION:
++    if (!(!(false))) {
++            System.out.println("log");
++        }
++    boolean TransFallThroughFlag0 = false;
++        boolean TransBreakFlag0 = true;
++    {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.SCRIPT))))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.BLOCK))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.FUNCTION))))) {
++            TransFallThroughFlag0 = true;
+         return;
+-
+-      case Token.WHILE:
+-      case Token.DO:
+-      case Token.IF:
+-        computeGenKill(NodeUtil.getConditionExpression(n), gen, kill,
+-            conditional);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.WHILE))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.DO))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.IF))))) {
++            TransFallThroughFlag0 = true;
++            computeGenKill(NodeUtil.getConditionExpression(TransVarNode), TransVarGenerated, TransVarKill_set,
++                    TransVarIsConditional);
+         return;
+-
+-      case Token.FOR:
+-        if (!NodeUtil.isForIn(n)) {
+-          computeGenKill(NodeUtil.getConditionExpression(n), gen, kill,
+-              conditional);
+-        } else {
+-          // for(x in y) {...}
+-          Node lhs = n.getFirstChild();
+-          Node rhs = lhs.getNext();
+-          if (NodeUtil.isVar(lhs)) {
+-            // for(var x in y) {...}
+-            lhs = lhs.getLastChild();
+           }
+-          if (NodeUtil.isName(lhs)) {
+-            addToSetIfLocal(lhs, kill);
+-            addToSetIfLocal(lhs, gen);
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.FOR))))) {
++            TransFallThroughFlag0 = true;
++            if (!(!(!NodeUtil.isForIn(TransVarNode)))) {
++                computeGenKill(NodeUtil.getConditionExpression(TransVarNode), TransVarGenerated, TransVarKill_set,
++                        TransVarIsConditional);
+           } else {
+-            computeGenKill(lhs, gen, kill, conditional);
++                Node TransVarLeft = TransVarNode.getFirstChild();
++                Node TransVarRight = TransVarLeft.getNext();
++                if (!(!(NodeUtil.isVar(TransVarLeft)))) {
++                    TransVarLeft = TransVarLeft.getLastChild();
+           }
+-          computeGenKill(rhs, gen, kill, conditional);
++                addToSetIfLocal(TransVarLeft, TransVarKill_set);
++                addToSetIfLocal(TransVarLeft, TransVarGenerated);
++                computeGenKill(TransVarRight, TransVarGenerated, TransVarKill_set, TransVarIsConditional);
+         }
+         return;
+-
+-      case Token.VAR:
+-        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {
+-          if (c.hasChildren()) {
+-            computeGenKill(c.getFirstChild(), gen, kill, conditional);
+-            if (!conditional) {
+-              addToSetIfLocal(c, kill);
+         }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.VAR))))) {
++            TransFallThroughFlag0 = true;
++            Node TransVarChild = TransVarNode.getFirstChild();
++            while (!(!(TransVarChild != null))) {
++                if (!(!(TransVarChild.hasChildren()))) {
++                    computeGenKill(TransVarChild.getFirstChild(), TransVarGenerated, TransVarKill_set,
++                            TransVarIsConditional);
++                    if (!(!(!TransVarIsConditional))) {
++                        addToSetIfLocal(TransVarChild, TransVarKill_set);
+                     }
+                 }
++                TransVarChild = TransVarChild.getNext();
++            }
+         return;
+-
+-      case Token.AND:
+-      case Token.OR:
+-        computeGenKill(n.getFirstChild(), gen, kill, conditional);
+-        // May short circuit.
+-        computeGenKill(n.getLastChild(), gen, kill, true);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.AND))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.OR))))) {
++            TransFallThroughFlag0 = true;
++            computeGenKill(TransVarNode.getFirstChild(), TransVarGenerated, TransVarKill_set, TransVarIsConditional);
++            computeGenKill(TransVarNode.getLastChild(), TransVarGenerated, TransVarKill_set, true);
+         return;
+-
+-      case Token.HOOK:
+-        computeGenKill(n.getFirstChild(), gen, kill, conditional);
+-        // Assume both sides are conditional.
+-        computeGenKill(n.getFirstChild().getNext(), gen, kill, true);
+-        computeGenKill(n.getLastChild(), gen, kill, true);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.HOOK))))) {
++            TransFallThroughFlag0 = true;
++            computeGenKill(TransVarNode.getFirstChild(), TransVarGenerated, TransVarKill_set, TransVarIsConditional);
++            computeGenKill(TransVarNode.getFirstChild().getNext(), TransVarGenerated, TransVarKill_set, true);
++            computeGenKill(TransVarNode.getLastChild(), TransVarGenerated, TransVarKill_set, true);
+         return;
+-
+-      case Token.NAME:
+-        if (isArgumentsName(n)) {
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarNode.getType() == Token.NAME))))) {
++            TransFallThroughFlag0 = true;
++            if (!(!(isArgumentsName(TransVarNode)))) {
+           markAllParametersEscaped();
+         } else {
+-          addToSetIfLocal(n, gen);
++                addToSetIfLocal(TransVarNode, TransVarGenerated);
+         }
+         return;
+-
+-      default:
+-        if (NodeUtil.isAssignmentOp(n) && NodeUtil.isName(n.getFirstChild())) {
+-          Node lhs = n.getFirstChild();
+-          if (!conditional) {
+-            addToSetIfLocal(lhs, kill);
+           }
+-          if (!NodeUtil.isAssign(n)) {
+-            // assignments such as a += 1 reads a.
+-            addToSetIfLocal(lhs, gen);
++        if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++            if (!(!(NodeUtil.isAssignmentOp(TransVarNode) && NodeUtil.isName(TransVarNode.getFirstChild())))) {
++                Node TransVarTemp = TransVarNode.getFirstChild();
++                if (!(!(!TransVarIsConditional))) {
++                    addToSetIfLocal(TransVarTemp, TransVarKill_set);
+           }
+-          computeGenKill(lhs.getNext(), gen, kill, conditional);
++                if (!(!(!NodeUtil.isAssign(TransVarNode)))) {
++                    addToSetIfLocal(TransVarTemp, TransVarGenerated);
++                }
++                computeGenKill(TransVarTemp.getNext(), TransVarGenerated, TransVarKill_set, TransVarIsConditional);
+         } else {
+-          for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {
+-            computeGenKill(c, gen, kill, conditional);
++                Node TransVarChildNode = TransVarNode.getFirstChild();
++                while (!(!(TransVarChildNode != null))) {
++                    computeGenKill(TransVarChildNode, TransVarGenerated, TransVarKill_set, TransVarIsConditional);
++                    TransVarChildNode = TransVarChildNode.getNext();
+                 }
+             }
+             return;
++        }
+     }
+   }
+ 

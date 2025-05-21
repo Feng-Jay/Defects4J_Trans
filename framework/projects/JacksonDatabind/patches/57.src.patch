@@ -1,0 +1,26 @@
+--- src/main/java/com/fasterxml/jackson/databind/ObjectReader.java	2025-05-21 00:39:26
++++ ./src/main/java/com/fasterxml/jackson/databind/ObjectReader.java	2025-05-21 00:39:26
+@@ -1432,13 +1432,19 @@
+     /**
+      * Overloaded version of {@link #readValue(InputStream)}.
+      */
+-    public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)
++    public <T> MappingIterator<T> readValues(byte[] TransVarFile, int TransVarOff, int TransVarLen)
+         throws IOException, JsonProcessingException
+     {
+-        if (_dataFormatReaders != null) {
+-            return _detectBindAndReadValues(_dataFormatReaders.findFormat(src, offset, length), false);
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        return _bindAndReadValues(_considerFilter(_parserFactory.createParser(src, offset, length),
++        if (!(!(_dataFormatReaders != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            return _detectBindAndReadValues(_dataFormatReaders.findFormat(TransVarFile, TransVarOff, TransVarLen), false);
++        }
++        return _bindAndReadValues(_considerFilter(_parserFactory.createParser(TransVarFile), 
+                 true));
+     }
+ 

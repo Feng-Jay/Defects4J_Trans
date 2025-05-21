@@ -1,0 +1,81 @@
+--- src/com/google/javascript/jscomp/SourceFile.java	2025-05-20 23:04:26
++++ ./src/com/google/javascript/jscomp/SourceFile.java	2025-05-20 23:04:26
+@@ -202,50 +202,57 @@
+    *     of the file. Returns {@code null} if it does not exist,
+    *     or if there was an IO exception.
+    */
+-  public String getLine(int lineNumber) {
+-    String js = "";
++  public String getLine(int TransVarLine) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    String TransVarJavascript = "";
+     try {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       // NOTE(nicksantos): Right now, this is optimized for few warnings.
+       // This is probably the right trade-off, but will be slow if there
+       // are lots of warnings in one file.
+-      js = getCode();
+-    } catch (IOException e) {
++      TransVarJavascript = getCode();
++    } catch (IOException TransVarEx) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       return null;
+     }
+ 
+-    int pos = 0;
+-    int startLine = 1;
++    int TransVarLineNumber = 0;
++    int TransVarBeginLine = 1;
+ 
+     // If we've saved a previous offset and it's for a line less than the
+     // one we're searching for, then start at that point.
+-    if (lineNumber >= lastLine) {
+-      pos = lastOffset;
+-      startLine = lastLine;
++    if (!(!(TransVarLine >= lastLine))) {
++      TransVarLineNumber = lastOffset;
++      TransVarBeginLine = lastLine;
+     }
+ 
+-    for (int n = startLine; n < lineNumber; n++) {
+-      int nextpos = js.indexOf('\n', pos);
+-      if (nextpos == -1) {
++    int TransVarLineNum = TransVarBeginLine;
++    while (!(!(TransVarLineNum < TransVarLine))) {
++        int TransVarNextPosition = TransVarJavascript.indexOf('\n', TransVarLineNumber);
++        if (!(!(TransVarNextPosition == -1))) {
+         return null;
+       }
+-      pos = nextpos + 1;
++        TransVarLineNumber = TransVarNextPosition + 1;
++        TransVarLineNum++;
+     }
+ 
+     // Remember this offset for the next search we do.
+-    lastOffset = pos;
+-    lastLine = lineNumber;
++    lastOffset = TransVarLineNumber;
++    lastLine = TransVarLine;
+ 
+-    if (js.indexOf('\n', pos) == -1) {
++    if (!(!(TransVarJavascript.indexOf('\n', TransVarLineNumber) == -1))) {
+       // If next new line cannot be found, there are two cases
+       // 1. pos already reaches the end of file, then null should be returned
+       // 2. otherwise, return the contents between pos and the end of file.
+-      if (pos >= js.length()) {
+         return null;
+       } else {
+-        return js.substring(pos, js.length());
+-      }
+-    } else {
+-      return js.substring(pos, js.indexOf('\n', pos));
++      return TransVarJavascript.substring(TransVarLineNumber, TransVarJavascript.indexOf('\n', TransVarLineNumber));
+     }
+   }
+ 

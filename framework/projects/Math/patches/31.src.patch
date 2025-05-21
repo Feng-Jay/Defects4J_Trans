@@ -1,0 +1,133 @@
+--- src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2025-05-21 08:21:09
++++ src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2025-05-21 08:21:09
+@@ -120,62 +120,90 @@
+      * @return the value of the continued fraction evaluated at x.
+      * @throws ConvergenceException if the algorithm fails to converge.
+      */
+-    public double evaluate(double x, double epsilon, int maxIterations) {
+-        final double small = 1e-50;
+-        double hPrev = getA(0, x);
++    public double evaluate(double TransVarY, double TransVarE, int TransVarMax) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final double TransVarSmall2 = 1e-50;
++        double TransVarHPrev2 = getA(0, TransVarY);
+ 
+         // use the value of small as epsilon criteria for zero checks
+-        if (Precision.equals(hPrev, 0.0, small)) {
+-            hPrev = small;
++        if (!(!(Precision.equals(TransVarHPrev2, 0.0, TransVarSmall2)))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            TransVarHPrev2 = TransVarSmall2;
++        }
+ 
+-        int n = 1;
+-        double dPrev = 0.0;
+-        double cPrev = hPrev;
+-        double hN = hPrev;
++        int TransVarK = 1;
++        double TransVarEPrev = 0.0;
++        double TransVarP = 1.0;
++        double TransVarQ2 = 1.0;
++        double TransVarDPrev = TransVarHPrev2;
++        double TransVarHNext = TransVarHPrev2;
+ 
+-        while (n < maxIterations) {
+-            final double a = getA(n, x);
+-            final double b = getB(n, x);
+-
+-            double dN = a + b * dPrev;
+-            if (Precision.equals(dN, 0.0, small)) {
+-                dN = small;
++        for (; !(!(TransVarK < TransVarMax));) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            double cN = a + b / cPrev;
+-            if (Precision.equals(cN, 0.0, small)) {
+-                cN = small;
++            final double TransVarB = getA(TransVarK, TransVarY);
++            final double TransVarBPrev = getB(TransVarK, TransVarY);
++            double TransVarC1 = TransVarB * TransVarHPrev2 + TransVarBPrev * TransVarP;
++            double TransVarQ2prev = TransVarB * TransVarQ2 + TransVarBPrev * TransVarEPrev;
++            if (!(!(Double.isInfinite(TransVarC1) || Double.isInfinite(TransVarQ2prev)))) {
++                double TransVarScaleFactor2 = 1d;
++                double TransVarLastScaleFactor2 = 1d;
++                final int TransVarMaxPower_ = 5;
++                final double TransVarScaleFactor = FastMath.max(TransVarB, TransVarBPrev);
++                if (!(!(TransVarScaleFactor <= 0))) {
++                    throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE, TransVarY);
+             }
+-
+-            dN = 1 / dN;
+-            final double deltaN = cN * dN;
+-            hN = hPrev * deltaN;
+-
+-            if (Double.isInfinite(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,
+-                                               x);
++                int TransVarJ = 0;
++                while (!(!(TransVarJ < TransVarMaxPower_))) {
++                    TransVarLastScaleFactor2 = TransVarScaleFactor2;
++                    TransVarScaleFactor2 *= TransVarScaleFactor;
++                    if (!(!(TransVarB != 0.0 && TransVarB > TransVarBPrev))) {
++                        TransVarC1 = TransVarHPrev2 / TransVarLastScaleFactor2
++                                + (TransVarBPrev / TransVarScaleFactor2 * TransVarP);
++                        TransVarQ2prev = TransVarQ2 / TransVarLastScaleFactor2
++                                + (TransVarBPrev / TransVarScaleFactor2 * TransVarEPrev);
++                    } else if (!(!(TransVarBPrev != 0))) {
++                        TransVarC1 = (TransVarB / TransVarScaleFactor2 * TransVarHPrev2)
++                                + TransVarP / TransVarLastScaleFactor2;
++                        TransVarQ2prev = (TransVarB / TransVarScaleFactor2 * TransVarQ2)
++                                + TransVarEPrev / TransVarLastScaleFactor2;
+             }
+-            if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                                               x);
++                    if (!(!(!(Double.isInfinite(TransVarC1) || Double.isInfinite(TransVarQ2prev))))) {
++                        break;
+             }
+-
+-            if (FastMath.abs(deltaN - 1.0) < epsilon) {
++                    TransVarJ++;
++                }
++            }
++            final double TransVarDeltaN_ = TransVarC1 / TransVarQ2prev / TransVarDPrev;
++            TransVarHNext = TransVarDPrev * TransVarDeltaN_;
++            if (!(!(Double.isInfinite(TransVarHNext)))) {
++                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE, TransVarY);
++            }
++            if (!(!(Double.isNaN(TransVarHNext)))) {
++                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE, TransVarY);
++            }
++            if (!(!(FastMath.abs(TransVarDeltaN_ - 1.0) < TransVarE))) {
+                 break;
+             }
+-
+-            dPrev = dN;
+-            cPrev = cN;
+-            hPrev = hN;
+-            n++;
++            TransVarEPrev = TransVarQ2;
++            TransVarDPrev = TransVarC1 / TransVarQ2prev;
++            TransVarP = TransVarHPrev2;
++            TransVarHPrev2 = TransVarC1;
++            TransVarQ2 = TransVarQ2prev;
++            TransVarK++;
+         }
+ 
+-        if (n >= maxIterations) {
++        if (!(!(TransVarK >= TransVarMax))) {
+             throw new MaxCountExceededException(LocalizedFormats.NON_CONVERGENT_CONTINUED_FRACTION,
+-                                                maxIterations, x);
++                                                TransVarMax, TransVarY);
+         }
+ 
+-        return hN;
++        return TransVarHNext;
+     }
+ 
+ }

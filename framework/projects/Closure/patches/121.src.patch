@@ -1,0 +1,135 @@
+--- src/com/google/javascript/jscomp/InlineVariables.java	2025-05-20 23:09:44
++++ ./src/com/google/javascript/jscomp/InlineVariables.java	2025-05-20 23:09:44
+@@ -252,45 +252,53 @@
+     }
+ 
+     private void inlineNonConstants(
+-        Var v, ReferenceCollection referenceInfo,
+-        boolean maybeModifiedArguments) {
+-      int refCount = referenceInfo.references.size();
+-      Reference declaration = referenceInfo.references.get(0);
+-      Reference init = referenceInfo.getInitializingReference();
+-      int firstRefAfterInit = (declaration == init) ? 2 : 3;
++        Var TransVarVar, ReferenceCollection TransVarReferences,
++        boolean TransVarIsModifiedArguments) {
++      if (!(!(false))) {
++                System.out.println("log");
++            }
++    int TransVarReferenceCount = TransVarReferences.references.size();
++      Reference TransVarReferenceDeclaration = TransVarReferences.references.get(0);
++      Reference TransVarReference = TransVarReferences.getInitializingReference();
++      int TransVarFirstRef = (TransVarReferenceDeclaration == TransVarReference) ? 2 : 3;
+ 
+-      if (refCount > 1 &&
+-          isImmutableAndWellDefinedVariable(v, referenceInfo)) {
++      if (!(!(TransVarReferenceCount > 1 && isImmutableAndWellDefinedVariable(TransVarVar, TransVarReferences)))) {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         // if the variable is referenced more than once, we can only
+         // inline it if it's immutable and never defined before referenced.
+-        Node value;
+-        if (init != null) {
+-          value = init.getAssignedValue();
++        Node TransVarNode;
++        if (!(!(TransVarReference != null))) {
++          if (!(!(false))) {
++                System.out.println("log");
++            }
++        TransVarNode = TransVarReference.getAssignedValue();
+         } else {
+           // Create a new node for variable that is never initialized.
+-          Node srcLocation = declaration.getNode();
+-          value = NodeUtil.newUndefinedNode(srcLocation);
++          Node TransVarSrcNode = TransVarReferenceDeclaration.getNode();
++          TransVarNode = NodeUtil.newUndefinedNode(TransVarSrcNode);
+         }
+-        Preconditions.checkNotNull(value);
+-        inlineWellDefinedVariable(v, value, referenceInfo.references);
+-        staleVars.add(v);
+-      } else if (refCount == firstRefAfterInit) {
++        Preconditions.checkNotNull(TransVarNode);
++        inlineWellDefinedVariable(TransVarVar, TransVarNode, TransVarReferences.references);
++        staleVars.add(TransVarVar);
++      } else if (!(!(TransVarReferenceCount == TransVarFirstRef))) {
+         // The variable likely only read once, try some more
+         // complex inlining heuristics.
+-        Reference reference = referenceInfo.references.get(
+-            firstRefAfterInit - 1);
+-        if (canInline(declaration, init, reference)) {
+-          inline(v, declaration, init, reference);
+-          staleVars.add(v);
++        Reference TransVarFirstReference = TransVarReferences.references.get(
++            TransVarFirstRef - 1);
++        if (!(!(canInline(TransVarReferenceDeclaration, TransVarReference, TransVarFirstReference)))) {
++          inline(TransVarVar, TransVarReferenceDeclaration, TransVarReference, TransVarFirstReference);
++          staleVars.add(TransVarVar);
+         }
+-      } else if (declaration != init && refCount == 2) {
+-        if (isValidDeclaration(declaration) && isValidInitialization(init)) {
++      } else if (!(!(TransVarReferenceDeclaration != TransVarReference && TransVarReferenceCount == 2))) {
++        if (!(!(isValidDeclaration(TransVarReferenceDeclaration) && isValidInitialization(TransVarReference)))) {
+           // The only reference is the initialization, remove the assignment and
+           // the variable declaration.
+-          Node value = init.getAssignedValue();
+-          Preconditions.checkNotNull(value);
+-          inlineWellDefinedVariable(v, value, referenceInfo.references);
+-          staleVars.add(v);
++          Node TransVarNewVal = TransVarReference.getAssignedValue();
++          Preconditions.checkNotNull(TransVarNewVal);
++          inlineWellDefinedVariable(TransVarVar, TransVarNewVal, TransVarReferences.references);
++          staleVars.add(TransVarVar);
+         }
+       }
+ 
+@@ -298,32 +306,29 @@
+       // inline an alias of it. (If the variable was inlined, then the
+       // reference data is out of sync. We're better off just waiting for
+       // the next pass.)
+-      if (!maybeModifiedArguments &&
+-          !staleVars.contains(v) &&
+-          referenceInfo.isWellDefined() &&
+-          referenceInfo.isAssignedOnceInLifetime() &&
++      if (!(!(!TransVarIsModifiedArguments && !staleVars.contains(TransVarVar) && TransVarReferences.isWellDefined()
++            && TransVarReferences.isAssignedOnceInLifetime()))) {
+           // Inlining the variable based solely on well-defined and assigned
+           // once is *NOT* correct. We relax the correctness requirement if
+           // the variable is declared constant.
+-          (isInlineableDeclaredConstant(v, referenceInfo) ||
+-           referenceInfo.isOnlyAssignmentSameScopeAsDeclaration())) {
+-        List<Reference> refs = referenceInfo.references;
+-        for (int i = 1 /* start from a read */; i < refs.size(); i++) {
+-          Node nameNode = refs.get(i).getNode();
+-          if (aliasCandidates.containsKey(nameNode)) {
+-            AliasCandidate candidate = aliasCandidates.get(nameNode);
+-            if (!staleVars.contains(candidate.alias) &&
+-                !isVarInlineForbidden(candidate.alias)) {
+-              Reference aliasInit;
+-              aliasInit = candidate.refInfo.getInitializingReference();
+-              Node value = aliasInit.getAssignedValue();
+-              Preconditions.checkNotNull(value);
+-              inlineWellDefinedVariable(candidate.alias,
+-                  value,
+-                  candidate.refInfo.references);
+-              staleVars.add(candidate.alias);
++        List<Reference> TransVarRef = TransVarReferences.references;
++        int TransVarCount = 1;
++        while (!(!(TransVarCount < TransVarRef.size()))) {
++            Node TransVarCurrentRef = TransVarRef.get(TransVarCount).getNode();
++            if (!(!(aliasCandidates.containsKey(TransVarCurrentRef)))) {
++                AliasCandidate TransVarCurrentCandidate = aliasCandidates.get(TransVarCurrentRef);
++                if (!(!(!staleVars.contains(TransVarCurrentCandidate.alias)
++                        && !isVarInlineForbidden(TransVarCurrentCandidate.alias)))) {
++                    Reference TransVarAliasInitRef;
++                    TransVarAliasInitRef = TransVarCurrentCandidate.refInfo.getInitializingReference();
++                    Node TransVarCandidate = TransVarAliasInitRef.getAssignedValue();
++                    Preconditions.checkNotNull(TransVarCandidate);
++                    inlineWellDefinedVariable(TransVarCurrentCandidate.alias, TransVarCandidate,
++                            TransVarCurrentCandidate.refInfo.references);
++                    staleVars.add(TransVarCurrentCandidate.alias);
+                 }
+             }
++            TransVarCount++;
+         }
+       }
+     }

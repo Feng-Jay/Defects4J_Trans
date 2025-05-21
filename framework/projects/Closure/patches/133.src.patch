@@ -1,0 +1,17 @@
+--- src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2025-05-20 23:10:41
++++ ./src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2025-05-20 23:10:41
+@@ -2397,9 +2397,11 @@
+    * Returns the remainder of the line.
+    */
+   private String getRemainingJSDocLine() {
+-    String result = stream.getRemainingJSDocLine();
+-    unreadToken = NO_UNREAD_TOKEN;
+-    return result;
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    String TransVarValue = stream.getRemainingJSDocLine();
++    return TransVarValue;
+   }
+ 
+   /**

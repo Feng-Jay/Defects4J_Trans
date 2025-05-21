@@ -1,0 +1,60 @@
+--- src/com/google/javascript/jscomp/type/ChainableReverseAbstractInterpreter.java	2025-05-20 23:04:44
++++ ./src/com/google/javascript/jscomp/type/ChainableReverseAbstractInterpreter.java	2025-05-20 23:04:44
+@@ -154,28 +154,35 @@
+    * {@code node}. It must be possible to refine the type of the given node in
+    * the given scope, as determined by {@link #getTypeIfRefinable}.
+    */
+-  protected void declareNameInScope(FlowScope scope, Node node, JSType type) {
+-    switch (node.getType()) {
+-      case Token.NAME:
+-        scope.inferSlotType(node.getString(), type);
+-        break;
+-
+-      case Token.GETPROP:
+-        String qualifiedName = node.getQualifiedName();
+-        Preconditions.checkNotNull(qualifiedName);
+-
+-        JSType origType = node.getJSType();
+-        origType = origType == null ? getNativeType(UNKNOWN_TYPE) : origType;
+-        scope.inferQualifiedSlot(node, qualifiedName, origType, type);
+-        break;
+-
+-      case Token.THIS:
+-        // "this" references aren't currently modeled in the CFG.
+-        break;
+-
+-      default:
+-        throw new IllegalArgumentException("Node cannot be refined. \n" +
+-            node.toStringTree());
++  protected void declareNameInScope(FlowScope TransVarFlowScope, Node TransVarParentFlowScope, JSType TransVarTypeNode) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    boolean TransFallThroughFlag0 = false;
++    boolean TransBreakFlag0 = true;
++    {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarParentFlowScope.getType() == Token.NAME))))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransBreakFlag0 = false;
++            TransVarFlowScope.inferSlotType(TransVarParentFlowScope.getString(), TransVarTypeNode);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarParentFlowScope.getType() == Token.GETPROP))))) {
++            TransBreakFlag0 = false;
++            String TransVarQName = TransVarParentFlowScope.getQualifiedName();
++            Preconditions.checkNotNull(TransVarQName);
++            JSType TransVarType = TransVarParentFlowScope.getJSType();
++            TransVarType = TransVarType == null ? getNativeType(UNKNOWN_TYPE) : TransVarType;
++            TransVarFlowScope.inferQualifiedSlot(TransVarParentFlowScope, TransVarQName, TransVarType,
++                    TransVarTypeNode);
++        }
++        if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++            throw new IllegalArgumentException("Node cannot be refined. \n" + TransVarParentFlowScope.toStringTree());
++        }
+     }
+   }
+ 

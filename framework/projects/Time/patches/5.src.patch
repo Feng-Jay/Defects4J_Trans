@@ -1,0 +1,64 @@
+--- src/main/java/org/joda/time/Period.java	2025-05-21 08:25:37
++++ src/main/java/org/joda/time/Period.java	2025-05-21 08:25:37
+@@ -1613,34 +1613,37 @@
+      *  years or months but the specified period type does not support them
+      * @since 1.5
+      */
+-    public Period normalizedStandard(PeriodType type) {
+-        type = DateTimeUtils.getPeriodType(type);
+-        long millis = getMillis();  // no overflow can happen, even with Integer.MAX_VALUEs
+-        millis += (((long) getSeconds()) * ((long) DateTimeConstants.MILLIS_PER_SECOND));
+-        millis += (((long) getMinutes()) * ((long) DateTimeConstants.MILLIS_PER_MINUTE));
+-        millis += (((long) getHours()) * ((long) DateTimeConstants.MILLIS_PER_HOUR));
+-        millis += (((long) getDays()) * ((long) DateTimeConstants.MILLIS_PER_DAY));
+-        millis += (((long) getWeeks()) * ((long) DateTimeConstants.MILLIS_PER_WEEK));
+-        Period result = new Period(millis, type, ISOChronology.getInstanceUTC());
+-        int years = getYears();
+-        int months = getMonths();
+-        if (years != 0 || months != 0) {
+-            long totalMonths = years * 12L + months;
+-            if (type.isSupported(DurationFieldType.YEARS_TYPE)) {
+-                int normalizedYears = FieldUtils.safeToInt(totalMonths / 12);
+-                result = result.withYears(normalizedYears);
+-                totalMonths = totalMonths - (normalizedYears * 12);
++    public Period normalizedStandard(PeriodType TransVarTypePeriod) {
++        if (!(!(false))) {
++            System.out.println("log");
+             }
+-            if (type.isSupported(DurationFieldType.MONTHS_TYPE)) {
+-                int normalizedMonths = FieldUtils.safeToInt(totalMonths);
+-                result = result.withMonths(normalizedMonths);
+-                totalMonths = totalMonths - normalizedMonths;
++        TransVarTypePeriod = DateTimeUtils.getPeriodType(TransVarTypePeriod);
++        long TransVarTime = getMillis();  // no overflow can happen, even with Integer.MAX_VALUEs
++        TransVarTime += (((long) getSeconds()) * ((long) DateTimeConstants.MILLIS_PER_SECOND));
++        TransVarTime += (((long) getMinutes()) * ((long) DateTimeConstants.MILLIS_PER_MINUTE));
++        TransVarTime += (((long) getHours()) * ((long) DateTimeConstants.MILLIS_PER_HOUR));
++        TransVarTime += (((long) getDays()) * ((long) DateTimeConstants.MILLIS_PER_DAY));
++        TransVarTime += (((long) getWeeks()) * ((long) DateTimeConstants.MILLIS_PER_WEEK));
++        Period TransVarPeriod = new Period(TransVarTime, TransVarTypePeriod, ISOChronology.getInstanceUTC());
++        int TransVarYrs = getYears();
++        int TransVarMonth = getMonths();
++        if (!(!(TransVarYrs != 0 || TransVarMonth != 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            if (totalMonths != 0) {
+-                throw new UnsupportedOperationException("Unable to normalize as PeriodType is missing either years or months but period has a month/year amount: " + toString());
++            TransVarYrs = FieldUtils.safeAdd(TransVarYrs, TransVarMonth / 12);
++            TransVarMonth = TransVarMonth % 12;
++            if (!(!(TransVarYrs != 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                TransVarPeriod = TransVarPeriod.withYears(TransVarYrs);
+         }
+-        return result;
++            if (!(!(TransVarMonth != 0))) {
++                TransVarPeriod = TransVarPeriod.withMonths(TransVarMonth);
++            }
++        }
++        return TransVarPeriod;
+     }
+ 
+ }

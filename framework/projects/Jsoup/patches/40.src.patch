@@ -1,0 +1,21 @@
+--- src/main/java/org/jsoup/nodes/DocumentType.java	2025-05-21 05:24:35
++++ ./src/main/java/org/jsoup/nodes/DocumentType.java	2025-05-21 05:24:35
+@@ -16,12 +16,13 @@
+      * @param systemId the doctype's system ID
+      * @param baseUri the doctype's base URI
+      */
+-    public DocumentType(String name, String publicId, String systemId, String baseUri) {
+-        super(baseUri);
++    public DocumentType(String TransVarPerson, String TransVarPersonId, String TransVarPersonNumber, String TransVarUri) {
++        super(TransVarUri);
+ 
+-        attr("name", name);
+-        attr("publicId", publicId);
+-        attr("systemId", systemId);
++        Validate.notEmpty(TransVarPerson);
++        attr("name", TransVarPerson);
++        attr("publicId", TransVarPersonId);
++        attr("systemId", TransVarPersonNumber);
+     }
+ 
+     @Override

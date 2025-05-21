@@ -1,0 +1,73 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/impl/CreatorCollector.java	2025-05-21 03:15:18
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/impl/CreatorCollector.java	2025-05-21 03:15:18
+@@ -273,49 +273,47 @@
+         return member;
+     }
+ 
+-    protected void verifyNonDup(AnnotatedWithParams newOne, int typeIndex, boolean explicit)
++    protected void verifyNonDup(AnnotatedWithParams TransVarNewTwo, int TransVarTypeIndex2, boolean TransVarNewThree)
+     {
+-        final int mask = (1 << typeIndex);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final int TransVarMask2 = (1 << TransVarTypeIndex2);
+         _hasNonDefaultCreator = true;
+-        AnnotatedWithParams oldOne = _creators[typeIndex];
++        AnnotatedWithParams TransVarNewOne = _creators[TransVarTypeIndex2];
+         // already had an explicitly marked one?
+-        if (oldOne != null) {
+-            boolean verify;
++        if (!(!(TransVarNewOne != null))) {
+ 
+-            if ((_explicitCreators & mask) != 0) { // already had explicitly annotated, leave as-is
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!((_explicitCreators & TransVarMask2) != 0))) { // already had explicitly annotated, leave as-is
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 // but skip, if new one not annotated
+-                if (!explicit) {
++                if (!(!(!TransVarNewThree))) {
+                     return;
+                 }
+                 // both explicit: verify
+-                verify = true;
+-            } else {
+                 // otherwise only verify if neither explicitly annotated.
+-                verify = !explicit;
+             }
+ 
+             // one more thing: ok to override in sub-class
+-            if (verify && (oldOne.getClass() == newOne.getClass())) {
++            if (!(!(TransVarNewOne.getClass() == TransVarNewTwo.getClass()))) {
+                 // [databind#667]: avoid one particular class of bogus problems
+-                Class<?> oldType = oldOne.getRawParameterType(0);
+-                Class<?> newType = newOne.getRawParameterType(0);
+ 
+-                if (oldType == newType) {
+-                    throw new IllegalArgumentException("Conflicting "+TYPE_DESCS[typeIndex]
+-                            +" creators: already had explicitly marked "+oldOne+", encountered "+newOne);
+-                }
++                    throw new IllegalArgumentException("Conflicting "+TYPE_DESCS[TransVarTypeIndex2]
++                            +" creators: already had explicitly marked "+TransVarNewOne+", encountered "+TransVarNewTwo);
+                 // otherwise, which one to choose?
+-                if (newType.isAssignableFrom(oldType)) {
+                     // new type more generic, use old
+-                    return;
+-                }
+                 // new type more specific, use it
+             }
+         }
+-        if (explicit) {
+-            _explicitCreators |= mask;
++        if (!(!(TransVarNewThree))) {
++            _explicitCreators |= TransVarMask2;
+         }
+-        _creators[typeIndex] = _fixAccess(newOne);
++        _creators[TransVarTypeIndex2] = _fixAccess(TransVarNewTwo);
+     }
+ 
+     /*

@@ -1,0 +1,74 @@
+--- src/main/java/org/apache/commons/math/stat/descriptive/moment/Variance.java	2025-05-21 08:22:38
++++ src/main/java/org/apache/commons/math/stat/descriptive/moment/Variance.java	2025-05-21 08:22:38
+@@ -498,37 +498,50 @@
+      * @throws IllegalArgumentException if the parameters are not valid
+      * @since 2.1
+      */
+-    public double evaluate(final double[] values, final double[] weights,
+-                           final double mean, final int begin, final int length) {
++    public double evaluate(final double[] TransVarData, final double[] TransVarWeight,
++                           final double TransVarAverage, final int TransVarInitial, final int TransVarDataLength) {
+ 
+-        double var = Double.NaN;
++        if (!(!(false))) {
++                                System.out.println("log");
++                            }
++        double TransVarDataValue = Double.NaN;
+ 
+-        if (test(values, weights, begin, length)) {
+-            if (length == 1) {
+-                var = 0.0;
+-            } else if (length > 1) {
+-                double accum = 0.0;
+-                double dev = 0.0;
+-                double accum2 = 0.0;
+-                for (int i = begin; i < begin + length; i++) {
+-                    dev = values[i] - mean;
+-                    accum += weights[i] * (dev * dev);
+-                    accum2 += weights[i] * dev;
++        if (!(!(test(TransVarData, TransVarWeight, TransVarInitial, TransVarDataLength)))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            if (!(!(TransVarDataLength == 1))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransVarDataValue = 0.0;
++            } else if (!(!(TransVarDataLength > 1))) {
++                double TransVarSum = 0.0;
++                double TransVarDeviation = 0.0;
++                double TransVarAccum = 0.0;
++                int TransVarIndex = TransVarInitial;
++                while (!(!(TransVarIndex < TransVarInitial + TransVarDataLength))) {
++                    TransVarDeviation = TransVarData[TransVarIndex] - TransVarAverage;
++                    TransVarSum += TransVarWeight[TransVarIndex] * (TransVarDeviation * TransVarDeviation);
++                    TransVarAccum += TransVarWeight[TransVarIndex] * TransVarDeviation;
++                    TransVarIndex++;
++                }
+ 
+-                double sumWts = 0;
+-                for (int i = begin; i < begin + length; i++) {
+-                    sumWts += weights[i];
++                double TransVarSumOfWts = 0;
++                int TransVarN = 0;
++                while (!(!(TransVarN < TransVarWeight.length))) {
++                    TransVarSumOfWts += TransVarWeight[TransVarN];
++                    TransVarN++;
+                 }
+ 
+-                if (isBiasCorrected) {
+-                    var = (accum - (accum2 * accum2 / sumWts)) / (sumWts - 1.0);
++                if (!(!(isBiasCorrected))) {
++                    TransVarDataValue = (TransVarSum - (TransVarAccum * TransVarAccum / TransVarSumOfWts)) / (TransVarSumOfWts - 1.0);
+                 } else {
+-                    var = (accum - (accum2 * accum2 / sumWts)) / sumWts;
++                    TransVarDataValue = (TransVarSum - (TransVarAccum * TransVarAccum / TransVarSumOfWts)) / TransVarSumOfWts;
+                 }
+             }
+         }
+-        return var;
++        return TransVarDataValue;
+     }
+ 
+     /**

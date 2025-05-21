@@ -1,0 +1,29 @@
+--- src/main/java/org/apache/commons/csv/CSVPrinter.java	2025-05-20 23:14:14
++++ ./src/main/java/org/apache/commons/csv/CSVPrinter.java	2025-05-20 23:14:14
+@@ -58,18 +58,18 @@
+      * @throws IllegalArgumentException
+      *         thrown if the parameters of the format are inconsistent or if either out or format are null.
+      */
+-    public CSVPrinter(final Appendable out, final CSVFormat format) throws IOException {
+-        Assertions.notNull(out, "out");
+-        Assertions.notNull(format, "format");
++    public CSVPrinter(final Appendable TransVarOutput, final CSVFormat TransVarFmt) throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Assertions.notNull(TransVarOutput, "out");
++        Assertions.notNull(TransVarFmt, "format");
+ 
+-        this.out = out;
+-        this.format = format;
++        this.out = TransVarOutput;
++        this.format = TransVarFmt;
+         this.format.validate();
+         // TODO: Is it a good idea to do this here instead of on the first call to a print method?
+         // It seems a pain to have to track whether the header has already been printed or not.
+-        if (format.getHeader() != null) {
+-            this.printRecord((Object[]) format.getHeader());
+-        }
+     }
+ 
+     // ======================================================

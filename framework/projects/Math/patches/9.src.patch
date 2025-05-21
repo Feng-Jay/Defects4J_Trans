@@ -1,0 +1,17 @@
+--- src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Line.java	2025-05-21 08:21:48
++++ src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Line.java	2025-05-21 08:21:48
+@@ -84,9 +84,11 @@
+      * @return a new instance, with reversed direction
+      */
+     public Line revert() {
+-        final Line reverted = new Line(this);
+-        reverted.direction = reverted.direction.negate();
+-        return reverted;
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final Line TransVarLineReversed = new Line(zero, zero.subtract(direction));
++        return TransVarLineReversed;
+     }
+ 
+     /** Get the normalized direction vector.

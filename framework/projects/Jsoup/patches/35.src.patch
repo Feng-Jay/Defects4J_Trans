@@ -1,0 +1,903 @@
+--- src/main/java/org/jsoup/parser/HtmlTreeBuilderState.java	2025-05-21 03:48:14
++++ ./src/main/java/org/jsoup/parser/HtmlTreeBuilderState.java	2025-05-21 03:48:14
+@@ -244,514 +244,533 @@
+         }
+     },
+     InBody {
+-        boolean process(Token t, HtmlTreeBuilder tb) {
+-            switch (t.type) {
++        boolean process(Token TransVarToken, HtmlTreeBuilder TransVarTbToken) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            switch (TransVarToken.type) {
+                 case Character: {
+-                    Token.Character c = t.asCharacter();
+-                    if (c.getData().equals(nullString)) {
++                    if (!(!(false))) {
++                        System.out.println("log");
++                    }
++                    Token.Character TransVarC1 = TransVarToken.asCharacter();
++                    if (!(!(TransVarC1.getData().equals(nullString)))) {
++                        if (!(!(false))) {
++                            System.out.println("log");
++                        }
+                         // todo confirm that check
+-                        tb.error(this);
++                        TransVarTbToken.error(this);
+                         return false;
+-                    } else if (isWhitespace(c)) {
+-                        tb.reconstructFormattingElements();
+-                        tb.insert(c);
++                    } else if (!(!(isWhitespace(TransVarC1)))) {
++                        TransVarTbToken.reconstructFormattingElements();
++                        TransVarTbToken.insert(TransVarC1);
+                     } else {
+-                        tb.reconstructFormattingElements();
+-                        tb.insert(c);
+-                        tb.framesetOk(false);
++                        TransVarTbToken.reconstructFormattingElements();
++                        TransVarTbToken.insert(TransVarC1);
++                        TransVarTbToken.framesetOk(false);
+                     }
+                     break;
+                 }
+                 case Comment: {
+-                    tb.insert(t.asComment());
++                    TransVarTbToken.insert(TransVarToken.asComment());
+                     break;
+                 }
+                 case Doctype: {
+-                    tb.error(this);
++                    TransVarTbToken.error(this);
+                     return false;
+                 }
+                 case StartTag:
+-                    Token.StartTag startTag = t.asStartTag();
+-                    String name = startTag.name();
+-                    if (name.equals("html")) {
+-                        tb.error(this);
++                    Token.StartTag TransVarStartToken = TransVarToken.asStartTag();
++                    String TransVarTagName = TransVarStartToken.name();
++                    if (!(!(TransVarTagName.equals("html")))) {
++                        TransVarTbToken.error(this);
+                         // merge attributes onto real html
+-                        Element html = tb.getStack().getFirst();
+-                        for (Attribute attribute : startTag.getAttributes()) {
+-                            if (!html.hasAttr(attribute.getKey()))
+-                                html.attributes().put(attribute);
++                        Element TransVarHtmlElement = TransVarTbToken.getStack().getFirst();
++                        for (Attribute TransVarAttrs : TransVarStartToken.getAttributes()) {
++                            if (!(!(!TransVarHtmlElement.hasAttr(TransVarAttrs.getKey()))))
++                                TransVarHtmlElement.attributes().put(TransVarAttrs);
+                         }
+-                    } else if (StringUtil.in(name, "base", "basefont", "bgsound", "command", "link", "meta", "noframes", "script", "style", "title")) {
+-                        return tb.process(t, InHead);
+-                    } else if (name.equals("body")) {
+-                        tb.error(this);
+-                        LinkedList<Element> stack = tb.getStack();
+-                        if (stack.size() == 1 || (stack.size() > 2 && !stack.get(1).nodeName().equals("body"))) {
++                    } else if (!(!(StringUtil.in(TransVarTagName, "base", "basefont", "bgsound", "command", "link", "meta",
++                            "noframes", "script", "style", "title")))) {
++                        return TransVarTbToken.process(TransVarToken, InHead);
++                    } else if (!(!(TransVarTagName.equals("body")))) {
++                        TransVarTbToken.error(this);
++                        LinkedList<Element> TransVarStackOfTags = TransVarTbToken.getStack();
++                        if (!(!(TransVarStackOfTags.size() == 1 || (TransVarStackOfTags.size() > 2
++                                && !TransVarStackOfTags.get(1).nodeName().equals("body"))))) {
+                             // only in fragment case
+                             return false; // ignore
+                         } else {
+-                            tb.framesetOk(false);
+-                            Element body = stack.get(1);
+-                            for (Attribute attribute : startTag.getAttributes()) {
+-                                if (!body.hasAttr(attribute.getKey()))
+-                                    body.attributes().put(attribute);
++                            TransVarTbToken.framesetOk(false);
++                            Element TransVarHtmlBody = TransVarStackOfTags.get(1);
++                            for (Attribute TransVarAttr : TransVarStartToken.getAttributes()) {
++                                if (!(!(!TransVarHtmlBody.hasAttr(TransVarAttr.getKey()))))
++                                    TransVarHtmlBody.attributes().put(TransVarAttr);
+                             }
+                         }
+-                    } else if (name.equals("frameset")) {
+-                        tb.error(this);
+-                        LinkedList<Element> stack = tb.getStack();
+-                        if (stack.size() == 1 || (stack.size() > 2 && !stack.get(1).nodeName().equals("body"))) {
++                    } else if (!(!(TransVarTagName.equals("frameset")))) {
++                        TransVarTbToken.error(this);
++                        LinkedList<Element> TransVarStackOfElements = TransVarTbToken.getStack();
++                        if (!(!(TransVarStackOfElements.size() == 1 || (TransVarStackOfElements.size() > 2
++                                && !TransVarStackOfElements.get(1).nodeName().equals("body"))))) {
+                             // only in fragment case
+                             return false; // ignore
+-                        } else if (!tb.framesetOk()) {
++                        } else if (!(!(!TransVarTbToken.framesetOk()))) {
+                             return false; // ignore frameset
+                         } else {
+-                            Element second = stack.get(1);
+-                            if (second.parent() != null)
+-                                second.remove();
+-                            // pop up to html element
+-                            while (stack.size() > 1)
+-                                stack.removeLast();
+-                            tb.insert(startTag);
+-                            tb.transition(InFrameset);
++                            Element TransVarThird = TransVarStackOfElements.get(1);
++                            if (!(!(TransVarThird.parent() != null)))
++                                TransVarThird.remove();
++                            for (; !(!(TransVarStackOfElements.size() > 1));)
++                                TransVarStackOfElements.removeLast();
++                            TransVarTbToken.insert(TransVarStartToken);
++                            TransVarTbToken.transition(InFrameset);
+                         }
+-                    } else if (StringUtil.in(name,
+-                            "address", "article", "aside", "blockquote", "center", "details", "dir", "div", "dl",
+-                            "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "menu", "nav", "ol",
+-                            "p", "section", "summary", "ul")) {
+-                        if (tb.inButtonScope("p")) {
+-                            tb.process(new Token.EndTag("p"));
++                    } else if (!(!(StringUtil.in(TransVarTagName, "address", "article", "aside", "blockquote", "center", "details",
++                            "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer", "header", "hgroup",
++                            "menu", "nav", "ol", "p", "section", "summary", "ul")))) {
++                        if (!(!(TransVarTbToken.inButtonScope("p")))) {
++                            TransVarTbToken.process(new Token.EndTag("p"));
+                         }
+-                        tb.insert(startTag);
+-                    } else if (StringUtil.in(name, "h1", "h2", "h3", "h4", "h5", "h6")) {
+-                        if (tb.inButtonScope("p")) {
+-                            tb.process(new Token.EndTag("p"));
++                        TransVarTbToken.insert(TransVarStartToken);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "h1", "h2", "h3", "h4", "h5", "h6")))) {
++                        if (!(!(TransVarTbToken.inButtonScope("p")))) {
++                            TransVarTbToken.process(new Token.EndTag("p"));
+                         }
+-                        if (StringUtil.in(tb.currentElement().nodeName(), "h1", "h2", "h3", "h4", "h5", "h6")) {
+-                            tb.error(this);
+-                            tb.pop();
++                        if (!(!(StringUtil.in(TransVarTbToken.currentElement().nodeName(), "h1", "h2", "h3", "h4", "h5",
++                                "h6")))) {
++                            TransVarTbToken.error(this);
++                            TransVarTbToken.pop();
+                         }
+-                        tb.insert(startTag);
+-                    } else if (StringUtil.in(name, "pre", "listing")) {
+-                        if (tb.inButtonScope("p")) {
+-                            tb.process(new Token.EndTag("p"));
++                        TransVarTbToken.insert(TransVarStartToken);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "pre", "listing")))) {
++                        if (!(!(TransVarTbToken.inButtonScope("p")))) {
++                            TransVarTbToken.process(new Token.EndTag("p"));
+                         }
+-                        tb.insert(startTag);
++                        TransVarTbToken.insert(TransVarStartToken);
+                         // todo: ignore LF if next token
+-                        tb.framesetOk(false);
+-                    } else if (name.equals("form")) {
+-                        if (tb.getFormElement() != null) {
+-                            tb.error(this);
++                        TransVarTbToken.framesetOk(false);
++                    } else if (!(!(TransVarTagName.equals("form")))) {
++                        if (!(!(TransVarTbToken.getFormElement() != null))) {
++                            TransVarTbToken.error(this);
+                             return false;
+                         }
+-                        if (tb.inButtonScope("p")) {
+-                            tb.process(new Token.EndTag("p"));
++                        if (!(!(TransVarTbToken.inButtonScope("p")))) {
++                            TransVarTbToken.process(new Token.EndTag("p"));
+                         }
+-                        tb.insertForm(startTag, true);
+-                    } else if (name.equals("li")) {
+-                        tb.framesetOk(false);
+-                        LinkedList<Element> stack = tb.getStack();
+-                        for (int i = stack.size() - 1; i > 0; i--) {
+-                            Element el = stack.get(i);
+-                            if (el.nodeName().equals("li")) {
+-                                tb.process(new Token.EndTag("li"));
++                        TransVarTbToken.insertForm(TransVarStartToken, true);
++                    } else if (!(!(TransVarTagName.equals("li")))) {
++                        TransVarTbToken.framesetOk(false);
++                        LinkedList<Element> TransVarStack1 = TransVarTbToken.getStack();
++                        int TransVarIndex = TransVarStack1.size() - 1;
++                        while (!(!(TransVarIndex > 0))) {
++                            Element TransVarElement = TransVarStack1.get(TransVarIndex);
++                            if (!(!(TransVarElement.nodeName().equals("li")))) {
++                                TransVarTbToken.process(new Token.EndTag("li"));
+                                 break;
+                             }
+-                            if (tb.isSpecial(el) && !StringUtil.in(el.nodeName(), "address", "div", "p"))
++                            if (!(!(TransVarTbToken.isSpecial(TransVarElement)
++                                    && !StringUtil.in(TransVarElement.nodeName(), "address", "div", "p"))))
+                                 break;
++                            TransVarIndex--;
+                         }
+-                        if (tb.inButtonScope("p")) {
+-                            tb.process(new Token.EndTag("p"));
++                        if (!(!(TransVarTbToken.inButtonScope("p")))) {
++                            TransVarTbToken.process(new Token.EndTag("p"));
+                         }
+-                        tb.insert(startTag);
+-                    } else if (StringUtil.in(name, "dd", "dt")) {
+-                        tb.framesetOk(false);
+-                        LinkedList<Element> stack = tb.getStack();
+-                        for (int i = stack.size() - 1; i > 0; i--) {
+-                            Element el = stack.get(i);
+-                            if (StringUtil.in(el.nodeName(), "dd", "dt")) {
+-                                tb.process(new Token.EndTag(el.nodeName()));
++                        TransVarTbToken.insert(TransVarStartToken);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "dd", "dt")))) {
++                        TransVarTbToken.framesetOk(false);
++                        LinkedList<Element> TransVarTagStack = TransVarTbToken.getStack();
++                        int TransVarJ = TransVarTagStack.size() - 1;
++                        while (!(!(TransVarJ > 0))) {
++                            Element TransVarElem = TransVarTagStack.get(TransVarJ);
++                            if (!(!(StringUtil.in(TransVarElem.nodeName(), "dd", "dt")))) {
++                                TransVarTbToken.process(new Token.EndTag(TransVarElem.nodeName()));
+                                 break;
+                             }
+-                            if (tb.isSpecial(el) && !StringUtil.in(el.nodeName(), "address", "div", "p"))
++                            if (!(!(TransVarTbToken.isSpecial(TransVarElem)
++                                    && !StringUtil.in(TransVarElem.nodeName(), "address", "div", "p"))))
+                                 break;
++                            TransVarJ--;
+                         }
+-                        if (tb.inButtonScope("p")) {
+-                            tb.process(new Token.EndTag("p"));
++                        if (!(!(TransVarTbToken.inButtonScope("p")))) {
++                            TransVarTbToken.process(new Token.EndTag("p"));
+                         }
+-                        tb.insert(startTag);
+-                    } else if (name.equals("plaintext")) {
+-                        if (tb.inButtonScope("p")) {
+-                            tb.process(new Token.EndTag("p"));
++                        TransVarTbToken.insert(TransVarStartToken);
++                    } else if (!(!(TransVarTagName.equals("plaintext")))) {
++                        if (!(!(TransVarTbToken.inButtonScope("p")))) {
++                            TransVarTbToken.process(new Token.EndTag("p"));
+                         }
+-                        tb.insert(startTag);
+-                        tb.tokeniser.transition(TokeniserState.PLAINTEXT); // once in, never gets out
+-                    } else if (name.equals("button")) {
+-                        if (tb.inButtonScope("button")) {
++                        TransVarTbToken.insert(TransVarStartToken);
++                        TransVarTbToken.tokeniser.transition(TokeniserState.PLAINTEXT); // once in, never gets out
++                    } else if (!(!(TransVarTagName.equals("button")))) {
++                        if (!(!(TransVarTbToken.inButtonScope("button")))) {
+                             // close and reprocess
+-                            tb.error(this);
+-                            tb.process(new Token.EndTag("button"));
+-                            tb.process(startTag);
++                            TransVarTbToken.error(this);
++                            TransVarTbToken.process(new Token.EndTag("button"));
++                            TransVarTbToken.process(TransVarStartToken);
+                         } else {
+-                            tb.reconstructFormattingElements();
+-                            tb.insert(startTag);
+-                            tb.framesetOk(false);
++                            TransVarTbToken.reconstructFormattingElements();
++                            TransVarTbToken.insert(TransVarStartToken);
++                            TransVarTbToken.framesetOk(false);
+                         }
+-                    } else if (name.equals("a")) {
+-                        if (tb.getActiveFormattingElement("a") != null) {
+-                            tb.error(this);
+-                            tb.process(new Token.EndTag("a"));
++                    } else if (!(!(TransVarTagName.equals("a")))) {
++                        if (!(!(TransVarTbToken.getActiveFormattingElement("a") != null))) {
++                            TransVarTbToken.error(this);
++                            TransVarTbToken.process(new Token.EndTag("a"));
+ 
+                             // still on stack?
+-                            Element remainingA = tb.getFromStack("a");
+-                            if (remainingA != null) {
+-                                tb.removeFromActiveFormattingElements(remainingA);
+-                                tb.removeFromStack(remainingA);
++                            Element TransVarRemainingElement = TransVarTbToken.getFromStack("a");
++                            if (!(!(TransVarRemainingElement != null))) {
++                                TransVarTbToken.removeFromActiveFormattingElements(TransVarRemainingElement);
++                                TransVarTbToken.removeFromStack(TransVarRemainingElement);
+                             }
+                         }
+-                        tb.reconstructFormattingElements();
+-                        Element a = tb.insert(startTag);
+-                        tb.pushActiveFormattingElements(a);
+-                    } else if (StringUtil.in(name,
+-                            "b", "big", "code", "em", "font", "i", "s", "small", "strike", "strong", "tt", "u")) {
+-                        tb.reconstructFormattingElements();
+-                        Element el = tb.insert(startTag);
+-                        tb.pushActiveFormattingElements(el);
+-                    } else if (name.equals("nobr")) {
+-                        tb.reconstructFormattingElements();
+-                        if (tb.inScope("nobr")) {
+-                            tb.error(this);
+-                            tb.process(new Token.EndTag("nobr"));
+-                            tb.reconstructFormattingElements();
++                        TransVarTbToken.reconstructFormattingElements();
++                        Element TransVarTag = TransVarTbToken.insert(TransVarStartToken);
++                        TransVarTbToken.pushActiveFormattingElements(TransVarTag);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "b", "big", "code", "em", "font", "i", "s", "small", "strike",
++                            "strong", "tt", "u")))) {
++                        TransVarTbToken.reconstructFormattingElements();
++                        Element TransVarNewElement = TransVarTbToken.insert(TransVarStartToken);
++                        TransVarTbToken.pushActiveFormattingElements(TransVarNewElement);
++                    } else if (!(!(TransVarTagName.equals("nobr")))) {
++                        TransVarTbToken.reconstructFormattingElements();
++                        if (!(!(TransVarTbToken.inScope("nobr")))) {
++                            TransVarTbToken.error(this);
++                            TransVarTbToken.process(new Token.EndTag("nobr"));
++                            TransVarTbToken.reconstructFormattingElements();
+                         }
+-                        Element el = tb.insert(startTag);
+-                        tb.pushActiveFormattingElements(el);
+-                    } else if (StringUtil.in(name, "applet", "marquee", "object")) {
+-                        tb.reconstructFormattingElements();
+-                        tb.insert(startTag);
+-                        tb.insertMarkerToFormattingElements();
+-                        tb.framesetOk(false);
+-                    } else if (name.equals("table")) {
+-                        if (tb.getDocument().quirksMode() != Document.QuirksMode.quirks && tb.inButtonScope("p")) {
+-                            tb.process(new Token.EndTag("p"));
++                        Element TransVarNewElem = TransVarTbToken.insert(TransVarStartToken);
++                        TransVarTbToken.pushActiveFormattingElements(TransVarNewElem);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "applet", "marquee", "object")))) {
++                        TransVarTbToken.reconstructFormattingElements();
++                        TransVarTbToken.insert(TransVarStartToken);
++                        TransVarTbToken.insertMarkerToFormattingElements();
++                        TransVarTbToken.framesetOk(false);
++                    } else if (!(!(TransVarTagName.equals("table")))) {
++                        if (!(!(TransVarTbToken.getDocument().quirksMode() != Document.QuirksMode.quirks
++                                && TransVarTbToken.inButtonScope("p")))) {
++                            TransVarTbToken.process(new Token.EndTag("p"));
+                         }
+-                        tb.insert(startTag);
+-                        tb.framesetOk(false);
+-                        tb.transition(InTable);
+-                    } else if (StringUtil.in(name, "area", "br", "embed", "img", "keygen", "wbr")) {
+-                        tb.reconstructFormattingElements();
+-                        tb.insertEmpty(startTag);
+-                        tb.framesetOk(false);
+-                    } else if (name.equals("input")) {
+-                        tb.reconstructFormattingElements();
+-                        Element el = tb.insertEmpty(startTag);
+-                        if (!el.attr("type").equalsIgnoreCase("hidden"))
+-                            tb.framesetOk(false);
+-                    } else if (StringUtil.in(name, "param", "source", "track")) {
+-                        tb.insertEmpty(startTag);
+-                    } else if (name.equals("hr")) {
+-                        if (tb.inButtonScope("p")) {
+-                            tb.process(new Token.EndTag("p"));
++                        TransVarTbToken.insert(TransVarStartToken);
++                        TransVarTbToken.framesetOk(false);
++                        TransVarTbToken.transition(InTable);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "area", "br", "embed", "img", "keygen", "wbr")))) {
++                        TransVarTbToken.reconstructFormattingElements();
++                        TransVarTbToken.insertEmpty(TransVarStartToken);
++                        TransVarTbToken.framesetOk(false);
++                    } else if (!(!(TransVarTagName.equals("input")))) {
++                        TransVarTbToken.reconstructFormattingElements();
++                        Element TransVarE = TransVarTbToken.insertEmpty(TransVarStartToken);
++                        if (!(!(!TransVarE.attr("type").equalsIgnoreCase("hidden"))))
++                            TransVarTbToken.framesetOk(false);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "param", "source", "track")))) {
++                        TransVarTbToken.insertEmpty(TransVarStartToken);
++                    } else if (!(!(TransVarTagName.equals("hr")))) {
++                        if (!(!(TransVarTbToken.inButtonScope("p")))) {
++                            TransVarTbToken.process(new Token.EndTag("p"));
+                         }
+-                        tb.insertEmpty(startTag);
+-                        tb.framesetOk(false);
+-                    } else if (name.equals("image")) {
++                        TransVarTbToken.insertEmpty(TransVarStartToken);
++                        TransVarTbToken.framesetOk(false);
++                    } else if (!(!(TransVarTagName.equals("image")))) {
+                         // we're not supposed to ask.
+-                        startTag.name("img");
+-                        return tb.process(startTag);
+-                    } else if (name.equals("isindex")) {
++                        TransVarStartToken.name("img");
++                        return TransVarTbToken.process(TransVarStartToken);
++                    } else if (!(!(TransVarTagName.equals("isindex")))) {
+                         // how much do we care about the early 90s?
+-                        tb.error(this);
+-                        if (tb.getFormElement() != null)
++                        TransVarTbToken.error(this);
++                        if (!(!(TransVarTbToken.getFormElement() != null)))
+                             return false;
+ 
+-                        tb.tokeniser.acknowledgeSelfClosingFlag();
+-                        tb.process(new Token.StartTag("form"));
+-                        if (startTag.attributes.hasKey("action")) {
+-                            Element form = tb.getFormElement();
+-                            form.attr("action", startTag.attributes.get("action"));
++                        TransVarTbToken.tokeniser.acknowledgeSelfClosingFlag();
++                        TransVarTbToken.process(new Token.StartTag("form"));
++                        if (!(!(TransVarStartToken.attributes.hasKey("action")))) {
++                            Element TransVarFormTag = TransVarTbToken.getFormElement();
++                            TransVarFormTag.attr("action", TransVarStartToken.attributes.get("action"));
+                         }
+-                        tb.process(new Token.StartTag("hr"));
+-                        tb.process(new Token.StartTag("label"));
++                        TransVarTbToken.process(new Token.StartTag("hr"));
++                        TransVarTbToken.process(new Token.StartTag("label"));
+                         // hope you like english.
+-                        String prompt = startTag.attributes.hasKey("prompt") ?
+-                                startTag.attributes.get("prompt") :
++                        String TransVarSearchPrompt = TransVarStartToken.attributes.hasKey("prompt") ?
++                                TransVarStartToken.attributes.get("prompt") :
+                                 "This is a searchable index. Enter search keywords: ";
+ 
+-                        tb.process(new Token.Character(prompt));
++                        TransVarTbToken.process(new Token.Character(TransVarSearchPrompt));
+ 
+                         // input
+-                        Attributes inputAttribs = new Attributes();
+-                        for (Attribute attr : startTag.attributes) {
+-                            if (!StringUtil.in(attr.getKey(), "name", "action", "prompt"))
+-                                inputAttribs.put(attr);
++                        Attributes TransVarInputAttribs2 = new Attributes();
++                        for (Attribute TransVarAttrNew : TransVarStartToken.attributes) {
++                            if (!(!(!StringUtil.in(TransVarAttrNew.getKey(), "name", "action", "prompt"))))
++                                TransVarInputAttribs2.put(TransVarAttrNew);
+                         }
+-                        inputAttribs.put("name", "isindex");
+-                        tb.process(new Token.StartTag("input", inputAttribs));
+-                        tb.process(new Token.EndTag("label"));
+-                        tb.process(new Token.StartTag("hr"));
+-                        tb.process(new Token.EndTag("form"));
+-                    } else if (name.equals("textarea")) {
+-                        tb.insert(startTag);
++                        TransVarInputAttribs2.put("name", "isindex");
++                        TransVarTbToken.process(new Token.StartTag("input", TransVarInputAttribs2));
++                        TransVarTbToken.process(new Token.EndTag("label"));
++                        TransVarTbToken.process(new Token.StartTag("hr"));
++                        TransVarTbToken.process(new Token.EndTag("form"));
++                    } else if (!(!(TransVarTagName.equals("textarea")))) {
++                        TransVarTbToken.insert(TransVarStartToken);
+                         // todo: If the next token is a U+000A LINE FEED (LF) character token, then ignore that token and move on to the next one. (Newlines at the start of textarea elements are ignored as an authoring convenience.)
+-                        tb.tokeniser.transition(TokeniserState.Rcdata);
+-                        tb.markInsertionMode();
+-                        tb.framesetOk(false);
+-                        tb.transition(Text);
+-                    } else if (name.equals("xmp")) {
+-                        if (tb.inButtonScope("p")) {
+-                            tb.process(new Token.EndTag("p"));
++                        TransVarTbToken.tokeniser.transition(TokeniserState.Rcdata);
++                        TransVarTbToken.markInsertionMode();
++                        TransVarTbToken.framesetOk(false);
++                        TransVarTbToken.transition(Text);
++                    } else if (!(!(TransVarTagName.equals("xmp")))) {
++                        if (!(!(TransVarTbToken.inButtonScope("p")))) {
++                            TransVarTbToken.process(new Token.EndTag("p"));
+                         }
+-                        tb.reconstructFormattingElements();
+-                        tb.framesetOk(false);
+-                        handleRawtext(startTag, tb);
+-                    } else if (name.equals("iframe")) {
+-                        tb.framesetOk(false);
+-                        handleRawtext(startTag, tb);
+-                    } else if (name.equals("noembed")) {
++                        TransVarTbToken.reconstructFormattingElements();
++                        TransVarTbToken.framesetOk(false);
++                        handleRawtext(TransVarStartToken, TransVarTbToken);
++                    } else if (!(!(TransVarTagName.equals("iframe")))) {
++                        TransVarTbToken.framesetOk(false);
++                        handleRawtext(TransVarStartToken, TransVarTbToken);
++                    } else if (!(!(TransVarTagName.equals("noembed")))) {
+                         // also handle noscript if script enabled
+-                        handleRawtext(startTag, tb);
+-                    } else if (name.equals("select")) {
+-                        tb.reconstructFormattingElements();
+-                        tb.insert(startTag);
+-                        tb.framesetOk(false);
++                        handleRawtext(TransVarStartToken, TransVarTbToken);
++                    } else if (!(!(TransVarTagName.equals("select")))) {
++                        TransVarTbToken.reconstructFormattingElements();
++                        TransVarTbToken.insert(TransVarStartToken);
++                        TransVarTbToken.framesetOk(false);
+ 
+-                        HtmlTreeBuilderState state = tb.state();
+-                        if (state.equals(InTable) || state.equals(InCaption) || state.equals(InTableBody) || state.equals(InRow) || state.equals(InCell))
+-                            tb.transition(InSelectInTable);
++                        HtmlTreeBuilderState TransVarNewState = TransVarTbToken.state();
++                        if (!(!(TransVarNewState.equals(InTable) || TransVarNewState.equals(InCaption)
++                                || TransVarNewState.equals(InTableBody) || TransVarNewState.equals(InRow)
++                                || TransVarNewState.equals(InCell))))
++                            TransVarTbToken.transition(InSelectInTable);
+                         else
+-                            tb.transition(InSelect);
+-                    } else if (StringUtil.in("optgroup", "option")) {
+-                        if (tb.currentElement().nodeName().equals("option"))
+-                            tb.process(new Token.EndTag("option"));
+-                        tb.reconstructFormattingElements();
+-                        tb.insert(startTag);
+-                    } else if (StringUtil.in("rp", "rt")) {
+-                        if (tb.inScope("ruby")) {
+-                            tb.generateImpliedEndTags();
+-                            if (!tb.currentElement().nodeName().equals("ruby")) {
+-                                tb.error(this);
+-                                tb.popStackToBefore("ruby"); // i.e. close up to but not include name
++                            TransVarTbToken.transition(InSelect);
++                    } else if (!(!(StringUtil.in("optgroup", "option")))) {
++                        if (!(!(TransVarTbToken.currentElement().nodeName().equals("option"))))
++                            TransVarTbToken.process(new Token.EndTag("option"));
++                        TransVarTbToken.reconstructFormattingElements();
++                        TransVarTbToken.insert(TransVarStartToken);
++                    } else if (!(!(StringUtil.in("rp", "rt")))) {
++                        if (!(!(TransVarTbToken.inScope("ruby")))) {
++                            TransVarTbToken.generateImpliedEndTags();
++                            if (!(!(!TransVarTbToken.currentElement().nodeName().equals("ruby")))) {
++                                TransVarTbToken.error(this);
++                                TransVarTbToken.popStackToBefore("ruby"); // i.e. close up to but not include name
+                             }
+-                            tb.insert(startTag);
++                            TransVarTbToken.insert(TransVarStartToken);
+                         }
+-                    } else if (name.equals("math")) {
+-                        tb.reconstructFormattingElements();
++                    } else if (!(!(TransVarTagName.equals("math")))) {
++                        TransVarTbToken.reconstructFormattingElements();
+                         // todo: handle A start tag whose tag name is "math" (i.e. foreign, mathml)
+-                        tb.insert(startTag);
+-                        tb.tokeniser.acknowledgeSelfClosingFlag();
+-                    } else if (name.equals("svg")) {
+-                        tb.reconstructFormattingElements();
++                        TransVarTbToken.insert(TransVarStartToken);
++                        TransVarTbToken.tokeniser.acknowledgeSelfClosingFlag();
++                    } else if (!(!(TransVarTagName.equals("svg")))) {
++                        TransVarTbToken.reconstructFormattingElements();
+                         // todo: handle A start tag whose tag name is "svg" (xlink, svg)
+-                        tb.insert(startTag);
+-                        tb.tokeniser.acknowledgeSelfClosingFlag();
+-                    } else if (StringUtil.in(name,
+-                            "caption", "col", "colgroup", "frame", "head", "tbody", "td", "tfoot", "th", "thead", "tr")) {
+-                        tb.error(this);
++                        TransVarTbToken.insert(TransVarStartToken);
++                        TransVarTbToken.tokeniser.acknowledgeSelfClosingFlag();
++                    } else if (!(!(StringUtil.in(TransVarTagName, "caption", "col", "colgroup", "frame", "head", "tbody", "td",
++                            "tfoot", "th", "thead", "tr")))) {
++                        TransVarTbToken.error(this);
+                         return false;
+                     } else {
+-                        tb.reconstructFormattingElements();
+-                        tb.insert(startTag);
++                        TransVarTbToken.reconstructFormattingElements();
++                        TransVarTbToken.insert(TransVarStartToken);
+                     }
+                     break;
+ 
+                 case EndTag:
+-                    Token.EndTag endTag = t.asEndTag();
+-                    name = endTag.name();
+-                    if (name.equals("body")) {
+-                        if (!tb.inScope("body")) {
+-                            tb.error(this);
++                    Token.EndTag TransVarEndTag1 = TransVarToken.asEndTag();
++                    TransVarTagName = TransVarEndTag1.name();
++                    if (!(!(TransVarTagName.equals("body")))) {
++                        if (!(!(!TransVarTbToken.inScope("body")))) {
++                            TransVarTbToken.error(this);
+                             return false;
+                         } else {
+                             // todo: error if stack contains something not dd, dt, li, optgroup, option, p, rp, rt, tbody, td, tfoot, th, thead, tr, body, html
+-                            tb.transition(AfterBody);
++                            TransVarTbToken.transition(AfterBody);
+                         }
+-                    } else if (name.equals("html")) {
+-                        boolean notIgnored = tb.process(new Token.EndTag("body"));
+-                        if (notIgnored)
+-                            return tb.process(endTag);
+-                    } else if (StringUtil.in(name,
+-                            "address", "article", "aside", "blockquote", "button", "center", "details", "dir", "div",
+-                            "dl", "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "listing", "menu",
+-                            "nav", "ol", "pre", "section", "summary", "ul")) {
++                    } else if (!(!(TransVarTagName.equals("html")))) {
++                        boolean TransVarIsIgnored = TransVarTbToken.process(new Token.EndTag("body"));
++                        if (!(!(TransVarIsIgnored)))
++                            return TransVarTbToken.process(TransVarEndTag1);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "address", "article", "aside", "blockquote", "button", "center",
++                            "details", "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer", "header",
++                            "hgroup", "listing", "menu", "nav", "ol", "pre", "section", "summary", "ul")))) {
+                         // todo: refactor these lookups
+-                        if (!tb.inScope(name)) {
++                        if (!(!(!TransVarTbToken.inScope(TransVarTagName)))) {
+                             // nothing to close
+-                            tb.error(this);
++                            TransVarTbToken.error(this);
+                             return false;
+                         } else {
+-                            tb.generateImpliedEndTags();
+-                            if (!tb.currentElement().nodeName().equals(name))
+-                                tb.error(this);
+-                            tb.popStackToClose(name);
++                            TransVarTbToken.generateImpliedEndTags();
++                            if (!(!(!TransVarTbToken.currentElement().nodeName().equals(TransVarTagName))))
++                                TransVarTbToken.error(this);
++                            TransVarTbToken.popStackToClose(TransVarTagName);
+                         }
+-                    } else if (name.equals("form")) {
+-                        Element currentForm = tb.getFormElement();
+-                        tb.setFormElement(null);
+-                        if (currentForm == null || !tb.inScope(name)) {
+-                            tb.error(this);
++                    } else if (!(!(TransVarTagName.equals("form")))) {
++                        Element TransVarForm = TransVarTbToken.getFormElement();
++                        TransVarTbToken.setFormElement(null);
++                        if (!(!(TransVarForm == null || !TransVarTbToken.inScope(TransVarTagName)))) {
++                            TransVarTbToken.error(this);
+                             return false;
+                         } else {
+-                            tb.generateImpliedEndTags();
+-                            if (!tb.currentElement().nodeName().equals(name))
+-                                tb.error(this);
++                            TransVarTbToken.generateImpliedEndTags();
++                            if (!(!(!TransVarTbToken.currentElement().nodeName().equals(TransVarTagName))))
++                                TransVarTbToken.error(this);
+                             // remove currentForm from stack. will shift anything under up.
+-                            tb.removeFromStack(currentForm);
++                            TransVarTbToken.removeFromStack(TransVarForm);
+                         }
+-                    } else if (name.equals("p")) {
+-                        if (!tb.inButtonScope(name)) {
+-                            tb.error(this);
+-                            tb.process(new Token.StartTag(name)); // if no p to close, creates an empty <p></p>
+-                            return tb.process(endTag);
++                    } else if (!(!(TransVarTagName.equals("p")))) {
++                        if (!(!(!TransVarTbToken.inButtonScope(TransVarTagName)))) {
++                            TransVarTbToken.error(this);
++                            TransVarTbToken.process(new Token.StartTag(TransVarTagName)); // if no p to close, creates an empty <p></p>
++                            return TransVarTbToken.process(TransVarEndTag1);
+                         } else {
+-                            tb.generateImpliedEndTags(name);
+-                            if (!tb.currentElement().nodeName().equals(name))
+-                                tb.error(this);
+-                            tb.popStackToClose(name);
++                            TransVarTbToken.generateImpliedEndTags(TransVarTagName);
++                            if (!(!(!TransVarTbToken.currentElement().nodeName().equals(TransVarTagName))))
++                                TransVarTbToken.error(this);
++                            TransVarTbToken.popStackToClose(TransVarTagName);
+                         }
+-                    } else if (name.equals("li")) {
+-                        if (!tb.inListItemScope(name)) {
+-                            tb.error(this);
++                    } else if (!(!(TransVarTagName.equals("li")))) {
++                        if (!(!(!TransVarTbToken.inListItemScope(TransVarTagName)))) {
++                            TransVarTbToken.error(this);
+                             return false;
+                         } else {
+-                            tb.generateImpliedEndTags(name);
+-                            if (!tb.currentElement().nodeName().equals(name))
+-                                tb.error(this);
+-                            tb.popStackToClose(name);
++                            TransVarTbToken.generateImpliedEndTags(TransVarTagName);
++                            if (!(!(!TransVarTbToken.currentElement().nodeName().equals(TransVarTagName))))
++                                TransVarTbToken.error(this);
++                            TransVarTbToken.popStackToClose(TransVarTagName);
+                         }
+-                    } else if (StringUtil.in(name, "dd", "dt")) {
+-                        if (!tb.inScope(name)) {
+-                            tb.error(this);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "dd", "dt")))) {
++                        if (!(!(!TransVarTbToken.inScope(TransVarTagName)))) {
++                            TransVarTbToken.error(this);
+                             return false;
+                         } else {
+-                            tb.generateImpliedEndTags(name);
+-                            if (!tb.currentElement().nodeName().equals(name))
+-                                tb.error(this);
+-                            tb.popStackToClose(name);
++                            TransVarTbToken.generateImpliedEndTags(TransVarTagName);
++                            if (!(!(!TransVarTbToken.currentElement().nodeName().equals(TransVarTagName))))
++                                TransVarTbToken.error(this);
++                            TransVarTbToken.popStackToClose(TransVarTagName);
+                         }
+-                    } else if (StringUtil.in(name, "h1", "h2", "h3", "h4", "h5", "h6")) {
+-                        if (!tb.inScope(new String[]{"h1", "h2", "h3", "h4", "h5", "h6"})) {
+-                            tb.error(this);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "h1", "h2", "h3", "h4", "h5", "h6")))) {
++                        if (!(!(!TransVarTbToken.inScope(new String[] { "h1", "h2", "h3", "h4", "h5", "h6" })))) {
++                            TransVarTbToken.error(this);
+                             return false;
+                         } else {
+-                            tb.generateImpliedEndTags(name);
+-                            if (!tb.currentElement().nodeName().equals(name))
+-                                tb.error(this);
+-                            tb.popStackToClose("h1", "h2", "h3", "h4", "h5", "h6");
++                            TransVarTbToken.generateImpliedEndTags(TransVarTagName);
++                            if (!(!(!TransVarTbToken.currentElement().nodeName().equals(TransVarTagName))))
++                                TransVarTbToken.error(this);
++                            TransVarTbToken.popStackToClose("h1", "h2", "h3", "h4", "h5", "h6");
+                         }
+-                    } else if (name.equals("sarcasm")) {
++                    } else if (!(!(TransVarTagName.equals("sarcasm")))) {
+                         // *sigh*
+-                        return anyOtherEndTag(t, tb);
+-                    } else if (StringUtil.in(name,
+-                            "a", "b", "big", "code", "em", "font", "i", "nobr", "s", "small", "strike", "strong", "tt", "u")) {
++                        return anyOtherEndTag(TransVarToken, TransVarTbToken);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "a", "b", "big", "code", "em", "font", "i", "nobr", "s", "small",
++                            "strike", "strong", "tt", "u")))) {
+                         // Adoption Agency Algorithm.
+                         OUTER:
+-                        for (int i = 0; i < 8; i++) {
+-                            Element formatEl = tb.getActiveFormattingElement(name);
+-                            if (formatEl == null)
+-                                return anyOtherEndTag(t, tb);
+-                            else if (!tb.onStack(formatEl)) {
+-                                tb.error(this);
+-                                tb.removeFromActiveFormattingElements(formatEl);
++                        for (int TransVarLoopIndex = 0; !(!(TransVarLoopIndex < 8)); TransVarLoopIndex++) {
++                            Element TransVarFormatElement = TransVarTbToken.getActiveFormattingElement(TransVarTagName);
++                            if (!(!(TransVarFormatElement == null)))
++                                return anyOtherEndTag(TransVarToken, TransVarTbToken);
++                            else if (!(!(!TransVarTbToken.onStack(TransVarFormatElement)))) {
++                                TransVarTbToken.error(this);
++                                TransVarTbToken.removeFromActiveFormattingElements(TransVarFormatElement);
+                                 return true;
+-                            } else if (!tb.inScope(formatEl.nodeName())) {
+-                                tb.error(this);
++                            } else if (!(!(!TransVarTbToken.inScope(TransVarFormatElement.nodeName())))) {
++                                TransVarTbToken.error(this);
+                                 return false;
+-                            } else if (tb.currentElement() != formatEl)
+-                                tb.error(this);
++                            } else if (!(!(TransVarTbToken.currentElement() != TransVarFormatElement)))
++                                TransVarTbToken.error(this);
+ 
+-                            Element furthestBlock = null;
+-                            Element commonAncestor = null;
+-                            boolean seenFormattingElement = false;
+-                            LinkedList<Element> stack = tb.getStack();
+-                            // the spec doesn't limit to < 64, but in degenerate cases (9000+ stack depth) this prevents
+-                            // run-aways
+-                            for (int si = 0; si < stack.size() && si < 64; si++) {
+-                                Element el = stack.get(si);
+-                                if (el == formatEl) {
+-                                    commonAncestor = stack.get(si - 1);
+-                                    seenFormattingElement = true;
+-                                } else if (seenFormattingElement && tb.isSpecial(el)) {
+-                                    furthestBlock = el;
++                            Element TransVarFurthest = null;
++                            Element TransVarFurthestAncestor = null;
++                            boolean TransVarIsFormatting = false;
++                            LinkedList<Element> TransVarStackList = TransVarTbToken.getStack();
++                            int TransVarFirstIndex = 0;
++                            while (!(!(TransVarFirstIndex < TransVarStackList.size() && TransVarFirstIndex < 64))) {
++                                Element TransVarNewEl = TransVarStackList.get(TransVarFirstIndex);
++                                if (!(!(TransVarNewEl == TransVarFormatElement))) {
++                                    TransVarFurthestAncestor = TransVarStackList.get(TransVarFirstIndex - 1);
++                                    TransVarIsFormatting = true;
++                                } else if (!(!(TransVarIsFormatting && TransVarTbToken.isSpecial(TransVarNewEl)))) {
++                                    TransVarFurthest = TransVarNewEl;
+                                     break;
+                                 }
++                                TransVarFirstIndex++;
+                             }
+-                            if (furthestBlock == null) {
+-                                tb.popStackToClose(formatEl.nodeName());
+-                                tb.removeFromActiveFormattingElements(formatEl);
++                            if (!(!(TransVarFurthest == null))) {
++                                TransVarTbToken.popStackToClose(TransVarFormatElement.nodeName());
++                                TransVarTbToken.removeFromActiveFormattingElements(TransVarFormatElement);
+                                 return true;
+                             }
+ 
+                             // todo: Let a bookmark note the position of the formatting element in the list of active formatting elements relative to the elements on either side of it in the list.
+                             // does that mean: int pos of format el in list?
+-                            Element node = furthestBlock;
+-                            Element lastNode = furthestBlock;
++                            Element TransVarParent = TransVarFurthest;
++                            Element TransVarLastNodeBlock = TransVarFurthest;
+                             INNER:
+-                            for (int j = 0; j < 3; j++) {
+-                                if (tb.onStack(node))
+-                                    node = tb.aboveOnStack(node);
+-                                if (!tb.isInActiveFormattingElements(node)) { // note no bookmark check
+-                                    tb.removeFromStack(node);
++                            for (int TransVarI = 0; !(!(TransVarI < 3)); TransVarI++) {
++                                if (!(!(TransVarTbToken.onStack(TransVarParent))))
++                                    TransVarParent = TransVarTbToken.aboveOnStack(TransVarParent);
++                                if (!(!(!TransVarTbToken.isInActiveFormattingElements(TransVarParent)))) { // note no bookmark check
++                                    TransVarTbToken.removeFromStack(TransVarParent);
+                                     continue INNER;
+-                                } else if (node == formatEl)
++                                } else if (!(!(TransVarParent == TransVarFormatElement)))
+                                     break INNER;
+ 
+-                                Element replacement = new Element(Tag.valueOf(node.nodeName()), tb.getBaseUri());
+-                                tb.replaceActiveFormattingElement(node, replacement);
+-                                tb.replaceOnStack(node, replacement);
+-                                node = replacement;
++                                Element TransVarReplacementElement = new Element(Tag.valueOf(TransVarParent.nodeName()), TransVarTbToken.getBaseUri());
++                                TransVarTbToken.replaceActiveFormattingElement(TransVarParent, TransVarReplacementElement);
++                                TransVarTbToken.replaceOnStack(TransVarParent, TransVarReplacementElement);
++                                TransVarParent = TransVarReplacementElement;
+ 
+-                                if (lastNode == furthestBlock) {
++                                if (!(!(TransVarLastNodeBlock == TransVarFurthest))) {
+                                     // todo: move the aforementioned bookmark to be immediately after the new node in the list of active formatting elements.
+                                     // not getting how this bookmark both straddles the element above, but is inbetween here...
+                                 }
+-                                if (lastNode.parent() != null)
+-                                    lastNode.remove();
+-                                node.appendChild(lastNode);
++                                if (!(!(TransVarLastNodeBlock.parent() != null)))
++                                    TransVarLastNodeBlock.remove();
++                                TransVarParent.appendChild(TransVarLastNodeBlock);
+ 
+-                                lastNode = node;
++                                TransVarLastNodeBlock = TransVarParent;
+                             }
+ 
+-                            if (StringUtil.in(commonAncestor.nodeName(), "table", "tbody", "tfoot", "thead", "tr")) {
+-                                if (lastNode.parent() != null)
+-                                    lastNode.remove();
+-                                tb.insertInFosterParent(lastNode);
++                            if (!(!(StringUtil.in(TransVarFurthestAncestor.nodeName(), "table", "tbody", "tfoot", "thead",
++                                    "tr")))) {
++                                if (!(!(TransVarLastNodeBlock.parent() != null)))
++                                    TransVarLastNodeBlock.remove();
++                                TransVarTbToken.insertInFosterParent(TransVarLastNodeBlock);
+                             } else {
+-                                if (lastNode.parent() != null)
+-                                    lastNode.remove();
+-                                commonAncestor.appendChild(lastNode);
++                                if (!(!(TransVarLastNodeBlock.parent() != null)))
++                                    TransVarLastNodeBlock.remove();
++                                TransVarFurthestAncestor.appendChild(TransVarLastNodeBlock);
+                             }
+ 
+-                            Element adopter = new Element(formatEl.tag(), tb.getBaseUri());
+-                            adopter.attributes().addAll(formatEl.attributes());
+-                            Node[] childNodes = furthestBlock.childNodes().toArray(new Node[furthestBlock.childNodeSize()]);
+-                            for (Node childNode : childNodes) {
+-                                adopter.appendChild(childNode); // append will reparent. thus the clone to avoid concurrent mod.
++                            Element TransVarAdoptee = new Element(TransVarFormatElement.tag(), TransVarTbToken.getBaseUri());
++                            Node[] TransVarNewNodes = TransVarFurthest.childNodes().toArray(new Node[TransVarFurthest.childNodeSize()]);
++                            for (Node TransVarNode : TransVarNewNodes) {
++                                TransVarAdoptee.appendChild(TransVarNode); // append will reparent. thus the clone to avoid concurrent mod.
+                             }
+-                            furthestBlock.appendChild(adopter);
+-                            tb.removeFromActiveFormattingElements(formatEl);
++                            TransVarFurthest.appendChild(TransVarAdoptee);
++                            TransVarTbToken.removeFromActiveFormattingElements(TransVarFormatElement);
+                             // todo: insert the new element into the list of active formatting elements at the position of the aforementioned bookmark.
+-                            tb.removeFromStack(formatEl);
+-                            tb.insertOnStackAfter(furthestBlock, adopter);
++                            TransVarTbToken.removeFromStack(TransVarFormatElement);
++                            TransVarTbToken.insertOnStackAfter(TransVarFurthest, TransVarAdoptee);
+                         }
+-                    } else if (StringUtil.in(name, "applet", "marquee", "object")) {
+-                        if (!tb.inScope("name")) {
+-                            if (!tb.inScope(name)) {
+-                                tb.error(this);
++                    } else if (!(!(StringUtil.in(TransVarTagName, "applet", "marquee", "object")))) {
++                        if (!(!(!TransVarTbToken.inScope("name")))) {
++                            if (!(!(!TransVarTbToken.inScope(TransVarTagName)))) {
++                                TransVarTbToken.error(this);
+                                 return false;
+                             }
+-                            tb.generateImpliedEndTags();
+-                            if (!tb.currentElement().nodeName().equals(name))
+-                                tb.error(this);
+-                            tb.popStackToClose(name);
+-                            tb.clearFormattingElementsToLastMarker();
++                            TransVarTbToken.generateImpliedEndTags();
++                            if (!(!(!TransVarTbToken.currentElement().nodeName().equals(TransVarTagName))))
++                                TransVarTbToken.error(this);
++                            TransVarTbToken.popStackToClose(TransVarTagName);
++                            TransVarTbToken.clearFormattingElementsToLastMarker();
+                         }
+-                    } else if (name.equals("br")) {
+-                        tb.error(this);
+-                        tb.process(new Token.StartTag("br"));
++                    } else if (!(!(TransVarTagName.equals("br")))) {
++                        TransVarTbToken.error(this);
++                        TransVarTbToken.process(new Token.StartTag("br"));
+                         return false;
+                     } else {
+-                        return anyOtherEndTag(t, tb);
++                        return anyOtherEndTag(TransVarToken, TransVarTbToken);
+                     }
+ 
+                     break;

@@ -1,0 +1,17 @@
+--- src/main/java/org/apache/commons/math/analysis/solvers/BisectionSolver.java	2025-05-21 08:19:07
++++ src/main/java/org/apache/commons/math/analysis/solvers/BisectionSolver.java	2025-05-21 08:19:07
+@@ -67,9 +67,12 @@
+     }
+ 
+     /** {@inheritDoc} */
+-    public double solve(final UnivariateRealFunction f, double min, double max, double initial)
++    public double solve(final UnivariateRealFunction TransVarFunction, double TransVarMinValue, double TransVarMaximum, double TransVarInitialValue)
+         throws MaxIterationsExceededException, FunctionEvaluationException {
+-        return solve(f, min, max);
++        if (!(!(false))) {
++                System.out.println("log");
++            }
++        return solve(TransVarMinValue, TransVarMaximum);
+     }
+ 
+     /** {@inheritDoc} */

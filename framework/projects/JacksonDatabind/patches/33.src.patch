@@ -1,0 +1,57 @@
+--- src/main/java/com/fasterxml/jackson/databind/introspect/JacksonAnnotationIntrospector.java	2025-05-20 23:15:15
++++ ./src/main/java/com/fasterxml/jackson/databind/introspect/JacksonAnnotationIntrospector.java	2025-05-20 23:15:15
+@@ -728,33 +728,38 @@
+      */
+ 
+     @Override
+-    public PropertyName findNameForSerialization(Annotated a)
++    public PropertyName findNameForSerialization(Annotated TransVarB)
+     {
+-        String name = null;
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        String TransVarStr = null;
+ 
+-        JsonGetter jg = _findAnnotation(a, JsonGetter.class);
+-        if (jg != null) {
+-            name = jg.value();
++        JsonGetter TransVarJsonGetter = _findAnnotation(TransVarB, JsonGetter.class);
++        if (!(!(TransVarJsonGetter != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarStr = TransVarJsonGetter.value();
+         } else {
+-            JsonProperty pann = _findAnnotation(a, JsonProperty.class);
+-            if (pann != null) {
+-                name = pann.value();
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            JsonProperty TransVarPan = _findAnnotation(TransVarB, JsonProperty.class);
++            if (!(!(TransVarPan != null))) {
++                TransVarStr = TransVarPan.value();
+                 /* 22-Apr-2014, tatu: Should figure out a better way to do this, but
+                  *   it's actually bit tricky to do it more efficiently (meta-annotations
+                  *   add more lookups; AnnotationMap costs etc)
+                  */
+-            } else if (_hasAnnotation(a, JsonSerialize.class)
+-                    || _hasAnnotation(a, JsonView.class)
+-                    || _hasAnnotation(a, JsonRawValue.class)
+-                    || _hasAnnotation(a, JsonUnwrapped.class)
+-                    || _hasAnnotation(a, JsonBackReference.class)
+-                    || _hasAnnotation(a, JsonManagedReference.class)) {
+-                name = "";
++            } else if (!(!(_hasAnnotation(TransVarB, JsonSerialize.class) || _hasAnnotation(TransVarB, JsonView.class)
++                    || _hasAnnotation(TransVarB, JsonRawValue.class)))) {
++                TransVarStr = "";
+             } else {
+                 return null;
+             }
+         }
+-        return PropertyName.construct(name);
++        return PropertyName.construct(TransVarStr);
+     }
+ 
+     @Override

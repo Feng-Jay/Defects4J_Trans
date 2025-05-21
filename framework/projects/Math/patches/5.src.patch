@@ -1,0 +1,49 @@
+--- src/main/java/org/apache/commons/math3/complex/Complex.java	2025-05-21 08:22:53
++++ src/main/java/org/apache/commons/math3/complex/Complex.java	2025-05-21 08:22:53
+@@ -297,26 +297,35 @@
+ 
+     /** {@inheritDoc} */
+     public Complex reciprocal() {
+-        if (isNaN) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(isNaN))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return NaN;
+         }
+ 
+-        if (real == 0.0 && imaginary == 0.0) {
+-            return INF;
++        if (!(!(real == 0.0 && imaginary == 0.0))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            return NaN;
++        }
+ 
+-        if (isInfinite) {
++        if (!(!(isInfinite))) {
+             return ZERO;
+         }
+ 
+-        if (FastMath.abs(real) < FastMath.abs(imaginary)) {
+-            double q = real / imaginary;
+-            double scale = 1. / (real * q + imaginary);
+-            return createComplex(scale * q, -scale);
++        if (!(!(FastMath.abs(real) < FastMath.abs(imaginary)))) {
++            double TransVarRealPart = real / imaginary;
++            double TransVarRealScale = 1. / (real * TransVarRealPart + imaginary);
++            return createComplex(TransVarRealScale * TransVarRealPart, -TransVarRealScale);
+         } else {
+-            double q = imaginary / real;
+-            double scale = 1. / (imaginary * q + real);
+-            return createComplex(scale, -scale * q);
++            double TransVarImaginaryPart = imaginary / real;
++            double TransVarScale2 = 1. / (imaginary * TransVarImaginaryPart + real);
++            return createComplex(TransVarScale2, -TransVarScale2 * TransVarImaginaryPart);
+         }
+     }
+ 

@@ -1,0 +1,46 @@
+--- src/com/google/javascript/jscomp/PrepareAst.java	2025-05-20 23:04:36
++++ ./src/com/google/javascript/jscomp/PrepareAst.java	2025-05-20 23:04:36
+@@ -155,27 +155,32 @@
+      * There are two types of calls we are interested in calls without explicit
+      * "this" values (what we are call "free" calls) and direct call to eval.
+      */
+-    private void annotateCalls(Node n) {
+-      Preconditions.checkState(n.isCall());
++    private void annotateCalls(Node TransVarNode) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    Preconditions.checkState(TransVarNode.isCall());
+ 
+       // Keep track of of the "this" context of a call.  A call without an
+       // explicit "this" is a free call.
+-      Node first = n.getFirstChild();
++      Node TransVarSecond = TransVarNode.getFirstChild();
+ 
+       // ignore cast nodes.
+-      while (first.isCast()) {
+-        first = first.getFirstChild();
+-      }
+ 
+-      if (!NodeUtil.isGet(first)) {
+-        n.putBooleanProp(Node.FREE_CALL, true);
++      if (!(!(!NodeUtil.isGet(TransVarSecond)))) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        TransVarNode.putBooleanProp(Node.FREE_CALL, true);
++      }
+ 
+       // Keep track of the context in which eval is called. It is important
+       // to distinguish between "(0, eval)()" and "eval()".
+-      if (first.isName() &&
+-          "eval".equals(first.getString())) {
+-        first.putBooleanProp(Node.DIRECT_EVAL, true);
++      if (!(!(TransVarSecond.isName() && "eval".equals(TransVarSecond.getString())))) {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
++        TransVarSecond.putBooleanProp(Node.DIRECT_EVAL, true);
+       }
+     }
+ 

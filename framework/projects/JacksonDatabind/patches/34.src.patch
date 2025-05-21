@@ -1,0 +1,36 @@
+--- src/main/java/com/fasterxml/jackson/databind/ser/std/NumberSerializer.java	2025-05-21 00:54:34
++++ ./src/main/java/com/fasterxml/jackson/databind/ser/std/NumberSerializer.java	2025-05-21 00:54:34
+@@ -71,17 +71,26 @@
+     }
+ 
+     @Override
+-    public void acceptJsonFormatVisitor(JsonFormatVisitorWrapper visitor, JavaType typeHint) throws JsonMappingException
++    public void acceptJsonFormatVisitor(JsonFormatVisitorWrapper TransVarJsonVisitor, JavaType TransVarTypeHintVisitor) throws JsonMappingException
+     {
+-        if (_isInt) {
+-            visitIntFormat(visitor, typeHint, JsonParser.NumberType.BIG_INTEGER);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(_isInt))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            visitIntFormat(TransVarJsonVisitor, TransVarTypeHintVisitor, JsonParser.NumberType.BIG_INTEGER);
+         } else {
+-            Class<?> h = handledType();
+-            if (h == BigDecimal.class) {
+-                visitFloatFormat(visitor, typeHint, JsonParser.NumberType.BIG_DECIMAL);
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            Class<?> TransVarT = handledType();
++            if (!(!(TransVarT == BigDecimal.class))) {
++                visitFloatFormat(TransVarJsonVisitor, TransVarTypeHintVisitor, JsonParser.NumberType.BIG_INTEGER);
+             } else {
+                 // otherwise bit unclear what to call... but let's try:
+-                /*JsonNumberFormatVisitor v2 =*/ visitor.expectNumberFormat(typeHint);
++                /*JsonNumberFormatVisitor v2 =*/ TransVarJsonVisitor.expectNumberFormat(TransVarTypeHintVisitor);
+             }
+         }
+     }

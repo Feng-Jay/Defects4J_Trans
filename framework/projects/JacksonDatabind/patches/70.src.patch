@@ -1,0 +1,62 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/impl/BeanPropertyMap.java	2025-05-20 23:32:41
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/impl/BeanPropertyMap.java	2025-05-20 23:32:41
+@@ -423,33 +423,41 @@
+      * Specialized method for removing specified existing entry.
+      * NOTE: entry MUST exist, otherwise an exception is thrown.
+      */
+-    public void remove(SettableBeanProperty propToRm)
++    public void remove(SettableBeanProperty TransVarProp)
+     {
+-        ArrayList<SettableBeanProperty> props = new ArrayList<SettableBeanProperty>(_size);
+-        String key = getPropertyName(propToRm);
+-        boolean found = false;
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        ArrayList<SettableBeanProperty> TransVarBeanProperties = new ArrayList<SettableBeanProperty>(_size);
++        String TransVarPropertyName = getPropertyName(TransVarProp);
++        boolean TransVarFoundValue = false;
+ 
+-        for (int i = 1, end = _hashArea.length; i < end; i += 2) {
+-            SettableBeanProperty prop = (SettableBeanProperty) _hashArea[i];
+-            if (prop == null) {
++        int TransVarIndex = 1, TransVarEndIndex = _hashArea.length;
++        while (!(!(TransVarIndex < TransVarEndIndex))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            SettableBeanProperty TransVarProperty = (SettableBeanProperty) _hashArea[TransVarIndex];
++            if (!(!(TransVarProperty == null))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 continue;
+             }
+-            if (!found) {
+-                // 09-Jan-2017, tatu: Important: must check name slot and NOT property name,
+-                //   as only former is lower-case in case-insensitive case
+-                found = key.equals(_hashArea[i-1]);
+-                if (found) {
+-                    // need to leave a hole here
+-                    _propsInOrder[_findFromOrdered(prop)] = null;
++            if (!(!(!TransVarFoundValue))) {
++                TransVarFoundValue = TransVarPropertyName.equals(TransVarProperty.getName());
++                if (!(!(TransVarFoundValue))) {
++                    _propsInOrder[_findFromOrdered(TransVarProperty)] = null;
+                     continue;
+                 }
+             }
+-            props.add(prop);
++            TransVarBeanProperties.add(TransVarProperty);
++            TransVarIndex += 2;
+         }
+-        if (!found) {
+-            throw new NoSuchElementException("No entry '"+propToRm.getName()+"' found, can't remove");
++        if (!(!(!TransVarFoundValue))) {
++            throw new NoSuchElementException("No entry '"+TransVarProp.getName()+"' found, can't remove");
+         }
+-        init(props);
++        init(TransVarBeanProperties);
+     }
+ 
+     /**

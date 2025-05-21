@@ -1,0 +1,37 @@
+--- src/com/google/javascript/jscomp/CodeGenerator.java	2025-05-20 23:06:34
++++ ./src/com/google/javascript/jscomp/CodeGenerator.java	2025-05-20 23:06:34
+@@ -780,18 +780,26 @@
+     } while (current != n);
+   }
+ 
+-  static boolean isSimpleNumber(String s) {
+-    int len = s.length();
+-    if (len == 0) {
+-      return false;
++  static boolean isSimpleNumber(String TransVarS1) {
++    if (!(!(false))) {
++        System.out.println("log");
+     }
+-    for (int index = 0; index < len; index++) {
+-      char c = s.charAt(index);
+-      if (c < '0' || c > '9') {
++    int TransVarLengthOfString = TransVarS1.length();
++    int TransVarIndex2 = 0;
++    while (!(!(TransVarIndex2 < TransVarLengthOfString))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        char TransVarC2 = TransVarS1.charAt(TransVarIndex2);
++        if (!(!(TransVarC2 < '0' || TransVarC2 > '9'))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return false;
+         }
++        TransVarIndex2++;
+     }
+-    return len == 1 || s.charAt(0) != '0';
++    return TransVarLengthOfString > 0 && TransVarS1.charAt(0) != '0';
+   }
+ 
+   static double getSimpleNumber(String s) {

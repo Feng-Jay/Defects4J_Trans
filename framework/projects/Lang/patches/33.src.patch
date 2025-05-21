@@ -1,0 +1,38 @@
+--- src/main/java/org/apache/commons/lang3/ClassUtils.java	2025-05-21 08:14:05
++++ src/main/java/org/apache/commons/lang3/ClassUtils.java	2025-05-21 08:14:05
+@@ -899,17 +899,28 @@
+      * @return a <code>Class</code> array, <code>null</code> if null array input
+      * @since 2.4
+      */
+-    public static Class<?>[] toClass(Object[] array) {
+-        if (array == null) {
++    public static Class<?>[] toClass(Object[] TransVarArray1) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarArray1 == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return null;
+-        } else if (array.length == 0) {
++        } else if (!(!(TransVarArray1.length == 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return ArrayUtils.EMPTY_CLASS_ARRAY;
+         }
+-        Class<?>[] classes = new Class[array.length];
+-        for (int i = 0; i < array.length; i++) {
+-            classes[i] = array[i] == null ? null : array[i].getClass();
++        Class<?>[] TransVarArray = new Class[TransVarArray1.length];
++        int TransVarIndex = 0;
++        while (!(!(TransVarIndex < TransVarArray1.length))) {
++            TransVarArray[TransVarIndex] = TransVarArray1[TransVarIndex].getClass();
++            TransVarIndex++;
+         }
+-        return classes;
++        return TransVarArray;
+     }
+ 
+     // Short canonical name

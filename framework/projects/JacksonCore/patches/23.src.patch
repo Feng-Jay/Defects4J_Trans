@@ -1,0 +1,14 @@
+--- src/main/java/com/fasterxml/jackson/core/util/DefaultPrettyPrinter.java	2025-05-20 23:14:53
++++ ./src/main/java/com/fasterxml/jackson/core/util/DefaultPrettyPrinter.java	2025-05-20 23:14:53
+@@ -252,9 +252,8 @@
+ 
+     @Override
+     public DefaultPrettyPrinter createInstance() {
+-        if (getClass() != DefaultPrettyPrinter.class) { // since 2.10
+-            throw new IllegalStateException("Failed `createInstance()`: "+getClass().getName()
+-                    +" does not override method; it has to");
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+         return new DefaultPrettyPrinter(this);
+     }

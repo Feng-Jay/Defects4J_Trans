@@ -1,0 +1,169 @@
+--- src/java/org/apache/commons/codec/language/Caverphone.java	2025-05-20 23:10:52
++++ ./src/java/org/apache/commons/codec/language/Caverphone.java	2025-05-20 23:10:52
+@@ -47,98 +47,104 @@
+      * @param txt String the source string
+      * @return A caverphone code for the given String
+      */
+-    public String caverphone(String txt) {
++    public String caverphone(String TransVarText) {
+         // NOTE: Version 1.0 of Caverphone is easily derivable from this code 
+         // by commenting out the 2.0 lines and adding in the 1.0 lines
+ 
+-        if( txt == null || txt.length() == 0 ) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if( !(!(TransVarText == null || TransVarText.length() == 0)) ) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return "1111111111";
+         }
+ 
+         // 1. Convert to lowercase
+-        txt = txt.toLowerCase(java.util.Locale.ENGLISH);
++        TransVarText = TransVarText.toLowerCase(java.util.Locale.ENGLISH);
+ 
+         // 2. Remove anything not A-Z
+-        txt = txt.replaceAll("[^a-z]", "");
++        TransVarText = TransVarText.replaceAll("[^a-z]", "");
+ 
+         // 2.5. Remove final e
+-        txt = txt.replaceAll("e$", "");             // 2.0 only
++        TransVarText = TransVarText.replaceAll("e$", "");             // 2.0 only
+ 
+         // 3. Handle various start options
+-        txt = txt.replaceAll("^cough", "cou2f");
+-        txt = txt.replaceAll("^rough", "rou2f");
+-        txt = txt.replaceAll("^tough", "tou2f");
+-        txt = txt.replaceAll("^enough", "enou2f");  // 2.0 only
+-        txt = txt.replaceAll("^trough", "trou2f");  // 2.0 only - note the spec says ^enough here again, c+p error I assume
+-        txt = txt.replaceAll("^gn", "2n");
++        TransVarText = TransVarText.replaceAll("^cough", "cou2f");
++        TransVarText = TransVarText.replaceAll("^rough", "rou2f");
++        TransVarText = TransVarText.replaceAll("^tough", "tou2f");
++        TransVarText = TransVarText.replaceAll("^enough", "enou2f");  // 2.0 only
++        TransVarText = TransVarText.replaceAll("^trough", "trou2f");  // 2.0 only - note the spec says ^enough here again, c+p error I assume
++        TransVarText = TransVarText.replaceAll("^gn", "2n");
+ 
+         // End 
+-        txt = txt.replaceAll("mb$", "m2");
++        TransVarText = TransVarText.replaceAll("^mb", "m2");
+ 
+         // 4. Handle replacements
+-        txt = txt.replaceAll("cq", "2q");
+-        txt = txt.replaceAll("ci", "si");
+-        txt = txt.replaceAll("ce", "se");
+-        txt = txt.replaceAll("cy", "sy");
+-        txt = txt.replaceAll("tch", "2ch");
+-        txt = txt.replaceAll("c", "k");
+-        txt = txt.replaceAll("q", "k");
+-        txt = txt.replaceAll("x", "k");
+-        txt = txt.replaceAll("v", "f");
+-        txt = txt.replaceAll("dg", "2g");
+-        txt = txt.replaceAll("tio", "sio");
+-        txt = txt.replaceAll("tia", "sia");
+-        txt = txt.replaceAll("d", "t");
+-        txt = txt.replaceAll("ph", "fh");
+-        txt = txt.replaceAll("b", "p");
+-        txt = txt.replaceAll("sh", "s2");
+-        txt = txt.replaceAll("z", "s");
+-        txt = txt.replaceAll("^[aeiou]", "A");
+-        txt = txt.replaceAll("[aeiou]", "3");
+-        txt = txt.replaceAll("j", "y");        // 2.0 only
+-        txt = txt.replaceAll("^y3", "Y3");     // 2.0 only
+-        txt = txt.replaceAll("^y", "A");       // 2.0 only
+-        txt = txt.replaceAll("y", "3");        // 2.0 only
+-        txt = txt.replaceAll("3gh3", "3kh3");
+-        txt = txt.replaceAll("gh", "22");
+-        txt = txt.replaceAll("g", "k");
+-        txt = txt.replaceAll("s+", "S");
+-        txt = txt.replaceAll("t+", "T");
+-        txt = txt.replaceAll("p+", "P");
+-        txt = txt.replaceAll("k+", "K");
+-        txt = txt.replaceAll("f+", "F");
+-        txt = txt.replaceAll("m+", "M");
+-        txt = txt.replaceAll("n+", "N");
+-        txt = txt.replaceAll("w3", "W3");
++        TransVarText = TransVarText.replaceAll("cq", "2q");
++        TransVarText = TransVarText.replaceAll("ci", "si");
++        TransVarText = TransVarText.replaceAll("ce", "se");
++        TransVarText = TransVarText.replaceAll("cy", "sy");
++        TransVarText = TransVarText.replaceAll("tch", "2ch");
++        TransVarText = TransVarText.replaceAll("c", "k");
++        TransVarText = TransVarText.replaceAll("q", "k");
++        TransVarText = TransVarText.replaceAll("x", "k");
++        TransVarText = TransVarText.replaceAll("v", "f");
++        TransVarText = TransVarText.replaceAll("dg", "2g");
++        TransVarText = TransVarText.replaceAll("tio", "sio");
++        TransVarText = TransVarText.replaceAll("tia", "sia");
++        TransVarText = TransVarText.replaceAll("d", "t");
++        TransVarText = TransVarText.replaceAll("ph", "fh");
++        TransVarText = TransVarText.replaceAll("b", "p");
++        TransVarText = TransVarText.replaceAll("sh", "s2");
++        TransVarText = TransVarText.replaceAll("z", "s");
++        TransVarText = TransVarText.replaceAll("^[aeiou]", "A");
++        TransVarText = TransVarText.replaceAll("[aeiou]", "3");
++        TransVarText = TransVarText.replaceAll("j", "y");        // 2.0 only
++        TransVarText = TransVarText.replaceAll("^y3", "Y3");     // 2.0 only
++        TransVarText = TransVarText.replaceAll("^y", "A");       // 2.0 only
++        TransVarText = TransVarText.replaceAll("y", "3");        // 2.0 only
++        TransVarText = TransVarText.replaceAll("3gh3", "3kh3");
++        TransVarText = TransVarText.replaceAll("gh", "22");
++        TransVarText = TransVarText.replaceAll("g", "k");
++        TransVarText = TransVarText.replaceAll("s+", "S");
++        TransVarText = TransVarText.replaceAll("t+", "T");
++        TransVarText = TransVarText.replaceAll("p+", "P");
++        TransVarText = TransVarText.replaceAll("k+", "K");
++        TransVarText = TransVarText.replaceAll("f+", "F");
++        TransVarText = TransVarText.replaceAll("m+", "M");
++        TransVarText = TransVarText.replaceAll("n+", "N");
++        TransVarText = TransVarText.replaceAll("w3", "W3");
+         //txt = txt.replaceAll("wy", "Wy");    // 1.0 only
+-        txt = txt.replaceAll("wh3", "Wh3");
+-        txt = txt.replaceAll("w$", "3");       // 2.0 only
++        TransVarText = TransVarText.replaceAll("wh3", "Wh3");
++        TransVarText = TransVarText.replaceAll("w$", "3");       // 2.0 only
+         //txt = txt.replaceAll("why", "Why");  // 1.0 only
+-        txt = txt.replaceAll("w", "2");
+-        txt = txt.replaceAll("^h", "A");
+-        txt = txt.replaceAll("h", "2");
+-        txt = txt.replaceAll("r3", "R3");
+-        txt = txt.replaceAll("r$", "3");       // 2.0 only
++        TransVarText = TransVarText.replaceAll("w", "2");
++        TransVarText = TransVarText.replaceAll("^h", "A");
++        TransVarText = TransVarText.replaceAll("h", "2");
++        TransVarText = TransVarText.replaceAll("r3", "R3");
++        TransVarText = TransVarText.replaceAll("r$", "3");       // 2.0 only
+         //txt = txt.replaceAll("ry", "Ry");    // 1.0 only
+-        txt = txt.replaceAll("r", "2");
+-        txt = txt.replaceAll("l3", "L3");
+-        txt = txt.replaceAll("l$", "3");       // 2.0 only
++        TransVarText = TransVarText.replaceAll("r", "2");
++        TransVarText = TransVarText.replaceAll("l3", "L3");
++        TransVarText = TransVarText.replaceAll("l$", "3");       // 2.0 only
+         //txt = txt.replaceAll("ly", "Ly");    // 1.0 only
+-        txt = txt.replaceAll("l", "2");
++        TransVarText = TransVarText.replaceAll("l", "2");
+         //txt = txt.replaceAll("j", "y");      // 1.0 only
+         //txt = txt.replaceAll("y3", "Y3");    // 1.0 only
+         //txt = txt.replaceAll("y", "2");      // 1.0 only
+ 
+         // 5. Handle removals
+-        txt = txt.replaceAll("2", "");
+-        txt = txt.replaceAll("3$", "A");       // 2.0 only
+-        txt = txt.replaceAll("3", "");
++        TransVarText = TransVarText.replaceAll("2", "");
++        TransVarText = TransVarText.replaceAll("3$", "A");       // 2.0 only
++        TransVarText = TransVarText.replaceAll("3", "");
+ 
+         // 6. put ten 1s on the end
+-        txt = txt + "111111" + "1111";        // 1.0 only has 6 1s
++        TransVarText = TransVarText + "111111" + "1111";        // 1.0 only has 6 1s
+ 
+         // 7. take the first six characters as the code
+-        return txt.substring(0, 10);          // 1.0 truncates to 6
++        return TransVarText.substring(0, 10);          // 1.0 truncates to 6
+     }
+ 
+     /**

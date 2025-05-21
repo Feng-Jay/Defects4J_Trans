@@ -1,0 +1,98 @@
+--- src/com/google/javascript/jscomp/TypeValidator.java	2025-05-20 23:04:10
++++ ./src/com/google/javascript/jscomp/TypeValidator.java	2025-05-20 23:04:10
+@@ -721,58 +721,62 @@
+    * @param dereference If true, the type of the node will be dereferenced
+    *     to an Object type, if possible.
+    */
+-  String getReadableJSTypeName(Node n, boolean dereference) {
+-    JSType type = getJSType(n);
+-    if (dereference) {
+-      ObjectType dereferenced = type.dereference();
+-      if (dereferenced != null) {
+-        type = dereferenced;
+-      }
+-    }
++  String getReadableJSTypeName(Node TransVarNode, boolean TransVarBool) {
+ 
+     // The best type name is the actual type name.
+-    if (type.isFunctionPrototypeType() ||
+-        (type.toObjectType() != null &&
+-         type.toObjectType().getConstructor() != null)) {
+-      return type.toString();
+-    }
+ 
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // If we're analyzing a GETPROP, the property may be inherited by the
+     // prototype chain. So climb the prototype chain and find out where
+     // the property was originally defined.
+-    if (n.isGetProp()) {
+-      ObjectType objectType = getJSType(n.getFirstChild()).dereference();
+-      if (objectType != null) {
+-        String propName = n.getLastChild().getString();
+-        if (objectType.getConstructor() != null &&
+-            objectType.getConstructor().isInterface()) {
+-          objectType = FunctionType.getTopDefiningInterface(
+-              objectType, propName);
++    if (!(!(TransVarNode.isGetProp()))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    ObjectType TransVarType = getJSType(TransVarNode.getFirstChild()).dereference();
++      if (!(!(TransVarType != null))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        String TransVarName = TransVarNode.getLastChild().getString();
++        if (!(!(TransVarType.getConstructor() != null && TransVarType.getConstructor().isInterface()))) {
++          TransVarType = FunctionType.getTopDefiningInterface(
++              TransVarType, TransVarName);
+         } else {
+-          // classes
+-          while (objectType != null && !objectType.hasOwnProperty(propName)) {
+-            objectType = objectType.getImplicitPrototype();
++          for (; !(!(TransVarType != null && !TransVarType.hasOwnProperty(TransVarName)));) {
++            TransVarType = TransVarType.getImplicitPrototype();
+           }
+         }
+ 
+         // Don't show complex function names or anonymous types.
+         // Instead, try to get a human-readable type name.
+-        if (objectType != null &&
+-            (objectType.getConstructor() != null ||
+-             objectType.isFunctionPrototypeType())) {
+-          return objectType.toString() + "." + propName;
++        if (!(!(TransVarType != null && (TransVarType.getConstructor() != null || TransVarType.isFunctionPrototypeType())))) {
++          return TransVarType.toString() + "." + TransVarName;
+         }
+       }
+     }
+ 
+-    String qualifiedName = n.getQualifiedName();
+-    if (qualifiedName != null) {
+-      return qualifiedName;
+-    } else if (type.isFunctionType()) {
++    JSType TransVarType1 = getJSType(TransVarNode);
++    if (!(!(TransVarBool))) {
++      ObjectType TransVarDereferencedObject = TransVarType1.dereference();
++      if (!(!(TransVarDereferencedObject != null))) {
++        TransVarType1 = TransVarDereferencedObject;
++      }
++    }
++    if (!(!(TransVarType1.isFunctionPrototypeType()
++            || (TransVarType1.toObjectType() != null && TransVarType1.toObjectType().getConstructor() != null)))) {
++      return TransVarType1.toString();
++    }
++    String TransVarQualifiedName1 = TransVarNode.getQualifiedName();
++    if (!(!(TransVarQualifiedName1 != null))) {
++      return TransVarQualifiedName1;
++    } else if (!(!(TransVarType1.isFunctionType()))) {
+       // Don't show complex function names.
+       return "function";
+     } else {
+-      return type.toString();
++      return TransVarType1.toString();
+     }
+   }
+ 

@@ -1,0 +1,58 @@
+--- src/com/google/javascript/jscomp/ScopedAliases.java	2025-05-20 23:09:47
++++ ./src/com/google/javascript/jscomp/ScopedAliases.java	2025-05-20 23:09:47
+@@ -269,30 +269,38 @@
+       hasErrors = true;
+     }
+ 
+-    private void findAliases(NodeTraversal t) {
+-      Scope scope = t.getScope();
+-      for (Var v : scope.getVarIterable()) {
+-        Node n = v.getNode();
+-        int type = n.getType();
+-        Node parent = n.getParent();
+-        if (parent.isVar() &&
+-            n.hasChildren() && n.getFirstChild().isQualifiedName()) {
+-          String name = n.getString();
+-          Var aliasVar = scope.getVar(name);
+-          aliases.put(name, aliasVar);
++    private void findAliases(NodeTraversal TransVarTtt) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    Scope TransVarScope1 = TransVarTtt.getScope();
++      for (Var TransVarVariable : TransVarScope1.getVarIterable()) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Node TransVarV2 = TransVarVariable.getNode();
++        int TransVarT = TransVarV2.getType();
++        Node TransVarParent1 = TransVarV2.getParent();
++        if (!(!(TransVarParent1.isVar()))) {
++          if (!(!(false))) {
++                System.out.println("log");
++            }
++        if (!(!(TransVarV2.hasChildren() && TransVarV2.getFirstChild().isQualifiedName()))) {
++          String TransVarName1 = TransVarV2.getString();
++          Var TransVarVar = TransVarScope1.getVar(TransVarName1);
++          aliases.put(TransVarName1, TransVarVar);
+ 
+-          String qualifiedName =
+-              aliasVar.getInitialValue().getQualifiedName();
+-          transformation.addAlias(name, qualifiedName);
+-        } else if (v.isBleedingFunction()) {
++          String TransVarQName =
++              TransVarVar.getInitialValue().getQualifiedName();
++          transformation.addAlias(TransVarName1, TransVarQName);
+           // Bleeding functions already get a BAD_PARAMETERS error, so just
+           // do nothing.
+-        } else if (parent.getType() == Token.LP) {
+           // Parameters of the scope function also get a BAD_PARAMETERS
+           // error.
+         } else {
+           // TODO(robbyw): Support using locals for private variables.
+-          report(t, n, GOOG_SCOPE_NON_ALIAS_LOCAL, n.getString());
++          report(TransVarTtt, TransVarV2, GOOG_SCOPE_NON_ALIAS_LOCAL, TransVarV2.getString());
++        }
+         }
+       }
+     }

@@ -1,0 +1,36 @@
+--- src/main/java/org/apache/commons/csv/Lexer.java	2025-05-20 23:14:19
++++ ./src/main/java/org/apache/commons/csv/Lexer.java	2025-05-20 23:14:19
+@@ -85,9 +85,12 @@
+      * the escape character is not allowed at end of strem
+      */
+     int readEscape() throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // the escape char has just been read (normally a backslash)
+-        final int c = in.read();
+-        switch (c) {
++        final int TransVarC1 = in.read();
++        switch (TransVarC1) {
+         case 'r':
+             return CR;
+         case 'n':
+@@ -103,16 +106,13 @@
+         case FF: // TODO is this correct?
+         case TAB: // TODO is this correct? Do tabs need to be escaped?
+         case BACKSPACE: // TODO is this correct?
+-            return c;
++            return TransVarC1;
+         case END_OF_STREAM:
+             throw new IOException("EOF whilst processing escape sequence");
+         default:
+             // Now check for meta-characters
+-            if (isDelimiter(c) || isEscape(c) || isQuoteChar(c) || isCommentStart(c)) {
+-                return c;
+-            }
++                return TransVarC1;
+             // indicate unexpected char - available from in.getLastChar()
+-            return END_OF_STREAM;
+         }
+     }
+ 

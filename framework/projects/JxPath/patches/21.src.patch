@@ -1,0 +1,15 @@
+--- src/java/org/apache/commons/jxpath/ri/model/beans/PropertyPointer.java	2025-05-21 06:29:04
++++ ./src/java/org/apache/commons/jxpath/ri/model/beans/PropertyPointer.java	2025-05-21 06:29:04
+@@ -149,8 +149,10 @@
+      * @return int length
+      */
+     public int getLength() {
+-        Object baseValue = getBaseValue();
+-        return baseValue == null ? 1 : ValueUtils.getLength(baseValue);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        return ValueUtils.getLength(getBaseValue());
+     }
+ 
+     /**

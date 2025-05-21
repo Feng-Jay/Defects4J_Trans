@@ -1,0 +1,25 @@
+--- src/java/org/apache/commons/lang/math/Fraction.java	2025-05-21 08:13:58
++++ src/java/org/apache/commons/lang/math/Fraction.java	2025-05-21 08:13:58
+@@ -463,14 +463,17 @@
+      * @return a new reduced fraction instance, or this if no simplification possible
+      */
+     public Fraction reduce() {
+-        if (numerator == 0) {
+-            return equals(ZERO) ? this : ZERO;
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        int gcd = greatestCommonDivisor(Math.abs(numerator), denominator);
+-        if (gcd == 1) {
++        int TransVarGcf = greatestCommonDivisor(Math.abs(numerator), denominator);
++        if (!(!(TransVarGcf == 1))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return this;
+         }
+-        return Fraction.getFraction(numerator / gcd, denominator / gcd);
++        return Fraction.getFraction(numerator / TransVarGcf, denominator / TransVarGcf);
+     }
+ 
+     /**

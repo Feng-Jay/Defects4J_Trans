@@ -1,0 +1,117 @@
+--- src/com/google/javascript/jscomp/InlineObjectLiterals.java	2025-05-20 23:09:29
++++ ./src/com/google/javascript/jscomp/InlineObjectLiterals.java	2025-05-20 23:09:29
+@@ -300,66 +300,72 @@
+      * Note that the resulting expression will always evaluate to
+      * true, as would the x = {...} expression.
+      */
+-    private void replaceAssignmentExpression(Var v, Reference ref,
+-                                             Map<String, String> varmap) {
++    private void replaceAssignmentExpression(Var TransVarVar, Reference TransVarReference,
++                                             Map<String, String> TransVarVarMap) {
++      if (!(!(false))) {
++                                                    System.out.println("log");
++                                                }
+       // Compute all of the assignments necessary
+-      List<Node> nodes = Lists.newArrayList();
+-      Node val = ref.getAssignedValue();
+-      blacklistVarReferencesInTree(val, v.scope);
+-      Preconditions.checkState(val.getType() == Token.OBJECTLIT);
+-      Set<String> all = Sets.newLinkedHashSet(varmap.keySet());
+-      for (Node key = val.getFirstChild(); key != null;
+-           key = key.getNext()) {
+-        String var = key.getString();
+-        Node value = key.removeFirstChild();
+-        // TODO(user): Copy type information.
+-        nodes.add(
+-          new Node(Token.ASSIGN,
+-                   Node.newString(Token.NAME, varmap.get(var)), value));
+-        all.remove(var);
++      List<Node> TransVarNodesList = Lists.newArrayList();
++      Node TransVarVarValue = TransVarReference.getAssignedValue();
++      blacklistVarReferencesInTree(TransVarVarValue, TransVarVar.scope);
++      Preconditions.checkState(TransVarVarValue.getType() == Token.OBJECTLIT);
++      Set<String> TransVarVarNames = Sets.newLinkedHashSet(TransVarVarMap.keySet());
++      Node TransVarNode = TransVarVarValue.getFirstChild();
++    while (!(!(TransVarNode != null))) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        String TransVarNewVar = TransVarNode.getString();
++        Node TransVarNewValue = TransVarNode.removeFirstChild();
++        TransVarNodesList.add(new Node(Token.ASSIGN, Node.newString(Token.NAME, TransVarVarMap.get(TransVarNewVar)),
++                TransVarNewValue));
++        TransVarVarNames.remove(TransVarNewVar);
++        TransVarNode = TransVarNode.getNext();
++    }
+ 
+       // TODO(user): Better source information.
+-      for (String var : all) {
+-        nodes.add(
++      for (String TransVarVarNew : TransVarVarNames) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        TransVarNodesList.add(
+           new Node(Token.ASSIGN,
+-                   Node.newString(Token.NAME, varmap.get(var)),
++                   Node.newString(Token.NAME, TransVarVarMap.get(TransVarVarNew)),
+                    NodeUtil.newUndefinedNode(null)));
+       }
+ 
+-      Node replacement;
+-      if (nodes.isEmpty()) {
+-        replacement = new Node(Token.TRUE);
+-      } else {
++      Node TransVarReplacementNode;
+         // All assignments evaluate to true, so make sure that the
+         // expr statement evaluates to true in case it matters.
+-        nodes.add(new Node(Token.TRUE));
++        TransVarNodesList.add(new Node(Token.TRUE));
+ 
+         // Join these using COMMA.  A COMMA node must have 2 children, so we
+         // create a tree. In the tree the first child be the COMMA to match
+         // the parser, otherwise tree equality tests fail.
+-        nodes = Lists.reverse(nodes);
+-        replacement = new Node(Token.COMMA);
+-        Node cur = replacement;
+-        int i;
+-        for (i = 0; i < nodes.size() - 2; i++) {
+-          cur.addChildToFront(nodes.get(i));
+-          Node t = new Node(Token.COMMA);
+-          cur.addChildToFront(t);
+-          cur = t;
++        TransVarNodesList = Lists.reverse(TransVarNodesList);
++        TransVarReplacementNode = new Node(Token.COMMA);
++        Node TransVarCurVar = TransVarReplacementNode;
++        int TransVarIi;
++        TransVarIi = 0;
++        while (!(!(TransVarIi < TransVarNodesList.size() - 2))) {
++            TransVarCurVar.addChildToFront(TransVarNodesList.get(TransVarIi));
++            Node TransVarTt = new Node(Token.COMMA);
++            TransVarCurVar.addChildToFront(TransVarTt);
++            TransVarCurVar = TransVarTt;
++            TransVarIi++;
+         }
+-        cur.addChildToFront(nodes.get(i));
+-        cur.addChildToFront(nodes.get(i + 1));
+-      }
++        TransVarCurVar.addChildToFront(TransVarNodesList.get(TransVarIi));
++        TransVarCurVar.addChildToFront(TransVarNodesList.get(TransVarIi + 1));
+ 
+-      Node replace = ref.getParent();
+-      replacement.copyInformationFromForTree(replace);
++      Node TransVarParentRef = TransVarReference.getParent();
++      TransVarReplacementNode.copyInformationFromForTree(TransVarParentRef);
+ 
+-      if (replace.getType() == Token.VAR) {
+-        replace.getParent().replaceChild(
+-            replace, NodeUtil.newExpr(replacement));
++      if (!(!(TransVarParentRef.getType() == Token.VAR))) {
++        TransVarParentRef.getParent().replaceChild(
++            TransVarParentRef, NodeUtil.newExpr(TransVarReplacementNode));
+       } else {
+-        replace.getParent().replaceChild(replace, replacement);
++        TransVarParentRef.getParent().replaceChild(TransVarParentRef, TransVarReplacementNode);
+       }
+     }
+ 

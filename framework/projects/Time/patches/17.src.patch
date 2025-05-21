@@ -1,0 +1,52 @@
+--- src/main/java/org/joda/time/DateTimeZone.java	2025-05-21 08:25:41
++++ src/main/java/org/joda/time/DateTimeZone.java	2025-05-21 08:25:41
+@@ -1160,36 +1160,29 @@
+      * @param earlierOrLater  false for earlier, true for later
+      * @return the adjusted instant millis
+      */
+-    public long adjustOffset(long instant, boolean earlierOrLater) {
++    public long adjustOffset(long TransVarTimestamp, boolean TransVarEarlierOrLaterTimeStamp) {
+         // a bit messy, but will work in all non-pathological cases
+         
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // evaluate 3 hours before and after to work out if anything is happening
+-        long instantBefore = instant - 3 * DateTimeConstants.MILLIS_PER_HOUR;
+-        long instantAfter = instant + 3 * DateTimeConstants.MILLIS_PER_HOUR;
+-        long offsetBefore = getOffset(instantBefore);
+-        long offsetAfter = getOffset(instantAfter);
+-        if (offsetBefore <= offsetAfter) {
+-            return instant;  // not an overlap (less than is a gap, equal is normal case)
++        long TransVarTimestampBefore = convertUTCToLocal(TransVarTimestamp - 3 * DateTimeConstants.MILLIS_PER_HOUR);
++        long TransVarInstant = convertUTCToLocal(TransVarTimestamp + 3 * DateTimeConstants.MILLIS_PER_HOUR);
++        if (!(!(TransVarTimestampBefore == TransVarInstant))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            return TransVarTimestamp;  // not an overlap (less than is a gap, equal is normal case)
++        }
+         
+         // work out range of instants that have duplicate local times
+-        long diff = offsetBefore - offsetAfter;
+-        long transition = nextTransition(instantBefore);
+-        long overlapStart = transition - diff;
+-        long overlapEnd = transition + diff;
+-        if (instant < overlapStart || instant >= overlapEnd) {
+-          return instant;  // not an overlap
+-        }
++        long TransVarLocalTimestamp = convertUTCToLocal(TransVarTimestamp);
++        return convertLocalToUTC(TransVarLocalTimestamp, false, TransVarEarlierOrLaterTimeStamp ? TransVarInstant : TransVarTimestampBefore);
+         
+         // calculate result
+-        long afterStart = instant - overlapStart;
+-        if (afterStart >= diff) {
+           // currently in later offset
+-          return earlierOrLater ? instant : instant - diff;
+-        } else {
+           // currently in earlier offset
+-          return earlierOrLater ? instant + diff : instant;
+-        }
+     }
+ //    System.out.println(new DateTime(transitionStart, DateTimeZone.UTC) + " " + new DateTime(transitionStart, this));
+ 

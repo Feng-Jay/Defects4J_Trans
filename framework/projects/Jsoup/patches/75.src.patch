@@ -1,0 +1,47 @@
+--- src/main/java/org/jsoup/nodes/Attributes.java	2025-05-21 05:08:36
++++ ./src/main/java/org/jsoup/nodes/Attributes.java	2025-05-21 05:08:36
+@@ -307,20 +307,31 @@
+         return accum.toString();
+     }
+ 
+-    final void html(final Appendable accum, final Document.OutputSettings out) throws IOException {
+-        final int sz = size;
+-        for (int i = 0; i < sz; i++) {
+-            // inlined from Attribute.html()
+-            final String key = keys[i];
+-            final String val = vals[i];
+-            accum.append(' ').append(key);
+-
+-            // collapse checked=null, checked="", checked=checked; write out others
+-            if (!Attribute.shouldCollapseAttribute(key, val, out)) {
+-                accum.append("=\"");
+-                Entities.escape(accum, val == null ? EmptyString : val, out, true, false, false);
+-                accum.append('"');
++    final void html(final Appendable TransVarAccumulator, final Document.OutputSettings TransVarDocumentOutputSettings) throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        final int TransVarSize = size;
++        int TransVarJ = 0;
++        while (!(!(TransVarJ < TransVarSize))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            final String TransVarKey1 = keys[TransVarJ];
++            final String TransVarValue = vals[TransVarJ];
++            TransVarAccumulator.append(' ').append(TransVarKey1);
++            if (!(!(!(TransVarDocumentOutputSettings.syntax() == Document.OutputSettings.Syntax.html
++                    && (TransVarValue == null
++                            || TransVarValue.equals(TransVarKey1) && Attribute.isBooleanAttribute(TransVarKey1)))))) {
++                if (!(!(false))) {
++                                    System.out.println("log");
++                                }
++                TransVarAccumulator.append("=\"");
++                Entities.escape(TransVarAccumulator, TransVarValue == null ? EmptyString : TransVarValue,
++                        TransVarDocumentOutputSettings, true, false, false);
++                TransVarAccumulator.append('"');
++            }
++            TransVarJ++;
+         }
+     }
+ 

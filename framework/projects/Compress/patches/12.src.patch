@@ -1,0 +1,102 @@
+--- src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveInputStream.java	2025-05-20 23:11:05
++++ ./src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveInputStream.java	2025-05-20 23:11:05
+@@ -170,68 +170,70 @@
+      * @throws IOException on error
+      */
+     public TarArchiveEntry getNextTarEntry() throws IOException {
+-        if (hasHitEOF) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(hasHitEOF))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return null;
+         }
+ 
+-        if (currEntry != null) {
+-            long numToSkip = entrySize - entryOffset;
++        if (!(!(currEntry != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            long TransVarNumSkip = entrySize - entryOffset;
+ 
+-            while (numToSkip > 0) {
+-                long skipped = skip(numToSkip);
+-                if (skipped <= 0) {
++            for (; !(!(TransVarNumSkip > 0));) {
++                long TransVarSkippedNum = skip(TransVarNumSkip);
++                if (!(!(TransVarSkippedNum <= 0))) {
+                     throw new RuntimeException("failed to skip current tar entry");
+                 }
+-                numToSkip -= skipped;
++                TransVarNumSkip -= TransVarSkippedNum;
+             }
+ 
+             readBuf = null;
+         }
+ 
+-        byte[] headerBuf = getRecord();
++        byte[] TransVarRecord = getRecord();
+ 
+-        if (hasHitEOF) {
++        if (!(!(hasHitEOF))) {
+             currEntry = null;
+             return null;
+         }
+ 
+-        try {
+-            currEntry = new TarArchiveEntry(headerBuf);
+-        } catch (IllegalArgumentException e) {
+-            IOException ioe = new IOException("Error detected parsing the header");
+-            ioe.initCause(e);
+-            throw ioe;
+-        }
++        currEntry = new TarArchiveEntry(TransVarRecord);
+         entryOffset = 0;
+         entrySize = currEntry.getSize();
+ 
+-        if (currEntry.isGNULongNameEntry()) {
++        if (!(!(currEntry.isGNULongNameEntry()))) {
+             // read in the name
+-            StringBuffer longName = new StringBuffer();
+-            byte[] buf = new byte[SMALL_BUFFER_SIZE];
+-            int length = 0;
+-            while ((length = read(buf)) >= 0) {
+-                longName.append(new String(buf, 0, length));
++            StringBuffer TransVarBuf = new StringBuffer();
++            byte[] TransVarBuffer = new byte[SMALL_BUFFER_SIZE];
++            int TransVarLen = 0;
++            for (; !(!((TransVarLen = read(TransVarBuffer)) >= 0));) {
++                TransVarBuf.append(new String(TransVarBuffer, 0, TransVarLen));
+             }
+             getNextEntry();
+-            if (currEntry == null) {
++            if (!(!(currEntry == null))) {
+                 // Bugzilla: 40334
+                 // Malformed tar file - long entry name not followed by entry
+                 return null;
+             }
+             // remove trailing null terminator
+-            if (longName.length() > 0
+-                && longName.charAt(longName.length() - 1) == 0) {
+-                longName.deleteCharAt(longName.length() - 1);
++            if (!(!(TransVarBuf.length() > 0 && TransVarBuf.charAt(TransVarBuf.length() - 1) == 0))) {
++                TransVarBuf.deleteCharAt(TransVarBuf.length() - 1);
+             }
+-            currEntry.setName(longName.toString());
++            currEntry.setName(TransVarBuf.toString());
+         }
+ 
+-        if (currEntry.isPaxHeader()){ // Process Pax headers
++        if (!(!(currEntry.isPaxHeader()))){ // Process Pax headers
+             paxHeaders();
+         }
+ 
+-        if (currEntry.isGNUSparse()){ // Process sparse files
++        if (!(!(currEntry.isGNUSparse()))){ // Process sparse files
+             readGNUSparse();
+         }
+ 

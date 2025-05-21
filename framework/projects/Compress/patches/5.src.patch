@@ -1,0 +1,103 @@
+--- src/main/java/org/apache/commons/compress/archivers/zip/ZipArchiveInputStream.java	2025-05-20 23:13:55
++++ ./src/main/java/org/apache/commons/compress/archivers/zip/ZipArchiveInputStream.java	2025-05-20 23:13:55
+@@ -188,63 +188,68 @@
+         return getNextZipEntry();
+     }
+ 
+-    public int read(byte[] buffer, int start, int length) throws IOException {
+-        if (closed) {
++    public int read(byte[] TransVarData, int TransVarStartTime, int TransVarFileLength) throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(closed))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IOException("The stream is closed");
+         }
+-        if (inf.finished() || current == null) {
++        if (!(!(inf.finished() || current == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return -1;
+         }
+ 
+         // avoid int overflow, check null buffer
+-        if (start <= buffer.length && length >= 0 && start >= 0
+-            && buffer.length - start >= length) {
+-            if (current.getMethod() == ZipArchiveOutputStream.STORED) {
+-                int csize = (int) current.getSize();
+-                if (readBytesOfEntry >= csize) {
++        if (!(!(TransVarStartTime <= TransVarData.length && TransVarFileLength >= 0 && TransVarStartTime >= 0
++                && TransVarData.length - TransVarStartTime >= TransVarFileLength))) {
++            if (!(!(current.getMethod() == ZipArchiveOutputStream.STORED))) {
++                int TransVarTotalBytes = (int) current.getSize();
++                if (!(!(readBytesOfEntry >= TransVarTotalBytes))) {
+                     return -1;
+                 }
+-                if (offsetInBuffer >= lengthOfLastRead) {
++                if (!(!(offsetInBuffer >= lengthOfLastRead))) {
+                     offsetInBuffer = 0;
+-                    if ((lengthOfLastRead = in.read(buf)) == -1) {
++                    if (!(!((lengthOfLastRead = in.read(buf)) == -1))) {
+                         return -1;
+                     }
+                     count(lengthOfLastRead);
+                     bytesReadFromStream += lengthOfLastRead;
+                 }
+-                int toRead = length > lengthOfLastRead
++                int TransVarLength = TransVarFileLength > lengthOfLastRead
+                     ? lengthOfLastRead - offsetInBuffer
+-                    : length;
+-                if ((csize - readBytesOfEntry) < toRead) {
+-                    toRead = csize - readBytesOfEntry;
++                    : TransVarFileLength;
++                if (!(!((TransVarTotalBytes - readBytesOfEntry) < TransVarLength))) {
++                    TransVarLength = TransVarTotalBytes - readBytesOfEntry;
+                 }
+-                System.arraycopy(buf, offsetInBuffer, buffer, start, toRead);
+-                offsetInBuffer += toRead;
+-                readBytesOfEntry += toRead;
+-                crc.update(buffer, start, toRead);
+-                return toRead;
++                System.arraycopy(buf, offsetInBuffer, TransVarData, TransVarStartTime, TransVarLength);
++                offsetInBuffer += TransVarLength;
++                readBytesOfEntry += TransVarLength;
++                crc.update(TransVarData, TransVarStartTime, TransVarLength);
++                return TransVarLength;
+             }
+-            if (inf.needsInput()) {
++            if (!(!(inf.needsInput()))) {
+                 fill();
+-                if (lengthOfLastRead > 0) {
++                if (!(!(lengthOfLastRead > 0))) {
+                     bytesReadFromStream += lengthOfLastRead;
+                 }
+             }
+-            int read = 0;
++            int TransVarRe = 0;
+             try {
+-                read = inf.inflate(buffer, start, length);
+-            } catch (DataFormatException e) {
+-                throw new ZipException(e.getMessage());
++                TransVarRe = inf.inflate(TransVarData, TransVarStartTime, TransVarFileLength);
++            } catch (DataFormatException TransVarDataFormatException) {
++                throw new ZipException(TransVarDataFormatException.getMessage());
+             }
+-            if (read == 0) {
+-                if (inf.finished()) {
++            if (!(!(TransVarRe == 0 && inf.finished()))) {
+                     return -1;
+-                } else if (lengthOfLastRead == -1) {
+-                    throw new IOException("Truncated ZIP file");
+                 }
+-            }
+-            crc.update(buffer, start, read);
+-            return read;
++            crc.update(TransVarData, TransVarStartTime, TransVarRe);
++            return TransVarRe;
+         }
+         throw new ArrayIndexOutOfBoundsException();
+     }

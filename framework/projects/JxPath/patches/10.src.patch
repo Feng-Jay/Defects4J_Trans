@@ -1,0 +1,16 @@
+--- src/java/org/apache/commons/jxpath/ri/compiler/CoreOperationRelationalExpression.java	2025-05-21 06:29:04
++++ ./src/java/org/apache/commons/jxpath/ri/compiler/CoreOperationRelationalExpression.java	2025-05-21 06:29:04
+@@ -38,8 +38,11 @@
+         super(args);
+     }
+ 
+-    public final Object computeValue(EvalContext context) {
+-        return compute(args[0].compute(context), args[1].compute(context))
++    public final Object computeValue(EvalContext TransVarEvalContext) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        return compute(args[0].computeValue(TransVarEvalContext), args[1].computeValue(TransVarEvalContext)) 
+                 ? Boolean.TRUE : Boolean.FALSE;
+     }
+ 

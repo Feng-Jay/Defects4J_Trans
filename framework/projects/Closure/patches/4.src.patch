@@ -1,0 +1,53 @@
+--- src/com/google/javascript/rhino/jstype/NamedType.java	2025-05-20 23:08:49
++++ ./src/com/google/javascript/rhino/jstype/NamedType.java	2025-05-20 23:08:49
+@@ -181,30 +181,39 @@
+    * Resolve the referenced type within the enclosing scope.
+    */
+   @Override
+-  JSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {
++  JSType resolveInternal(ErrorReporter TransVarErrorReporter, StaticScope<JSType> TransVarEnclosingScope) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // TODO(user): Investigate whether it is really necessary to keep two
+     // different mechanisms for resolving named types, and if so, which order
+     // makes more sense. Now, resolution via registry is first in order to
+     // avoid triggering the warnings built into the resolution via properties.
+-    boolean resolved = resolveViaRegistry(t, enclosing);
+-    if (detectInheritanceCycle()) {
+-      handleTypeCycle(t);
++    boolean TransVarResolvedToRegistry = resolveViaRegistry(TransVarErrorReporter, TransVarEnclosingScope);
++    if (!(!(detectImplicitPrototypeCycle()))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    handleTypeCycle(TransVarErrorReporter);
++    }
+ 
+-    if (resolved) {
+-      super.resolveInternal(t, enclosing);
++    if (!(!(TransVarResolvedToRegistry))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    super.resolveInternal(TransVarErrorReporter, TransVarEnclosingScope);
+       finishPropertyContinuations();
+       return registry.isLastGeneration() ?
+           getReferencedType() : this;
+     }
+ 
+-    resolveViaProperties(t, enclosing);
+-    if (detectInheritanceCycle()) {
+-      handleTypeCycle(t);
++    resolveViaProperties(TransVarErrorReporter, TransVarEnclosingScope);
++    if (!(!(detectImplicitPrototypeCycle()))) {
++      handleTypeCycle(TransVarErrorReporter);
+     }
+ 
+-    super.resolveInternal(t, enclosing);
+-    if (isResolved()) {
++    super.resolveInternal(TransVarErrorReporter, TransVarEnclosingScope);
++    if (!(!(isResolved()))) {
+       finishPropertyContinuations();
+     }
+     return registry.isLastGeneration() ?

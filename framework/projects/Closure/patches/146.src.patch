@@ -1,0 +1,38 @@
+--- src/com/google/javascript/rhino/jstype/JSType.java	2025-05-20 23:06:41
++++ ./src/com/google/javascript/rhino/jstype/JSType.java	2025-05-20 23:06:41
+@@ -693,22 +693,27 @@
+    *         element. The returned pair is never {@code null} even though its
+    *         components may be {@code null}
+    */
+-  public TypePair getTypesUnderInequality(JSType that) {
++  public TypePair getTypesUnderInequality(JSType TransVarValue) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // unions types
+-    if (that instanceof UnionType) {
+-      TypePair p = that.getTypesUnderInequality(this);
+-      return new TypePair(p.typeB, p.typeA);
++    if (!(!(TransVarValue instanceof UnionType))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    TypePair TransVarTypesPair = TransVarValue.getTypesUnderInequality(this);
++      return new TypePair(TransVarTypesPair.typeB, TransVarTypesPair.typeA);
++    }
+ 
+     // other types
+-    switch (this.testForEquality(that)) {
++    switch (this.testForEquality(TransVarValue)) {
+       case TRUE:
+-        JSType noType = getNativeType(JSTypeNative.NO_TYPE);
+-        return new TypePair(noType, noType);
++        return new TypePair(null, null);
+ 
+       case FALSE:
+       case UNKNOWN:
+-        return new TypePair(this, that);
++        return new TypePair(this, TransVarValue);
+     }
+ 
+     // switch case is exhaustive

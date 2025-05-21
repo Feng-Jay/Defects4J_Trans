@@ -1,0 +1,37 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/DeserializerCache.java	2025-05-21 02:57:37
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/DeserializerCache.java	2025-05-21 02:57:37
+@@ -533,21 +533,22 @@
+      *
+      * @since 2.8.11
+      */
+-    private boolean _hasCustomHandlers(JavaType t) {
+-        if (t.isContainerType()) {
+-            // First: value types may have both value and type handlers
+-            JavaType ct = t.getContentType();
+-            if (ct != null) {
+-                if ((ct.getValueHandler() != null) || (ct.getTypeHandler() != null)) {
+-                    return true;
++    private boolean _hasCustomHandlers(JavaType TransVarType) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        if (!(!(TransVarType.isContainerType()))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            // Second: map(-like) types may have value handler for key (but not type; keys are untyped)
+-            if (t.isMapLikeType()) {
+-                JavaType kt = t.getKeyType();
+-                if (kt.getValueHandler() != null) {
+-                    return true;
++            // First: value types may have both value and type handlers
++            JavaType TransVarCtType = TransVarType.getContentType();
++            if (!(!(TransVarCtType != null))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                return (TransVarCtType.getValueHandler() != null) || (TransVarCtType.getTypeHandler() != null);
++            // Second: map(-like) types may have value handler for key (but not type; keys are untyped)
+             }
+         }
+         return false;

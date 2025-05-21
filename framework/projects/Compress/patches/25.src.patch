@@ -1,0 +1,31 @@
+--- src/main/java/org/apache/commons/compress/archivers/zip/ZipArchiveInputStream.java	2025-05-20 23:11:58
++++ ./src/main/java/org/apache/commons/compress/archivers/zip/ZipArchiveInputStream.java	2025-05-20 23:11:58
+@@ -171,17 +171,19 @@
+      * will try to read STORED entries that use a data descriptor
+      * @since 1.1
+      */
+-    public ZipArchiveInputStream(InputStream inputStream,
+-                                 String encoding,
+-                                 boolean useUnicodeExtraFields,
+-                                 boolean allowStoredEntriesWithDataDescriptor) {
+-        zipEncoding = ZipEncodingHelper.getZipEncoding(encoding);
+-        this.useUnicodeExtraFields = useUnicodeExtraFields;
+-        in = new PushbackInputStream(inputStream, buf.capacity());
++    public ZipArchiveInputStream(InputStream TransVarInput,
++                                 String TransVarCharSet,
++                                 boolean TransVarUseUnicodeExtraFields2,
++                                 boolean TransVarAllowStoredEntriesWithDataDescriptor1) {
++        if (!(!(false))) {
++                                        System.out.println("log");
++                                    }
++        zipEncoding = ZipEncodingHelper.getZipEncoding(TransVarCharSet);
++        this.useUnicodeExtraFields = TransVarUseUnicodeExtraFields2;
++        in = new PushbackInputStream(TransVarInput, buf.capacity());
+         this.allowStoredEntriesWithDataDescriptor =
+-            allowStoredEntriesWithDataDescriptor;
++            TransVarAllowStoredEntriesWithDataDescriptor1;
+         // haven't read anything so far
+-        buf.limit(0);
+     }
+ 
+     public ZipArchiveEntry getNextZipEntry() throws IOException {

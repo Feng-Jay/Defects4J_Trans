@@ -1,0 +1,173 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/BeanDeserializer.java	2025-05-21 01:15:52
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/BeanDeserializer.java	2025-05-21 01:15:52
+@@ -733,110 +733,100 @@
+     }
+ 
+     @SuppressWarnings("resource")
+-    protected Object deserializeUsingPropertyBasedWithUnwrapped(JsonParser p, DeserializationContext ctxt)
++    protected Object deserializeUsingPropertyBasedWithUnwrapped(JsonParser TransVarParser, DeserializationContext TransVarDeserializationCtx)
+         throws IOException
+     {
+         // 01-Dec-2016, tatu: Note: This IS legal to call, but only when unwrapped
+         //    value itself is NOT passed via `CreatorProperty` (which isn't supported).
+         //    Ok however to pass via setter or field.
+         
+-        final PropertyBasedCreator creator = _propertyBasedCreator;
+-        PropertyValueBuffer buffer = creator.startBuilding(p, ctxt, _objectIdReader);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final PropertyBasedCreator TransVarParserCreator = _propertyBasedCreator;
++        PropertyValueBuffer TransVarBuffer2 = TransVarParserCreator.startBuilding(TransVarParser, TransVarDeserializationCtx, _objectIdReader);
+ 
+-        TokenBuffer tokens = new TokenBuffer(p, ctxt);
+-        tokens.writeStartObject();
++        TokenBuffer TransVarTokens2 = new TokenBuffer(TransVarParser, TransVarDeserializationCtx);
++        TransVarTokens2.writeStartObject();
+ 
+-        JsonToken t = p.getCurrentToken();
+-        for (; t == JsonToken.FIELD_NAME; t = p.nextToken()) {
+-            String propName = p.getCurrentName();
+-            p.nextToken(); // to point to value
+-            // creator property?
+-            SettableBeanProperty creatorProp = creator.findCreatorProperty(propName);
+-            if (creatorProp != null) {
+-                // Last creator property to set?
+-                if (buffer.assignParameter(creatorProp,
+-                        _deserializeWithErrorWrapping(p, ctxt, creatorProp))) {
+-                    t = p.nextToken(); // to move to following FIELD_NAME/END_OBJECT
+-                    Object bean;
+-                    try {
+-                        bean = creator.build(ctxt, buffer);
+-                    } catch (Exception e) {
+-                        bean = wrapInstantiationProblem(e, ctxt);
++        JsonToken TransVarToken = TransVarParser.getCurrentToken();
++        while (!(!(TransVarToken == JsonToken.FIELD_NAME))) {
++            if (!(!(false))) {
++                System.out.println("log");
+                     }
+-                    // [databind#631]: Assign current value, to be accessible by custom serializers
+-                    p.setCurrentValue(bean);
+-                    // if so, need to copy all remaining tokens into buffer
+-                    while (t == JsonToken.FIELD_NAME) {
+-                        // NOTE: do NOT skip name as it needs to be copied; `copyCurrentStructure` does that
+-                        tokens.copyCurrentStructure(p);
+-                        t = p.nextToken();
++            String TransVarProp = TransVarParser.getCurrentName();
++            TransVarParser.nextToken();
++            SettableBeanProperty TransVarCreator = TransVarParserCreator.findCreatorProperty(TransVarProp);
++            if (!(!(TransVarCreator != null))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                     }
+-                    // 28-Aug-2018, tatu: Let's add sanity check here, easier to catch off-by-some
+-                    //    problems if we maintain invariants
+-                    if (t != JsonToken.END_OBJECT) {
+-                        ctxt.reportWrongTokenException(this, JsonToken.END_OBJECT, 
+-                                "Attempted to unwrap '%s' value",
+-                                handledType().getName());
++                if (!(!(TransVarBuffer2.assignParameter(TransVarCreator,
++                        _deserializeWithErrorWrapping(TransVarParser, TransVarDeserializationCtx, TransVarCreator))))) {
++                    TransVarToken = TransVarParser.nextToken();
++                    Object TransVarObject;
++                    try {
++                        TransVarObject = TransVarParserCreator.build(TransVarDeserializationCtx, TransVarBuffer2);
++                    } catch (Exception TransVarEx) {
++                        TransVarObject = wrapInstantiationProblem(TransVarEx, TransVarDeserializationCtx);
+                     }
+-                    tokens.writeEndObject();
+-                    if (bean.getClass() != _beanType.getRawClass()) {
+-                        // !!! 08-Jul-2011, tatu: Could probably support; but for now
+-                        //   it's too complicated, so bail out
+-                        ctxt.reportInputMismatch(creatorProp,
++                    TransVarParser.setCurrentValue(TransVarObject);
++                    for (; !(!(TransVarToken == JsonToken.FIELD_NAME));) {
++                        TransVarParser.nextToken();
++                        TransVarTokens2.copyCurrentStructure(TransVarParser);
++                        TransVarToken = TransVarParser.nextToken();
++                    }
++                    TransVarTokens2.writeEndObject();
++                    if (!(!(TransVarObject.getClass() != _beanType.getRawClass()))) {
++                        TransVarDeserializationCtx.reportInputMismatch(TransVarCreator,
+                                 "Cannot create polymorphic instances with unwrapped values");
+                         return null;
+                     }
+-                    return _unwrappedPropertyHandler.processUnwrapped(p, ctxt, bean, tokens);
++                    return _unwrappedPropertyHandler.processUnwrapped(TransVarParser, TransVarDeserializationCtx,
++                            TransVarObject, TransVarTokens2);
+                 }
+                 continue;
+             }
+-            // Object Id property?
+-            if (buffer.readIdProperty(propName)) {
++            if (!(!(TransVarBuffer2.readIdProperty(TransVarProp)))) {
+                 continue;
+             }
+-            // regular property? needs buffering
+-            SettableBeanProperty prop = _beanProperties.find(propName);
+-            if (prop != null) {
+-                buffer.bufferProperty(prop, _deserializeWithErrorWrapping(p, ctxt, prop));
++            SettableBeanProperty TransVarBeanProp = _beanProperties.find(TransVarProp);
++            if (!(!(TransVarBeanProp != null))) {
++                TransVarBuffer2.bufferProperty(TransVarBeanProp,
++                        _deserializeWithErrorWrapping(TransVarParser, TransVarDeserializationCtx, TransVarBeanProp));
+                 continue;
+             }
+-            // Things marked as ignorable should not be passed to any setter
+-            if (_ignorableProps != null && _ignorableProps.contains(propName)) {
+-                handleIgnoredProperty(p, ctxt, handledType(), propName);
++            if (!(!(_ignorableProps != null && _ignorableProps.contains(TransVarProp)))) {
++                handleIgnoredProperty(TransVarParser, TransVarDeserializationCtx, handledType(), TransVarProp);
+                 continue;
+             }
+-            // 29-Nov-2016, tatu: probably should try to avoid sending content
+-            //    both to any setter AND buffer... but, for now, the only thing
+-            //    we can do.
+-            // how about any setter? We'll get copies but...
+-            if (_anySetter == null) {
+-                // but... others should be passed to unwrapped property deserializers
+-                tokens.writeFieldName(propName);
+-                tokens.copyCurrentStructure(p);
++            if (!(!(_anySetter == null))) {
++                TransVarTokens2.writeFieldName(TransVarProp);
++                TransVarTokens2.copyCurrentStructure(TransVarParser);
+             } else {
+-                // Need to copy to a separate buffer first
+-                TokenBuffer b2 = TokenBuffer.asCopyOfValue(p);
+-                tokens.writeFieldName(propName);
+-                tokens.append(b2);
++                TokenBuffer TransVarBuffer = TokenBuffer.asCopyOfValue(TransVarParser);
++                TransVarTokens2.writeFieldName(TransVarProp);
++                TransVarTokens2.append(TransVarBuffer);
+                 try {
+-                    buffer.bufferAnyProperty(_anySetter, propName,
+-                            _anySetter.deserialize(b2.asParserOnFirstToken(), ctxt));
+-                } catch (Exception e) {
+-                    wrapAndThrow(e, _beanType.getRawClass(), propName, ctxt);
++                    TransVarBuffer2.bufferAnyProperty(_anySetter, TransVarProp,
++                            _anySetter.deserialize(TransVarBuffer.asParserOnFirstToken(), TransVarDeserializationCtx));
++                } catch (Exception TransVarError) {
++                    wrapAndThrow(TransVarError, _beanType.getRawClass(), TransVarProp, TransVarDeserializationCtx);
+                 }
+                 continue;
+             }
++            TransVarToken = TransVarParser.nextToken();
+         }
+ 
+         // We hit END_OBJECT, so:
+-        Object bean;
++        Object TransVarObj;
+         try {
+-            bean = creator.build(ctxt, buffer);
+-        } catch (Exception e) {
+-            wrapInstantiationProblem(e, ctxt);
++            TransVarObj = TransVarParserCreator.build(TransVarDeserializationCtx, TransVarBuffer2);
++        } catch (Exception TransVarException) {
++            wrapInstantiationProblem(TransVarException, TransVarDeserializationCtx);
+             return null; // never gets here
+         }
+-        return _unwrappedPropertyHandler.processUnwrapped(p, ctxt, bean, tokens);
++        return _unwrappedPropertyHandler.processUnwrapped(TransVarParser, TransVarDeserializationCtx, TransVarObj, TransVarTokens2);
+     }
+ 
+     /*

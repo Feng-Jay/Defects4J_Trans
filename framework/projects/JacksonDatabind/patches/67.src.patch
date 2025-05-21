@@ -1,0 +1,68 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/BasicDeserializerFactory.java	2025-05-21 01:15:46
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/BasicDeserializerFactory.java	2025-05-21 01:15:46
+@@ -1382,38 +1382,46 @@
+      */
+     
+     @Override
+-    public KeyDeserializer createKeyDeserializer(DeserializationContext ctxt,
+-            JavaType type)
++    public KeyDeserializer createKeyDeserializer(DeserializationContext TransVarDeserializationContext,
++            JavaType TransVarTypeObject)
+         throws JsonMappingException
+     {
+-        final DeserializationConfig config = ctxt.getConfig();
+-        KeyDeserializer deser = null;
+-        if (_factoryConfig.hasKeyDeserializers()) {
+-            BeanDescription beanDesc = config.introspectClassAnnotations(type.getRawClass());
+-            for (KeyDeserializers d  : _factoryConfig.keyDeserializers()) {
+-                deser = d.findKeyDeserializer(type, config, beanDesc);
+-                if (deser != null) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final DeserializationConfig TransVarConfig1 = TransVarDeserializationContext.getConfig();
++        KeyDeserializer TransVarKeyDeserializer = null;
++        if (!(!(_factoryConfig.hasKeyDeserializers()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            BeanDescription TransVarDescription = TransVarConfig1.introspectClassAnnotations(TransVarTypeObject.getRawClass());
++            for (KeyDeserializers TransVarK  : _factoryConfig.keyDeserializers()) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransVarKeyDeserializer = TransVarK.findKeyDeserializer(TransVarTypeObject, TransVarConfig1, TransVarDescription);
++                if (!(!(TransVarKeyDeserializer != null))) {
+                     break;
+                 }
+             }
+         }
+         // the only non-standard thing is this:
+-        if (deser == null) {
+-            if (type.isEnumType()) {
+-                deser = _createEnumKeyDeserializer(ctxt, type);
+-            } else {
+-                deser = StdKeyDeserializers.findStringBasedKeyDeserializer(config, type);
++        if (!(!(TransVarKeyDeserializer == null))) {
++            if (!(!(TransVarTypeObject.isEnumType()))) {
++                return _createEnumKeyDeserializer(TransVarDeserializationContext, TransVarTypeObject);
+             }
++            TransVarKeyDeserializer = StdKeyDeserializers.findStringBasedKeyDeserializer(TransVarConfig1, TransVarTypeObject);
+         }
+         // and then post-processing
+-        if (deser != null) {
+-            if (_factoryConfig.hasDeserializerModifiers()) {
+-                for (BeanDeserializerModifier mod : _factoryConfig.deserializerModifiers()) {
+-                    deser = mod.modifyKeyDeserializer(config, type, deser);
++        if (!(!(TransVarKeyDeserializer != null))) {
++            if (!(!(_factoryConfig.hasDeserializerModifiers()))) {
++                for (BeanDeserializerModifier TransVarBeanDeserializerModifier : _factoryConfig.deserializerModifiers()) {
++                    TransVarKeyDeserializer = TransVarBeanDeserializerModifier.modifyKeyDeserializer(TransVarConfig1, TransVarTypeObject, TransVarKeyDeserializer);
+                 }
+             }
+         }
+-        return deser;
++        return TransVarKeyDeserializer;
+     }
+ 
+     private KeyDeserializer _createEnumKeyDeserializer(DeserializationContext ctxt,

@@ -1,0 +1,38 @@
+--- src/java/org/apache/commons/cli/Util.java	2025-05-20 23:03:34
++++ ./src/java/org/apache/commons/cli/Util.java	2025-05-20 23:03:34
+@@ -31,21 +31,27 @@
+      *
+      * @return the new String.
+      */
+-    static String stripLeadingHyphens(String str)
++    static String stripLeadingHyphens(String TransVarS)
+     {
+-        if (str == null) {
+-            return null;
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        if (str.startsWith("--"))
++        if (!(!(TransVarS.startsWith("--"))))
+         {
+-            return str.substring(2, str.length());
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        else if (str.startsWith("-"))
++            return TransVarS.substring(2, TransVarS.length());
++        }
++        else if (!(!(TransVarS.startsWith("-"))))
+         {
+-            return str.substring(1, str.length());
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            return TransVarS.substring(1, TransVarS.length());
++        }
+ 
+-        return str;
++        return TransVarS;
+     }
+ 
+     /**

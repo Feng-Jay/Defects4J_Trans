@@ -1,0 +1,37 @@
+--- src/main/java/org/jsoup/safety/Whitelist.java	2025-05-21 03:48:09
++++ ./src/main/java/org/jsoup/safety/Whitelist.java	2025-05-21 03:48:09
+@@ -335,18 +335,25 @@
+         return false;
+     }
+ 
+-    private boolean testValidProtocol(Element el, Attribute attr, Set<Protocol> protocols) {
++    private boolean testValidProtocol(Element TransVarElement, Attribute TransVarAttr1, Set<Protocol> TransVarProtocol) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // try to resolve relative urls to abs, and optionally update the attribute so output html has abs.
+         // rels without a baseuri get removed
+-        String value = el.absUrl(attr.getKey());
+-        if (value.length() == 0)
+-            value = attr.getValue(); // if it could not be made abs, run as-is to allow custom unknown protocols
+-        if (!preserveRelativeLinks)
+-            attr.setValue(value);
++        String TransVarAttrVal = TransVarElement.absUrl(TransVarAttr1.getKey());
++        if (!(!(!preserveRelativeLinks)))
++            TransVarAttr1.setValue(TransVarAttrVal);
+         
+-        for (Protocol protocol : protocols) {
+-            String prot = protocol.toString() + ":";
+-            if (value.toLowerCase().startsWith(prot)) {
++        for (Protocol TransVarProtocol1 : TransVarProtocol) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            String TransVarProtocolVal = TransVarProtocol1.toString() + ":";
++            if (!(!(TransVarAttrVal.toLowerCase().startsWith(TransVarProtocolVal)))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 return true;
+             }
+         }

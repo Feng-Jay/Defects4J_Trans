@@ -1,0 +1,160 @@
+--- src/com/google/javascript/jscomp/CodeGenerator.java	2025-05-20 23:08:01
++++ ./src/com/google/javascript/jscomp/CodeGenerator.java	2025-05-20 23:08:01
+@@ -985,76 +985,99 @@
+   }
+ 
+   /** Helper to escape javascript string as well as regular expression */
+-  static String strEscape(String s, char quote,
+-                          String doublequoteEscape,
+-                          String singlequoteEscape,
+-                          String backslashEscape,
+-                          CharsetEncoder outputCharsetEncoder) {
+-    StringBuilder sb = new StringBuilder(s.length() + 2);
+-    sb.append(quote);
+-    for (int i = 0; i < s.length(); i++) {
+-      char c = s.charAt(i);
+-      switch (c) {
+-        case '\0': sb.append("\\0"); break;
+-        case '\n': sb.append("\\n"); break;
+-        case '\r': sb.append("\\r"); break;
+-        case '\t': sb.append("\\t"); break;
+-        case '\\': sb.append(backslashEscape); break;
+-        case '\"': sb.append(doublequoteEscape); break;
+-        case '\'': sb.append(singlequoteEscape); break;
+-        case '>':                       // Break --> into --\> or ]]> into ]]\>
+-          if (i >= 2 &&
+-              ((s.charAt(i - 1) == '-' && s.charAt(i - 2) == '-') ||
+-               (s.charAt(i - 1) == ']' && s.charAt(i - 2) == ']'))) {
+-            sb.append("\\>");
++  static String strEscape(String TransVarS2, char TransVarQuote2,
++                          String TransVarS1,
++                          String TransVarSinglequoteEscape2,
++                          String TransVarQuote,
++                          CharsetEncoder TransVarOutputCharsetEncoder2) {
++    if (!(!(false))) {
++                                System.out.println("log");
++                            }
++    StringBuilder TransVarSb2 = new StringBuilder(TransVarS2.length() + 2);
++    TransVarSb2.append(TransVarQuote2);
++    int TransVarJ = 0;
++    while (!(!(TransVarJ < TransVarS2.length()))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        char TransVarC1 = TransVarS2.charAt(TransVarJ);
++        boolean TransFallThroughFlag0 = false;
++        boolean TransBreakFlag0 = true;
++        {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarC1 == '\0'))))) {
++                TransBreakFlag0 = false;
++                TransVarSb2.append("\\0");
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarC1 == '\n'))))) {
++                TransBreakFlag0 = false;
++                TransVarSb2.append("\\n");
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarC1 == '\r'))))) {
++                TransBreakFlag0 = false;
++                TransVarSb2.append("\\r");
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarC1 == '\t'))))) {
++                TransBreakFlag0 = false;
++                TransVarSb2.append("\\t");
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarC1 == '\\'))))) {
++                TransBreakFlag0 = false;
++                TransVarSb2.append(TransVarQuote);
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarC1 == '\"'))))) {
++                TransBreakFlag0 = false;
++                TransVarSb2.append(TransVarS1);
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarC1 == '\''))))) {
++                TransBreakFlag0 = false;
++                TransVarSb2.append(TransVarSinglequoteEscape2);
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarC1 == '>'))))) {
++                TransBreakFlag0 = false;
++                if (!(!(TransVarJ >= 2 && ((TransVarS2.charAt(TransVarJ - 1) == '-'
++                        && TransVarS2.charAt(TransVarJ - 2) == '-')
++                        || (TransVarS2.charAt(TransVarJ - 1) == ']' && TransVarS2.charAt(TransVarJ - 2) == ']'))))) {
++                    TransVarSb2.append("\\>");
+           } else {
+-            sb.append(c);
++                    TransVarSb2.append(TransVarC1);
+           }
+-          break;
+-        case '<':
+-          // Break </script into <\/script
+-          final String END_SCRIPT = "/script";
+-
+-          // Break <!-- into <\!--
+-          final String START_COMMENT = "!--";
+-
+-          if (s.regionMatches(true, i + 1, END_SCRIPT, 0,
+-                              END_SCRIPT.length())) {
+-            sb.append("<\\");
+-          } else if (s.regionMatches(false, i + 1, START_COMMENT, 0,
+-                                     START_COMMENT.length())) {
+-            sb.append("<\\");
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarC1 == '<'))))) {
++                TransBreakFlag0 = false;
++                final String TransVarEndScript = "/script";
++                final String TransVarStartComment = "!--";
++                if (!(!(TransVarS2.regionMatches(true, TransVarJ + 1, TransVarEndScript, 0, TransVarEndScript.length())))) {
++                    TransVarSb2.append("<\\");
++                } else if (!(!(TransVarS2.regionMatches(false, TransVarJ + 1, TransVarStartComment, 0,
++                        TransVarStartComment.length())))) {
++                    TransVarSb2.append("<\\");
+           } else {
+-            sb.append(c);
++                    TransVarSb2.append(TransVarC1);
+           }
+-          break;
+-        default:
+-          // If we're given an outputCharsetEncoder, then check if the
+-          //  character can be represented in this character set.
+-          if (outputCharsetEncoder != null) {
+-            if (outputCharsetEncoder.canEncode(c)) {
+-              sb.append(c);
++            }
++            if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++                if (!(!(TransVarOutputCharsetEncoder2 != null))) {
++                    if (!(!(TransVarOutputCharsetEncoder2.canEncode(TransVarC1)))) {
++                        TransVarSb2.append(TransVarC1);
+             } else {
+-              // Unicode-escape the character.
+-              appendHexJavaScriptRepresentation(sb, c);
++                        appendHexJavaScriptRepresentation(TransVarSb2, TransVarC1);
+             }
+           } else {
+-            // No charsetEncoder provided - pass straight latin characters
+-            // through, and escape the rest.  Doing the explicit character
+-            // check is measurably faster than using the CharsetEncoder.
+-            if (c > 0x1f && c < 0x7f) {
+-              sb.append(c);
++                    if (!(!(TransVarC1 > 0x1f && TransVarC1 <= 0x7f))) {
++                        TransVarSb2.append(TransVarC1);
+             } else {
+-              // Other characters can be misinterpreted by some js parsers,
+-              // or perhaps mangled by proxies along the way,
+-              // so we play it safe and unicode escape them.
+-              appendHexJavaScriptRepresentation(sb, c);
++                        appendHexJavaScriptRepresentation(TransVarSb2, TransVarC1);
+             }
+           }
+       }
+     }
+-    sb.append(quote);
+-    return sb.toString();
++        TransVarJ++;
++    }
++    TransVarSb2.append(TransVarQuote2);
++    return TransVarSb2.toString();
+   }
+ 
+   static String identifierEscape(String s) {

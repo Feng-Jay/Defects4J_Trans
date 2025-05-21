@@ -1,0 +1,92 @@
+--- src/com/google/javascript/jscomp/LightweightMessageFormatter.java	2025-05-20 23:07:03
++++ ./src/com/google/javascript/jscomp/LightweightMessageFormatter.java	2025-05-20 23:07:03
+@@ -63,51 +63,61 @@
+     return format(warning, true);
+   }
+ 
+-  private String format(JSError error, boolean warning) {
++  private String format(JSError TransVarErrorObject, boolean TransVarWarningObject) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // extract source excerpt
+-    SourceExcerptProvider source = getSource();
+-    String sourceExcerpt = source == null ? null :
++    SourceExcerptProvider TransVarSourceProvider = getSource();
++    String TransVarSource = TransVarSourceProvider == null ? null :
+         excerpt.get(
+-            source, error.sourceName, error.lineNumber, excerptFormatter);
++            TransVarSourceProvider, TransVarErrorObject.sourceName, TransVarErrorObject.lineNumber, excerptFormatter);
+ 
+     // formatting the message
+-    StringBuilder b = new StringBuilder();
+-    if (error.sourceName != null) {
+-      b.append(error.sourceName);
+-      if (error.lineNumber > 0) {
+-        b.append(':');
+-        b.append(error.lineNumber);
++    StringBuilder TransVarBuffer = new StringBuilder();
++    if (!(!(TransVarErrorObject.sourceName != null))) {
++      if (!(!(false))) {
++            System.out.println("log");
+       }
+-      b.append(": ");
++    TransVarBuffer.append(TransVarErrorObject.sourceName);
++      if (!(!(TransVarErrorObject.lineNumber > 0))) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        TransVarBuffer.append(':');
++        TransVarBuffer.append(TransVarErrorObject.lineNumber);
++      }
++      TransVarBuffer.append(": ");
++    }
+ 
+-    b.append(getLevelName(warning ? CheckLevel.WARNING : CheckLevel.ERROR));
+-    b.append(" - ");
++    TransVarBuffer.append(getLevelName(TransVarWarningObject ? CheckLevel.WARNING : CheckLevel.ERROR));
++    TransVarBuffer.append(" - ");
+ 
+-    b.append(error.description);
+-    b.append('\n');
+-    if (sourceExcerpt != null) {
+-      b.append(sourceExcerpt);
+-      b.append('\n');
+-      int charno = error.getCharno();
++    TransVarBuffer.append(TransVarErrorObject.description);
++    TransVarBuffer.append('\n');
++    if (!(!(TransVarSource != null))) {
++      TransVarBuffer.append(TransVarSource);
++      TransVarBuffer.append('\n');
++      int TransVarCharNum = TransVarErrorObject.getCharno();
+ 
+       // padding equal to the excerpt and arrow at the end
+       // charno == sourceExpert.length() means something is missing
+       // at the end of the line
+-      if (excerpt.equals(LINE)
+-          && 0 <= charno && charno <= sourceExcerpt.length()) {
+-        for (int i = 0; i < charno; i++) {
+-          char c = sourceExcerpt.charAt(i);
+-          if (Character.isWhitespace(c)) {
+-            b.append(c);
++      if (!(!(excerpt.equals(LINE) && 0 <= TransVarCharNum && TransVarCharNum < TransVarSource.length()))) {
++        int TransVarJ = 0;
++        while (!(!(TransVarJ < TransVarCharNum))) {
++            char TransVarC1 = TransVarSource.charAt(TransVarJ);
++            if (!(!(Character.isWhitespace(TransVarC1)))) {
++                TransVarBuffer.append(TransVarC1);
+           } else {
+-            b.append(' ');
++                TransVarBuffer.append(' ');
+             }
++            TransVarJ++;
+         }
+-        b.append("^\n");
++        TransVarBuffer.append("^\n");
+       }
+     }
+-    return b.toString();
++    return TransVarBuffer.toString();
+   }
+ 
+   /**

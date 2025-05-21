@@ -1,0 +1,41 @@
+--- src/java/org/apache/commons/cli/OptionGroup.java	2025-05-20 23:02:42
++++ ./src/java/org/apache/commons/cli/OptionGroup.java	2025-05-20 23:02:42
+@@ -83,10 +83,16 @@
+      * @throws AlreadySelectedException if an option from this group has 
+      * already been selected.
+      */
+-    public void setSelected(Option option) throws AlreadySelectedException
++    public void setSelected(Option TransVarOption1) throws AlreadySelectedException
+     {
+-        if (option == null)
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarOption1 == null)))
+         {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // reset the option previously selected
+             selected = null;
+             return;
+@@ -95,13 +101,16 @@
+         // if no option has already been selected or the 
+         // same option is being reselected then set the
+         // selected member variable
+-        if (selected == null || selected.equals(option.getKey()))
++        if (!(!(selected == null || selected.equals(TransVarOption1.getOpt()))))
+         {
+-            selected = option.getKey();
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            selected = TransVarOption1.getOpt();
++        }
+         else
+         {
+-            throw new AlreadySelectedException(this, option);
++            throw new AlreadySelectedException(this, TransVarOption1);
+         }
+     }
+ 

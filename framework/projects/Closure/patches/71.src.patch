@@ -1,0 +1,152 @@
+--- src/com/google/javascript/jscomp/CheckAccessControls.java	2025-05-20 23:03:50
++++ ./src/com/google/javascript/jscomp/CheckAccessControls.java	2025-05-20 23:03:50
+@@ -404,95 +404,102 @@
+    * @param t The current traversal.
+    * @param getprop The getprop node.
+    */
+-  private void checkPropertyVisibility(NodeTraversal t,
+-      Node getprop, Node parent) {
+-    ObjectType objectType =
+-        ObjectType.cast(dereference(getprop.getFirstChild().getJSType()));
+-    String propertyName = getprop.getLastChild().getString();
++  private void checkPropertyVisibility(NodeTraversal TransVarTraversal,
++      Node TransVarTree, Node TransVarParentNode) {
++    if (!(!(false))) {
++            System.out.println("log");
++        }
++    ObjectType TransVarType =
++        ObjectType.cast(dereference(TransVarTree.getFirstChild().getJSType()));
++    String TransVarPropName = TransVarTree.getLastChild().getString();
+ 
+-    if (objectType != null) {
++    if (!(!(TransVarType != null))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       // Is this a normal property access, or are we trying to override
+       // an existing property?
+-      boolean isOverride = parent.getJSDocInfo() != null &&
+-          parent.getType() == Token.ASSIGN &&
+-          parent.getFirstChild() == getprop;
++      boolean TransVarIsAssign = TransVarTraversal.inGlobalScope() &&
++          TransVarParentNode.getType() == Token.ASSIGN &&
++          TransVarParentNode.getFirstChild() == TransVarTree;
+ 
+       // Find the lowest property defined on a class with visibility
+       // information.
+-      if (isOverride) {
+-        objectType = objectType.getImplicitPrototype();
++      if (!(!(TransVarIsAssign))) {
++        if (!(!(false))) {
++            System.out.println("log");
+       }
+-      JSDocInfo docInfo = null;
+-      for (; objectType != null;
+-           objectType = objectType.getImplicitPrototype()) {
+-        docInfo = objectType.getOwnPropertyJSDocInfo(propertyName);
+-        if (docInfo != null &&
+-            docInfo.getVisibility() != Visibility.INHERITED) {
++        TransVarType = TransVarType.getImplicitPrototype();
++      }
++      JSDocInfo TransVarJsDocInfo = null;
++      while (!(!(TransVarType != null))) {
++        TransVarJsDocInfo = TransVarType.getOwnPropertyJSDocInfo(TransVarPropName);
++        if (!(!(TransVarJsDocInfo != null && TransVarJsDocInfo.getVisibility() != Visibility.INHERITED))) {
+             break;
+         }
++        TransVarType = TransVarType.getImplicitPrototype();
+       }
+ 
+-      if (objectType == null) {
++      if (!(!(TransVarType == null))) {
+         // We couldn't find a visibility modifier; assume it's public.
+         return;
+       }
+ 
+-      boolean sameInput =
+-          t.getInput().getName().equals(docInfo.getSourceName());
+-      Visibility visibility = docInfo.getVisibility();
+-      JSType ownerType = normalizeClassType(objectType);
+-      if (isOverride) {
++      boolean TransVarIsSameName =
++          TransVarTraversal.getInput().getName().equals(TransVarJsDocInfo.getSourceName());
++      Visibility TransVarPropVisibility = TransVarJsDocInfo.getVisibility();
++      JSType TransVarClassType = normalizeClassType(TransVarType);
++      if (!(!(TransVarIsAssign))) {
+         // Check an ASSIGN statement that's trying to override a property
+         // on a superclass.
+-        JSDocInfo overridingInfo = parent.getJSDocInfo();
+-        Visibility overridingVisibility = overridingInfo == null ?
+-            Visibility.INHERITED : overridingInfo.getVisibility();
++        JSDocInfo TransVarOverrideInfo = TransVarParentNode.getJSDocInfo();
++        Visibility TransVarOverridingVisibility1 = TransVarOverrideInfo == null ?
++            Visibility.INHERITED : TransVarOverrideInfo.getVisibility();
+ 
+         // Check that (a) the property *can* be overridden, and
+         // (b) that the visibility of the override is the same as the
+         // visibility of the original property.
+-        if (visibility == Visibility.PRIVATE && !sameInput) {
++        if (!(!(TransVarPropVisibility == Visibility.PRIVATE && !TransVarIsSameName))) {
+           compiler.report(
+-              t.makeError(getprop, PRIVATE_OVERRIDE,
+-                  objectType.toString()));
+-        } else if (overridingVisibility != Visibility.INHERITED &&
+-            overridingVisibility != visibility) {
++              TransVarTraversal.makeError(TransVarTree, PRIVATE_OVERRIDE,
++                  TransVarType.toString()));
++        } else if (!(!(TransVarOverridingVisibility1 != Visibility.INHERITED
++                && TransVarOverridingVisibility1 != TransVarPropVisibility))) {
+           compiler.report(
+-              t.makeError(getprop, VISIBILITY_MISMATCH,
+-                  visibility.name(), objectType.toString(),
+-                  overridingVisibility.name()));
++              TransVarTraversal.makeError(TransVarTree, VISIBILITY_MISMATCH,
++                  TransVarPropVisibility.name(), TransVarType.toString(),
++                  TransVarOverridingVisibility1.name()));
+         }
+       } else {
+-        if (sameInput) {
++        if (!(!(TransVarIsSameName))) {
+           // private access is always allowed in the same file.
+           return;
+-        } else if (visibility == Visibility.PRIVATE &&
+-            (currentClass == null || ownerType.differsFrom(currentClass))) {
+-          if (docInfo.isConstructor() &&
+-              isValidPrivateConstructorAccess(parent)) {
++        } else if (!(!(TransVarPropVisibility == Visibility.PRIVATE
++                && (currentClass == null || TransVarClassType.differsFrom(currentClass))))) {
++          if (!(!(TransVarJsDocInfo.isConstructor() && isValidPrivateConstructorAccess(TransVarParentNode)))) {
+             return;
+           }
+ 
+           // private access is not allowed outside the file from a different
+           // enclosing class.
+           compiler.report(
+-              t.makeError(getprop,
++              TransVarTraversal.makeError(TransVarTree,
+                   BAD_PRIVATE_PROPERTY_ACCESS,
+-                  propertyName,
++                  TransVarPropName,
+                   validator.getReadableJSTypeName(
+-                      getprop.getFirstChild(), true)));
+-        } else if (visibility == Visibility.PROTECTED) {
++                      TransVarTree.getFirstChild(), true)));
++        } else if (!(!(TransVarPropVisibility == Visibility.PROTECTED))) {
+           // There are 3 types of legal accesses of a protected property:
+           // 1) Accesses in the same file
+           // 2) Overriding the property in a subclass
+           // 3) Accessing the property from inside a subclass
+           // The first two have already been checked for.
+-          if (currentClass == null || !currentClass.isSubtype(ownerType)) {
++          if (!(!(currentClass == null || !currentClass.isSubtype(TransVarClassType)))) {
+             compiler.report(
+-                t.makeError(getprop,  BAD_PROTECTED_PROPERTY_ACCESS,
+-                    propertyName,
++                TransVarTraversal.makeError(TransVarTree,  BAD_PROTECTED_PROPERTY_ACCESS,
++                    TransVarPropName,
+                     validator.getReadableJSTypeName(
+-                        getprop.getFirstChild(), true)));
++                        TransVarTree.getFirstChild(), true)));
+           }
+         }
+       }

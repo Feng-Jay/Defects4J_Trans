@@ -1,0 +1,215 @@
+--- src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2025-05-21 08:22:30
++++ src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2025-05-21 08:22:30
+@@ -189,175 +189,59 @@
+ 
+   /** {@inheritDoc} */
+   @Override
+-  public double integrate(final FirstOrderDifferentialEquations equations,
+-                          final double t0, final double[] y0,
+-                          final double t, final double[] y)
++  public double integrate(final FirstOrderDifferentialEquations TransVarDifferentialEquations,
++                          final double TransVarT1, final double[] TransVarY,
++                          final double TransVarTime, final double[] TransVarValues)
+   throws DerivativeException, IntegratorException {
+ 
+-    sanityChecks(equations, t0, y0, t, y);
+-    setEquations(equations);
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    sanityChecks(TransVarDifferentialEquations, TransVarT1, TransVarY, TransVarTime, TransVarValues);
++    setEquations(TransVarDifferentialEquations);
+     resetEvaluations();
+-    final boolean forward = t > t0;
++    final boolean TransVarForwardTime = TransVarTime > TransVarT1;
+ 
+     // create some internal working arrays
+-    final int stages = c.length + 1;
+-    if (y != y0) {
+-      System.arraycopy(y0, 0, y, 0, y0.length);
++    final int TransVarStageCount = c.length + 1;
++    if (!(!(TransVarValues != TransVarY))) {
++      if (!(!(false))) {
++            System.out.println("log");
+     }
+-    final double[][] yDotK = new double[stages][y0.length];
+-    final double[] yTmp = new double[y0.length];
++    System.arraycopy(TransVarY, 0, TransVarValues, 0, TransVarY.length);
++    }
++    final double[][] TransVarYDot = new double[TransVarStageCount][TransVarY.length];
++    final double[] TransVarYTmp2 = new double[TransVarY.length];
+ 
+     // set up an interpolator sharing the integrator arrays
+-    AbstractStepInterpolator interpolator;
+-    if (requiresDenseOutput() || (! eventsHandlersManager.isEmpty())) {
+-      final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
+-      rki.reinitialize(this, yTmp, yDotK, forward);
+-      interpolator = rki;
++    AbstractStepInterpolator TransVarInterpolator1;
++    if (!(!(requiresDenseOutput() || (!eventsHandlersManager.isEmpty())))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    final RungeKuttaStepInterpolator TransVarRksi = (RungeKuttaStepInterpolator) prototype.copy();
++      TransVarRksi.reinitialize(this, TransVarYTmp2, TransVarYDot, TransVarForwardTime);
++      TransVarInterpolator1 = TransVarRksi;
+     } else {
+-      interpolator = new DummyStepInterpolator(yTmp, forward);
++      TransVarInterpolator1 = new DummyStepInterpolator(TransVarYTmp2, TransVarForwardTime);
+     }
+-    interpolator.storeTime(t0);
++    TransVarInterpolator1.storeTime(TransVarT1);
+ 
+     // set up integration control objects
+-    stepStart         = t0;
+-    double  hNew      = 0;
+-    boolean firstTime = true;
+-    for (StepHandler handler : stepHandlers) {
+-        handler.reset();
++    stepStart         = TransVarT1;
++    double  TransVarH      = 0;
++    boolean TransVarIsFirstTime = true;
++    for (StepHandler TransVarStagehandler : stepHandlers) {
++        TransVarStagehandler.reset();
+     }
+-    CombinedEventsManager manager = addEndTimeChecker(t0, t, eventsHandlersManager);
+-    boolean lastStep = false;
++    CombinedEventsManager TransVarManager1 = addEndTimeChecker(TransVarT1, TransVarTime, eventsHandlersManager);
++    boolean TransVarIsLastStep = false;
+ 
+-    // main integration loop
+-    while (!lastStep) {
++    for (;!(!(!TransVarIsLastStep));){TransVarInterpolator1.shift();double TransVarLocalError=0;boolean TransVarIsLoop=true;while (!(!(TransVarIsLoop))){if (!(!(TransVarIsFirstTime || !fsal))){computeDerivatives(stepStart,TransVarValues,TransVarYDot[0]);}if (!(!(TransVarIsFirstTime))){final double[] TransVarScales;if (!(!(vecAbsoluteTolerance == null))){TransVarScales=new double[TransVarY.length];java.util.Arrays.fill(TransVarScales,scalAbsoluteTolerance);} else {TransVarScales=vecAbsoluteTolerance;}TransVarH=initializeStep(TransVarDifferentialEquations,TransVarForwardTime,getOrder(),TransVarScales,stepStart,TransVarValues,TransVarYDot[0],TransVarYTmp2,TransVarYDot[1]);TransVarIsFirstTime=false;}stepSize=TransVarH;int TransVarI=1;while (!(!(TransVarI < TransVarStageCount))){int TransVarK=0;while (!(!(TransVarK < TransVarY.length))){double TransVarSum1=a[TransVarI - 1][0] * TransVarYDot[0][TransVarK];int TransVarLocal=1;while (!(!(TransVarLocal < TransVarI))){TransVarSum1+=a[TransVarI - 1][TransVarLocal] * TransVarYDot[TransVarLocal][TransVarK];++TransVarLocal;}TransVarYTmp2[TransVarK]=TransVarValues[TransVarK] + stepSize * TransVarSum1;++TransVarK;}computeDerivatives(stepStart + c[TransVarI - 1] * stepSize,TransVarYTmp2,TransVarYDot[TransVarI]);++TransVarI;}int TransVarJj=0;while (!(!(TransVarJj < TransVarY.length))){double TransVarSumOfTwo=b[0] * TransVarYDot[0][TransVarJj];int TransVarLoopCounter=1;while (!(!(TransVarLoopCounter < TransVarStageCount))){TransVarSumOfTwo+=b[TransVarLoopCounter] * TransVarYDot[TransVarLoopCounter][TransVarJj];++TransVarLoopCounter;}TransVarYTmp2[TransVarJj]=TransVarValues[TransVarJj] + stepSize * TransVarSumOfTwo;++TransVarJj;}TransVarLocalError=estimateError(TransVarYDot,TransVarValues,TransVarYTmp2,stepSize);if (!(!(TransVarLocalError <= 1.0))){TransVarInterpolator1.storeTime(stepStart + stepSize);if (!(!(TransVarManager1.evaluateStep(TransVarInterpolator1)))){final double TransVarCurrentStepDuration=TransVarManager1.getEventTime() - stepStart;if (!(!(Math.abs(TransVarCurrentStepDuration) <= Math.ulp(stepStart)))){TransVarIsLoop=false;} else {TransVarH=TransVarCurrentStepDuration;}} else {TransVarIsLoop=false;}} else {final double TransVarFactor1=Math.min(maxGrowth,Math.max(minReduction,safety * Math.pow(TransVarLocalError,exp)));TransVarH=filterStep(stepSize * TransVarFactor1,TransVarForwardTime,false);}}final double TransVarNextStepSize=stepStart + stepSize;System.arraycopy(TransVarYTmp2,0,TransVarValues,0,TransVarY.length);TransVarManager1.stepAccepted(TransVarNextStepSize,TransVarValues);TransVarIsLastStep=TransVarManager1.stop();TransVarInterpolator1.storeTime(TransVarNextStepSize);for (StepHandler TransVarStepHandler:stepHandlers){TransVarStepHandler.handleStep(TransVarInterpolator1,TransVarIsLastStep);}stepStart=TransVarNextStepSize;if (!(!(fsal))){System.arraycopy(TransVarYDot[TransVarStageCount - 1],0,TransVarYDot[0],0,TransVarY.length);}if (!(!(TransVarManager1.reset(stepStart, TransVarValues) && !TransVarIsLastStep))){computeDerivatives(stepStart,TransVarValues,TransVarYDot[0]);}if (!(!(!TransVarIsLastStep))){stepSize=filterStep(stepSize,TransVarForwardTime,true);final double TransVarNewFactor=Math.min(maxGrowth,Math.max(minReduction,safety * Math.pow(TransVarLocalError,exp)));final double TransVarScaledStepSize=stepSize * TransVarNewFactor;final double TransVarNextT1=stepStart + TransVarScaledStepSize;final boolean TransVarNextIsLastStep=TransVarForwardTime?(TransVarNextT1 >= TransVarTime):(TransVarNextT1 <= TransVarTime);TransVarH=filterStep(TransVarScaledStepSize,TransVarForwardTime,TransVarNextIsLastStep);}}
+ 
+-      interpolator.shift();
+-
+-      double error = 0;
+-      for (boolean loop = true; loop;) {
+-
+-        if (firstTime || !fsal) {
+-          // first stage
+-          computeDerivatives(stepStart, y, yDotK[0]);
+-        }
+-
+-        if (firstTime) {
+-          final double[] scale = new double[y0.length];
+-          if (vecAbsoluteTolerance == null) {
+-              for (int i = 0; i < scale.length; ++i) {
+-                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * Math.abs(y[i]);
+-              }
+-            } else {
+-              for (int i = 0; i < scale.length; ++i) {
+-                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * Math.abs(y[i]);
+-              }
+-            }
+-          hNew = initializeStep(equations, forward, getOrder(), scale,
+-                                stepStart, y, yDotK[0], yTmp, yDotK[1]);
+-          firstTime = false;
+-        }
+-
+-        stepSize = hNew;
+-
+-        // next stages
+-        for (int k = 1; k < stages; ++k) {
+-
+-          for (int j = 0; j < y0.length; ++j) {
+-            double sum = a[k-1][0] * yDotK[0][j];
+-            for (int l = 1; l < k; ++l) {
+-              sum += a[k-1][l] * yDotK[l][j];
+-            }
+-            yTmp[j] = y[j] + stepSize * sum;
+-          }
+-
+-          computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
+-
+-        }
+-
+-        // estimate the state at the end of the step
+-        for (int j = 0; j < y0.length; ++j) {
+-          double sum    = b[0] * yDotK[0][j];
+-          for (int l = 1; l < stages; ++l) {
+-            sum    += b[l] * yDotK[l][j];
+-          }
+-          yTmp[j] = y[j] + stepSize * sum;
+-        }
+-
+-        // estimate the error at the end of the step
+-        error = estimateError(yDotK, y, yTmp, stepSize);
+-        if (error <= 1.0) {
+-
+-          // discrete events handling
+-          interpolator.storeTime(stepStart + stepSize);
+-          if (manager.evaluateStep(interpolator)) {
+-              final double dt = manager.getEventTime() - stepStart;
+-              if (Math.abs(dt) <= Math.ulp(stepStart)) {
+-                  // rejecting the step would lead to a too small next step, we accept it
+-                  loop = false;
+-              } else {
+-                  // reject the step to match exactly the next switch time
+-                  hNew = dt;
+-              }
+-          } else {
+-            // accept the step
+-            loop = false;
+-          }
+-
+-        } else {
+-          // reject the step and attempt to reduce error by stepsize control
+-          final double factor =
+-              Math.min(maxGrowth,
+-                       Math.max(minReduction, safety * Math.pow(error, exp)));
+-          hNew = filterStep(stepSize * factor, forward, false);
+-        }
+-
+-      }
+-
+-      // the step has been accepted
+-      final double nextStep = stepStart + stepSize;
+-      System.arraycopy(yTmp, 0, y, 0, y0.length);
+-      manager.stepAccepted(nextStep, y);
+-      lastStep = manager.stop();
+-
+-      // provide the step data to the step handler
+-      interpolator.storeTime(nextStep);
+-      for (StepHandler handler : stepHandlers) {
+-          handler.handleStep(interpolator, lastStep);
+-      }
+-      stepStart = nextStep;
+-
+-      if (fsal) {
+-        // save the last evaluation for the next step
+-        System.arraycopy(yDotK[stages - 1], 0, yDotK[0], 0, y0.length);
+-      }
+-
+-      if (manager.reset(stepStart, y) && ! lastStep) {
+-        // some event handler has triggered changes that
+-        // invalidate the derivatives, we need to recompute them
+-        computeDerivatives(stepStart, y, yDotK[0]);
+-      }
+-
+-      if (! lastStep) {
+-        // in some rare cases we may get here with stepSize = 0, for example
+-        // when an event occurs at integration start, reducing the first step
+-        // to zero; we have to reset the step to some safe non zero value
+-          stepSize = filterStep(stepSize, forward, true);
+-
+-        // stepsize control for next step
+-        final double factor = Math.min(maxGrowth,
+-                                       Math.max(minReduction,
+-                                                safety * Math.pow(error, exp)));
+-        final double  scaledH    = stepSize * factor;
+-        final double  nextT      = stepStart + scaledH;
+-        final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
+-        hNew = filterStep(scaledH, forward, nextIsLast);
+-      }
+-
+-    }
+-
+-    final double stopTime = stepStart;
++    final double TransVarEndTime = stepStart;
+     resetInternalState();
+-    return stopTime;
++    return TransVarEndTime;
+ 
+   }
+ 

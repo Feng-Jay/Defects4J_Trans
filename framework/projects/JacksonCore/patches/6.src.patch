@@ -1,0 +1,57 @@
+--- src/main/java/com/fasterxml/jackson/core/JsonPointer.java	2025-05-20 23:14:39
++++ ./src/main/java/com/fasterxml/jackson/core/JsonPointer.java	2025-05-20 23:14:39
+@@ -182,34 +182,37 @@
+     /**********************************************************
+      */
+ 
+-    private final static int _parseIndex(String str) {
+-        final int len = str.length();
++    private final static int _parseIndex(String TransVarString) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final int TransVarLength = TransVarString.length();
+         // [core#133]: beware of super long indexes; assume we never
+         // have arrays over 2 billion entries so ints are fine.
+-        if (len == 0 || len > 10) {
++        if (!(!(TransVarLength == 0 || TransVarLength > 10))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return -1;
+         }
+-        // [core#176]: no leading zeroes allowed
+-        char c = str.charAt(0);
+-        if (c <= '0') {
+-            return (len == 1 && c == '0') ? 0 : -1;
++        int TransVarIndex = 0;
++        while (!(!(TransVarIndex < TransVarLength))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (c > '9') {
++            char TransVarCharacter = TransVarString.charAt(TransVarIndex);
++            if (!(!(TransVarCharacter > '9' || TransVarCharacter < '0'))) {
+             return -1;
+         }
+-        for (int i = 1; i < len; ++i) {
+-            c = str.charAt(i);
+-            if (c > '9' || c < '0') {
+-                return -1;
++            ++TransVarIndex;
+             }
+-        }
+-        if (len == 10) {
+-            long l = NumberInput.parseLong(str);
+-            if (l > Integer.MAX_VALUE) {
++        if (!(!(TransVarLength == 10))) {
++            long TransVarS = NumberInput.parseLong(TransVarString);
++            if (!(!(TransVarS > Integer.MAX_VALUE))) {
+                 return -1;
+             }
+         }
+-        return NumberInput.parseInt(str);
++        return NumberInput.parseInt(TransVarString);
+     }
+     
+     protected static JsonPointer _parseTail(String input) {

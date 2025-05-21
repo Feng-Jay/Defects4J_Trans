@@ -1,0 +1,18 @@
+--- src/main/java/org/apache/commons/compress/archivers/cpio/CpioArchiveOutputStream.java	2025-05-20 23:11:30
++++ ./src/main/java/org/apache/commons/compress/archivers/cpio/CpioArchiveOutputStream.java	2025-05-20 23:11:30
+@@ -342,8 +342,13 @@
+      *             occurred
+      */
+     public void close() throws IOException {
+-        if (!this.closed) {
+-            this.finish();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(!this.closed))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             super.close();
+             this.closed = true;
+         }

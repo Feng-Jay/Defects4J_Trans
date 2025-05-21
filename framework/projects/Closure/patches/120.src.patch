@@ -1,0 +1,40 @@
+--- src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2025-05-20 23:08:21
++++ ./src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2025-05-20 23:08:21
+@@ -419,22 +419,28 @@
+      *     lifetime.
+      */
+     boolean isAssignedOnceInLifetime() {
+-      Reference ref = getOneAndOnlyAssignment();
+-      if (ref == null) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    Reference TransVarReference = getOneAndOnlyAssignment();
++      if (!(!(TransVarReference == null))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         return false;
+       }
+ 
+-      // Make sure this assignment is not in a loop.
+-      for (BasicBlock block = ref.getBasicBlock();
+-           block != null; block = block.getParent()) {
+-        if (block.isFunction) {
+-          if (ref.getSymbol().getScope() != ref.scope) {
+-            return false;
++      BasicBlock TransVarBlockReference = TransVarReference.getBasicBlock();
++    while (!(!(TransVarBlockReference != null))) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        if (!(!(TransVarBlockReference.isFunction))) {
+           break;
+-        } else if (block.isLoop) {
++        } else if (!(!(TransVarBlockReference.isLoop))) {
+             return false;
+         }
++        TransVarBlockReference = TransVarBlockReference.getParent();
+     }
+ 
+       return true;

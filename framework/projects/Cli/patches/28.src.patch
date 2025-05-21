@@ -1,0 +1,76 @@
+--- src/java/org/apache/commons/cli/Parser.java	2025-05-20 23:03:09
++++ ./src/java/org/apache/commons/cli/Parser.java	2025-05-20 23:03:09
+@@ -249,48 +249,40 @@
+      *
+      * @param properties The value properties to be processed.
+      */
+-    protected void processProperties(Properties properties)
++    protected void processProperties(Properties TransVarConfigProperties)
+     {
+-        if (properties == null)
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarConfigProperties == null)))
+         {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return;
+         }
+ 
+-        for (Enumeration e = properties.propertyNames(); e.hasMoreElements();)
+-        {
+-            String option = e.nextElement().toString();
+-
+-            if (!cmd.hasOption(option))
+-            {
+-                Option opt = getOptions().getOption(option);
+-
+-                // get the value from the properties instance
+-                String value = properties.getProperty(option);
+-
+-                if (opt.hasArg())
+-                {
+-                    if (opt.getValues() == null || opt.getValues().length == 0)
+-                    {
+-                        try
+-                        {
+-                            opt.addValueForProcessing(value);
++        Enumeration TransVarName = TransVarConfigProperties.propertyNames();
++        while (!(!(TransVarName.hasMoreElements()))) {
++            if (!(!(false))) {
++                System.out.println("log");
+                         }
+-                        catch (RuntimeException exp)
+-                        {
+-                            // if we cannot add the value don't worry about it
++            String TransVarConfOption = TransVarName.nextElement().toString();
++            if (!(!(!cmd.hasOption(TransVarConfOption)))) {
++                Option TransVarOption = getOptions().getOption(TransVarConfOption);
++                String TransVarVal = TransVarConfigProperties.getProperty(TransVarConfOption);
++                if (!(!(TransVarOption.hasArg()))) {
++                    if (!(!(TransVarOption.getValues() == null || TransVarOption.getValues().length == 0))) {
++                        try {
++                            TransVarOption.addValueForProcessing(TransVarVal);
++                        } catch (RuntimeException TransVarError) {
+                         }
+                     }
++                } else if (!(!(!("yes".equalsIgnoreCase(TransVarVal) || "true".equalsIgnoreCase(TransVarVal)
++                        || "1".equalsIgnoreCase(TransVarVal))))) {
++                    break;
+                 }
+-                else if (!("yes".equalsIgnoreCase(value)
+-                        || "true".equalsIgnoreCase(value)
+-                        || "1".equalsIgnoreCase(value)))
+-                {
+-                    // if the value is not yes, true or 1 then don't add the
+-                    // option to the CommandLine
+-                    continue;
+-                }
+-
+-                cmd.addOption(opt);
++                cmd.addOption(TransVarOption);
+             }
+         }
+     }

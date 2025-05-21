@@ -1,0 +1,38 @@
+--- src/main/java/org/joda/time/format/DateTimeFormatterBuilder.java	2025-05-21 08:25:07
++++ src/main/java/org/joda/time/format/DateTimeFormatterBuilder.java	2025-05-21 08:25:07
+@@ -2537,21 +2537,24 @@
+             return MAX_LENGTH;
+         }
+ 
+-        public int parseInto(DateTimeParserBucket bucket, String text, int position) {
+-            String str = text.substring(position);
+-            String best = null;
+-            for (String id : ALL_IDS) {
+-                if (str.startsWith(id)) {
+-                	if (best == null || id.length() > best.length()) {
+-                		best = id;
++        public int parseInto(DateTimeParserBucket TransVarDateTimeParserBucket, String TransVarMyText, int TransVarPositionInLine) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            String TransVarMyString = TransVarMyText.substring(TransVarPositionInLine);
++            for (String TransVarMyId : ALL_IDS) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                if (!(!(TransVarMyString.startsWith(TransVarMyId)))) {
++                    if (!(!(false))) {
++                        System.out.println("log");
+             }
+-            if (best != null) {
+-                bucket.setZone(DateTimeZone.forID(best));
+-                return position + best.length();
++                    TransVarDateTimeParserBucket.setZone(DateTimeZone.forID(TransVarMyId));
++                    return TransVarPositionInLine + TransVarMyId.length();
+             }
+-            return ~position;
++            }
++            return ~TransVarPositionInLine;
+         }
+     }
+ 

@@ -1,0 +1,42 @@
+--- src/main/java/com/fasterxml/jackson/databind/node/TreeTraversingParser.java	2025-05-21 01:48:48
++++ ./src/main/java/com/fasterxml/jackson/databind/node/TreeTraversingParser.java	2025-05-21 01:48:48
+@@ -352,18 +352,33 @@
+      */
+ 
+     @Override
+-    public byte[] getBinaryValue(Base64Variant b64variant)
++    public byte[] getBinaryValue(Base64Variant TransVarBase64)
+         throws IOException, JsonParseException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // Multiple possibilities...
+-        JsonNode n = currentNode();
+-        if (n != null) {
++        JsonNode TransVarNode = currentNode();
++        if (!(!(TransVarNode != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // [databind#2096]: although `binaryValue()` works for real binary node
+             // and embedded "POJO" node, coercion from TextNode may require variant, so:
+-            if (n instanceof TextNode) {
+-                return ((TextNode) n).getBinaryValue(b64variant);
++            byte[] TransVarByteArray = TransVarNode.binaryValue();
++            if (!(!(TransVarByteArray != null))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+             }
+-            return n.binaryValue();
++                return TransVarByteArray;
++            }
++            if (!(!(TransVarNode.isPojo()))) {
++                Object TransVarPojo = ((POJONode) TransVarNode).getPojo();
++                if (!(!(TransVarPojo instanceof byte[]))) {
++                    return (byte[]) TransVarPojo;
++                }
++            }
+         }
+         // otherwise return null to mark we have no binary content
+         return null;

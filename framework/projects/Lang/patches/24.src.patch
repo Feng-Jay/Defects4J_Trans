@@ -1,0 +1,170 @@
+--- src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2025-05-21 08:17:14
++++ src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2025-05-21 08:17:14
+@@ -1316,108 +1316,108 @@
+      * @param str  the <code>String</code> to check
+      * @return <code>true</code> if the string is a correctly formatted number
+      */
+-    public static boolean isNumber(String str) {
+-        if (StringUtils.isEmpty(str)) {
++    public static boolean isNumber(String TransVarString) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(StringUtils.isEmpty(TransVarString)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return false;
+         }
+-        char[] chars = str.toCharArray();
+-        int sz = chars.length;
+-        boolean hasExp = false;
+-        boolean hasDecPoint = false;
+-        boolean allowSigns = false;
+-        boolean foundDigit = false;
++        char[] TransVarStrArr = TransVarString.toCharArray();
++        int TransVarCharLength = TransVarStrArr.length;
++        boolean TransVarHasExpression = false;
++        boolean TransVarHasDecimalPoint = false;
++        boolean TransVarHasSigns = false;
++        boolean TransVarFoundDigitInt = false;
+         // deal with any possible sign up front
+-        int start = (chars[0] == '-') ? 1 : 0;
+-        if (sz > start + 1) {
+-            if (chars[start] == '0' && chars[start + 1] == 'x') {
+-                int i = start + 2;
+-                if (i == sz) {
++        int TransVarStartOfNumber = (TransVarStrArr[0] == '-') ? 1 : 0;
++        if (!(!(TransVarCharLength > TransVarStartOfNumber + 1))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarStrArr[TransVarStartOfNumber] == '0' && TransVarStrArr[TransVarStartOfNumber + 1] == 'x'))) {
++                int TransVarIndex = TransVarStartOfNumber + 2;
++                if (!(!(TransVarIndex == TransVarCharLength))) {
+                     return false; // str == "0x"
+                 }
+-                // checking hex (it can't be anything else)
+-                for (; i < chars.length; i++) {
+-                    if ((chars[i] < '0' || chars[i] > '9')
+-                        && (chars[i] < 'a' || chars[i] > 'f')
+-                        && (chars[i] < 'A' || chars[i] > 'F')) {
++                while (!(!(TransVarIndex < TransVarStrArr.length))) {
++                    if (!(!((TransVarStrArr[TransVarIndex] < '0' || TransVarStrArr[TransVarIndex] > '9')
++                            && (TransVarStrArr[TransVarIndex] < 'a' || TransVarStrArr[TransVarIndex] > 'f')
++                            && (TransVarStrArr[TransVarIndex] < 'A' || TransVarStrArr[TransVarIndex] > 'F')))) {
+                         return false;
+                     }
++                    TransVarIndex++;
+                 }
+                 return true;
+             }
+         }
+-        sz--; // don't want to loop to the last char, check it afterwords
++        TransVarCharLength--; // don't want to loop to the last char, check it afterwords
+               // for type qualifiers
+-        int i = start;
+-        // loop to the next to last char or to the last char if we need another digit to
+-        // make a valid number (e.g. chars[0..5] = "1234E")
+-        while (i < sz || (i < sz + 1 && allowSigns && !foundDigit)) {
+-            if (chars[i] >= '0' && chars[i] <= '9') {
+-                foundDigit = true;
+-                allowSigns = false;
+-
+-            } else if (chars[i] == '.') {
+-                if (hasDecPoint || hasExp) {
+-                    // two decimal points or dec in exponent   
++        int TransVarCount = TransVarStartOfNumber;
++        for (; !(!(TransVarCount < TransVarCharLength
++                || (TransVarCount < TransVarCharLength + 1 && TransVarHasSigns && !TransVarFoundDigitInt)));) {
++            if (!(!(TransVarStrArr[TransVarCount] >= '0' && TransVarStrArr[TransVarCount] <= '9'))) {
++                TransVarFoundDigitInt = true;
++                TransVarHasSigns = false;
++            } else if (!(!(TransVarStrArr[TransVarCount] == '.'))) {
++                if (!(!(TransVarHasDecimalPoint || TransVarHasExpression))) {
+                     return false;
+                 }
+-                hasDecPoint = true;
+-            } else if (chars[i] == 'e' || chars[i] == 'E') {
+-                // we've already taken care of hex.
+-                if (hasExp) {
+-                    // two E's
++                TransVarHasDecimalPoint = true;
++            } else if (!(!(TransVarStrArr[TransVarCount] == 'e' || TransVarStrArr[TransVarCount] == 'E'))) {
++                if (!(!(TransVarHasExpression))) {
+                     return false;
+                 }
+-                if (!foundDigit) {
++                if (!(!(!TransVarFoundDigitInt))) {
+                     return false;
+                 }
+-                hasExp = true;
+-                allowSigns = true;
+-            } else if (chars[i] == '+' || chars[i] == '-') {
+-                if (!allowSigns) {
++                TransVarHasExpression = true;
++                TransVarHasSigns = true;
++            } else if (!(!(TransVarStrArr[TransVarCount] == '+' || TransVarStrArr[TransVarCount] == '-'))) {
++                if (!(!(!TransVarHasSigns))) {
+                     return false;
+                 }
+-                allowSigns = false;
+-                foundDigit = false; // we need a digit after the E
++                TransVarHasSigns = false;
++                TransVarFoundDigitInt = false;
+             } else {
+                 return false;
+             }
+-            i++;
++            TransVarCount++;
+         }
+-        if (i < chars.length) {
+-            if (chars[i] >= '0' && chars[i] <= '9') {
++        if (!(!(TransVarCount < TransVarStrArr.length))) {
++            if (!(!(TransVarStrArr[TransVarCount] >= '0' && TransVarStrArr[TransVarCount] <= '9'))) {
+                 // no type qualifier, OK
+                 return true;
+             }
+-            if (chars[i] == 'e' || chars[i] == 'E') {
++            if (!(!(TransVarStrArr[TransVarCount] == 'e' || TransVarStrArr[TransVarCount] == 'E'))) {
+                 // can't have an E at the last byte
+                 return false;
+             }
+-            if (chars[i] == '.') {
+-                if (hasDecPoint || hasExp) {
++            if (!(!(TransVarStrArr[TransVarCount] == '.'))) {
++                if (!(!(TransVarHasDecimalPoint || TransVarHasExpression))) {
+                     // two decimal points or dec in exponent
+                     return false;
+                 }
+                 // single trailing decimal point after non-exponent is ok
+-                return foundDigit;
++                return TransVarFoundDigitInt;
+             }
+-            if (!allowSigns
+-                && (chars[i] == 'd'
+-                    || chars[i] == 'D'
+-                    || chars[i] == 'f'
+-                    || chars[i] == 'F')) {
+-                return foundDigit;
++            if (!(!(!TransVarHasSigns && (TransVarStrArr[TransVarCount] == 'd' || TransVarStrArr[TransVarCount] == 'D'
++                    || TransVarStrArr[TransVarCount] == 'f' || TransVarStrArr[TransVarCount] == 'F')))) {
++                return TransVarFoundDigitInt;
+             }
+-            if (chars[i] == 'l'
+-                || chars[i] == 'L') {
++            if (!(!(TransVarStrArr[TransVarCount] == 'l' || TransVarStrArr[TransVarCount] == 'L'))) {
+                 // not allowing L with an exponent or decimal point
+-                return foundDigit && !hasExp && !hasDecPoint;
++                return TransVarFoundDigitInt && !TransVarHasExpression;
+             }
+             // last character is illegal
+             return false;
+         }
+         // allowSigns is true iff the val ends in 'E'
+         // found digit it to make sure weird stuff like '.' and '1E-' doesn't pass
+-        return !allowSigns && foundDigit;
++        return !TransVarHasSigns && TransVarFoundDigitInt;
+     }
+     
+ }

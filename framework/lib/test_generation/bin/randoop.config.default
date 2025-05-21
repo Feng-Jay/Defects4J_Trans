@@ -1,0 +1,14 @@
+#
+# Additional configuration options for Randoop.
+#
+# All commented lines are ignored.
+#
+--flaky-test-behavior=output
+--usethreads
+--clear=10000
+--string-maxlen=5000
+--forbid-null=false
+--null-ratio=0.1
+--only-test-public-members=false
+--omit-methods=HashCodeAndEqualsSafeSet.of
+--omit-methods=CSVPrinter.close

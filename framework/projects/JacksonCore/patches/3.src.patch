@@ -1,0 +1,37 @@
+--- src/main/java/com/fasterxml/jackson/core/json/UTF8StreamJsonParser.java	2025-05-20 23:14:55
++++ ./src/main/java/com/fasterxml/jackson/core/json/UTF8StreamJsonParser.java	2025-05-20 23:14:55
+@@ -110,22 +110,20 @@
+     /**********************************************************
+      */
+ 
+-    public UTF8StreamJsonParser(IOContext ctxt, int features, InputStream in,
+-            ObjectCodec codec, BytesToNameCanonicalizer sym,
+-            byte[] inputBuffer, int start, int end,
+-            boolean bufferRecyclable)
++    public UTF8StreamJsonParser(IOContext TransVarContext, int TransVarNum, InputStream TransVarInputStream,
++            ObjectCodec TransVarObjectCodec, BytesToNameCanonicalizer TransVarBytesToNameCanonicalizer,
++            byte[] TransVarInputBytes, int TransVarOffset, int TransVarFinish,
++            boolean TransVarRecyclable)
+     {
+-        super(ctxt, features);
+-        _inputStream = in;
+-        _objectCodec = codec;
+-        _symbols = sym;
+-        _inputBuffer = inputBuffer;
+-        _inputPtr = start;
+-        _inputEnd = end;
+-        _currInputRowStart = start;
++        super(TransVarContext, TransVarNum);
++        _inputStream = TransVarInputStream;
++        _objectCodec = TransVarObjectCodec;
++        _symbols = TransVarBytesToNameCanonicalizer;
++        _inputBuffer = TransVarInputBytes;
++        _inputPtr = TransVarOffset;
++        _inputEnd = TransVarFinish;
+         // If we have offset, need to omit that from byte offset, so:
+-        _currInputProcessed = -start;
+-        _bufferRecyclable = bufferRecyclable;
++        _bufferRecyclable = TransVarRecyclable;
+     }
+ 
+     @Override

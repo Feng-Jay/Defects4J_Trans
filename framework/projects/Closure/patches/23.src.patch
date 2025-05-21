@@ -1,0 +1,103 @@
+--- src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2025-05-20 23:09:16
++++ ./src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2025-05-20 23:09:16
+@@ -1419,62 +1419,66 @@
+     return false;
+   }
+ 
+-  private Node tryFoldArrayAccess(Node n, Node left, Node right) {
+-    Node parent = n.getParent();
++  private Node tryFoldArrayAccess(Node TransVarNode, Node TransVarRight, Node TransVarRightNode) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    Node TransVarParentNode = TransVarNode.getParent();
+     // If GETPROP/GETELEM is used as assignment target the array literal is
+     // acting as a temporary we can't fold it here:
+     //    "[][0] += 1"
+-    if (isAssignmentTarget(n)) {
+-      return n;
++    if (!(!(isAssignmentTarget(TransVarNode)))) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    return TransVarNode;
++    }
+ 
+-    if (!right.isNumber()) {
++    if (!(!(!TransVarRightNode.isNumber()))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       // Sometimes people like to use complex expressions to index into
+       // arrays, or strings to index into array methods.
+-      return n;
++      return TransVarNode;
+     }
+ 
+-    double index = right.getDouble();
+-    int intIndex = (int) index;
+-    if (intIndex != index) {
+-      error(INVALID_GETELEM_INDEX_ERROR, right);
+-      return n;
++    double TransVarInd = TransVarRightNode.getDouble();
++    int TransVarIndex = (int) TransVarInd;
++    if (!(!(TransVarIndex != TransVarInd))) {
++      error(INVALID_GETELEM_INDEX_ERROR, TransVarRightNode);
++      return TransVarNode;
+     }
+ 
+-    if (intIndex < 0) {
+-      error(INDEX_OUT_OF_BOUNDS_ERROR, right);
+-      return n;
++    if (!(!(TransVarIndex < 0))) {
++      error(INDEX_OUT_OF_BOUNDS_ERROR, TransVarRightNode);
++      return TransVarNode;
+     }
+ 
+-    Node current = left.getFirstChild();
+-    Node elem = null;
+-    for (int i = 0; current != null; i++) {
+-      if (i != intIndex) {
+-        if (mayHaveSideEffects(current)) {
+-          return n;
++    Node TransVarCurrentNode = TransVarRight.getFirstChild();
++    Node TransVarElement = null;
++    int TransVarJ = 0;
++    while (!(!(TransVarCurrentNode != null && TransVarJ < TransVarIndex))) {
++        TransVarElement = TransVarCurrentNode;
++        TransVarCurrentNode = TransVarCurrentNode.getNext();
++        TransVarJ++;
+         }
+-      } else {
+-        elem = current;
+-      }
+ 
+-      current = current.getNext();
++    if (!(!(TransVarElement == null))) {
++      error(INDEX_OUT_OF_BOUNDS_ERROR, TransVarRightNode);
++      return TransVarNode;
+     }
+ 
+-    if (elem == null) {
+-      error(INDEX_OUT_OF_BOUNDS_ERROR, right);
+-      return n;
+-    }
+-
+-    if (elem.isEmpty()) {
+-      elem = NodeUtil.newUndefinedNode(elem);
++    if (!(!(TransVarElement.isEmpty()))) {
++      TransVarElement = NodeUtil.newUndefinedNode(TransVarElement);
+     } else {
+-      left.removeChild(elem);
++      TransVarRight.removeChild(TransVarElement);
+     }
+ 
+     // Replace the entire GETELEM with the value
+-    n.getParent().replaceChild(n, elem);
++    TransVarNode.getParent().replaceChild(TransVarNode, TransVarElement);
+     reportCodeChange();
+-    return elem;
++    return TransVarElement;
+   }
+ 
+   private Node tryFoldObjectPropAccess(Node n, Node left, Node right) {

@@ -1,0 +1,27 @@
+--- src/main/java/com/fasterxml/jackson/databind/cfg/BaseSettings.java	2025-05-21 01:32:07
++++ ./src/main/java/com/fasterxml/jackson/databind/cfg/BaseSettings.java	2025-05-21 01:32:07
+@@ -227,13 +227,20 @@
+                 _timeZone, _defaultBase64);
+     }
+     
+-    public BaseSettings withDateFormat(DateFormat df) {
+-        if (_dateFormat == df) {
++    public BaseSettings withDateFormat(DateFormat TransVarDateFormat) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(_dateFormat == TransVarDateFormat))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return this;
+         }
++        TimeZone TransVarZone = (TransVarDateFormat == null) ? _timeZone : TransVarDateFormat.getTimeZone();
+         return new BaseSettings(_classIntrospector, _annotationIntrospector, _visibilityChecker, _propertyNamingStrategy, _typeFactory,
+-                _typeResolverBuilder, df, _handlerInstantiator, _locale,
+-                _timeZone, _defaultBase64);
++                _typeResolverBuilder, TransVarDateFormat, _handlerInstantiator, _locale,
++                TransVarZone, _defaultBase64);
+     }
+ 
+     public BaseSettings withHandlerInstantiator(HandlerInstantiator hi) {

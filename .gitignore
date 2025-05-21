@@ -6,7 +6,6 @@ framework/lib/test_generation/*
 framework/test/*.log
 project_repos/*
 !project_repos/get_repos.sh
-major/
 work/
 apply_trans_dataset.py
 single_function_repair_trans_final.json

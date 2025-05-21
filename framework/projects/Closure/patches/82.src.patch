@@ -1,0 +1,16 @@
+--- src/com/google/javascript/rhino/jstype/JSType.java	2025-05-20 23:08:13
++++ ./src/com/google/javascript/rhino/jstype/JSType.java	2025-05-20 23:08:13
+@@ -160,9 +160,10 @@
+   }
+ 
+   public final boolean isEmptyType() {
+-    return isNoType() || isNoObjectType() || isNoResolvedType() ||
+-        (registry.getNativeFunctionType(
+-             JSTypeNative.LEAST_FUNCTION_TYPE) == this);
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    return isNoType() || isNoObjectType() || isNoResolvedType();
+   }
+ 
+   public boolean isNumberObjectType() {

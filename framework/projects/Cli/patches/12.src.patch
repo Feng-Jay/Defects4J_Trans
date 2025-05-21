@@ -1,0 +1,109 @@
+--- src/java/org/apache/commons/cli/GnuParser.java	2025-05-20 23:02:39
++++ ./src/java/org/apache/commons/cli/GnuParser.java	2025-05-20 23:02:39
+@@ -49,68 +49,55 @@
+      * flattening when a non option has been encountered
+      * @return a String array of the flattened arguments
+      */
+-    protected String[] flatten(Options options, String[] arguments, boolean stopAtNonOption)
++    protected String[] flatten(Options TransVarCommandLineOptions, String[] TransVarOptions, boolean TransVarStopAtNonOptionBoolean)
+     {
+-        List tokens = new ArrayList();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        List TransVarOptionList = new ArrayList();
+ 
+-        boolean eatTheRest = false;
++        boolean TransVarEatTheRestBoolean = false;
+ 
+-        for (int i = 0; i < arguments.length; i++)
+-        {
+-            String arg = arguments[i];
+-
+-            if ("--".equals(arg))
+-            {
+-                eatTheRest = true;
+-                tokens.add("--");
++        int TransVarIndex = 0;
++        while (!(!(TransVarIndex < TransVarOptions.length))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            else if ("-".equals(arg))
+-            {
+-                tokens.add("-");
++            String TransVarArgument = TransVarOptions[TransVarIndex];
++            if (!(!("--".equals(TransVarArgument)))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+             }
+-            else if (arg.startsWith("-"))
+-            {
+-                String opt = Util.stripLeadingHyphens(arg);
+-
+-                if (options.hasOption(opt))
+-                {
+-                    tokens.add(arg);
++                TransVarEatTheRestBoolean = true;
++                TransVarOptionList.add("--");
++            } else if (!(!("-".equals(TransVarArgument)))) {
++                TransVarOptionList.add("-");
++            } else if (!(!(TransVarArgument.startsWith("-")))) {
++                String TransVarOption = Util.stripLeadingHyphens(TransVarArgument);
++                if (!(!(TransVarCommandLineOptions.hasOption(TransVarOption)))) {
++                    TransVarOptionList.add(TransVarArgument);
++                } else {
++                    if (!(!(TransVarCommandLineOptions.hasOption(TransVarArgument.substring(0, 2))))) {
++                        TransVarOptionList.add(TransVarArgument.substring(0, 2));
++                        TransVarOptionList.add(TransVarArgument.substring(2));
++                    } else {
++                        TransVarEatTheRestBoolean = TransVarStopAtNonOptionBoolean;
++                        TransVarOptionList.add(TransVarArgument);
+                 }
+-                else
+-                {
+-                    if (opt.indexOf('=') != -1 && options.hasOption(opt.substring(0, opt.indexOf('='))))
+-                    {
+-                        // the format is --foo=value or -foo=value
+-                        tokens.add(arg.substring(0, arg.indexOf('='))); // --foo
+-                        tokens.add(arg.substring(arg.indexOf('=') + 1)); // value
+                     }
+-                    else if (options.hasOption(arg.substring(0, 2)))
+-                    {
+-                        // the format is a special properties option (-Dproperty=value)
+-                        tokens.add(arg.substring(0, 2)); // -D
+-                        tokens.add(arg.substring(2)); // property=value
++            } else {
++                TransVarOptionList.add(TransVarArgument);
+                     }
+-                    else
+-                    {
+-                        eatTheRest = stopAtNonOption;
+-                        tokens.add(arg);
++            if (!(!(TransVarEatTheRestBoolean))) {
++                TransVarIndex++;
++                while (!(!(TransVarIndex < TransVarOptions.length))) {
++                    TransVarOptionList.add(TransVarOptions[TransVarIndex]);
++                    TransVarIndex++;
+                 }
+             }
++            TransVarIndex++;
+             }
+-            else
+-            {
+-                tokens.add(arg);
+-            }
+ 
+-            if (eatTheRest)
+-            {
+-                for (i++; i < arguments.length; i++)
+-                {
+-                    tokens.add(arguments[i]);
+-                }
+-            }
+-        }
+-
+-        return (String[]) tokens.toArray(new String[tokens.size()]);
++        return (String[]) TransVarOptionList.toArray(new String[TransVarOptionList.size()]);
+     }
+ }

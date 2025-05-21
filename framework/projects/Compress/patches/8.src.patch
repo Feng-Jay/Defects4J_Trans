@@ -1,0 +1,92 @@
+--- src/main/java/org/apache/commons/compress/archivers/tar/TarUtils.java	2025-05-20 23:14:04
++++ ./src/main/java/org/apache/commons/compress/archivers/tar/TarUtils.java	2025-05-20 23:14:04
+@@ -48,62 +48,45 @@
+      * @return The long value of the octal string.
+      * @throws IllegalArgumentException if the trailing space/NUL is missing or if a invalid byte is detected.
+      */
+-    public static long parseOctal(final byte[] buffer, final int offset, final int length) {
+-        long    result = 0;
+-        int     end = offset + length;
+-        int     start = offset;
+-
+-        if (length < 2){
+-            throw new IllegalArgumentException("Length "+length+" must be at least 2");
++    public static long parseOctal(final byte[] TransVarByteBuffer, final int TransVarByteOffset, final int TransVarBufferSize) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        long    TransVarByteLength = 0;
++        boolean TransVarPadding = true;
++        int     TransVarNewEnd = TransVarByteOffset + TransVarBufferSize;
++        int     TransVarOffset = TransVarByteOffset;
+ 
+-        boolean allNUL = true;
+-        for (int i = start; i < end; i++){
+-            if (buffer[i] != 0){
+-                allNUL = false;
+-                break;
++        int TransVarStartIndex = TransVarOffset;
++        while (!(!(TransVarStartIndex < TransVarNewEnd))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            final byte TransVarCByte = TransVarByteBuffer[TransVarStartIndex];
++            if (!(!(TransVarCByte == 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+         }
+-        if (allNUL) {
+-            return 0L;
+-        }
+-
+-        // Skip leading spaces
+-        while (start < end){
+-            if (buffer[start] == ' '){
+-                start++;
+-            } else {
+                 break;
+             }
++            if (!(!(TransVarCByte == (byte) ' ' || TransVarCByte == '0'))) {
++                if (!(!(TransVarPadding))) {
++                    continue;
+         }
+-
+-        // Must have trailing NUL or space
+-        byte trailer;
+-        trailer = buffer[end-1];
+-        if (trailer == 0 || trailer == ' '){
+-            end--;
+-        } else {
+-            throw new IllegalArgumentException(
+-                    exceptionMessage(buffer, offset, length, end-1, trailer));
++                if (!(!(TransVarCByte == (byte) ' '))) {
++                    break;
+         }
+-        // May have additional NUL or space
+-        trailer = buffer[end-1];
+-        if (trailer == 0 || trailer == ' '){
+-            end--;
+         }
+-
+-        for ( ;start < end; start++) {
+-            final byte currentByte = buffer[start];
+-            // CheckStyle:MagicNumber OFF
+-            if (currentByte < '0' || currentByte > '7'){
+-                throw new IllegalArgumentException(
+-                        exceptionMessage(buffer, offset, length, start, currentByte));
++            TransVarPadding = false;
++            if (!(!(TransVarCByte < '0' || TransVarCByte > '7'))) {
++                throw new IllegalArgumentException(exceptionMessage(TransVarByteBuffer, TransVarByteOffset,
++                        TransVarBufferSize, TransVarOffset, TransVarCByte));
+             }
+-            result = (result << 3) + (currentByte - '0'); // convert from ASCII
+-            // CheckStyle:MagicNumber ON
++            TransVarByteLength = (TransVarByteLength << 3) + (TransVarCByte - '0');
++            TransVarStartIndex++;
+         }
+ 
+-        return result;
++        return TransVarByteLength;
+     }
+ 
+     // Helper method to generate the exception message

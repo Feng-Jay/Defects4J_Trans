@@ -1,0 +1,25 @@
+--- src/main/java/org/jsoup/safety/Cleaner.java	2025-05-21 04:57:58
++++ ./src/main/java/org/jsoup/safety/Cleaner.java	2025-05-21 04:57:58
+@@ -36,14 +36,16 @@
+      @param dirtyDocument Untrusted base document to clean.
+      @return cleaned document.
+      */
+-    public Document clean(Document dirtyDocument) {
+-        Validate.notNull(dirtyDocument);
++    public Document clean(Document TransVarDocument) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Validate.notNull(TransVarDocument);
+ 
+-        Document clean = Document.createShell(dirtyDocument.baseUri());
+-        if (dirtyDocument.body() != null) // frameset documents won't have a body. the clean doc will have empty body.
+-            copySafeNodes(dirtyDocument.body(), clean.body());
++        Document TransVarCleanDocument = Document.createShell(TransVarDocument.baseUri());
++            copySafeNodes(TransVarDocument.body(), TransVarCleanDocument.body());
+ 
+-        return clean;
++        return TransVarCleanDocument;
+     }
+ 
+     /**

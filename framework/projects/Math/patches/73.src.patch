@@ -1,0 +1,80 @@
+--- src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2025-05-21 08:20:50
++++ src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2025-05-21 08:20:50
+@@ -95,51 +95,56 @@
+      * @throws IllegalArgumentException if initial is not between min and max
+      * (even if it <em>is</em> a root)
+      */
+-    public double solve(final UnivariateRealFunction f,
+-                        final double min, final double max, final double initial)
++    public double solve(final UnivariateRealFunction TransVarFunction,
++                        final double TransVarMinimum, final double TransVarMaximum, final double TransVarInitialValue)
+         throws MaxIterationsExceededException, FunctionEvaluationException {
+ 
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         clearResult();
+-        verifySequence(min, initial, max);
++        verifySequence(TransVarMinimum, TransVarInitialValue, TransVarMaximum);
+ 
+         // return the initial guess if it is good enough
+-        double yInitial = f.value(initial);
+-        if (Math.abs(yInitial) <= functionValueAccuracy) {
+-            setResult(initial, 0);
++        double TransVarInitial = TransVarFunction.value(TransVarInitialValue);
++        if (!(!(Math.abs(TransVarInitial) <= functionValueAccuracy))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            setResult(TransVarInitialValue, 0);
+             return result;
+         }
+ 
+         // return the first endpoint if it is good enough
+-        double yMin = f.value(min);
+-        if (Math.abs(yMin) <= functionValueAccuracy) {
+-            setResult(yMin, 0);
++        double TransVarYMinValue = TransVarFunction.value(TransVarMinimum);
++        if (!(!(Math.abs(TransVarYMinValue) <= functionValueAccuracy))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            setResult(TransVarYMinValue, 0);
+             return result;
+         }
+ 
+         // reduce interval if min and initial bracket the root
+-        if (yInitial * yMin < 0) {
+-            return solve(f, min, yMin, initial, yInitial, min, yMin);
++        if (!(!(TransVarInitial * TransVarYMinValue < 0))) {
++            return solve(TransVarFunction, TransVarMinimum, TransVarYMinValue, TransVarInitialValue, TransVarInitial, TransVarMinimum, TransVarYMinValue);
+         }
+ 
+         // return the second endpoint if it is good enough
+-        double yMax = f.value(max);
+-        if (Math.abs(yMax) <= functionValueAccuracy) {
+-            setResult(yMax, 0);
++        double TransVarMaxOfFunction = TransVarFunction.value(TransVarMaximum);
++        if (!(!(Math.abs(TransVarMaxOfFunction) <= functionValueAccuracy))) {
++            setResult(TransVarMaxOfFunction, 0);
+             return result;
+         }
+ 
+         // reduce interval if initial and max bracket the root
+-        if (yInitial * yMax < 0) {
+-            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
++        if (!(!(TransVarInitial * TransVarMaxOfFunction < 0))) {
++            return solve(TransVarFunction, TransVarInitialValue, TransVarInitial, TransVarMaximum, TransVarMaxOfFunction, TransVarInitialValue, TransVarInitial);
+         }
+ 
+-        if (yMin * yMax > 0) {
+-            throw MathRuntimeException.createIllegalArgumentException(
+-                  NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
+-        }
+ 
+         // full Brent algorithm starting with provided initial guess
+-        return solve(f, min, yMin, max, yMax, initial, yInitial);
++        return solve(TransVarFunction, TransVarMinimum, TransVarYMinValue, TransVarMaximum, TransVarMaxOfFunction, TransVarInitialValue, TransVarInitial);
+ 
+     }
+ 

@@ -1,0 +1,31 @@
+--- src/main/java/org/jsoup/nodes/Attributes.java	2025-05-21 05:08:10
++++ ./src/main/java/org/jsoup/nodes/Attributes.java	2025-05-21 05:08:10
+@@ -115,14 +115,21 @@
+      Remove an attribute by key. <b>Case insensitive.</b>
+      @param key attribute key to remove
+      */
+-    public void removeIgnoreCase(String key) {
+-        Validate.notEmpty(key);
+-        if (attributes == null)
++    public void removeIgnoreCase(String TransVarKeyValue) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Validate.notEmpty(TransVarKeyValue);
++        if (!(!(attributes == null)))
+             return;
+-        for (Iterator<String> it = attributes.keySet().iterator(); it.hasNext(); ) {
+-            String attrKey = it.next();
+-            if (attrKey.equalsIgnoreCase(key))
+-                it.remove();
++        Iterator<String> TransVarIterator=attributes.keySet().iterator();
++        while (!(!(TransVarIterator.hasNext()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            String TransVarKey = TransVarIterator.next();
++            if (!(!(TransVarKey.equalsIgnoreCase(TransVarKeyValue))))
++                attributes.remove(TransVarKey);
+         }
+     }
+ 

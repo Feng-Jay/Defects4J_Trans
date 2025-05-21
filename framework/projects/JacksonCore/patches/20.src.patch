@@ -1,0 +1,26 @@
+--- src/main/java/com/fasterxml/jackson/core/JsonGenerator.java	2025-05-20 23:14:46
++++ ./src/main/java/com/fasterxml/jackson/core/JsonGenerator.java	2025-05-20 23:14:46
+@@ -1325,18 +1325,12 @@
+      *
+      * @since 2.8
+      */
+-    public void writeEmbeddedObject(Object object) throws IOException {
+-        // 01-Sep-2016, tatu: As per [core#318], handle small number of cases
+-        if (object == null) {
+-            writeNull();
+-            return;
++    public void writeEmbeddedObject(Object TransVarO) throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        if (object instanceof byte[]) {
+-            writeBinary((byte[]) object);
+-            return;
+-        }
+-        throw new JsonGenerationException("No native support for writing embedded objects of type "
+-                +object.getClass().getName(),
++        // 01-Sep-2016, tatu: As per [core#318], handle small number of cases
++        throw new JsonGenerationException("No native support for writing embedded objects",
+                 this);
+     }
+     

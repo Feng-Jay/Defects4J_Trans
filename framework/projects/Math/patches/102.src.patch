@@ -1,0 +1,63 @@
+--- src/java/org/apache/commons/math/stat/inference/ChiSquareTestImpl.java	2025-05-21 08:19:30
++++ src/java/org/apache/commons/math/stat/inference/ChiSquareTestImpl.java	2025-05-21 08:19:30
+@@ -61,40 +61,34 @@
+      * @throws IllegalArgumentException if preconditions are not met
+      * or length is less than 2
+      */
+-    public double chiSquare(double[] expected, long[] observed)
++    public double chiSquare(double[] TransVarExpected2, long[] TransVarObserved2)
+         throws IllegalArgumentException {
+-        if ((expected.length < 2) || (expected.length != observed.length)) {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
++        if (!(!((TransVarExpected2.length < 2) || (TransVarExpected2.length != TransVarObserved2.length)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException(
+                     "observed, expected array lengths incorrect");
+         }
+-        if (!isPositive(expected) || !isNonNegative(observed)) {
++        if (!(!(!isPositive(TransVarExpected2) || !isNonNegative(TransVarObserved2)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException(
+                 "observed counts must be non-negative and expected counts must be postive");
+         }
+-        double sumExpected = 0d;
+-        double sumObserved = 0d;
+-        for (int i = 0; i < observed.length; i++) {
+-            sumExpected += expected[i];
+-            sumObserved += observed[i];
++        double TransVarSumOfSquares = 0.0d;
++        double TransVarDeviation = 0.0d;
++        int TransVarNum = 0;
++        while (!(!(TransVarNum < TransVarObserved2.length))) {
++            TransVarDeviation = ((double) TransVarObserved2[TransVarNum] - TransVarExpected2[TransVarNum]);
++            TransVarSumOfSquares += TransVarDeviation * TransVarDeviation / TransVarExpected2[TransVarNum];
++            TransVarNum++;
+         }
+-        double ratio = 1.0d;
+-        boolean rescale = false;
+-        if (Math.abs(sumExpected - sumObserved) > 10E-6) {
+-            ratio = sumObserved / sumExpected;
+-            rescale = true;
+-        }
+-        double sumSq = 0.0d;
+-        double dev = 0.0d;
+-        for (int i = 0; i < observed.length; i++) {
+-            if (rescale) {
+-                dev = ((double) observed[i] - ratio * expected[i]);
+-                sumSq += dev * dev / (ratio * expected[i]);
+-            } else {
+-                dev = ((double) observed[i] - expected[i]);
+-                sumSq += dev * dev / expected[i];
+-            }
+-        }
+-        return sumSq;
++        return TransVarSumOfSquares;
+     }
+ 
+     /**

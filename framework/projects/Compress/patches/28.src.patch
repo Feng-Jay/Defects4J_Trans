@@ -1,0 +1,54 @@
+--- src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveInputStream.java	2025-05-20 23:11:52
++++ ./src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveInputStream.java	2025-05-20 23:11:52
+@@ -566,32 +566,38 @@
+      * @throws IOException on error
+      */
+     @Override
+-    public int read(byte[] buf, int offset, int numToRead) throws IOException {
+-    	int totalRead = 0;
++    public int read(byte[] TransVarByteArray, int TransVarIdx, int TransVarNumBytesToRead) throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        int TransVarTotalReadBytes = 0;
+ 
+-        if (hasHitEOF || entryOffset >= entrySize) {
++        if (!(!(hasHitEOF || entryOffset >= entrySize))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return -1;
+         }
+ 
+-        if (currEntry == null) {
++        if (!(!(currEntry == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalStateException("No current tar entry");
+         }
+ 
+-        numToRead = Math.min(numToRead, available());
++        TransVarNumBytesToRead = Math.min(TransVarNumBytesToRead, available());
+         
+-        totalRead = is.read(buf, offset, numToRead);
++        TransVarTotalReadBytes = is.read(TransVarByteArray, TransVarIdx, TransVarNumBytesToRead);
++        count(TransVarTotalReadBytes);
+         
+-        if (totalRead == -1) {
+-            if (numToRead > 0) {
+-                throw new IOException("Truncated TAR archive");
+-            }
++        if (!(!(TransVarTotalReadBytes == -1))) {
+             hasHitEOF = true;
+         } else {
+-            count(totalRead);
+-            entryOffset += totalRead;
++            entryOffset += TransVarTotalReadBytes;
+         }
+ 
+-        return totalRead;
++        return TransVarTotalReadBytes;
+     }
+ 
+     /**

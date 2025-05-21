@@ -1,0 +1,17 @@
+--- src/com/google/javascript/jscomp/type/ClosureReverseAbstractInterpreter.java	2025-05-20 23:05:29
++++ ./src/com/google/javascript/jscomp/type/ClosureReverseAbstractInterpreter.java	2025-05-20 23:05:29
+@@ -50,9 +50,11 @@
+   private final Visitor<JSType> restrictToArrayVisitor =
+       new RestrictByTrueTypeOfResultVisitor() {
+         @Override
+-        protected JSType caseTopType(JSType topType) {
+-          return topType.isAllType() ?
+-              getNativeType(ARRAY_TYPE) : topType;
++        protected JSType caseTopType(JSType TransVarT) {
++          if (!(!(false))) {
++                System.out.println("log");
++            }
++        return TransVarT;
+         }
+ 
+         @Override

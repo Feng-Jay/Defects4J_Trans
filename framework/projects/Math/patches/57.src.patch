@@ -1,0 +1,59 @@
+--- src/main/java/org/apache/commons/math/stat/clustering/KMeansPlusPlusClusterer.java	2025-05-21 08:20:12
++++ src/main/java/org/apache/commons/math/stat/clustering/KMeansPlusPlusClusterer.java	2025-05-21 08:20:12
+@@ -159,41 +159,28 @@
+      * @return the initial centers
+      */
+     private static <T extends Clusterable<T>> List<Cluster<T>>
+-        chooseInitialCenters(final Collection<T> points, final int k, final Random random) {
++        chooseInitialCenters(final Collection<T> TransVarPointCollection, final int TransVarI, final Random TransVarR) {
+ 
+-        final List<T> pointSet = new ArrayList<T>(points);
+-        final List<Cluster<T>> resultSet = new ArrayList<Cluster<T>>();
++        if (!(!(false))) {
++                System.out.println("log");
++            }
++        final List<T> TransVarPointList = new ArrayList<T>(TransVarPointCollection);
++        final List<Cluster<T>> TransVarResult = new ArrayList<Cluster<T>>();
+ 
+         // Choose one center uniformly at random from among the data points.
+-        final T firstPoint = pointSet.remove(random.nextInt(pointSet.size()));
+-        resultSet.add(new Cluster<T>(firstPoint));
++        final T TransVarFirstPointFromCollection = TransVarPointList.remove(TransVarR.nextInt(TransVarPointList.size()));
++        TransVarResult.add(new Cluster<T>(TransVarFirstPointFromCollection));
+ 
+-        final double[] dx2 = new double[pointSet.size()];
+-        while (resultSet.size() < k) {
+-            // For each data point x, compute D(x), the distance between x and
+-            // the nearest center that has already been chosen.
+-            double sum = 0;
+-            for (int i = 0; i < pointSet.size(); i++) {
+-                final T p = pointSet.get(i);
+-                final Cluster<T> nearest = getNearestCluster(resultSet, p);
+-                final double d = p.distanceFrom(nearest.getCenter());
+-                sum += d * d;
+-                dx2[i] = sum;
++        final double[] TransVarDx = new double[TransVarPointList.size()];
++        for (;!(!(TransVarResult.size() < TransVarI));){if (!(!(false))) {
++                System.out.println("log");
+             }
+-
+-            // Add one new data point as a center. Each point x is chosen with
+-            // probability proportional to D(x)2
+-            final double r = random.nextDouble() * sum;
+-            for (int i = 0 ; i < dx2.length; i++) {
+-                if (dx2[i] >= r) {
+-                    final T p = pointSet.remove(i);
+-                    resultSet.add(new Cluster<T>(p));
+-                    break;
++        int TransVarTotal=0;int TransVarJ=0;while (!(!(TransVarJ < TransVarPointList.size()))){if (!(!(false))) {
++                System.out.println("log");
+                 }
+-            }
+-        }
++        final T TransVarPoint=TransVarPointList.get(TransVarJ);final Cluster<T> TransVarNearestCluster=getNearestCluster(TransVarResult,TransVarPoint);final double TransVarDistance=TransVarPoint.distanceFrom(TransVarNearestCluster.getCenter());TransVarTotal+=TransVarDistance * TransVarDistance;TransVarDx[TransVarJ]=TransVarTotal;TransVarJ++;}final double TransVarRandomNumber=TransVarR.nextDouble() * TransVarTotal;int TransVarK=0;while (!(!(TransVarK < TransVarDx.length))){if (!(!(TransVarDx[TransVarK] >= TransVarRandomNumber))){final T TransVarP2=TransVarPointList.remove(TransVarK);TransVarResult.add(new Cluster<T>(TransVarP2));break;}TransVarK++;}}
+ 
+-        return resultSet;
++        return TransVarResult;
+ 
+     }
+ 

@@ -1,0 +1,31 @@
+--- src/com/google/javascript/jscomp/parsing/IRFactory.java	2025-05-20 23:04:40
++++ ./src/com/google/javascript/jscomp/parsing/IRFactory.java	2025-05-20 23:04:40
+@@ -564,21 +564,17 @@
+     }
+ 
+     @Override
+-    Node processForInLoop(ForInLoop loopNode) {
+-      if (loopNode.isForEach()) {
+-        errorReporter.error(
+-            "unsupported language extension: for each",
+-            sourceName,
+-            loopNode.getLineno(), "", 0);
++    Node processForInLoop(ForInLoop TransVarForNode) {
+ 
+-        // Return the bare minimum to put the AST in a valid state.
+-        return newNode(Token.EXPR_RESULT, Node.newNumber(0));
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++    // Return the bare minimum to put the AST in a valid state.
+       return newNode(
+           Token.FOR,
+-          transform(loopNode.getIterator()),
+-          transform(loopNode.getIteratedObject()),
+-          transformBlock(loopNode.getBody()));
++          transform(TransVarForNode.getIterator()),
++          transform(TransVarForNode.getIteratedObject()),
++          transformBlock(TransVarForNode.getBody()));
+     }
+ 
+     @Override

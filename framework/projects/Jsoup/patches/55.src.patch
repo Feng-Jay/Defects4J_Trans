@@ -1,0 +1,54 @@
+--- src/main/java/org/jsoup/parser/TokeniserState.java	2025-05-21 06:28:56
++++ ./src/main/java/org/jsoup/parser/TokeniserState.java	2025-05-21 06:28:56
+@@ -866,22 +866,35 @@
+         }
+     },
+     SelfClosingStartTag {
+-        void read(Tokeniser t, CharacterReader r) {
+-            char c = r.consume();
+-            switch (c) {
+-                case '>':
+-                    t.tagPending.selfClosing = true;
+-                    t.emitTagPending();
+-                    t.transition(Data);
+-                    break;
+-                case eof:
+-                    t.eofError(this);
+-                    t.transition(Data);
+-                    break;
+-                default:
+-                    t.error(this);
+-                    r.unconsume();
+-                    t.transition(BeforeAttributeName);
++        void read(Tokeniser TransVarTokeniser, CharacterReader TransVarCharacterReader) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            char TransVarCh = TransVarCharacterReader.consume();
++            boolean TransFallThroughFlag0 = false;
++            boolean TransBreakFlag0 = true;
++            {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == '>'))))) {
++                    if (!(!(false))) {
++                        System.out.println("log");
++                    }
++                    TransBreakFlag0 = false;
++                    TransVarTokeniser.tagPending.selfClosing = true;
++                    TransVarTokeniser.emitTagPending();
++                    TransVarTokeniser.transition(Data);
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCh == eof))))) {
++                    TransBreakFlag0 = false;
++                    TransVarTokeniser.eofError(this);
++                    TransVarTokeniser.transition(Data);
++                }
++                if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++                    TransVarTokeniser.error(this);
++                    TransVarTokeniser.transition(BeforeAttributeName);
++                }
+             }
+         }
+     },

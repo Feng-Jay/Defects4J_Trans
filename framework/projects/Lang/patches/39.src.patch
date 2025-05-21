@@ -1,0 +1,221 @@
+--- src/java/org/apache/commons/lang3/StringUtils.java	2025-05-21 08:15:23
++++ src/java/org/apache/commons/lang3/StringUtils.java	2025-05-21 08:15:23
+@@ -3602,135 +3602,139 @@
+      *             and/or size 0)
+      * @since 2.4
+      */
+-    private static String replaceEach(String text, String[] searchList, String[] replacementList, 
+-                                      boolean repeat, int timeToLive) 
++    private static String replaceEach(String TransVarStr, String[] TransVarSearchListForFile, String[] TransVarList, 
++                                      boolean TransVarRepeatLoop, int TransVarTimeToLiveSeconds) 
+     {
+ 
+         // mchyzer Performance note: This creates very few new objects (one major goal)
+         // let me know if there are performance requests, we can create a harness to measure
+ 
+-        if (text == null || text.length() == 0 || searchList == null || 
+-            searchList.length == 0 || replacementList == null || replacementList.length == 0) 
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarStr == null || TransVarStr.length() == 0 || TransVarSearchListForFile == null
++                || TransVarSearchListForFile.length == 0 || TransVarList == null || TransVarList.length == 0))) 
+         {
+-            return text;
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            return TransVarStr;
++        }
+ 
+         // if recursing, this shouldnt be less than 0
+-        if (timeToLive < 0) {
+-            throw new IllegalStateException("TimeToLive of " + timeToLive + " is less than 0: " + text);
++        if (!(!(TransVarTimeToLiveSeconds < 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            throw new IllegalStateException("TimeToLive of " + TransVarTimeToLiveSeconds + " is less than 0: " + TransVarStr);
++        }
+ 
+-        int searchLength = searchList.length;
+-        int replacementLength = replacementList.length;
++        int TransVarSearchLengthInt = TransVarSearchListForFile.length;
++        int TransVarReplacementLengthForFile = TransVarList.length;
+ 
+         // make sure lengths are ok, these need to be equal
+-        if (searchLength != replacementLength) {
++        if (!(!(TransVarSearchLengthInt != TransVarReplacementLengthForFile))) {
+             throw new IllegalArgumentException("Search and Replace array lengths don't match: "
+-                + searchLength
++                + TransVarSearchLengthInt
+                 + " vs "
+-                + replacementLength);
++                + TransVarReplacementLengthForFile);
+         }
+ 
+         // keep track of which still have matches
+-        boolean[] noMoreMatchesForReplIndex = new boolean[searchLength];
++        boolean[] TransVarNoMoreMatchesForReplIndexForFile = new boolean[TransVarSearchLengthInt];
+ 
+         // index on index that the match was found
+-        int textIndex = -1;
+-        int replaceIndex = -1;
+-        int tempIndex = -1;
++        int TransVarTextIndexForFile = -1;
++        int TransVarReplacementIndex = -1;
++        int TransVarIndex = -1;
+ 
+-        // index of replace array that will replace the search string found
+-        // NOTE: logic duplicated below START
+-        for (int i = 0; i < searchLength; i++) {
+-            if (noMoreMatchesForReplIndex[i] || searchList[i] == null || 
+-                searchList[i].length() == 0 || replacementList[i] == null) 
+-            {
++        int TransVarIndexForFile = 0;
++        while (!(!(TransVarIndexForFile < TransVarSearchLengthInt))) {
++            if (!(!(TransVarNoMoreMatchesForReplIndexForFile[TransVarIndexForFile]
++                    || TransVarSearchListForFile[TransVarIndexForFile] == null
++                    || TransVarSearchListForFile[TransVarIndexForFile].length() == 0
++                    || TransVarList[TransVarIndexForFile] == null))) {
+                 continue;
+             }
+-            tempIndex = text.indexOf(searchList[i]);
+-
+-            // see if we need to keep searching for this
+-            if (tempIndex == -1) {
+-                noMoreMatchesForReplIndex[i] = true;
++            TransVarIndex = TransVarStr.indexOf(TransVarSearchListForFile[TransVarIndexForFile]);
++            if (!(!(TransVarIndex == -1))) {
++                TransVarNoMoreMatchesForReplIndexForFile[TransVarIndexForFile] = true;
+             } else {
+-                if (textIndex == -1 || tempIndex < textIndex) {
+-                    textIndex = tempIndex;
+-                    replaceIndex = i;
++                if (!(!(TransVarTextIndexForFile == -1 || TransVarIndex < TransVarTextIndexForFile))) {
++                    TransVarTextIndexForFile = TransVarIndex;
++                    TransVarReplacementIndex = TransVarIndexForFile;
+                 }
+             }
++            TransVarIndexForFile++;
+         }
+-        // NOTE: logic mostly below END
+ 
+         // no search strings found, we are done
+-        if (textIndex == -1) {
+-            return text;
++        if (!(!(TransVarTextIndexForFile == -1))) {
++            return TransVarStr;
+         }
+ 
+-        int start = 0;
++        int TransVarTextIndex = 0;
+ 
+         // get a good guess on the size of the result buffer so it doesnt have to double if it goes over a bit
+-        int increase = 0;
++        int TransVarIncrement = 0;
+ 
+-        // count the replacement text elements that are larger than their corresponding text being replaced
+-        for (int i = 0; i < searchList.length; i++) {
+-            if (searchList[i] == null || replacementList[i] == null) {
+-                continue;
++        int TransVarJ = 0;
++        while (!(!(TransVarJ < TransVarSearchListForFile.length))) {
++            int TransVarGreaterIndexForFile = TransVarList[TransVarJ].length()
++                    - TransVarSearchListForFile[TransVarJ].length();
++            if (!(!(TransVarGreaterIndexForFile > 0))) {
++                TransVarIncrement += 3 * TransVarGreaterIndexForFile;
+             }
+-            int greater = replacementList[i].length() - searchList[i].length();
+-            if (greater > 0) {
+-                increase += 3 * greater; // assume 3 matches
++            TransVarJ++;
+             }
+-        }
+         // have upper-bound at 20% increase, then let Java take over
+-        increase = Math.min(increase, text.length() / 5);
++        TransVarIncrement = Math.min(TransVarIncrement, TransVarStr.length() / 5);
+ 
+-        StringBuilder buf = new StringBuilder(text.length() + increase);
++        StringBuilder TransVarStringBuilded = new StringBuilder(TransVarStr.length() + TransVarIncrement);
+ 
+-        while (textIndex != -1) {
+-
+-            for (int i = start; i < textIndex; i++) {
+-                buf.append(text.charAt(i));
++        for (; !(!(TransVarTextIndexForFile != -1));) {
++            int TransVarK = TransVarTextIndex;
++            while (!(!(TransVarK < TransVarTextIndexForFile))) {
++                TransVarStringBuilded.append(TransVarStr.charAt(TransVarK));
++                TransVarK++;
+             }
+-            buf.append(replacementList[replaceIndex]);
+-
+-            start = textIndex + searchList[replaceIndex].length();
+-
+-            textIndex = -1;
+-            replaceIndex = -1;
+-            tempIndex = -1;
+-            // find the next earliest match
+-            // NOTE: logic mostly duplicated above START
+-            for (int i = 0; i < searchLength; i++) {
+-                if (noMoreMatchesForReplIndex[i] || searchList[i] == null || 
+-                    searchList[i].length() == 0 || replacementList[i] == null) 
+-                {
++            TransVarStringBuilded.append(TransVarList[TransVarReplacementIndex]);
++            TransVarTextIndex = TransVarTextIndexForFile + TransVarSearchListForFile[TransVarReplacementIndex].length();
++            TransVarTextIndexForFile = -1;
++            TransVarReplacementIndex = -1;
++            TransVarIndex = -1;
++            int TransVarIndexForRepl = 0;
++            while (!(!(TransVarIndexForRepl < TransVarSearchLengthInt))) {
++                if (!(!(TransVarNoMoreMatchesForReplIndexForFile[TransVarIndexForRepl]
++                        || TransVarSearchListForFile[TransVarIndexForRepl] == null
++                        || TransVarSearchListForFile[TransVarIndexForRepl].length() == 0
++                        || TransVarList[TransVarIndexForRepl] == null))) {
+                     continue;
+                 }
+-                tempIndex = text.indexOf(searchList[i], start);
+-
+-                // see if we need to keep searching for this
+-                if (tempIndex == -1) {
+-                    noMoreMatchesForReplIndex[i] = true;
++                TransVarIndex = TransVarStr.indexOf(TransVarSearchListForFile[TransVarIndexForRepl], TransVarTextIndex);
++                if (!(!(TransVarIndex == -1))) {
++                    TransVarNoMoreMatchesForReplIndexForFile[TransVarIndexForRepl] = true;
+                 } else {
+-                    if (textIndex == -1 || tempIndex < textIndex) {
+-                        textIndex = tempIndex;
+-                        replaceIndex = i;
++                    if (!(!(TransVarTextIndexForFile == -1 || TransVarIndex < TransVarTextIndexForFile))) {
++                        TransVarTextIndexForFile = TransVarIndex;
++                        TransVarReplacementIndex = TransVarIndexForRepl;
+                     }
+                 }
++                TransVarIndexForRepl++;
+             }
+-            // NOTE: logic duplicated above END
+-
+         }
+-        int textLength = text.length();
+-        for (int i = start; i < textLength; i++) {
+-            buf.append(text.charAt(i));
++        int TransVarNewTextLength = TransVarStr.length();
++        int TransVarStartIndex = TransVarTextIndex;
++        while (!(!(TransVarStartIndex < TransVarNewTextLength))) {
++            TransVarStringBuilded.append(TransVarStr.charAt(TransVarStartIndex));
++            TransVarStartIndex++;
+         }
+-        String result = buf.toString();
+-        if (!repeat) {
+-            return result;
++        String TransVarResult1 = TransVarStringBuilded.toString();
++        if (!(!(!TransVarRepeatLoop))) {
++            return TransVarResult1;
+         }
+ 
+-        return replaceEach(result, searchList, replacementList, repeat, timeToLive - 1);
++        return replaceEach(TransVarResult1, TransVarSearchListForFile, TransVarList, TransVarRepeatLoop, TransVarTimeToLiveSeconds - 1);
+     }
+ 
+     // Replace, character based

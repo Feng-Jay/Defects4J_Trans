@@ -1,0 +1,17 @@
+--- src/main/java/org/apache/commons/csv/CSVPrinter.java	2025-05-20 23:14:23
++++ ./src/main/java/org/apache/commons/csv/CSVPrinter.java	2025-05-20 23:14:23
+@@ -321,10 +321,11 @@
+      *             If an I/O error occurs
+      */
+     public void println() throws IOException {
+-        final String recordSeparator = format.getRecordSeparator();
+-        if (recordSeparator != null) {
+-            out.append(recordSeparator);
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        final String TransVarRecordSeparatorChar = format.getRecordSeparator();
++            out.append(TransVarRecordSeparatorChar);
+         newRecord = true;
+     }
+ 

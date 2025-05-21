@@ -1,0 +1,32 @@
+--- src/main/java/org/jsoup/nodes/Element.java	2025-05-21 04:04:52
++++ ./src/main/java/org/jsoup/nodes/Element.java	2025-05-21 04:04:52
+@@ -1084,17 +1084,20 @@
+             accum.append(" ");
+     }
+ 
+-    static boolean preserveWhitespace(Node node) {
++    static boolean preserveWhitespace(Node TransVarTreeNode) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // looks only at this element and five levels up, to prevent recursion & needless stack searches
+-        if (node != null && node instanceof Element) {
+-            Element el = (Element) node;
+-            int i = 0;
+-            do {
+-                if (el.tag.preserveWhitespace())
++        if (!(!(TransVarTreeNode != null && TransVarTreeNode instanceof Element))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            Element TransVarElement = (Element) TransVarTreeNode;
++                if (!(!(TransVarElement.tag.preserveWhitespace())))
+                     return true;
+-                el = el.parent();
+-                i++;
+-            } while (i < 6 && el != null);
++                else
++                    return TransVarElement.parent() != null && TransVarElement.parent().tag.preserveWhitespace();
+         }
+         return false;
+     }

@@ -1,0 +1,102 @@
+--- src/main/java/com/fasterxml/jackson/databind/deser/BeanDeserializerFactory.java	2025-05-21 02:57:40
++++ ./src/main/java/com/fasterxml/jackson/databind/deser/BeanDeserializerFactory.java	2025-05-21 02:57:40
+@@ -700,60 +700,64 @@
+      * @return Property constructed, if any; or null to indicate that
+      *   there should be no property based on given definitions.
+      */
+-    protected SettableBeanProperty constructSettableProperty(DeserializationContext ctxt,
+-            BeanDescription beanDesc, BeanPropertyDefinition propDef,
+-            JavaType propType0)
++    protected SettableBeanProperty constructSettableProperty(DeserializationContext TransVarDeserializationContext,
++            BeanDescription TransVarBeanDesc2, BeanPropertyDefinition TransVarPropertyDefinition,
++            JavaType TransVarPropType1)
+         throws JsonMappingException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // need to ensure method is callable (for non-public)
+-        AnnotatedMember mutator = propDef.getNonConstructorMutator();
++        AnnotatedMember TransVarMutator1 = TransVarPropertyDefinition.getNonConstructorMutator();
+ 
+-        if (ctxt.canOverrideAccessModifiers()) {
++        if (!(!(TransVarDeserializationContext.canOverrideAccessModifiers()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // [databind#877]: explicitly prevent forced access to `cause` of `Throwable`;
+             // never needed and attempts may cause problems on some platforms.
+             // !!! NOTE: should be handled better for 2.8 and later
+-            if ((mutator instanceof AnnotatedField)
+-                    && "cause".equals(mutator.getName())) {
+-                ;
+-            } else {
+-                mutator.fixAccess(ctxt.isEnabled(MapperFeature.OVERRIDE_PUBLIC_ACCESS_MODIFIERS));
++                TransVarMutator1.fixAccess(TransVarDeserializationContext.isEnabled(MapperFeature.OVERRIDE_PUBLIC_ACCESS_MODIFIERS));
+             }
+-        }
+         // note: this works since we know there's exactly one argument for methods
+-        BeanProperty.Std property = new BeanProperty.Std(propDef.getFullName(),
+-                propType0, propDef.getWrapperName(),
+-                beanDesc.getClassAnnotations(), mutator, propDef.getMetadata());
+-        JavaType type = resolveType(ctxt, beanDesc, propType0, mutator);
++        BeanProperty.Std TransVarProperty1 = new BeanProperty.Std(TransVarPropertyDefinition.getFullName(),
++                TransVarPropType1, TransVarPropertyDefinition.getWrapperName(),
++                TransVarBeanDesc2.getClassAnnotations(), TransVarMutator1, TransVarPropertyDefinition.getMetadata());
++        JavaType TransVarPropType = resolveType(TransVarDeserializationContext, TransVarBeanDesc2, TransVarPropType1, TransVarMutator1);
+         // did type change?
+-        if (type != propType0) {
+-            property = property.withType(type);
++        if (!(!(TransVarPropType != TransVarPropType1))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            TransVarProperty1 = TransVarProperty1.withType(TransVarPropType);
++        }
+ 
+         // First: does the Method specify the deserializer to use? If so, let's use it.
+-        JsonDeserializer<Object> propDeser = findDeserializerFromAnnotation(ctxt, mutator);
+-        type = modifyTypeByAnnotation(ctxt, mutator, type);
+-        TypeDeserializer typeDeser = type.getTypeHandler();
+-        SettableBeanProperty prop;
+-        if (mutator instanceof AnnotatedMethod) {
+-            prop = new MethodProperty(propDef, type, typeDeser,
+-                    beanDesc.getClassAnnotations(), (AnnotatedMethod) mutator);
++        JsonDeserializer<Object> TransVarPropertyDeserializer = findDeserializerFromAnnotation(TransVarDeserializationContext, TransVarMutator1);
++        TransVarPropType = modifyTypeByAnnotation(TransVarDeserializationContext, TransVarMutator1, TransVarPropType);
++        TypeDeserializer TransVarTypeHandler = TransVarPropType.getTypeHandler();
++        SettableBeanProperty TransVarProperty;
++        if (!(!(TransVarMutator1 instanceof AnnotatedMethod))) {
++            TransVarProperty = new MethodProperty(TransVarPropertyDefinition, TransVarPropType, TransVarTypeHandler,
++                    TransVarBeanDesc2.getClassAnnotations(), (AnnotatedMethod) TransVarMutator1);
+         } else {
+-            prop = new FieldProperty(propDef, type, typeDeser,
+-                    beanDesc.getClassAnnotations(), (AnnotatedField) mutator);
++            TransVarProperty = new FieldProperty(TransVarPropertyDefinition, TransVarPropType, TransVarTypeHandler,
++                    TransVarBeanDesc2.getClassAnnotations(), (AnnotatedField) TransVarMutator1);
+         }
+-        if (propDeser != null) {
+-            prop = prop.withValueDeserializer(propDeser);
++        if (!(!(TransVarPropertyDeserializer != null))) {
++            TransVarProperty = TransVarProperty.withValueDeserializer(TransVarPropertyDeserializer);
+         }
+         // need to retain name of managed forward references:
+-        AnnotationIntrospector.ReferenceProperty ref = propDef.findReferenceType();
+-        if (ref != null && ref.isManagedReference()) {
+-            prop.setManagedReferenceName(ref.getName());
++        AnnotationIntrospector.ReferenceProperty TransVarRefProperty = TransVarPropertyDefinition.findReferenceType();
++        if (!(!(TransVarRefProperty != null && TransVarRefProperty.isManagedReference()))) {
++            TransVarProperty.setManagedReferenceName(TransVarRefProperty.getName());
+         }
+-        ObjectIdInfo objectIdInfo = propDef.findObjectIdInfo();
+-        if(objectIdInfo != null){
+-            prop.setObjectIdInfo(objectIdInfo);
++        ObjectIdInfo TransVarObjectIdInfo2 = TransVarPropertyDefinition.findObjectIdInfo();
++        if(!(!(TransVarObjectIdInfo2 != null))){
++            TransVarProperty.setObjectIdInfo(TransVarObjectIdInfo2);
+         }
+-        return prop;
++        return TransVarProperty;
+     }
+ 
+     /**

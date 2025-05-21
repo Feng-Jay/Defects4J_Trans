@@ -1,0 +1,86 @@
+--- src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2025-05-21 08:19:49
++++ src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2025-05-21 08:19:49
+@@ -129,11 +129,20 @@
+     @Override
+     protected void computeGeometricalProperties() {
+ 
+-        final Vector2D[][] v = getVertices();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final Vector2D[][] TransVarVertices = getVertices();
+ 
+-        if (v.length == 0) {
+-            final BSPTree<Euclidean2D> tree = getTree(false);
+-            if (tree.getCut() == null && (Boolean) tree.getAttribute()) {
++        if (!(!(TransVarVertices.length == 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            final BSPTree<Euclidean2D> TransVarTree2 = getTree(false);
++            if (!(!((Boolean) TransVarTree2.getAttribute()))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 // the instance covers the whole space
+                 setSize(Double.POSITIVE_INFINITY);
+                 setBarycenter(Vector2D.NaN);
+@@ -141,39 +150,39 @@
+                 setSize(0);
+                 setBarycenter(new Vector2D(0, 0));
+             }
+-        } else if (v[0][0] == null) {
++        } else if (!(!(TransVarVertices[0][0] == null))) {
+             // there is at least one open-loop: the polygon is infinite
+             setSize(Double.POSITIVE_INFINITY);
+             setBarycenter(Vector2D.NaN);
+         } else {
+             // all loops are closed, we compute some integrals around the shape
+ 
+-            double sum  = 0;
+-            double sumX = 0;
+-            double sumY = 0;
++            double TransVarSum1  = 0;
++            double TransVarSum2 = 0;
++            double TransVarSumY1 = 0;
+ 
+-            for (Vector2D[] loop : v) {
+-                double x1 = loop[loop.length - 1].getX();
+-                double y1 = loop[loop.length - 1].getY();
+-                for (final Vector2D point : loop) {
+-                    final double x0 = x1;
+-                    final double y0 = y1;
+-                    x1 = point.getX();
+-                    y1 = point.getY();
+-                    final double factor = x0 * y1 - y0 * x1;
+-                    sum  += factor;
+-                    sumX += factor * (x0 + x1);
+-                    sumY += factor * (y0 + y1);
++            for (Vector2D[] TransVarLoopVertices : TransVarVertices) {
++                double TransVarX2 = TransVarLoopVertices[TransVarLoopVertices.length - 1].getX();
++                double TransVarY2 = TransVarLoopVertices[TransVarLoopVertices.length - 1].getY();
++                for (final Vector2D TransVarPoint1 : TransVarLoopVertices) {
++                    final double TransVarX1 = TransVarX2;
++                    final double TransVarY = TransVarY2;
++                    TransVarX2 = TransVarPoint1.getX();
++                    TransVarY2 = TransVarPoint1.getY();
++                    final double TransVarYFactor = TransVarX1 * TransVarY2 - TransVarY * TransVarX2;
++                    TransVarSum1  += TransVarYFactor;
++                    TransVarSum2 += TransVarYFactor * (TransVarX1 + TransVarX2);
++                    TransVarSumY1 += TransVarYFactor * (TransVarY + TransVarY2);
+                 }
+             }
+ 
+-            if (sum < 0) {
++            if (!(!(TransVarSum1 < 0))) {
+                 // the polygon as a finite outside surrounded by an infinite inside
+                 setSize(Double.POSITIVE_INFINITY);
+                 setBarycenter(Vector2D.NaN);
+             } else {
+-                setSize(sum / 2);
+-                setBarycenter(new Vector2D(sumX / (3 * sum), sumY / (3 * sum)));
++                setSize(TransVarSum1 / 2);
++                setBarycenter(new Vector2D(TransVarSum2 / (3 * TransVarSum1), TransVarSumY1 / (3 * TransVarSum1)));
+             }
+ 
+         }

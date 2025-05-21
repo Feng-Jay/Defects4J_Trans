@@ -1,0 +1,40 @@
+--- src/main/java/org/apache/commons/compress/archivers/tar/TarUtils.java	2025-05-20 23:11:42
++++ ./src/main/java/org/apache/commons/compress/archivers/tar/TarUtils.java	2025-05-20 23:11:42
+@@ -90,19 +90,29 @@
+      * @param length The maximum number of bytes to parse.
+      * @return The entry name.
+      */
+-    public static String parseName(byte[] buffer, final int offset, final int length) {
+-        StringBuffer result = new StringBuffer(length);
+-        int          end = offset + length;
++    public static String parseName(byte[] TransVarBuf, final int TransVarOffset1, final int TransVarOffset) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        StringBuffer TransVarResultBuffer = new StringBuffer(TransVarOffset);
++        int          TransVarOffset2 = TransVarOffset1 + TransVarOffset;
+ 
+-        for (int i = offset; i < end; ++i) {
+-            byte b = buffer[i];
+-            if (b == 0) { // Trailing null
++        int TransVarIndex = TransVarOffset1;
++        while (!(!(TransVarIndex < TransVarOffset2))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarBuf[TransVarIndex] == 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 break;
+             }
+-            result.append((char) (b & 0xFF)); // Allow for sign-extension
++            TransVarResultBuffer.append((char) TransVarBuf[TransVarIndex]);
++            ++TransVarIndex;
+         }
+ 
+-        return result.toString();
++        return TransVarResultBuffer.toString();
+     }
+ 
+     /**

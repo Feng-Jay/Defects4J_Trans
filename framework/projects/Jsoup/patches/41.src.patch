@@ -1,0 +1,26 @@
+--- src/main/java/org/jsoup/nodes/Element.java	2025-05-21 06:28:52
++++ ./src/main/java/org/jsoup/nodes/Element.java	2025-05-21 06:28:52
+@@ -1165,14 +1165,17 @@
+     }
+ 
+     @Override
+-    public boolean equals(Object o) {
+-        if (this == o) return true;
+-        if (o == null || getClass() != o.getClass()) return false;
+-        if (!super.equals(o)) return false;
++    public boolean equals(Object TransVarObj) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(this == TransVarObj))) return true;
++        if (!(!(TransVarObj == null || getClass() != TransVarObj.getClass()))) return false;
++        if (!(!(!super.equals(TransVarObj)))) return false;
+ 
+-        Element element = (Element) o;
++        Element TransVarObject = (Element) TransVarObj;
+ 
+-        return tag.equals(element.tag);
++        return this == TransVarObj;
+     }
+ 
+     @Override

@@ -1,0 +1,65 @@
+--- src/com/google/javascript/jscomp/TypeInference.java	2025-05-20 23:08:05
++++ ./src/com/google/javascript/jscomp/TypeInference.java	2025-05-20 23:08:05
+@@ -1032,32 +1032,45 @@
+     }
+   }
+ 
+-  private FlowScope traverseNew(Node n, FlowScope scope) {
+-    scope = traverseChildren(n, scope);
++  private FlowScope traverseNew(Node TransVarNode, FlowScope TransVarFlowScope) {
+ 
+-    Node constructor = n.getFirstChild();
+-    JSType constructorType = constructor.getJSType();
+-    JSType type = null;
+-    if (constructorType != null) {
+-      constructorType = constructorType.restrictByNotNullOrUndefined();
+-      if (constructorType.isUnknownType()) {
+-        type = getNativeType(UNKNOWN_TYPE);
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    Node TransVarConstructorNode = TransVarNode.getFirstChild();
++    TransVarFlowScope = traverse(TransVarConstructorNode, TransVarFlowScope);
++    JSType TransVarConstructorTypeInstance = TransVarConstructorNode.getJSType();
++    JSType TransVarReturnType = null;
++    if (!(!(TransVarConstructorTypeInstance != null))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    TransVarConstructorTypeInstance = TransVarConstructorTypeInstance.restrictByNotNullOrUndefined();
++      if (!(!(TransVarConstructorTypeInstance.isUnknownType()))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        TransVarReturnType = getNativeType(UNKNOWN_TYPE);
+       } else {
+-        FunctionType ct = constructorType.toMaybeFunctionType();
+-        if (ct == null && constructorType instanceof FunctionType) {
++        FunctionType TransVarTypeInstance = TransVarConstructorTypeInstance.toMaybeFunctionType();
++        if (!(!(TransVarTypeInstance == null && TransVarConstructorTypeInstance instanceof FunctionType))) {
+           // If constructorType is a NoObjectType, then toMaybeFunctionType will
+           // return null. But NoObjectType implements the FunctionType
+           // interface, precisely because it can validly construct objects.
+-          ct = (FunctionType) constructorType;
++          TransVarTypeInstance = (FunctionType) TransVarConstructorTypeInstance;
+         }
+-        if (ct != null && ct.isConstructor()) {
+-          type = ct.getInstanceType();
+-          backwardsInferenceFromCallSite(n, ct);
++        if (!(!(TransVarTypeInstance != null && TransVarTypeInstance.isConstructor()))) {
++          TransVarReturnType = TransVarTypeInstance.getInstanceType();
+         }
+       }
+     }
+-    n.setJSType(type);
+-    return scope;
++    TransVarNode.setJSType(TransVarReturnType);
++    Node TransVarNext = TransVarConstructorNode.getNext();
++    while (!(!(TransVarNext != null))) {
++        TransVarFlowScope = traverse(TransVarNext, TransVarFlowScope);
++        TransVarNext = TransVarNext.getNext();
++    }
++    return TransVarFlowScope;
+   }
+ 
+   private BooleanOutcomePair traverseAnd(Node n, FlowScope scope) {

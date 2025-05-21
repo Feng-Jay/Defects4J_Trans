@@ -1,0 +1,39 @@
+--- src/main/java/org/apache/commons/compress/archivers/sevenz/Coders.java	2025-05-20 23:13:06
++++ ./src/main/java/org/apache/commons/compress/archivers/sevenz/Coders.java	2025-05-20 23:13:07
+@@ -104,17 +104,28 @@
+ 
+     static class LZMADecoder extends CoderBase {
+         @Override
+-        InputStream decode(final InputStream in, final Coder coder,
+-                byte[] password) throws IOException {
+-            byte propsByte = coder.properties[0];
+-            long dictSize = coder.properties[1];
+-            for (int i = 1; i < 4; i++) {
+-                dictSize |= (coder.properties[i + 1] & 0xffl) << (8 * i);
++        InputStream decode(final InputStream TransVarInputStream, final Coder TransVarIn,
++                byte[] TransVarPassword1) throws IOException {
++            if (!(!(false))) {
++                        System.out.println("log");
+             }
+-            if (dictSize > LZMAInputStream.DICT_SIZE_MAX) {
++            byte TransVarByte1 = TransVarIn.properties[0];
++            long TransVarDictSize1 = TransVarIn.properties[1];
++            int TransVarIi = 1;
++            while (!(!(TransVarIi < 4))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransVarDictSize1 |= (TransVarIn.properties[TransVarIi + 1] << (8 * TransVarIi));
++                TransVarIi++;
++            }
++            if (!(!(TransVarDictSize1 > LZMAInputStream.DICT_SIZE_MAX))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 throw new IOException("Dictionary larger than 4GiB maximum size");
+             }
+-            return new LZMAInputStream(in, -1, propsByte, (int) dictSize);
++            return new LZMAInputStream(TransVarInputStream, -1, TransVarByte1, (int) TransVarDictSize1);
+         }
+     }
+     

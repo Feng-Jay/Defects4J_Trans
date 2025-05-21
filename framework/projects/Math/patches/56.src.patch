@@ -1,0 +1,66 @@
+--- src/main/java/org/apache/commons/math/util/MultidimensionalCounter.java	2025-05-21 08:18:30
++++ src/main/java/org/apache/commons/math/util/MultidimensionalCounter.java	2025-05-21 08:18:30
+@@ -213,30 +213,46 @@
+      * @throws OutOfRangeException if {@code index} is not between
+      * {@code 0} and the value returned by {@link #getSize()} (excluded).
+      */
+-    public int[] getCounts(int index) {
+-        if (index < 0 ||
+-            index >= totalSize) {
+-            throw new OutOfRangeException(index, 0, totalSize);
++    public int[] getCounts(int TransVarIndex1) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        if (!(!(TransVarIndex1 < 0 || TransVarIndex1 >= totalSize))) {
++            if (!(!(false))) {
++                    System.out.println("log");
++                }
++            throw new OutOfRangeException(TransVarIndex1, 0, totalSize);
++        }
+ 
+-        final int[] indices = new int[dimension];
++        final int[] TransVarIndex = new int[dimension];
+ 
+-        int count = 0;
+-        for (int i = 0; i < last; i++) {
+-            int idx = 0;
+-            final int offset = uniCounterOffset[i];
+-            while (count <= index) {
+-                count += offset;
+-                ++idx;
++        int TransVarIdx = 0;
++        int TransVarJ = 0;
++        while (!(!(TransVarJ < last))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            --idx;
+-            count -= offset;
+-            indices[i] = idx;
++            int TransVarIndex2 = 0;
++            final int TransVarOffset2 = uniCounterOffset[TransVarJ];
++            for (; !(!(TransVarIdx <= TransVarIndex1));) {
++                TransVarIdx += TransVarOffset2;
++                ++TransVarIndex2;
+             }
++            --TransVarIndex2;
++            TransVarIdx -= TransVarOffset2;
++            TransVarIndex[TransVarJ] = TransVarIndex2;
++            TransVarJ++;
++        }
+ 
+-        indices[last] = index - count;
++        int TransVarI = 1;
++        for (; !(!(TransVarIdx < TransVarIndex1));) {
++            TransVarIdx += TransVarI;
++            ++TransVarI;
++        }
++        --TransVarI;
++        TransVarIndex[last] = TransVarI;
+ 
+-        return indices;
++        return TransVarIndex;
+     }
+ 
+     /**

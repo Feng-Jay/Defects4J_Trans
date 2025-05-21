@@ -1,0 +1,31 @@
+--- gson/src/main/java/com/google/gson/internal/bind/JsonTreeReader.java	2025-05-20 23:14:25
++++ ./gson/src/main/java/com/google/gson/internal/bind/JsonTreeReader.java	2025-05-20 23:14:25
+@@ -254,18 +254,23 @@
+   }
+ 
+   @Override public void skipValue() throws IOException {
+-    if (peek() == JsonToken.NAME) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    if (!(!(peek() == JsonToken.NAME))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+     nextName();
+       pathNames[stackSize - 2] = "null";
+     } else {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       popStack();
+-      if (stackSize > 0) {
+         pathNames[stackSize - 1] = "null";
+       }
+-    }
+-    if (stackSize > 0) {
+       pathIndices[stackSize - 1]++;
+-    }
+   }
+ 
+   @Override public String toString() {

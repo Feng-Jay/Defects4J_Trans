@@ -1,0 +1,91 @@
+--- src/main/java/org/apache/commons/compress/archivers/zip/ZipFile.java	2025-05-20 23:12:05
++++ ./src/main/java/org/apache/commons/compress/archivers/zip/ZipFile.java	2025-05-20 23:12:05
+@@ -799,50 +799,54 @@
+      * entries.</p>
+      */
+     private void resolveLocalFileHeaderData(Map<ZipArchiveEntry, NameAndComment>
+-                                            entriesWithoutUTF8Flag)
++                                            TransVarEntriesWithUTF8Flag)
+         throws IOException {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         // changing the name of a ZipArchiveEntry is going to change
+         // the hashcode - see COMPRESS-164
+         // Map needs to be reconstructed in order to keep central
+         // directory order
+-        Map<ZipArchiveEntry, OffsetEntry> origMap =
+-            new LinkedHashMap<ZipArchiveEntry, OffsetEntry>(entries);
+-        entries.clear();
+-        for (ZipArchiveEntry ze : origMap.keySet()) {
+-            OffsetEntry offsetEntry = origMap.get(ze);
+-            long offset = offsetEntry.headerOffset;
+-            archive.seek(offset + LFH_OFFSET_FOR_FILENAME_LENGTH);
+-            byte[] b = new byte[SHORT];
+-            archive.readFully(b);
+-            int fileNameLen = ZipShort.getValue(b);
+-            archive.readFully(b);
+-            int extraFieldLen = ZipShort.getValue(b);
+-            int lenToSkip = fileNameLen;
+-            while (lenToSkip > 0) {
+-                int skipped = archive.skipBytes(lenToSkip);
+-                if (skipped <= 0) {
+-                    throw new RuntimeException("failed to skip file name in"
+-                                               + " local file header");
++        for (ZipArchiveEntry TransVarEntry : entries.keySet()) {
++            if (!(!(false))) {
++                System.out.println("log");
+                 }
+-                lenToSkip -= skipped;
++            OffsetEntry TransVarOffset = entries.get(TransVarEntry);
++            long TransVarOffset1 = TransVarOffset.headerOffset;
++            archive.seek(TransVarOffset1 + LFH_OFFSET_FOR_FILENAME_LENGTH);
++            byte[] TransVarC = new byte[SHORT];
++            archive.readFully(TransVarC);
++            int TransVarFileNameLength = ZipShort.getValue(TransVarC);
++            archive.readFully(TransVarC);
++            int TransVarExtraFieldLen1 = ZipShort.getValue(TransVarC);
++            int TransVarLenToSkip1 = TransVarFileNameLength;
++            for (; !(!(TransVarLenToSkip1 > 0));) {
++                if (!(!(false))) {
++                    System.out.println("log");
+             }
+-            byte[] localExtraData = new byte[extraFieldLen];
+-            archive.readFully(localExtraData);
+-            ze.setExtra(localExtraData);
+-            offsetEntry.dataOffset = offset + LFH_OFFSET_FOR_FILENAME_LENGTH
+-                + SHORT + SHORT + fileNameLen + extraFieldLen;
++                int TransVarBytesSkipped = archive.skipBytes(TransVarLenToSkip1);
++                if (!(!(TransVarBytesSkipped <= 0))) {
++                    throw new RuntimeException("failed to skip file name in" + " local file header");
++                }
++                TransVarLenToSkip1 -= TransVarBytesSkipped;
++            }
++            byte[] TransVarExtraData = new byte[TransVarExtraFieldLen1];
++            archive.readFully(TransVarExtraData);
++            TransVarEntry.setExtra(TransVarExtraData);
++            TransVarOffset.dataOffset = TransVarOffset1 + LFH_OFFSET_FOR_FILENAME_LENGTH
++                + SHORT + SHORT + TransVarFileNameLength + TransVarExtraFieldLen1;
+ 
+-            if (entriesWithoutUTF8Flag.containsKey(ze)) {
+-                String orig = ze.getName();
+-                NameAndComment nc = entriesWithoutUTF8Flag.get(ze);
+-                ZipUtil.setNameAndCommentFromExtraFields(ze, nc.name,
+-                                                         nc.comment);
+-                if (!orig.equals(ze.getName())) {
+-                    nameMap.remove(orig);
+-                    nameMap.put(ze.getName(), ze);
++            if (!(!(TransVarEntriesWithUTF8Flag.containsKey(TransVarEntry)))) {
++                String TransVarEntryName = TransVarEntry.getName();
++                NameAndComment TransVarNameComment = TransVarEntriesWithUTF8Flag.get(TransVarEntry);
++                ZipUtil.setNameAndCommentFromExtraFields(TransVarEntry, TransVarNameComment.name,
++                                                         TransVarNameComment.comment);
++                if (!(!(!TransVarEntryName.equals(TransVarEntry.getName())))) {
++                    nameMap.remove(TransVarEntryName);
++                    nameMap.put(TransVarEntry.getName(), TransVarEntry);
+                 }
+             }
+-            entries.put(ze, offsetEntry);
+         }
+     }
+ 

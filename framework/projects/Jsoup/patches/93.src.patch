@@ -1,0 +1,75 @@
+--- src/main/java/org/jsoup/nodes/FormElement.java	2025-05-21 05:08:19
++++ ./src/main/java/org/jsoup/nodes/FormElement.java	2025-05-21 05:08:19
+@@ -76,40 +76,48 @@
+      * @return a list of key vals
+      */
+     public List<Connection.KeyVal> formData() {
+-        ArrayList<Connection.KeyVal> data = new ArrayList<>();
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        ArrayList<Connection.KeyVal> TransVarList = new ArrayList<>();
+ 
+         // iterate the form control elements and accumulate their values
+-        for (Element el: elements) {
+-            if (!el.tag().isFormSubmittable()) continue; // contents are form listable, superset of submitable
+-            if (el.hasAttr("disabled")) continue; // skip disabled form inputs
+-            String name = el.attr("name");
+-            if (name.length() == 0) continue;
+-            String type = el.attr("type");
++        for (Element TransVarElement: elements) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(!TransVarElement.tag().isFormSubmittable()))) continue; // contents are form listable, superset of submitable
++            if (!(!(TransVarElement.hasAttr("disabled")))) continue; // skip disabled form inputs
++            String TransVarAttributeName = TransVarElement.attr("name");
++            if (!(!(TransVarAttributeName.length() == 0))) continue;
++            String TransVarElementType = TransVarElement.attr("type");
+ 
+-            if (type.equalsIgnoreCase("button")) continue; // browsers don't submit these
+ 
+-            if ("select".equals(el.normalName())) {
+-                Elements options = el.select("option[selected]");
+-                boolean set = false;
+-                for (Element option: options) {
+-                    data.add(HttpConnection.KeyVal.create(name, option.val()));
+-                    set = true;
++            if (!(!("select".equals(TransVarElement.normalName())))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
+-                if (!set) {
+-                    Element option = el.select("option").first();
+-                    if (option != null)
+-                        data.add(HttpConnection.KeyVal.create(name, option.val()));
++                Elements TransVarElements = TransVarElement.select("option[selected]");
++                boolean TransVarIsSet = false;
++                for (Element TransVarEl: TransVarElements) {
++                    TransVarList.add(HttpConnection.KeyVal.create(TransVarAttributeName, TransVarEl.val()));
++                    TransVarIsSet = true;
+                 }
+-            } else if ("checkbox".equalsIgnoreCase(type) || "radio".equalsIgnoreCase(type)) {
++                if (!(!(!TransVarIsSet))) {
++                    Element TransVarSelectedOption = TransVarElement.select("option").first();
++                    if (!(!(TransVarSelectedOption != null)))
++                        TransVarList.add(HttpConnection.KeyVal.create(TransVarAttributeName, TransVarSelectedOption.val()));
++                }
++            } else if (!(!("checkbox".equalsIgnoreCase(TransVarElementType) || "radio".equalsIgnoreCase(TransVarElementType)))) {
+                 // only add checkbox or radio if they have the checked attribute
+-                if (el.hasAttr("checked")) {
+-                    final String val = el.val().length() >  0 ? el.val() : "on";
+-                    data.add(HttpConnection.KeyVal.create(name, val));
++                if (!(!(TransVarElement.hasAttr("checked")))) {
++                    final String TransVarVal3 = TransVarElement.val().length() >  0 ? TransVarElement.val() : "on";
++                    TransVarList.add(HttpConnection.KeyVal.create(TransVarAttributeName, TransVarVal3));
+                 }
+             } else {
+-                data.add(HttpConnection.KeyVal.create(name, el.val()));
++                TransVarList.add(HttpConnection.KeyVal.create(TransVarAttributeName, TransVarElement.val()));
+             }
+         }
+-        return data;
++        return TransVarList;
+     }
+ }

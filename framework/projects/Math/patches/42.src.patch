@@ -1,0 +1,66 @@
+--- src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java	2025-05-21 08:18:40
++++ src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java	2025-05-21 08:18:40
+@@ -394,36 +394,39 @@
+      * @return current solution
+      */
+     protected RealPointValuePair getSolution() {
+-      int negativeVarColumn = columnLabels.indexOf(NEGATIVE_VAR_COLUMN_LABEL);
+-      Integer negativeVarBasicRow = negativeVarColumn > 0 ? getBasicRow(negativeVarColumn) : null;
+-      double mostNegative = negativeVarBasicRow == null ? 0 : getEntry(negativeVarBasicRow, getRhsOffset());
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    int TransVarNegativeVar = columnLabels.indexOf(NEGATIVE_VAR_COLUMN_LABEL);
++      Integer TransVarNegativeVarFinal = TransVarNegativeVar > 0 ? getBasicRow(TransVarNegativeVar) : null;
++      double TransVarNegative = TransVarNegativeVarFinal == null ? 0 : getEntry(TransVarNegativeVarFinal, getRhsOffset());
+ 
+-      Set<Integer> basicRows = new HashSet<Integer>();
+-      double[] coefficients = new double[getOriginalNumDecisionVariables()];
+-      for (int i = 0; i < coefficients.length; i++) {
+-          int colIndex = columnLabels.indexOf("x" + i);
+-          if (colIndex < 0) {
+-            coefficients[i] = 0;
++      Set<Integer> TransVarPositiveRows = new HashSet<Integer>();
++      double[] TransVarCoefficientsFinal = new double[getOriginalNumDecisionVariables()];
++      int TransVarIndex = 0;
++    while (!(!(TransVarIndex < TransVarCoefficientsFinal.length))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        int TransVarColumnIndex = columnLabels.indexOf("x" + TransVarIndex);
++        if (!(!(TransVarColumnIndex < 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarCoefficientsFinal[TransVarIndex] = 0;
+             continue;
+           }
+-          Integer basicRow = getBasicRow(colIndex);
+-          if (basicRow != null && basicRow == 0) {
+-              // if the basic row is found to be the objective function row
+-              // set the coefficient to 0 -> this case handles unconstrained 
+-              // variables that are still part of the objective function
+-              coefficients[i] = 0;
+-          } else if (basicRows.contains(basicRow)) {
+-              // if multiple variables can take a given value
+-              // then we choose the first and set the rest equal to 0
+-              coefficients[i] = 0 - (restrictToNonNegative ? 0 : mostNegative);
++        Integer TransVarRow = getBasicRow(TransVarColumnIndex);
++        if (!(!(TransVarPositiveRows.contains(TransVarRow)))) {
++            TransVarCoefficientsFinal[TransVarIndex] = 0 - (restrictToNonNegative ? 0 : TransVarNegative);
+           } else {
+-              basicRows.add(basicRow);
+-              coefficients[i] =
+-                  (basicRow == null ? 0 : getEntry(basicRow, getRhsOffset())) -
+-                  (restrictToNonNegative ? 0 : mostNegative);
++            TransVarPositiveRows.add(TransVarRow);
++            TransVarCoefficientsFinal[TransVarIndex] = (TransVarRow == null ? 0 : getEntry(TransVarRow, getRhsOffset()))
++                    - (restrictToNonNegative ? 0 : TransVarNegative);
+         }
++        TransVarIndex++;
+       }
+-      return new RealPointValuePair(coefficients, f.getValue(coefficients));
++      return new RealPointValuePair(TransVarCoefficientsFinal, f.getValue(TransVarCoefficientsFinal));
+     }
+ 
+     /**

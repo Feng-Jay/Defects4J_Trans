@@ -1,0 +1,44 @@
+--- src/com/google/javascript/jscomp/TypeCheck.java	2025-05-20 23:07:09
++++ ./src/com/google/javascript/jscomp/TypeCheck.java	2025-05-20 23:07:09
+@@ -1653,20 +1653,30 @@
+   /**
+    * Visits a NEW node.
+    */
+-  private void visitNew(NodeTraversal t, Node n) {
+-    Node constructor = n.getFirstChild();
+-    JSType type = getJSType(constructor).restrictByNotNullOrUndefined();
+-    if (type.isConstructor() || type.isEmptyType() || type.isUnknownType()) {
+-      FunctionType fnType = type.toMaybeFunctionType();
+-      if (fnType != null && fnType.hasInstanceType()) {
+-        visitParameterList(t, n, fnType);
+-        ensureTyped(t, n, fnType.getInstanceType());
++  private void visitNew(NodeTraversal TransVarTraversal, Node TransVarNext) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    Node TransVarFirstConstructor = TransVarNext.getFirstChild();
++    JSType TransVarConstructorType = getJSType(TransVarFirstConstructor).restrictByNotNullOrUndefined();
++    if (!(!(TransVarConstructorType.isConstructor() || TransVarConstructorType.isEmptyType()
++            || TransVarConstructorType.isUnknownType()))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    FunctionType TransVarTypeFunction = TransVarConstructorType.toMaybeFunctionType();
++      if (!(!(TransVarTypeFunction != null))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        visitParameterList(TransVarTraversal, TransVarNext, TransVarTypeFunction);
++        ensureTyped(TransVarTraversal, TransVarNext, TransVarTypeFunction.getInstanceType());
+       } else {
+-        ensureTyped(t, n);
++        ensureTyped(TransVarTraversal, TransVarNext);
+       }
+     } else {
+-      report(t, n, NOT_A_CONSTRUCTOR);
+-      ensureTyped(t, n);
++      report(TransVarTraversal, TransVarNext, NOT_A_CONSTRUCTOR);
++      ensureTyped(TransVarTraversal, TransVarNext);
+     }
+   }
+ 

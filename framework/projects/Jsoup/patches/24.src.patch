@@ -1,0 +1,87 @@
+--- src/main/java/org/jsoup/parser/TokeniserState.java	2025-05-21 06:28:51
++++ ./src/main/java/org/jsoup/parser/TokeniserState.java	2025-05-21 06:28:51
+@@ -550,37 +550,58 @@
+         }
+     },
+     ScriptDataEscapedEndTagName {
+-        void read(Tokeniser t, CharacterReader r) {
+-            if (r.matchesLetter()) {
+-                String name = r.consumeLetterSequence();
+-                t.tagPending.appendTagName(name.toLowerCase());
+-                t.dataBuffer.append(name);
++        void read(Tokeniser TransVarTokeniser, CharacterReader TransVarC) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarC.matchesLetter()))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                String TransVarToken = TransVarC.consumeLetterSequence();
++                TransVarTokeniser.tagPending.appendTagName(TransVarToken.toLowerCase());
++                TransVarTokeniser.dataBuffer.append(TransVarToken);
++                TransVarC.advance();
+                 return;
+             }
+ 
+-            if (t.isAppropriateEndTagToken() && !r.isEmpty()) {
+-                char c = r.consume();
+-                switch (c) {
+-                    case '\t':
+-                    case '\n':
+-                    case '\f':
+-                    case ' ':
+-                        t.transition(BeforeAttributeName);
+-                        break;
+-                    case '/':
+-                        t.transition(SelfClosingStartTag);
+-                        break;
+-                    case '>':
+-                        t.emitTagPending();
+-                        t.transition(Data);
+-                        break;
+-                    default:
+-                        t.dataBuffer.append(c);
+-                        anythingElse(t, r);
+-                        break;
++            if (!(!(TransVarTokeniser.isAppropriateEndTagToken() && !TransVarC.isEmpty()))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                char TransVarCharChar = TransVarC.consume();
++                boolean TransFallThroughFlag0 = false;
++                boolean TransBreakFlag0 = true;
++                {
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharChar == '\t'))))) {
++                        TransFallThroughFlag0 = true;
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharChar == '\n'))))) {
++                        TransFallThroughFlag0 = true;
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharChar == '\f'))))) {
++                        TransFallThroughFlag0 = true;
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharChar == ' '))))) {
++                        TransBreakFlag0 = false;
++                        TransVarTokeniser.transition(BeforeAttributeName);
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharChar == '/'))))) {
++                        TransBreakFlag0 = false;
++                        TransVarTokeniser.transition(SelfClosingStartTag);
++                    }
++                    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharChar == '>'))))) {
++                        TransBreakFlag0 = false;
++                        TransVarTokeniser.emitTagPending();
++                        TransVarTokeniser.transition(Data);
++                    }
++                    if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++                        TransVarTokeniser.dataBuffer.append(TransVarCharChar);
++                        anythingElse(TransVarTokeniser, TransVarC);
++                    }
++                }
+             } else {
+-                anythingElse(t, r);
++                anythingElse(TransVarTokeniser, TransVarC);
+             }
+         }
+         

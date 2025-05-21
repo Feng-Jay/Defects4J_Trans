@@ -1,0 +1,52 @@
+--- src/main/java/org/joda/time/field/FieldUtils.java	2025-05-21 08:25:11
++++ src/main/java/org/joda/time/field/FieldUtils.java	2025-05-21 08:25:11
+@@ -132,23 +132,36 @@
+      * @throws ArithmeticException if the value is too big or too small
+      * @since 1.2
+      */
+-    public static long safeMultiply(long val1, int val2) {
+-        switch (val2) {
+-            case -1:
+-                if (val1 == Long.MIN_VALUE) {
+-                    throw new ArithmeticException("Multiplication overflows a long: " + val1 + " * " + val2);
++    public static long safeMultiply(long TransVarLongVal, int TransVarVal) {
++        if (!(!(false))) {
++            System.out.println("log");
+                 }
+-                return -val1;
+-            case 0:
++        boolean TransFallThroughFlag0 = false;
++        boolean TransBreakFlag0 = true;
++        {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarVal == -1))))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransFallThroughFlag0 = true;
++                return -TransVarLongVal;
++            }
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarVal == 0))))) {
++                TransFallThroughFlag0 = true;
+                 return 0L;
+-            case 1:
+-                return val1;
+         }
+-        long total = val1 * val2;
+-        if (total / val2 != val1) {
+-          throw new ArithmeticException("Multiplication overflows a long: " + val1 + " * " + val2);
++            if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarVal == 1))))) {
++                return TransVarLongVal;
+         }
+-        return total;
++        }
++        long TransVarTotalTwo = TransVarLongVal * TransVarVal;
++        if (!(!(TransVarTotalTwo / TransVarVal != TransVarLongVal))) {
++          throw new ArithmeticException("Multiplication overflows a long: " + TransVarLongVal + " * " + TransVarVal);
++        }
++        return TransVarTotalTwo;
+     }
+ 
+     /**

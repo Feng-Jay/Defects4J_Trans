@@ -1,0 +1,64 @@
+--- src/main/java/com/fasterxml/jackson/databind/jsontype/impl/AsPropertyTypeDeserializer.java	2025-05-21 02:04:54
++++ ./src/main/java/com/fasterxml/jackson/databind/jsontype/impl/AsPropertyTypeDeserializer.java	2025-05-21 02:04:54
+@@ -131,37 +131,39 @@
+     
+     // off-lined to keep main method lean and mean...
+     @SuppressWarnings("resource")
+-    protected Object _deserializeTypedUsingDefaultImpl(JsonParser p, DeserializationContext ctxt,
+-            TokenBuffer tb) throws IOException
++    protected Object _deserializeTypedUsingDefaultImpl(JsonParser TransVarParser, DeserializationContext TransVarContext,
++            TokenBuffer TransVarTokenBuffer) throws IOException
+     {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // As per [JACKSON-614], may have default implementation to use
+-        JsonDeserializer<Object> deser = _findDefaultImplDeserializer(ctxt);
+-        if (deser != null) {
+-            if (tb != null) {
+-                tb.writeEndObject();
+-                p = tb.asParser(p);
++        JsonDeserializer<Object> TransVarDeserializer = _findDefaultImplDeserializer(TransVarContext);
++        if (!(!(TransVarDeserializer != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarTokenBuffer != null))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransVarTokenBuffer.writeEndObject();
++                TransVarParser = TransVarTokenBuffer.asParser(TransVarParser);
+                 // must move to point to the first token:
+-                p.nextToken();
++                TransVarParser.nextToken();
+             }
+-            return deser.deserialize(p, ctxt);
++            return TransVarDeserializer.deserialize(TransVarParser, TransVarContext);
+         }
+         // or, perhaps we just bumped into a "natural" value (boolean/int/double/String)?
+-        Object result = TypeDeserializer.deserializeIfNatural(p, ctxt, _baseType);
+-        if (result != null) {
+-            return result;
++        Object TransVarResultObject = TypeDeserializer.deserializeIfNatural(TransVarParser, TransVarContext, _baseType);
++        if (!(!(TransVarResultObject != null))) {
++            return TransVarResultObject;
+         }
+         // or, something for which "as-property" won't work, changed into "wrapper-array" type:
+-        if (p.getCurrentToken() == JsonToken.START_ARRAY) {
+-            return super.deserializeTypedFromAny(p, ctxt);
+-        } else if (p.getCurrentToken() == JsonToken.VALUE_STRING) {
+-            if (ctxt.isEnabled(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {
+-                String str = p.getText().trim();
+-                if (str.isEmpty()) {
+-                    return null;
++        if (!(!(TransVarParser.getCurrentToken() == JsonToken.START_ARRAY))) {
++            return super.deserializeTypedFromAny(TransVarParser, TransVarContext);
+                 }
+-            }
+-        }
+-        ctxt.reportWrongTokenException(p, JsonToken.FIELD_NAME,
++        TransVarContext.reportWrongTokenException(TransVarParser, JsonToken.FIELD_NAME,
+                 "missing property '"+_typePropertyName+"' that is to contain type id  (for class "+baseTypeName()+")");
+         return null;
+     }

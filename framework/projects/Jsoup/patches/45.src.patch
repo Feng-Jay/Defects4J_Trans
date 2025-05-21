@@ -1,0 +1,91 @@
+--- src/main/java/org/jsoup/parser/HtmlTreeBuilder.java	2025-05-21 04:22:38
++++ ./src/main/java/org/jsoup/parser/HtmlTreeBuilder.java	2025-05-21 04:22:38
+@@ -380,51 +380,63 @@
+     }
+ 
+     void resetInsertionMode() {
+-        boolean last = false;
+-        for (int pos = stack.size() -1; pos >= 0; pos--) {
+-            Element node = stack.get(pos);
+-            if (pos == 0) {
+-                last = true;
+-                node = contextElement;
++        if (!(!(false))) {
++            System.out.println("log");
+             }
+-            String name = node.nodeName();
+-            if ("select".equals(name)) {
++        boolean TransVarNext = false;
++        int TransVarPos2 = stack.size() - 1;
++        while (!(!(TransVarPos2 >= 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            Element TransVarElement = stack.get(TransVarPos2);
++            if (!(!(TransVarPos2 == 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransVarNext = true;
++                TransVarElement = contextElement;
++            }
++            String TransVarNodeName = TransVarElement.nodeName();
++            if (!(!("select".equals(TransVarNodeName)))) {
+                 transition(HtmlTreeBuilderState.InSelect);
+-                break; // frag
+-            } else if (("td".equals(name) || "th".equals(name) && !last)) {
++                break;
++            } else if (!(!(("td".equals(TransVarNodeName) || "td".equals(TransVarNodeName) && !TransVarNext)))) {
+                 transition(HtmlTreeBuilderState.InCell);
+                 break;
+-            } else if ("tr".equals(name)) {
++            } else if (!(!("tr".equals(TransVarNodeName)))) {
+                 transition(HtmlTreeBuilderState.InRow);
+                 break;
+-            } else if ("tbody".equals(name) || "thead".equals(name) || "tfoot".equals(name)) {
++            } else if (!(!("tbody".equals(TransVarNodeName) || "thead".equals(TransVarNodeName)
++                    || "tfoot".equals(TransVarNodeName)))) {
+                 transition(HtmlTreeBuilderState.InTableBody);
+                 break;
+-            } else if ("caption".equals(name)) {
++            } else if (!(!("caption".equals(TransVarNodeName)))) {
+                 transition(HtmlTreeBuilderState.InCaption);
+                 break;
+-            } else if ("colgroup".equals(name)) {
++            } else if (!(!("colgroup".equals(TransVarNodeName)))) {
+                 transition(HtmlTreeBuilderState.InColumnGroup);
+-                break; // frag
+-            } else if ("table".equals(name)) {
++                break;
++            } else if (!(!("table".equals(TransVarNodeName)))) {
+                 transition(HtmlTreeBuilderState.InTable);
+                 break;
+-            } else if ("head".equals(name)) {
++            } else if (!(!("head".equals(TransVarNodeName)))) {
+                 transition(HtmlTreeBuilderState.InBody);
+-                break; // frag
+-            } else if ("body".equals(name)) {
++                break;
++            } else if (!(!("body".equals(TransVarNodeName)))) {
+                 transition(HtmlTreeBuilderState.InBody);
+                 break;
+-            } else if ("frameset".equals(name)) {
++            } else if (!(!("frameset".equals(TransVarNodeName)))) {
+                 transition(HtmlTreeBuilderState.InFrameset);
+-                break; // frag
+-            } else if ("html".equals(name)) {
++                break;
++            } else if (!(!("html".equals(TransVarNodeName)))) {
+                 transition(HtmlTreeBuilderState.BeforeHead);
+-                break; // frag
+-            } else if (last) {
++                break;
++            } else if (!(!(TransVarNext))) {
+                 transition(HtmlTreeBuilderState.InBody);
+-                break; // frag
++                break;
+             }
++            TransVarPos2--;
+         }
+     }
+ 

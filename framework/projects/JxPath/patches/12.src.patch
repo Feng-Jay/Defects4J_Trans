@@ -1,0 +1,107 @@
+--- src/java/org/apache/commons/jxpath/ri/model/dom/DOMNodePointer.java	2025-05-21 06:29:01
++++ ./src/java/org/apache/commons/jxpath/ri/model/dom/DOMNodePointer.java	2025-05-21 06:29:01
+@@ -84,53 +84,70 @@
+         return testNode(node, test);
+     }
+ 
+-    public static boolean testNode(Node node, NodeTest test) {
+-        if (test == null) {
++    public static boolean testNode(Node TransVarNode2, NodeTest TransVarNode) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarNode == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return true;
+         }
+-        if (test instanceof NodeNameTest) {
+-            if (node.getNodeType() != Node.ELEMENT_NODE) {
++        if (!(!(TransVarNode instanceof NodeNameTest))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarNode2.getNodeType() != Node.ELEMENT_NODE))) {
+                 return false;
+             }
+ 
+-            NodeNameTest nodeNameTest = (NodeNameTest) test;
+-            QName testName = nodeNameTest.getNodeName();
+-            String namespaceURI = nodeNameTest.getNamespaceURI();
+-            boolean wildcard = nodeNameTest.isWildcard();
+-            String testPrefix = testName.getPrefix();
+-            if (wildcard && testPrefix == null) {
++            NodeNameTest TransVarNode3 = (NodeNameTest) TransVarNode;
++            QName TransVarTestQName = TransVarNode3.getNodeName();
++            String TransVarNamespaceURI1 = TransVarNode3.getNamespaceURI();
++            boolean TransVarIsWildCard = TransVarNode3.isWildcard();
++            String TransVarPrefix = TransVarTestQName.getPrefix();
++            if (!(!(TransVarIsWildCard && TransVarPrefix == null))) {
+                 return true;
+             }
+-            if (wildcard
+-                || testName.getName()
+-                        .equals(DOMNodePointer.getLocalName(node))) {
+-                String nodeNS = DOMNodePointer.getNamespaceURI(node);
+-                return equalStrings(namespaceURI, nodeNS) || nodeNS == null
+-                        && equalStrings(testPrefix, getPrefix(node));
++            if (!(!(TransVarIsWildCard || TransVarTestQName.getName().equals(DOMNodePointer.getLocalName(TransVarNode2))))) {
++                String TransVarNamespaceURI = DOMNodePointer.getNamespaceURI(TransVarNode2);
++                return equalStrings(TransVarNamespaceURI1, TransVarNamespaceURI);
+             }
+             return false;
+         }
+-        if (test instanceof NodeTypeTest) {
+-            int nodeType = node.getNodeType();
+-            switch (((NodeTypeTest) test).getNodeType()) {
+-                case Compiler.NODE_TYPE_NODE :
+-                    return nodeType == Node.ELEMENT_NODE
+-                            || nodeType == Node.DOCUMENT_NODE;
+-                case Compiler.NODE_TYPE_TEXT :
+-                    return nodeType == Node.CDATA_SECTION_NODE
+-                        || nodeType == Node.TEXT_NODE;
+-                case Compiler.NODE_TYPE_COMMENT :
+-                    return nodeType == Node.COMMENT_NODE;
+-                case Compiler.NODE_TYPE_PI :
+-                    return nodeType == Node.PROCESSING_INSTRUCTION_NODE;
++        if (!(!(TransVarNode instanceof NodeTypeTest))) {
++            int TransVarNodetype = TransVarNode2.getNodeType();
++            boolean TransFallThroughFlag0 = false;
++            boolean TransBreakFlag0 = true;
++            {
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0
++                        && (((NodeTypeTest) TransVarNode).getNodeType() == Compiler.NODE_TYPE_NODE))))) {
++                    TransFallThroughFlag0 = true;
++                    return TransVarNodetype == Node.ELEMENT_NODE || TransVarNodetype == Node.DOCUMENT_NODE;
+                 }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0
++                        && (((NodeTypeTest) TransVarNode).getNodeType() == Compiler.NODE_TYPE_TEXT))))) {
++                    TransFallThroughFlag0 = true;
++                    return TransVarNodetype == Node.CDATA_SECTION_NODE || TransVarNodetype == Node.TEXT_NODE;
++                }
++                if (!(!(TransFallThroughFlag0 || (TransBreakFlag0
++                        && (((NodeTypeTest) TransVarNode).getNodeType() == Compiler.NODE_TYPE_COMMENT))))) {
++                    TransFallThroughFlag0 = true;
++                    return TransVarNodetype == Node.COMMENT_NODE;
++                }
++                if (!(!(TransFallThroughFlag0
++                        || (TransBreakFlag0 && (((NodeTypeTest) TransVarNode).getNodeType() == Compiler.NODE_TYPE_PI))))) {
++                    return TransVarNodetype == Node.PROCESSING_INSTRUCTION_NODE;
++                }
++            }
+             return false;
+         }
+-        if (test instanceof ProcessingInstructionTest) {
+-            if (node.getNodeType() == Node.PROCESSING_INSTRUCTION_NODE) {
+-                String testPI = ((ProcessingInstructionTest) test).getTarget();
+-                String nodePI = ((ProcessingInstruction) node).getTarget();
+-                return testPI.equals(nodePI);
++        if (!(!(TransVarNode instanceof ProcessingInstructionTest))) {
++            if (!(!(TransVarNode2.getNodeType() == Node.PROCESSING_INSTRUCTION_NODE))) {
++                String TransVarTestPITarget = ((ProcessingInstructionTest) TransVarNode).getTarget();
++                String TransVarPiTarget = ((ProcessingInstruction) TransVarNode2).getTarget();
++                return TransVarTestPITarget.equals(TransVarPiTarget);
+             }
+         }
+         return false;

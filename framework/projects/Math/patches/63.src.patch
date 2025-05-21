@@ -1,0 +1,16 @@
+--- src/main/java/org/apache/commons/math/util/MathUtils.java	2025-05-21 08:18:49
++++ src/main/java/org/apache/commons/math/util/MathUtils.java	2025-05-21 08:18:49
+@@ -413,8 +413,11 @@
+      * @param y second value
+      * @return {@code true} if the values are equal.
+      */
+-    public static boolean equals(double x, double y) {
+-        return equals(x, y, 1);
++    public static boolean equals(double TransVarY, double TransVarX) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        return (Double.isNaN(TransVarY) && Double.isNaN(TransVarX)) || TransVarY == TransVarX;
+     }
+ 
+     /**

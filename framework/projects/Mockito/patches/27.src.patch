@@ -1,0 +1,21 @@
+--- src/org/mockito/internal/util/MockUtil.java	2025-05-21 08:23:34
++++ src/org/mockito/internal/util/MockUtil.java	2025-05-21 08:23:34
+@@ -59,10 +59,14 @@
+         return mock;
+     }
+ 
+-    public <T> void resetMock(T mock) {
+-        MockHandlerInterface<T> oldMockHandler = getMockHandler(mock);
+-        MethodInterceptorFilter newFilter = newMethodInterceptorFilter(oldMockHandler.getMockSettings());
+-        ((Factory) mock).setCallback(0, newFilter);
++    public <T> void resetMock(T TransVarTestMock) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        MockHandlerInterface<T> TransVarMock = getMockHandler(TransVarTestMock);
++        MockHandler<T> TransVarNewMockHandler1 = new MockHandler<T>(TransVarMock);
++        MethodInterceptorFilter TransVarNewMockFilter = new MethodInterceptorFilter(TransVarNewMockHandler1, (MockSettingsImpl) org.mockito.Mockito.withSettings().defaultAnswer(org.mockito.Mockito.RETURNS_DEFAULTS));
++        ((Factory) TransVarTestMock).setCallback(0, TransVarNewMockFilter);
+     }
+ 
+     private <T> MethodInterceptorFilter newMethodInterceptorFilter(MockSettingsImpl settings) {

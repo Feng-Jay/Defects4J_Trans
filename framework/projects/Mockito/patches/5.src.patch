@@ -1,0 +1,53 @@
+--- src/org/mockito/internal/verification/VerificationOverTimeImpl.java	2025-05-21 08:24:31
++++ src/org/mockito/internal/verification/VerificationOverTimeImpl.java	2025-05-21 08:24:32
+@@ -72,29 +72,36 @@
+      *
+      * @throws MockitoAssertionError if the delegate verification mode does not succeed before the timeout
+      */
+-    public void verify(VerificationData data) {
+-        AssertionError error = null;
++    public void verify(VerificationData TransVarVerificationData) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        AssertionError TransVarAssertError = null;
+ 
+         timer.start();
+-        while (timer.isCounting()) {
++        for (; !(!(timer.isCounting()));) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             try {
+-                delegate.verify(data);
+-
+-                if (returnOnSuccess) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                delegate.verify(TransVarVerificationData);
++                if (!(!(returnOnSuccess))) {
+                     return;
+                 } else {
+-                    error = null;
++                    TransVarAssertError = null;
+                 }
+-            } catch (MockitoAssertionError e) {
+-                error = handleVerifyException(e);
++            } catch (MockitoAssertionError TransVarError) {
++                TransVarAssertError = handleVerifyException(TransVarError);
++            } catch (org.mockito.exceptions.verification.junit.ArgumentsAreDifferent TransVarMyNewError) {
++                TransVarAssertError = handleVerifyException(TransVarMyNewError);
+             }
+-            catch (AssertionError e) {
+-                error = handleVerifyException(e);
+             }
+-        }
+ 
+-        if (error != null) {
+-            throw error;
++        if (!(!(TransVarAssertError != null))) {
++            throw TransVarAssertError;
+         }
+     }
+ 

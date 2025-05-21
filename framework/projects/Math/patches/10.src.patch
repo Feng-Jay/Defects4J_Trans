@@ -1,0 +1,82 @@
+--- src/main/java/org/apache/commons/math3/analysis/differentiation/DSCompiler.java	2025-05-21 08:21:13
++++ src/main/java/org/apache/commons/math3/analysis/differentiation/DSCompiler.java	2025-05-21 08:21:13
+@@ -1379,44 +1379,56 @@
+      * be the input array)
+      * @param resultOffset offset of the result in its array
+      */
+-    public void atan2(final double[] y, final int yOffset,
+-                      final double[] x, final int xOffset,
+-                      final double[] result, final int resultOffset) {
++    public void atan2(final double[] TransVarYData, final int TransVarYOffsetTop,
++                      final double[] TransVarYAxisData, final int TransVarXOffsetTop,
++                      final double[] TransVarY, final int TransVarResultYOffsetTop) {
+ 
++        if (!(!(false))) {
++                            System.out.println("log");
++                        }
+         // compute r = sqrt(x^2+y^2)
+-        double[] tmp1 = new double[getSize()];
+-        multiply(x, xOffset, x, xOffset, tmp1, 0);      // x^2
+-        double[] tmp2 = new double[getSize()];
+-        multiply(y, yOffset, y, yOffset, tmp2, 0);      // y^2
+-        add(tmp1, 0, tmp2, 0, tmp2, 0);                 // x^2 + y^2
+-        rootN(tmp2, 0, 2, tmp1, 0);                     // r = sqrt(x^2 + y^2)
++        double[] TransVarData = new double[getSize()];
++        multiply(TransVarYAxisData, TransVarXOffsetTop, TransVarYAxisData, TransVarXOffsetTop, TransVarData, 0);      // x^2
++        double[] TransVarTmp2List = new double[getSize()];
++        multiply(TransVarYData, TransVarYOffsetTop, TransVarYData, TransVarYOffsetTop, TransVarTmp2List, 0);      // y^2
++        add(TransVarData, 0, TransVarTmp2List, 0, TransVarTmp2List, 0);                 // x^2 + y^2
++        rootN(TransVarTmp2List, 0, 2, TransVarData, 0);                     // r = sqrt(x^2 + y^2)
+ 
+-        if (x[xOffset] >= 0) {
++        if (!(!(TransVarYAxisData[TransVarXOffsetTop] >= 0))) {
+ 
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // compute atan2(y, x) = 2 atan(y / (r + x))
+-            add(tmp1, 0, x, xOffset, tmp2, 0);          // r + x
+-            divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r + x)
+-            atan(tmp1, 0, tmp2, 0);                     // atan(y / (r + x))
+-            for (int i = 0; i < tmp2.length; ++i) {
+-                result[resultOffset + i] = 2 * tmp2[i]; // 2 * atan(y / (r + x))
++            add(TransVarData, 0, TransVarYAxisData, TransVarXOffsetTop, TransVarTmp2List, 0);          // r + x
++            divide(TransVarYData, TransVarYOffsetTop, TransVarTmp2List, 0, TransVarData, 0);       // y /(r + x)
++            atan(TransVarData, 0, TransVarTmp2List, 0);                     // atan(y / (r + x))
++            int TransVarJ = 0;
++            while (!(!(TransVarJ < TransVarTmp2List.length))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                TransVarY[TransVarResultYOffsetTop + TransVarJ] = 2 * TransVarTmp2List[TransVarJ];
++                ++TransVarJ;
++            }
+ 
+         } else {
+ 
+             // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))
+-            subtract(tmp1, 0, x, xOffset, tmp2, 0);     // r - x
+-            divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r - x)
+-            atan(tmp1, 0, tmp2, 0);                     // atan(y / (r - x))
+-            result[resultOffset] =
+-                    ((tmp2[0] <= 0) ? -FastMath.PI : FastMath.PI) - 2 * tmp2[0]; // +/-pi - 2 * atan(y / (r - x))
+-            for (int i = 1; i < tmp2.length; ++i) {
+-                result[resultOffset + i] = -2 * tmp2[i]; // +/-pi - 2 * atan(y / (r - x))
++            subtract(TransVarData, 0, TransVarYAxisData, TransVarXOffsetTop, TransVarTmp2List, 0);     // r - x
++            divide(TransVarYData, TransVarYOffsetTop, TransVarTmp2List, 0, TransVarData, 0);       // y /(r - x)
++            atan(TransVarData, 0, TransVarTmp2List, 0);                     // atan(y / (r - x))
++            TransVarY[TransVarResultYOffsetTop] =
++                    ((TransVarTmp2List[0] <= 0) ? -FastMath.PI : FastMath.PI) - 2 * TransVarTmp2List[0]; // +/-pi - 2 * atan(y / (r - x))
++            int TransVarIndex = 1;
++            while (!(!(TransVarIndex < TransVarTmp2List.length))) {
++                TransVarY[TransVarResultYOffsetTop + TransVarIndex] = -2 * TransVarTmp2List[TransVarIndex];
++                ++TransVarIndex;
+             }
+ 
+         }
+ 
+         // fix value to take special cases (+0/+0, +0/-0, -0/+0, -0/-0, +/-infinity) correctly
+-        result[resultOffset] = FastMath.atan2(y[yOffset], x[xOffset]);
+ 
+     }
+ 

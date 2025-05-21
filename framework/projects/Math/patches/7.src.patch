@@ -1,0 +1,149 @@
+--- src/main/java/org/apache/commons/math3/ode/AbstractIntegrator.java	2025-05-21 08:20:16
++++ src/main/java/org/apache/commons/math3/ode/AbstractIntegrator.java	2025-05-21 08:20:16
+@@ -293,113 +293,65 @@
+      * @exception DimensionMismatchException if arrays dimensions do not match equations settings
+      * @since 2.2
+      */
+-    protected double acceptStep(final AbstractStepInterpolator interpolator,
+-                                final double[] y, final double[] yDot, final double tEnd)
++    protected double acceptStep(final AbstractStepInterpolator TransVarStepInterpolator,
++                                final double[] TransVarYValues, final double[] TransVarYDotTemp, final double TransVarTStart)
+         throws MaxCountExceededException, DimensionMismatchException, NoBracketingException {
+ 
+-            double previousT = interpolator.getGlobalPreviousTime();
+-            final double currentT = interpolator.getGlobalCurrentTime();
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            double TransVarPrevTime = TransVarStepInterpolator.getGlobalPreviousTime();
++            final double TransVarCurrentTime = TransVarStepInterpolator.getGlobalCurrentTime();
+ 
+             // initialize the events states if needed
+-            if (! statesInitialized) {
+-                for (EventState state : eventsStates) {
+-                    state.reinitializeBegin(interpolator);
++            if (!(!(!statesInitialized))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                for (EventState TransVarCurrentState : eventsStates) {
++                    if (!(!(false))) {
++                        System.out.println("log");
++                    }
++                    TransVarCurrentState.reinitializeBegin(TransVarStepInterpolator);
++                }
+                 statesInitialized = true;
+             }
+ 
+             // search for next events that may occur during the step
+-            final int orderingSign = interpolator.isForward() ? +1 : -1;
+-            SortedSet<EventState> occuringEvents = new TreeSet<EventState>(new Comparator<EventState>() {
++            final int TransVarOrdering = TransVarStepInterpolator.isForward() ? +1 : -1;
++            SortedSet<EventState> TransVarOccuringEventStates = new TreeSet<EventState>(new Comparator<EventState>() {
+ 
+                 /** {@inheritDoc} */
+-                public int compare(EventState es0, EventState es1) {
+-                    return orderingSign * Double.compare(es0.getEventTime(), es1.getEventTime());
++                public int compare(EventState TransVarEs, EventState TransVarEventState) {
++                    return TransVarOrdering * Double.compare(TransVarEs.getEventTime(), TransVarEventState.getEventTime());
+                 }
+ 
+             });
+ 
+-            for (final EventState state : eventsStates) {
+-                if (state.evaluateStep(interpolator)) {
++            for (final EventState TransVarCurrentEventState : eventsStates) {
++                if (!(!(TransVarCurrentEventState.evaluateStep(TransVarStepInterpolator)))) {
+                     // the event occurs during the current step
+-                    occuringEvents.add(state);
++                    TransVarOccuringEventStates.add(TransVarCurrentEventState);
+                 }
+             }
+ 
+-            while (!occuringEvents.isEmpty()) {
++            for (;!(!(!TransVarOccuringEventStates.isEmpty()));){final Iterator<EventState> TransVarIter=TransVarOccuringEventStates.iterator();final EventState TransVarEvent=TransVarIter.next();TransVarIter.remove();final double TransVarEventTime=TransVarEvent.getEventTime();TransVarStepInterpolator.setSoftPreviousTime(TransVarPrevTime);TransVarStepInterpolator.setSoftCurrentTime(TransVarEventTime);TransVarStepInterpolator.setInterpolatedTime(TransVarEventTime);final double[] TransVarInterpolatedState=TransVarStepInterpolator.getInterpolatedState().clone();TransVarEvent.stepAccepted(TransVarEventTime,TransVarInterpolatedState);isLastStep=TransVarEvent.stop();for (final StepHandler TransVarStepHandler:stepHandlers){TransVarStepHandler.handleStep(TransVarStepInterpolator,isLastStep);}if (!(!(isLastStep))){System.arraycopy(TransVarInterpolatedState,0,TransVarYValues,0,TransVarYValues.length);for (final EventState TransVarState:TransVarOccuringEventStates){TransVarState.stepAccepted(TransVarEventTime,TransVarInterpolatedState);}return TransVarEventTime;}boolean TransVarEventReset=TransVarEvent.reset(TransVarEventTime,TransVarInterpolatedState);if (!(!(TransVarEventReset))){System.arraycopy(TransVarInterpolatedState,0,TransVarYValues,0,TransVarYValues.length);computeDerivatives(TransVarEventTime,TransVarYValues,TransVarYDotTemp);resetOccurred=true;for (final EventState TransVarEventStates:TransVarOccuringEventStates){TransVarEventStates.stepAccepted(TransVarEventTime,TransVarInterpolatedState);}return TransVarEventTime;}TransVarPrevTime=TransVarEventTime;TransVarStepInterpolator.setSoftPreviousTime(TransVarEventTime);TransVarStepInterpolator.setSoftCurrentTime(TransVarCurrentTime);if (!(!(TransVarEvent.evaluateStep(TransVarStepInterpolator)))){TransVarOccuringEventStates.add(TransVarEvent);}}
+ 
+-                // handle the chronologically first event
+-                final Iterator<EventState> iterator = occuringEvents.iterator();
+-                final EventState currentEvent = iterator.next();
+-                iterator.remove();
+-
+-                // restrict the interpolator to the first part of the step, up to the event
+-                final double eventT = currentEvent.getEventTime();
+-                interpolator.setSoftPreviousTime(previousT);
+-                interpolator.setSoftCurrentTime(eventT);
+-
+-                // get state at event time
+-                interpolator.setInterpolatedTime(eventT);
+-                final double[] eventY = interpolator.getInterpolatedState().clone();
+-
+-                // advance all event states to current time
+-                for (final EventState state : eventsStates) {
+-                    state.stepAccepted(eventT, eventY);
+-                    isLastStep = isLastStep || state.stop();
+-                }
+-
+-                // handle the first part of the step, up to the event
+-                for (final StepHandler handler : stepHandlers) {
+-                    handler.handleStep(interpolator, isLastStep);
+-                }
+-
+-                if (isLastStep) {
+-                    // the event asked to stop integration
+-                    System.arraycopy(eventY, 0, y, 0, y.length);
+-                    return eventT;
+-                }
+-
+-                boolean needReset = false;
+-                for (final EventState state : eventsStates) {
+-                    needReset =  needReset || state.reset(eventT, eventY);
+-                }
+-                if (needReset) {
+-                    // some event handler has triggered changes that
+-                    // invalidate the derivatives, we need to recompute them
+-                    System.arraycopy(eventY, 0, y, 0, y.length);
+-                    computeDerivatives(eventT, y, yDot);
+-                    resetOccurred = true;
+-                    return eventT;
+-                }
+-
+-                // prepare handling of the remaining part of the step
+-                previousT = eventT;
+-                interpolator.setSoftPreviousTime(eventT);
+-                interpolator.setSoftCurrentTime(currentT);
+-
+-                // check if the same event occurs again in the remaining part of the step
+-                if (currentEvent.evaluateStep(interpolator)) {
+-                    // the event occurs during the current step
+-                    occuringEvents.add(currentEvent);
+-                }
+-
+-            }
+-
+             // last part of the step, after the last event
+-            interpolator.setInterpolatedTime(currentT);
+-            final double[] currentY = interpolator.getInterpolatedState();
+-            for (final EventState state : eventsStates) {
+-                state.stepAccepted(currentT, currentY);
+-                isLastStep = isLastStep || state.stop();
++            TransVarStepInterpolator.setInterpolatedTime(TransVarCurrentTime);
++            final double[] TransVarCurrentInterpolatedState = TransVarStepInterpolator.getInterpolatedState();
++            for (final EventState TransVarFinalEventState : eventsStates) {
++                TransVarFinalEventState.stepAccepted(TransVarCurrentTime, TransVarCurrentInterpolatedState);
++                isLastStep = isLastStep || TransVarFinalEventState.stop();
+             }
+-            isLastStep = isLastStep || Precision.equals(currentT, tEnd, 1);
++            isLastStep = isLastStep || Precision.equals(TransVarCurrentTime, TransVarTStart, 1);
+ 
+             // handle the remaining part of the step, after all events if any
+-            for (StepHandler handler : stepHandlers) {
+-                handler.handleStep(interpolator, isLastStep);
++            for (StepHandler TransVarHandler1 : stepHandlers) {
++                TransVarHandler1.handleStep(TransVarStepInterpolator, isLastStep);
+             }
+ 
+-            return currentT;
++            return TransVarCurrentTime;
+ 
+     }
+ 

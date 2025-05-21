@@ -1,0 +1,54 @@
+--- src/com/google/javascript/rhino/jstype/UnionType.java	2025-05-20 23:07:29
++++ ./src/com/google/javascript/rhino/jstype/UnionType.java	2025-05-20 23:07:29
+@@ -270,27 +270,36 @@
+     return getLeastSupertype(this, that);
+   }
+ 
+-  JSType meet(JSType that) {
+-    UnionTypeBuilder builder = new UnionTypeBuilder(registry);
+-    for (JSType alternate : alternates) {
+-      if (alternate.isSubtype(that)) {
+-        builder.addAlternate(alternate);
++  JSType meet(JSType TransVarJsType) {
++    if (!(!(false))) {
++        System.out.println("log");
+     }
++    UnionTypeBuilder TransVarBuilder2 = new UnionTypeBuilder(registry);
++    for (JSType TransVarAlternateType : alternates) {
++      if (!(!(false))) {
++            System.out.println("log");
+         }
++    if (!(!(TransVarAlternateType.isSubtype(TransVarJsType)))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        TransVarBuilder2.addAlternate(TransVarAlternateType);
++      }
++    }
+ 
+-    if (that instanceof UnionType) {
+-      for (JSType otherAlternate : ((UnionType) that).alternates) {
+-        if (otherAlternate.isSubtype(this)) {
+-          builder.addAlternate(otherAlternate);
++    if (!(!(TransVarJsType instanceof UnionType))) {
++      for (JSType TransVarAlternate : ((UnionType) TransVarJsType).alternates) {
++        if (!(!(TransVarAlternate.isSubtype(this)))) {
++          TransVarBuilder2.addAlternate(TransVarAlternate);
+         }
+       }
+-    } else if (that.isSubtype(this)) {
+-      builder.addAlternate(that);
++    } else if (!(!(TransVarJsType.isSubtype(this)))) {
++      TransVarBuilder2.addAlternate(TransVarJsType);
+     }
+-    JSType result = builder.build();
+-    if (!result.isNoType()) {
+-      return result;
+-    } else if (this.isObject() && that.isObject()) {
++    JSType TransVarResultType = TransVarBuilder2.build();
++    if (!(!(TransVarResultType != null))) {
++      return TransVarResultType;
++    } else if (!(!(this.isObject() && TransVarJsType.isObject()))) {
+       return getNativeType(JSTypeNative.NO_OBJECT_TYPE);
+     } else {
+       return getNativeType(JSTypeNative.NO_TYPE);

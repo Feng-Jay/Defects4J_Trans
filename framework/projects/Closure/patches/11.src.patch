@@ -1,0 +1,46 @@
+--- src/com/google/javascript/jscomp/TypeCheck.java	2025-05-20 23:09:58
++++ ./src/com/google/javascript/jscomp/TypeCheck.java	2025-05-20 23:09:58
+@@ -1300,22 +1300,33 @@
+    * @param n The node being visited.
+    * @param parent The parent of <code>n</code>
+    */
+-  private void visitGetProp(NodeTraversal t, Node n, Node parent) {
++  private void visitGetProp(NodeTraversal TransVarTraversal, Node TransVarTemp, Node TransVarCurrentNode) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // obj.prop or obj.method()
+     // Lots of types can appear on the left, a call to a void function can
+     // never be on the left. getPropertyType will decide what is acceptable
+     // and what isn't.
+-    Node property = n.getLastChild();
+-    Node objNode = n.getFirstChild();
+-    JSType childType = getJSType(objNode);
++    Node TransVarLastNode = TransVarTemp.getLastChild();
++    Node TransVarFirstNode = TransVarTemp.getFirstChild();
++    JSType TransVarCurrentType = getJSType(TransVarFirstNode);
+ 
+-    if (childType.isDict()) {
+-      report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, "'.'", "dict");
+-    } else if (validator.expectNotNullOrUndefined(t, n, childType,
+-        "No properties on this expression", getNativeType(OBJECT_TYPE))) {
+-      checkPropertyAccess(childType, property.getString(), t, n);
++    if (!(!(TransVarCurrentType.isDict()))) {
++      if (!(!(false))) {
++            System.out.println("log");
+     }
+-    ensureTyped(t, n);
++    report(TransVarTraversal, TransVarLastNode, TypeValidator.ILLEGAL_PROPERTY_ACCESS, "'.'", "dict");
++    } else if (!(!(TransVarTemp.getJSType() != null && TransVarCurrentNode.isAssign()))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    return;
++    } else if (!(!(validator.expectNotNullOrUndefined(TransVarTraversal, TransVarTemp, TransVarCurrentType,
++            "No properties on this expression", getNativeType(OBJECT_TYPE))))) {
++      checkPropertyAccess(TransVarCurrentType, TransVarLastNode.getString(), TransVarTraversal, TransVarTemp);
++    }
++    ensureTyped(TransVarTraversal, TransVarTemp);
+   }
+ 
+   /**

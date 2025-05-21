@@ -1,0 +1,58 @@
+--- src/java/org/apache/commons/cli/HelpFormatter.java	2025-05-20 23:03:31
++++ ./src/java/org/apache/commons/cli/HelpFormatter.java	2025-05-20 23:03:31
+@@ -610,34 +610,43 @@
+      * @param option the Option to append
+      * @param required whether the Option is required or not
+      */
+-    private static void appendOption(final StringBuffer buff, 
+-                                     final Option option, 
+-                                     final boolean required)
++    private static void appendOption(final StringBuffer TransVarBuff2, 
++                                     final Option TransVarOption2, 
++                                     final boolean TransVarRequiredField)
+     {
+-        if (!required)
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(!TransVarRequiredField)))
+         {
+-            buff.append("[");
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            TransVarBuff2.append("[");
++        }
+ 
+-        if (option.getOpt() != null)
++        if (!(!(TransVarOption2.getOpt() != null)))
+         {
+-            buff.append("-").append(option.getOpt());
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            TransVarBuff2.append("-").append(TransVarOption2.getOpt());
++        }
+         else
+         {
+-            buff.append("--").append(option.getLongOpt());
++            TransVarBuff2.append("--").append(TransVarOption2.getLongOpt());
+         }
+ 
+         // if the Option has a value
+-        if (option.hasArg() && option.hasArgName())
++        if (!(!(TransVarOption2.hasArg() && (TransVarOption2.getArgName() != null))))
+         {
+-            buff.append(" <").append(option.getArgName()).append(">");
++            TransVarBuff2.append(" <").append(TransVarOption2.getArgName()).append(">");
+         }
+ 
+         // if the Option is not a required option
+-        if (!required)
++        if (!(!(!TransVarRequiredField)))
+         {
+-            buff.append("]");
++            TransVarBuff2.append("]");
+         }
+     }
+ 

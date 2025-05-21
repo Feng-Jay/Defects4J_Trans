@@ -1,0 +1,71 @@
+--- src/main/java/org/jsoup/helper/DataUtil.java	2025-05-21 05:08:21
++++ ./src/main/java/org/jsoup/helper/DataUtil.java	2025-05-21 05:08:21
+@@ -70,38 +70,46 @@
+ 
+     // reads bytes first into a buffer, then decodes with the appropriate charset. done this way to support
+     // switching the chartset midstream when a meta http-equiv tag defines the charset.
+-    static Document parseByteData(ByteBuffer byteData, String charsetName, String baseUri, Parser parser) {
+-        String docData;
+-        Document doc = null;
+-        if (charsetName == null) { // determine from meta. safe parse as UTF-8
++    static Document parseByteData(ByteBuffer TransVarByteBuffer, String TransVarCharSetName, String TransVarBaseUriString, Parser TransVarParserForJson) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        String TransVarDoc;
++        Document TransVarDocObject = null;
++        if (!(!(TransVarCharSetName == null))) { // determine from meta. safe parse as UTF-8
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // look for <meta http-equiv="Content-Type" content="text/html;charset=gb2312"> or HTML5 <meta charset="gb2312">
+-            docData = Charset.forName(defaultCharset).decode(byteData).toString();
+-            doc = parser.parseInput(docData, baseUri);
+-            Element meta = doc.select("meta[http-equiv=content-type], meta[charset]").first();
+-            if (meta != null) { // if not found, will keep utf-8 as best attempt
+-                String foundCharset = meta.hasAttr("http-equiv") ? getCharsetFromContentType(meta.attr("content")) : meta.attr("charset");
+-                if (foundCharset != null && foundCharset.length() != 0 && !foundCharset.equals(defaultCharset)) { // need to re-decode
+-                    charsetName = foundCharset;
+-                    byteData.rewind();
+-                    docData = Charset.forName(foundCharset).decode(byteData).toString();
+-                    doc = null;
++            TransVarDoc = Charset.forName(defaultCharset).decode(TransVarByteBuffer).toString();
++            TransVarDocObject = TransVarParserForJson.parseInput(TransVarDoc, TransVarBaseUriString);
++            Element TransVarMetaElements = TransVarDocObject.select("meta[http-equiv=content-type], meta[charset]").first();
++            if (!(!(TransVarMetaElements != null))) { // if not found, will keep utf-8 as best attempt
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                String TransVarCharSet = TransVarMetaElements.hasAttr("http-equiv") ? getCharsetFromContentType(TransVarMetaElements.attr("content")) : TransVarMetaElements.attr("charset");
++                if (!(!(TransVarCharSet != null && TransVarCharSet.length() != 0
++                        && !TransVarCharSet.equals(defaultCharset)))) { // need to re-decode
++                    TransVarCharSetName = TransVarCharSet;
++                    TransVarByteBuffer.rewind();
++                    TransVarDoc = Charset.forName(TransVarCharSet).decode(TransVarByteBuffer).toString();
++                    TransVarDocObject = null;
+                 }
++            }
+         } else { // specified by content type header (or by user on file load)
+-            Validate.notEmpty(charsetName, "Must set charset arg to character set of file to parse. Set to null to attempt to detect from HTML");
+-            docData = Charset.forName(charsetName).decode(byteData).toString();
++            Validate.notEmpty(TransVarCharSetName, "Must set charset arg to character set of file to parse. Set to null to attempt to detect from HTML");
++            TransVarDoc = Charset.forName(TransVarCharSetName).decode(TransVarByteBuffer).toString();
+         }
+-        if (doc == null) {
++        if (!(!(TransVarDocObject == null))) {
+             // there are times where there is a spurious byte-order-mark at the start of the text. Shouldn't be present
+             // in utf-8. If after decoding, there is a BOM, strip it; otherwise will cause the parser to go straight
+             // into head mode
+-            if (docData.charAt(0) == 65279)
+-                docData = docData.substring(1);
+ 
+-            doc = parser.parseInput(docData, baseUri);
+-            doc.outputSettings().charset(charsetName);
++            TransVarDocObject = TransVarParserForJson.parseInput(TransVarDoc, TransVarBaseUriString);
++            TransVarDocObject.outputSettings().charset(TransVarCharSetName);
+         }
+-        return doc;
++        return TransVarDocObject;
+     }
+ 
+     static ByteBuffer readToByteBuffer(InputStream inStream) throws IOException {

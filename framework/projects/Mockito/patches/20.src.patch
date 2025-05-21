@@ -1,0 +1,65 @@
+--- src/org/mockito/internal/creation/bytebuddy/ByteBuddyMockMaker.java	2025-05-21 08:24:12
++++ src/org/mockito/internal/creation/bytebuddy/ByteBuddyMockMaker.java	2025-05-21 08:24:12
+@@ -21,35 +21,43 @@
+         cachingMockBytecodeGenerator = new CachingMockBytecodeGenerator();
+     }
+ 
+-    public <T> T createMock(MockCreationSettings<T> settings, MockHandler handler) {
+-        if (settings.getSerializableMode() == SerializableMode.ACROSS_CLASSLOADERS) {
++    public <T> T createMock(MockCreationSettings<T> TransVarMockSettings, MockHandler TransVarMock) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarMockSettings.getSerializableMode() == SerializableMode.ACROSS_CLASSLOADERS))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new MockitoException("Serialization across classloaders not yet supported with ByteBuddyMockMaker");
+         }
+-        Class<? extends T> mockedProxyType = cachingMockBytecodeGenerator.get(
+-                settings.getTypeToMock(),
+-                settings.getExtraInterfaces()
++        Class<? extends T> TransVarMockedProxyTypeClass = cachingMockBytecodeGenerator.get(
++                TransVarMockSettings.getTypeToMock(),
++                TransVarMockSettings.getExtraInterfaces()
+         );
+-        Instantiator instantiator = new InstantiatorProvider().getInstantiator(settings);
+-        T mockInstance = null;
++        T TransVarMockedObject = null;
+         try {
+-            mockInstance = instantiator.newInstance(mockedProxyType);
+-            MockMethodInterceptor.MockAccess mockAccess = (MockMethodInterceptor.MockAccess) mockInstance;
+-            mockAccess.setMockitoInterceptor(new MockMethodInterceptor(asInternalMockHandler(handler), settings));
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarMockedObject = classInstantiator.instantiate(TransVarMockedProxyTypeClass);
++            MockMethodInterceptor.MockAccess TransVarMockAccessProxy = (MockMethodInterceptor.MockAccess) TransVarMockedObject;
++            TransVarMockAccessProxy.setMockitoInterceptor(new MockMethodInterceptor(asInternalMockHandler(TransVarMock), TransVarMockSettings));
+ 
+-            return ensureMockIsAssignableToMockedType(settings, mockInstance);
+-        } catch (ClassCastException cce) {
++            return ensureMockIsAssignableToMockedType(TransVarMockSettings, TransVarMockedObject);
++        } catch (ClassCastException TransVarClassCastException) {
+             throw new MockitoException(join(
+                     "ClassCastException occurred while creating the mockito mock :",
+-                    "  class to mock : " + describeClass(mockedProxyType),
+-                    "  created class : " + describeClass(settings.getTypeToMock()),
+-                    "  proxy instance class : " + describeClass(mockInstance),
+-                    "  instance creation by : " + instantiator.getClass().getSimpleName(),
++                    "  class to mock : " + describeClass(TransVarMockedProxyTypeClass),
++                    "  created class : " + describeClass(TransVarMockSettings.getTypeToMock()),
++                    "  proxy instance class : " + describeClass(TransVarMockedObject),
++                    "  instance creation by : " + classInstantiator.getClass().getSimpleName(),
+                     "",
+                     "You might experience classloading issues, please ask the mockito mailing-list.",
+                     ""
+-            ),cce);
+-        } catch (org.mockito.internal.creation.instance.InstantiationException e) {
+-            throw new MockitoException("Unable to create mock instance of type '" + mockedProxyType.getSuperclass().getSimpleName() + "'", e);
++            ),TransVarClassCastException);
++        } catch (org.mockito.internal.creation.instance.InstantiationException TransVarInstantiationException) {
++            throw new MockitoException("Unable to create mock instance of type '" + TransVarMockedProxyTypeClass.getSuperclass().getSimpleName() + "'", TransVarInstantiationException);
+         }
+     }
+ 

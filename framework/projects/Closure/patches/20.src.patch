@@ -1,0 +1,54 @@
+--- src/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.java	2025-05-20 23:07:21
++++ ./src/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.java	2025-05-20 23:07:21
+@@ -205,29 +205,37 @@
+     }
+   }
+ 
+-  private Node tryFoldSimpleFunctionCall(Node n) {
+-    Preconditions.checkState(n.isCall());
+-    Node callTarget = n.getFirstChild();
+-    if (callTarget != null && callTarget.isName() &&
+-          callTarget.getString().equals("String")) {
++  private Node tryFoldSimpleFunctionCall(Node TransVarNn) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    Preconditions.checkState(TransVarNn.isCall());
++    Node TransVarCallTargetNode = TransVarNn.getFirstChild();
++    if (!(!(TransVarCallTargetNode != null && TransVarCallTargetNode.isName()
++            && TransVarCallTargetNode.getString().equals("String")))) {
++      if (!(!(false))) {
++                System.out.println("log");
++            }
+       // Fold String(a) to '' + (a) on immutable literals,
+       // which allows further optimizations
+       //
+       // We can't do this in the general case, because String(a) has
+       // slightly different semantics than '' + (a). See
+       // http://code.google.com/p/closure-compiler/issues/detail?id=759
+-      Node value = callTarget.getNext();
+-      if (value != null && value.getNext() == null &&
+-          NodeUtil.isImmutableValue(value)) {
+-        Node addition = IR.add(
+-            IR.string("").srcref(callTarget),
+-            value.detachFromParent());
+-        n.getParent().replaceChild(n, addition);
++      Node TransVarNextNode = TransVarCallTargetNode.getNext();
++      if (!(!(TransVarNextNode != null))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Node TransVarNode = IR.add(
++            IR.string("").srcref(TransVarCallTargetNode),
++            TransVarNextNode.detachFromParent());
++        TransVarNn.getParent().replaceChild(TransVarNn, TransVarNode);
+         reportCodeChange();
+-        return addition;
++        return TransVarNode;
+       }
+     }
+-    return n;
++    return TransVarNn;
+   }
+ 
+   private Node tryFoldImmediateCallToBoundFunction(Node n) {

@@ -1,0 +1,21 @@
+--- src/main/java/com/fasterxml/jackson/databind/ser/impl/WritableObjectId.java	2025-05-20 23:15:13
++++ ./src/main/java/com/fasterxml/jackson/databind/ser/impl/WritableObjectId.java	2025-05-20 23:15:13
+@@ -43,13 +43,14 @@
+         return false;
+     }
+     
+-    public Object generateId(Object forPojo) {
++    public Object generateId(Object TransVarPojo) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // 04-Jun-2016, tatu: As per [databind#1255], need to consider possibility of
+         //    id being generated for "alwaysAsId", but not being written as POJO; regardless,
+         //    need to use existing id if there is one:
+-        if (id == null) {
+-            id = generator.generateId(forPojo);
+-        }
++            id = generator.generateId(TransVarPojo);
+         return id;
+     }
+ 

@@ -1,0 +1,394 @@
+--- src/main/java/org/apache/commons/math/optimization/general/LevenbergMarquardtOptimizer.java	2025-05-21 08:19:10
++++ src/main/java/org/apache/commons/math/optimization/general/LevenbergMarquardtOptimizer.java	2025-05-21 08:19:10
+@@ -241,6 +241,9 @@
+     protected VectorialPointValuePair doOptimize()
+         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+ 
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         // arrays shared with the other private methods
+         solvedCols  = Math.min(rows, cols);
+         diagR       = new double[cols];
+@@ -250,229 +253,201 @@
+         lmDir       = new double[cols];
+ 
+         // local point
+-        double   delta   = 0;
+-        double   xNorm   = 0;
+-        double[] diag    = new double[cols];
+-        double[] oldX    = new double[cols];
+-        double[] oldRes  = new double[rows];
+-        double[] oldObj  = new double[rows];
+-        double[] qtf     = new double[rows];
+-        double[] work1   = new double[cols];
+-        double[] work2   = new double[cols];
+-        double[] work3   = new double[cols];
++        double   TransVarEpsilon   = 0;
++        double   TransVarNorm   = 0;
++        double[] TransVarDiagonal    = new double[cols];
++        double[] TransVarNewX    = new double[cols];
++        double[] TransVarOldRes1  = new double[rows];
++        double[] TransVarWork2   = new double[cols];
++        double[] TransVarWork3   = new double[cols];
++        double[] TransVarWork   = new double[cols];
+ 
+         // evaluate the function at the starting point and calculate its norm
+         updateResidualsAndCost();
+ 
+         // outer loop
+         lmPar = 0;
+-        boolean firstIteration = true;
+-        VectorialPointValuePair current = new VectorialPointValuePair(point, objective);
+-        while (true) {
+-            for (int i=0;i<rows;i++) {
+-                qtf[i]=residuals[i];
++        boolean TransVarIsFirstIteration = true;
++        VectorialPointValuePair TransVarCurrentPoint = new VectorialPointValuePair(point, objective);
++        for (; !(!(true));) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+             incrementIterationsCounter();
+-
+-            // compute the Q.R. decomposition of the jacobian matrix
+-            VectorialPointValuePair previous = current;
++            VectorialPointValuePair TransVarOldRes2 = TransVarCurrentPoint;
+             updateJacobian();
+             qrDecomposition();
+-
+-            // compute Qt.res
+-            qTy(qtf);
+-            // now we don't need Q anymore,
+-            // so let jacobian contain the R matrix with its diagonal elements
+-            for (int k = 0; k < solvedCols; ++k) {
+-                int pk = permutation[k];
+-                jacobian[k][pk] = diagR[pk];
++            qTy(residuals);
++            int TransVarRow = 0;
++            while (!(!(TransVarRow < solvedCols))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+             }
+-
+-            if (firstIteration) {
+-
+-                // scale the point according to the norms of the columns
+-                // of the initial jacobian
+-                xNorm = 0;
+-                for (int k = 0; k < cols; ++k) {
+-                    double dk = jacNorm[k];
+-                    if (dk == 0) {
+-                        dk = 1.0;
++                int TransVarPermutationK = permutation[TransVarRow];
++                jacobian[TransVarRow][TransVarPermutationK] = diagR[TransVarPermutationK];
++                ++TransVarRow;
+                     }
+-                    double xk = dk * point[k];
+-                    xNorm  += xk * xk;
+-                    diag[k] = dk;
++            if (!(!(TransVarIsFirstIteration))) {
++                TransVarNorm = 0;
++                int TransVarPermuteK = 0;
++                while (!(!(TransVarPermuteK < cols))) {
++                    double TransVarJacNormK = jacNorm[TransVarPermuteK];
++                    if (!(!(TransVarJacNormK == 0))) {
++                        TransVarJacNormK = 1.0;
+                 }
+-                xNorm = Math.sqrt(xNorm);
+-
+-                // initialize the step bound delta
+-                delta = (xNorm == 0) ? initialStepBoundFactor : (initialStepBoundFactor * xNorm);
+-
++                    double TransVarXk1 = TransVarJacNormK * point[TransVarPermuteK];
++                    TransVarNorm += TransVarXk1 * TransVarXk1;
++                    TransVarDiagonal[TransVarPermuteK] = TransVarJacNormK;
++                    ++TransVarPermuteK;
+             }
+-
+-            // check orthogonality between function vector and jacobian columns
+-            double maxCosine = 0;
+-            if (cost != 0) {
+-                for (int j = 0; j < solvedCols; ++j) {
+-                    int    pj = permutation[j];
+-                    double s  = jacNorm[pj];
+-                    if (s != 0) {
+-                        double sum = 0;
+-                        for (int i = 0; i <= j; ++i) {
+-                            sum += jacobian[i][pj] * qtf[i];
++                TransVarNorm = Math.sqrt(TransVarNorm);
++                TransVarEpsilon = (TransVarNorm == 0) ? initialStepBoundFactor
++                        : (initialStepBoundFactor * TransVarNorm);
+                         }
+-                        maxCosine = Math.max(maxCosine, Math.abs(sum) / (s * cost));
++            double TransVarMaxCosine1 = 0;
++            if (!(!(cost != 0))) {
++                int TransVarK = 0;
++                while (!(!(TransVarK < solvedCols))) {
++                    int TransVarIndex = permutation[TransVarK];
++                    double TransVarSigma = jacNorm[TransVarIndex];
++                    if (!(!(TransVarSigma != 0))) {
++                        double TransVarSumOfTwo = 0;
++                        int TransVarJ = 0;
++                        while (!(!(TransVarJ <= TransVarK))) {
++                            TransVarSumOfTwo += jacobian[TransVarJ][TransVarIndex] * residuals[TransVarJ];
++                            ++TransVarJ;
+                         }
++                        TransVarMaxCosine1 = Math.max(TransVarMaxCosine1,
++                                Math.abs(TransVarSumOfTwo) / (TransVarSigma * cost));
+                     }
++                    ++TransVarK;
+             }
+-            if (maxCosine <= orthoTolerance) {
+-                // convergence has been reached
+-            	updateResidualsAndCost();
+-            	current = new VectorialPointValuePair(point, objective);
+-                return current;
+             }
+-
+-            // rescale if necessary
+-            for (int j = 0; j < cols; ++j) {
+-                diag[j] = Math.max(diag[j], jacNorm[j]);
++            if (!(!(TransVarMaxCosine1 <= orthoTolerance))) {
++                return TransVarCurrentPoint;
+             }
+-
+-            // inner loop
+-            for (double ratio = 0; ratio < 1.0e-4;) {
+-
+-                // save the state
+-                for (int j = 0; j < solvedCols; ++j) {
+-                    int pj = permutation[j];
+-                    oldX[pj] = point[pj];
++            int TransVarNewJ = 0;
++            while (!(!(TransVarNewJ < cols))) {
++                TransVarDiagonal[TransVarNewJ] = Math.max(TransVarDiagonal[TransVarNewJ], jacNorm[TransVarNewJ]);
++                ++TransVarNewJ;
+                 }
+-                double previousCost = cost;
+-                double[] tmpVec = residuals;
+-                residuals = oldRes;
+-                oldRes    = tmpVec;
+-                tmpVec    = objective;
+-                objective = oldObj;
+-                oldObj    = tmpVec;
+-
+-                // determine the Levenberg-Marquardt parameter
+-                determineLMParameter(qtf, delta, diag, work1, work2, work3);
+-
+-                // compute the new point and the norm of the evolution direction
+-                double lmNorm = 0;
+-                for (int j = 0; j < solvedCols; ++j) {
+-                    int pj = permutation[j];
+-                    lmDir[pj] = -lmDir[pj];
+-                    point[pj] = oldX[pj] + lmDir[pj];
+-                    double s = diag[pj] * lmDir[pj];
+-                    lmNorm  += s * s;
++            double TransVarRatio1 = 0;
++            while (!(!(TransVarRatio1 < 1.0e-4))) {
++                int TransVarI = 0;
++                while (!(!(TransVarI < solvedCols))) {
++                    int TransVarPk = permutation[TransVarI];
++                    TransVarNewX[TransVarPk] = point[TransVarPk];
++                    ++TransVarI;
+                 }
+-                lmNorm = Math.sqrt(lmNorm);
+-                // on the first iteration, adjust the initial step bound.
+-                if (firstIteration) {
+-                    delta = Math.min(delta, lmNorm);
++                double TransVarPreviousCost1 = cost;
++                double[] TransVarWorkVec = residuals;
++                residuals = TransVarOldRes1;
++                TransVarOldRes1 = TransVarWorkVec;
++                determineLMParameter(TransVarOldRes1, TransVarEpsilon, TransVarDiagonal, TransVarWork2, TransVarWork3,
++                        TransVarWork);
++                double TransVarLmNorm1 = 0;
++                int TransVarJ1 = 0;
++                while (!(!(TransVarJ1 < solvedCols))) {
++                    int TransVarPjIndex = permutation[TransVarJ1];
++                    lmDir[TransVarPjIndex] = -lmDir[TransVarPjIndex];
++                    point[TransVarPjIndex] = TransVarNewX[TransVarPjIndex] + lmDir[TransVarPjIndex];
++                    double TransVarTemp = TransVarDiagonal[TransVarPjIndex] * lmDir[TransVarPjIndex];
++                    TransVarLmNorm1 += TransVarTemp * TransVarTemp;
++                    ++TransVarJ1;
+                 }
+-
+-                // evaluate the function at x + p and calculate its norm
++                TransVarLmNorm1 = Math.sqrt(TransVarLmNorm1);
++                if (!(!(TransVarIsFirstIteration))) {
++                    TransVarEpsilon = Math.min(TransVarEpsilon, TransVarLmNorm1);
++                }
+                 updateResidualsAndCost();
+-
+-                // compute the scaled actual reduction
+-                double actRed = -1.0;
+-                if (0.1 * cost < previousCost) {
+-                    double r = cost / previousCost;
+-                    actRed = 1.0 - r * r;
++                TransVarCurrentPoint = new VectorialPointValuePair(point, objective);
++                double TransVarActivationRed = -1.0;
++                if (!(!(0.1 * cost < TransVarPreviousCost1))) {
++                    double TransVarRatio = cost / TransVarPreviousCost1;
++                    TransVarActivationRed = 1.0 - TransVarRatio * TransVarRatio;
+                 }
+-
+-                // compute the scaled predicted reduction
+-                // and the scaled directional derivative
+-                for (int j = 0; j < solvedCols; ++j) {
+-                    int pj = permutation[j];
+-                    double dirJ = lmDir[pj];
+-                    work1[j] = 0;
+-                    for (int i = 0; i <= j; ++i) {
+-                        work1[i] += jacobian[i][pj] * dirJ;
++                int TransVarJ2 = 0;
++                while (!(!(TransVarJ2 < solvedCols))) {
++                    int TransVarPj1 = permutation[TransVarJ2];
++                    double TransVarDir = lmDir[TransVarPj1];
++                    TransVarWork2[TransVarJ2] = 0;
++                    int TransVarIterationNumber = 0;
++                    while (!(!(TransVarIterationNumber <= TransVarJ2))) {
++                        TransVarWork2[TransVarIterationNumber] += jacobian[TransVarIterationNumber][TransVarPj1]
++                                * TransVarDir;
++                        ++TransVarIterationNumber;
+                     }
++                    ++TransVarJ2;
+                 }
+-                double coeff1 = 0;
+-                for (int j = 0; j < solvedCols; ++j) {
+-                    coeff1 += work1[j] * work1[j];
++                double TransVarCoeff = 0;
++                int TransVarJIndex = 0;
++                while (!(!(TransVarJIndex < solvedCols))) {
++                    TransVarCoeff += TransVarWork2[TransVarJIndex] * TransVarWork2[TransVarJIndex];
++                    ++TransVarJIndex;
+                 }
+-                double pc2 = previousCost * previousCost;
+-                coeff1 = coeff1 / pc2;
+-                double coeff2 = lmPar * lmNorm * lmNorm / pc2;
+-                double preRed = coeff1 + 2 * coeff2;
+-                double dirDer = -(coeff1 + coeff2);
+-
+-                // ratio of the actual to the predicted reduction
+-                ratio = (preRed == 0) ? 0 : (actRed / preRed);
+-
+-                // update the step bound
+-                if (ratio <= 0.25) {
+-                    double tmp =
+-                        (actRed < 0) ? (0.5 * dirDer / (dirDer + 0.5 * actRed)) : 0.5;
+-                        if ((0.1 * cost >= previousCost) || (tmp < 0.1)) {
+-                            tmp = 0.1;
++                double TransVarPcSquared = TransVarPreviousCost1 * TransVarPreviousCost1;
++                TransVarCoeff = TransVarCoeff / TransVarPcSquared;
++                double TransVarCoeff3 = lmPar * TransVarLmNorm1 * TransVarLmNorm1 / TransVarPcSquared;
++                double TransVarCoeff4 = TransVarCoeff + 2 * TransVarCoeff3;
++                double TransVarDirDer2 = -(TransVarCoeff + TransVarCoeff3);
++                TransVarRatio1 = (TransVarCoeff4 == 0) ? 0 : (TransVarActivationRed / TransVarCoeff4);
++                if (!(!(TransVarRatio1 <= 0.25))) {
++                    double TransVarCoeff2 = (TransVarActivationRed < 0)
++                            ? (0.5 * TransVarDirDer2 / (TransVarDirDer2 + 0.5 * TransVarActivationRed))
++                            : 0.5;
++                    if (!(!((0.1 * cost >= TransVarPreviousCost1) || (TransVarCoeff2 < 0.1)))) {
++                        TransVarCoeff2 = 0.1;
+                         }
+-                        delta = tmp * Math.min(delta, 10.0 * lmNorm);
+-                        lmPar /= tmp;
+-                } else if ((lmPar == 0) || (ratio >= 0.75)) {
+-                    delta = 2 * lmNorm;
++                    TransVarEpsilon = TransVarCoeff2 * Math.min(TransVarEpsilon, 10.0 * TransVarLmNorm1);
++                    lmPar /= TransVarCoeff2;
++                } else if (!(!((lmPar == 0) || (TransVarRatio1 >= 0.75)))) {
++                    TransVarEpsilon = 2 * TransVarLmNorm1;
+                     lmPar *= 0.5;
+                 }
+-
+-                // test for successful iteration.
+-                if (ratio >= 1.0e-4) {
+-                    // successful iteration, update the norm
+-                    firstIteration = false;
+-                    xNorm = 0;
+-                    for (int k = 0; k < cols; ++k) {
+-                        double xK = diag[k] * point[k];
+-                        xNorm    += xK * xK;
++                if (!(!(TransVarRatio1 >= 1.0e-4))) {
++                    TransVarIsFirstIteration = false;
++                    TransVarNorm = 0;
++                    int TransVarK1 = 0;
++                    while (!(!(TransVarK1 < cols))) {
++                        double TransVarX = TransVarDiagonal[TransVarK1] * point[TransVarK1];
++                        TransVarNorm += TransVarX * TransVarX;
++                        ++TransVarK1;
+                     }
+-                    xNorm = Math.sqrt(xNorm);
+-                    current = new VectorialPointValuePair(point, objective);
+-
+-                    // tests for convergence.
+-                    if (checker != null) {
+-                    // we use the vectorial convergence checker
+-                    	if (checker.converged(getIterations(), previous, current)) {
+-                    		return current;
+-                    	}
+-                    }
++                    TransVarNorm = Math.sqrt(TransVarNorm);
+                 } else {
+-                    // failed iteration, reset the previous values
+-                    cost = previousCost;
+-                    for (int j = 0; j < solvedCols; ++j) {
+-                        int pj = permutation[j];
+-                        point[pj] = oldX[pj];
++                    cost = TransVarPreviousCost1;
++                    int TransVarIndex1 = 0;
++                    while (!(!(TransVarIndex1 < solvedCols))) {
++                        int TransVarPJ = permutation[TransVarIndex1];
++                        point[TransVarPJ] = TransVarNewX[TransVarPJ];
++                        ++TransVarIndex1;
+                     }
+-                    tmpVec    = residuals;
+-                    residuals = oldRes;
+-                    oldRes    = tmpVec;
+-                    tmpVec    = objective;
+-                    objective = oldObj;
+-                    oldObj    = tmpVec;
++                    TransVarWorkVec = residuals;
++                    residuals = TransVarOldRes1;
++                    TransVarOldRes1 = TransVarWorkVec;
+                 }
+-                if (checker==null) {
+-                	if (((Math.abs(actRed) <= costRelativeTolerance) &&
+-                        (preRed <= costRelativeTolerance) &&
+-                        (ratio <= 2.0)) ||
+-                       (delta <= parRelativeTolerance * xNorm)) {
+-                       return current;
++                if (!(!(checker == null))) {
++                    if (!(!(((Math.abs(TransVarActivationRed) <= costRelativeTolerance)
++                            && (TransVarCoeff4 <= costRelativeTolerance) && (TransVarRatio1 <= 2.0))
++                            || (TransVarEpsilon <= parRelativeTolerance * TransVarNorm)))) {
++                        return TransVarCurrentPoint;
+                     }
++                } else {
++                    if (!(!(checker.converged(getIterations(), TransVarOldRes2, TransVarCurrentPoint)))) {
++                        return TransVarCurrentPoint;
+                 }
+-                // tests for termination and stringent tolerances
+-                // (2.2204e-16 is the machine epsilon for IEEE754)
+-                if ((Math.abs(actRed) <= 2.2204e-16) && (preRed <= 2.2204e-16) && (ratio <= 2.0)) {
++                }
++                if (!(!((Math.abs(TransVarActivationRed) <= 2.2204e-16) && (TransVarCoeff4 <= 2.2204e-16)
++                        && (TransVarRatio1 <= 2.0)))) {
+                     throw new OptimizationException(LocalizedFormats.TOO_SMALL_COST_RELATIVE_TOLERANCE,
+                             costRelativeTolerance);
+-                } else if (delta <= 2.2204e-16 * xNorm) {
++                } else if (!(!(TransVarEpsilon <= 2.2204e-16 * TransVarNorm))) {
+                     throw new OptimizationException(LocalizedFormats.TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE,
+                             parRelativeTolerance);
+-                } else if (maxCosine <= 2.2204e-16)  {
+-                    throw new OptimizationException(LocalizedFormats.TOO_SMALL_ORTHOGONALITY_TOLERANCE,
+-                            orthoTolerance);
++                } else if (!(!(TransVarMaxCosine1 <= 2.2204e-16))) {
++                    throw new OptimizationException(LocalizedFormats.TOO_SMALL_ORTHOGONALITY_TOLERANCE, orthoTolerance);
+                 }
+-
+             }
+-
+         }
+ 
+     }

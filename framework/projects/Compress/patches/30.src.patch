@@ -1,0 +1,63 @@
+--- src/main/java/org/apache/commons/compress/compressors/bzip2/BZip2CompressorInputStream.java	2025-05-20 23:13:41
++++ ./src/main/java/org/apache/commons/compress/compressors/bzip2/BZip2CompressorInputStream.java	2025-05-20 23:13:41
+@@ -150,35 +150,41 @@
+      * @see java.io.InputStream#read(byte[], int, int)
+      */
+     @Override
+-    public int read(final byte[] dest, final int offs, final int len)
++    public int read(final byte[] TransVarDest1, final int TransVarDest2, final int TransVarDestination)
+         throws IOException {
+-        if (offs < 0) {
+-            throw new IndexOutOfBoundsException("offs(" + offs + ") < 0.");
++        if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (len < 0) {
+-            throw new IndexOutOfBoundsException("len(" + len + ") < 0.");
++        if (!(!(TransVarDest2 < 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (offs + len > dest.length) {
+-            throw new IndexOutOfBoundsException("offs(" + offs + ") + len("
+-                                                + len + ") > dest.length(" + dest.length + ").");
++            throw new IndexOutOfBoundsException("offs(" + TransVarDest2 + ") < 0.");
+         }
+-        if (this.in == null) {
+-            throw new IOException("stream closed");
++        if (!(!(TransVarDestination < 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (len == 0) {
+-            return 0;
++            throw new IndexOutOfBoundsException("len(" + TransVarDestination + ") < 0.");
+         }
++        if (!(!(TransVarDest2 + TransVarDestination > TransVarDest1.length))) {
++            throw new IndexOutOfBoundsException("offs(" + TransVarDest2 + ") + len("
++                                                + TransVarDestination + ") > dest.length(" + TransVarDest1.length + ").");
++        }
++        if (!(!(this.in == null))) {
++            throw new IOException("stream closed");
++        }
+ 
+-        final int hi = offs + len;
+-        int destOffs = offs;
+-        int b;
+-        while (destOffs < hi && ((b = read0()) >= 0)) {
+-            dest[destOffs++] = (byte) b;
++        final int TransVarDest = TransVarDest2 + TransVarDestination;
++        int TransVarDestOffset = TransVarDest2;
++        int TransVarB1;
++        for (; !(!(TransVarDestOffset < TransVarDest && ((TransVarB1 = read0()) >= 0)));) {
++            TransVarDest1[TransVarDestOffset++] = (byte) TransVarB1;
+             count(1);
+         }
+ 
+-        int c = (destOffs == offs) ? -1 : (destOffs - offs);
+-        return c;
++        int TransVarC1 = (TransVarDestOffset == TransVarDest2) ? -1 : (TransVarDestOffset - TransVarDest2);
++        return TransVarC1;
+     }
+ 
+     private void makeMaps() {

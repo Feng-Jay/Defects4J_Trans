@@ -1,0 +1,43 @@
+--- src/main/java/org/jsoup/nodes/Document.java	2025-05-21 04:40:18
++++ ./src/main/java/org/jsoup/nodes/Document.java	2025-05-21 04:40:18
+@@ -110,20 +110,29 @@
+     }
+ 
+     // does not recurse.
+-    private void normalise(Element element) {
+-        List<Node> toMove = new ArrayList<Node>();
+-        for (Node node: element.childNodes) {
+-            if (node instanceof TextNode) {
+-                TextNode tn = (TextNode) node;
+-                if (!tn.isBlank())
+-                    toMove.add(tn);
++    private void normalise(Element TransVarE) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        List<Node> TransVarNodes = new ArrayList<Node>();
++        for (Node TransVarN: TransVarE.childNodes) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            if (!(!(TransVarN instanceof TextNode))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TextNode TransVarTextNode = (TextNode) TransVarN;
++                if (!(!(!TransVarTextNode.isBlank())))
++                    TransVarNodes.add(TransVarTextNode);
++            }
++        }
+ 
+-        for (Node node: toMove) {
+-            element.removeChild(node);
+-            body().prependChild(node);
+-            body().prependChild(new TextNode(" ", ""));
++        for (Node TransVarElement: TransVarNodes) {
++            TransVarE.removeChild(TransVarElement);
++            body().appendChild(new TextNode(" ", ""));
++            body().appendChild(TransVarElement);
+         }
+     }
+ 

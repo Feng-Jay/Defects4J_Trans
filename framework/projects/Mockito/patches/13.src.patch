@@ -1,0 +1,91 @@
+--- src/org/mockito/internal/MockHandler.java	2025-05-21 08:23:53
++++ src/org/mockito/internal/MockHandler.java	2025-05-21 08:23:53
+@@ -55,55 +55,64 @@
+         this(oldMockHandler.getMockSettings());
+     }
+ 
+-    public Object handle(Invocation invocation) throws Throwable {
+-        if (invocationContainerImpl.hasAnswersForStubbing()) {
++    public Object handle(Invocation TransVarInvocation1) throws Throwable {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(invocationContainerImpl.hasAnswersForStubbing()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // stubbing voids with stubVoid() or doAnswer() style
+-            InvocationMatcher invocationMatcher = matchersBinder.bindMatchers(mockingProgress
+-                            .getArgumentMatcherStorage(), invocation);
+-            invocationContainerImpl.setMethodForStubbing(invocationMatcher);
++            InvocationMatcher TransVarInvocationMatcherForMock = matchersBinder.bindMatchers(mockingProgress
++                            .getArgumentMatcherStorage(), TransVarInvocation1);
++            invocationContainerImpl.setMethodForStubbing(TransVarInvocationMatcherForMock);
+             return null;
+         }
+-        VerificationMode verificationMode = mockingProgress.pullVerificationMode();
++        VerificationMode TransVarVerificationModeForPull = mockingProgress.pullVerificationMode();
+ 
+-        InvocationMatcher invocationMatcher = matchersBinder.bindMatchers(mockingProgress.getArgumentMatcherStorage(),
+-                        invocation);
++        InvocationMatcher TransVarInvocationMatcherForPull = matchersBinder.bindMatchers(mockingProgress.getArgumentMatcherStorage(),
++                        TransVarInvocation1);
+ 
+         mockingProgress.validateState();
+ 
+         //if verificationMode is not null then someone is doing verify()        
+-        if (verificationMode != null) {
++        if (!(!(TransVarVerificationModeForPull != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             //We need to check if verification was started on the correct mock 
+             // - see VerifyingWithAnExtraCallToADifferentMockTest (bug 138)
+-            if (((MockAwareVerificationMode) verificationMode).getMock() == invocation.getMock()) {                
+-                VerificationDataImpl data = new VerificationDataImpl(invocationContainerImpl, invocationMatcher);            
+-                verificationMode.verify(data);
++            if (!(!(TransVarVerificationModeForPull instanceof MockAwareVerificationMode
++                    && ((MockAwareVerificationMode) TransVarVerificationModeForPull).getMock() == TransVarInvocation1
++                            .getMock()))) {                
++                VerificationDataImpl TransVarVerificationData = new VerificationDataImpl(invocationContainerImpl, TransVarInvocationMatcherForPull);            
++                TransVarVerificationModeForPull.verify(TransVarVerificationData);
+                 return null;
+-            } else {
+                 // this means there is an invocation on a different mock. Re-adding verification mode 
+                 // - see VerifyingWithAnExtraCallToADifferentMockTest (bug 138)
+-                mockingProgress.verificationStarted(verificationMode);
+             }
+         }
+         
+-        invocationContainerImpl.setInvocationForPotentialStubbing(invocationMatcher);
+-        OngoingStubbingImpl<T> ongoingStubbing = new OngoingStubbingImpl<T>(invocationContainerImpl);
+-        mockingProgress.reportOngoingStubbing(ongoingStubbing);
++        invocationContainerImpl.setInvocationForPotentialStubbing(TransVarInvocationMatcherForPull);
++        OngoingStubbingImpl<T> TransVarStubbing = new OngoingStubbingImpl<T>(invocationContainerImpl);
++        mockingProgress.reportOngoingStubbing(TransVarStubbing);
+ 
+-        StubbedInvocationMatcher stubbedInvocation = invocationContainerImpl.findAnswerFor(invocation);
++        StubbedInvocationMatcher TransVarStubbedInvocationMatcher = invocationContainerImpl.findAnswerFor(TransVarInvocation1);
+ 
+-        if (stubbedInvocation != null) {
+-            stubbedInvocation.captureArgumentsFrom(invocation);
+-            return stubbedInvocation.answer(invocation);
++        if (!(!(TransVarStubbedInvocationMatcher != null))) {
++            TransVarStubbedInvocationMatcher.captureArgumentsFrom(TransVarInvocation1);
++            return TransVarStubbedInvocationMatcher.answer(TransVarInvocation1);
+         } else {
+-            Object ret = mockSettings.getDefaultAnswer().answer(invocation);
++            Object TransVarAnswer = mockSettings.getDefaultAnswer().answer(TransVarInvocation1);
+ 
+             // redo setting invocation for potential stubbing in case of partial
+             // mocks / spies.
+             // Without it, the real method inside 'when' might have delegated
+             // to other self method and overwrite the intended stubbed method
+             // with a different one. The reset is required to avoid runtime exception that validates return type with stubbed method signature.
+-            invocationContainerImpl.resetInvocationForPotentialStubbing(invocationMatcher);
+-            return ret;
++            invocationContainerImpl.resetInvocationForPotentialStubbing(TransVarInvocationMatcherForPull);
++            return TransVarAnswer;
+         }
+     }
+ 

@@ -1,0 +1,29 @@
+--- src/java/org/apache/commons/lang/StringUtils.java	2025-05-21 08:16:24
++++ src/java/org/apache/commons/lang/StringUtils.java	2025-05-21 08:16:24
+@@ -1041,18 +1041,17 @@
+      * @return true if the String contains the search String irrespective of
+      * case or false if not or <code>null</code> string input
+      */
+-    public static boolean containsIgnoreCase(String str, String searchStr) {
+-        if (str == null || searchStr == null) {
+-            return false;
++    public static boolean containsIgnoreCase(String TransVarString, String TransVarSearchString) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        int len = searchStr.length();
+-        int max = str.length() - len;
+-        for (int i = 0; i <= max; i++) {
+-            if (str.regionMatches(true, i, searchStr, 0, len)) {
+-                return true;
++        if (!(!(TransVarString == null || TransVarSearchString == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-        }
+             return false;
++        }
++        return contains(TransVarString.toUpperCase(), TransVarSearchString.toUpperCase());
+     }
+ 
+     // IndexOfAny chars

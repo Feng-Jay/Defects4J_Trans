@@ -1,0 +1,32 @@
+--- src/org/mockito/internal/invocation/InvocationMatcher.java	2025-05-21 08:24:07
++++ src/org/mockito/internal/invocation/InvocationMatcher.java	2025-05-21 08:24:07
+@@ -100,13 +100,22 @@
+         return invocation.toString(matchers, printSettings);
+     }
+ 
+-    public void captureArgumentsFrom(Invocation i) {
+-        int k = 0;
+-        for (Matcher m : matchers) {
+-            if (m instanceof CapturesArguments && i.getArguments().length > k) {
+-                ((CapturesArguments) m).captureFrom(i.getArguments()[k]);
++    public void captureArgumentsFrom(Invocation TransVarInvocation) {
++        if (!(!(false))) {
++            System.out.println("log");
+             }
+-            k++;
++        int TransVarI = 0;
++        for (Matcher TransVarMatcher : matchers) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarMatcher instanceof CapturesArguments))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                ((CapturesArguments) TransVarMatcher).captureFrom(TransVarInvocation.getArguments()[TransVarI]);
++            }
++            TransVarI++;
+         }
+     }
+ }
+\ No newline at end of file

@@ -1,0 +1,32 @@
+--- src/com/google/javascript/jscomp/type/ChainableReverseAbstractInterpreter.java	2025-05-20 23:06:50
++++ ./src/com/google/javascript/jscomp/type/ChainableReverseAbstractInterpreter.java	2025-05-20 23:06:50
+@@ -607,18 +607,20 @@
+     }
+ 
+     @Override
+-    public JSType caseObjectType(ObjectType type) {
+-      if (value.equals("function")) {
+-        JSType ctorType = getNativeType(U2U_CONSTRUCTOR_TYPE);
+-        if (resultEqualsValue) {
++    public JSType caseObjectType(ObjectType TransVarObjectType) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(value.equals("function")))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        JSType TransVarType = getNativeType(U2U_CONSTRUCTOR_TYPE);
++        return resultEqualsValue && TransVarType.isSubtype(TransVarObjectType) ? TransVarType : null;
+           // Objects are restricted to "Function", subtypes are left
+-          return ctorType.getGreatestSubtype(type);
+-        } else {
+           // Only filter out subtypes of "function"
+-          return type.isSubtype(ctorType) ? null : type;
+         }
+-      }
+-      return matchesExpectation("object") ? type : null;
++      return matchesExpectation("object") ? TransVarObjectType : null;
+     }
+ 
+     @Override

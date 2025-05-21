@@ -1,0 +1,103 @@
+--- src/com/google/javascript/jscomp/NodeUtil.java	2025-05-20 23:04:14
++++ ./src/com/google/javascript/jscomp/NodeUtil.java	2025-05-20 23:04:14
+@@ -317,49 +317,58 @@
+    * @param val The value being assigned.
+    * @param defines The list of names of existing defines.
+    */
+-  static boolean isValidDefineValue(Node val, Set<String> defines) {
+-    switch (val.getType()) {
+-      case Token.STRING:
+-      case Token.NUMBER:
+-      case Token.TRUE:
+-      case Token.FALSE:
++  static boolean isValidDefineValue(Node TransVarTree, Set<String> TransVarDefine) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    boolean TransFallThroughFlag0 = false;
++    boolean TransBreakFlag0 = true;
++    {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.STRING))))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.NUMBER))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.TRUE))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.FALSE))))) {
++            TransFallThroughFlag0 = true;
+         return true;
+-
+-      // Binary operators are only valid if both children are valid.
+-      case Token.ADD:
+-      case Token.BITAND:
+-      case Token.BITNOT:
+-      case Token.BITOR:
+-      case Token.BITXOR:
+-      case Token.DIV:
+-      case Token.EQ:
+-      case Token.GE:
+-      case Token.GT:
+-      case Token.LE:
+-      case Token.LSH:
+-      case Token.LT:
+-      case Token.MOD:
+-      case Token.MUL:
+-      case Token.NE:
+-      case Token.RSH:
+-      case Token.SHEQ:
+-      case Token.SHNE:
+-      case Token.SUB:
+-      case Token.URSH:
+-        return isValidDefineValue(val.getFirstChild(), defines)
+-            && isValidDefineValue(val.getLastChild(), defines);
+-
+-      // Uniary operators are valid if the child is valid.
+-      case Token.NOT:
+-      case Token.NEG:
+-      case Token.POS:
+-        return isValidDefineValue(val.getFirstChild(), defines);
+-
+-      // Names are valid if and only if they are defines themselves.
+-      case Token.NAME:
+-      case Token.GETPROP:
+-        if (val.isQualifiedName()) {
+-          return defines.contains(val.getQualifiedName());
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.BITAND))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.BITNOT))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.BITOR))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.BITXOR))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.NOT))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.NEG))))) {
++            TransFallThroughFlag0 = true;
++            return isValidDefineValue(TransVarTree.getFirstChild(), TransVarDefine);
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.NAME))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarTree.getType() == Token.GETPROP))))) {
++            if (!(!(TransVarTree.isQualifiedName()))) {
++                return TransVarDefine.contains(TransVarTree.getQualifiedName());
++            }
+         }
+     }
+     return false;

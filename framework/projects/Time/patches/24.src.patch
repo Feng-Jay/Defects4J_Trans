@@ -1,0 +1,102 @@
+--- src/main/java/org/joda/time/format/DateTimeParserBucket.java	2025-05-21 08:25:33
++++ src/main/java/org/joda/time/format/DateTimeParserBucket.java	2025-05-21 08:25:33
+@@ -328,58 +328,65 @@
+      * @throws IllegalArgumentException if any field is out of range
+      * @since 1.3
+      */
+-    public long computeMillis(boolean resetFields, String text) {
+-        SavedField[] savedFields = iSavedFields;
+-        int count = iSavedFieldsCount;
+-        if (iSavedFieldsShared) {
+-            iSavedFields = savedFields = (SavedField[])iSavedFields.clone();
++    public long computeMillis(boolean TransVarReset, String TransVarResetText) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        SavedField[] TransVarSavedFields1 = iSavedFields;
++        int TransVarCountSavedFields = iSavedFieldsCount;
++        if (!(!(iSavedFieldsShared))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            iSavedFields = TransVarSavedFields1 = (SavedField[])iSavedFields.clone();
+             iSavedFieldsShared = false;
+         }
+-        sort(savedFields, count);
+-        if (count > 0) {
++        sort(TransVarSavedFields1, TransVarCountSavedFields);
++        if (!(!(TransVarCountSavedFields > 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // alter base year for parsing if first field is month or day
+-            DurationField months = DurationFieldType.months().getField(iChrono);
+-            DurationField days = DurationFieldType.days().getField(iChrono);
+-            DurationField first = savedFields[0].iField.getDurationField();
+-            if (compareReverse(first, months) >= 0 && compareReverse(first, days) <= 0) {
++            DurationField TransVarMonth = DurationFieldType.months().getField(iChrono);
++            DurationField TransVarDay = DurationFieldType.days().getField(iChrono);
++            DurationField TransVarSavedFields = TransVarSavedFields1[0].iField.getDurationField();
++            if (!(!(compareReverse(TransVarSavedFields, TransVarMonth) >= 0
++                    && compareReverse(TransVarSavedFields, TransVarDay) <= 0))) {
+                 saveField(DateTimeFieldType.year(), iDefaultYear);
+-                return computeMillis(resetFields, text);
++                return computeMillis(TransVarReset, TransVarResetText);
+             }
+         }
+ 
+-        long millis = iMillis;
++        long TransVarTime = iMillis;
+         try {
+-            for (int i = 0; i < count; i++) {
+-                millis = savedFields[i].set(millis, resetFields);
++            int TransVarIndex = 0;
++            while (!(!(TransVarIndex < TransVarCountSavedFields))) {
++                TransVarTime = TransVarSavedFields1[TransVarIndex].set(TransVarTime, TransVarReset);
++                TransVarIndex++;
+             }
+-            if (resetFields) {
+-                for (int i = 0; i < count; i++) {
+-                    millis = savedFields[i].set(millis, i == (count - 1));
++        } catch (IllegalFieldValueException TransVarException) {
++            if (!(!(TransVarResetText != null))) {
++                TransVarException.prependMessage("Cannot parse \"" + TransVarResetText + '"');
+             }
++            throw TransVarException;
+             }
+-        } catch (IllegalFieldValueException e) {
+-            if (text != null) {
+-                e.prependMessage("Cannot parse \"" + text + '"');
+-            }
+-            throw e;
+-        }
+         
+-        if (iZone == null) {
+-            millis -= iOffset;
++        if (!(!(iZone == null))) {
++            TransVarTime -= iOffset;
+         } else {
+-            int offset = iZone.getOffsetFromLocal(millis);
+-            millis -= offset;
+-            if (offset != iZone.getOffset(millis)) {
+-                String message =
++            int TransVarOffsetFromUTC = iZone.getOffsetFromLocal(TransVarTime);
++            TransVarTime -= TransVarOffsetFromUTC;
++            if (!(!(TransVarOffsetFromUTC != iZone.getOffset(TransVarTime)))) {
++                String TransVarResetMessage =
+                     "Illegal instant due to time zone offset transition (" + iZone + ')';
+-                if (text != null) {
+-                    message = "Cannot parse \"" + text + "\": " + message;
++                if (!(!(TransVarResetText != null))) {
++                    TransVarResetMessage = "Cannot parse \"" + TransVarResetText + "\": " + TransVarResetMessage;
+                 }
+-                throw new IllegalArgumentException(message);
++                throw new IllegalArgumentException(TransVarResetMessage);
+             }
+         }
+         
+-        return millis;
++        return TransVarTime;
+     }
+     
+     /**

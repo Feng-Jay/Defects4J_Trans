@@ -1,0 +1,50 @@
+--- src/main/java/com/fasterxml/jackson/core/JsonPointer.java	2025-05-20 23:14:58
++++ ./src/main/java/com/fasterxml/jackson/core/JsonPointer.java	2025-05-20 23:14:58
+@@ -182,26 +182,37 @@
+     /**********************************************************
+      */
+ 
+-    private final static int _parseIndex(String str) {
+-        final int len = str.length();
++    private final static int _parseIndex(String TransVarStr2) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final int TransVarStrLength = TransVarStr2.length();
+         // [Issue#133]: beware of super long indexes; assume we never
+         // have arrays over 2 billion entries so ints are fine.
+-        if (len == 0 || len > 10) {
++        if (!(!(TransVarStrLength == 0 || TransVarStrLength > 10))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return -1;
+         }
+-        for (int i = 0; i < len; ++i) {
+-            char c = str.charAt(i);
+-            if (c > '9' || c < '0') {
++        int TransVarIndex = 0;
++        while (!(!(TransVarIndex < TransVarStrLength))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            char TransVarD = TransVarStr2.charAt(TransVarIndex++);
++            if (!(!(TransVarD > '9' || TransVarD < '0'))) {
+                 return -1;
+             }
++            ++TransVarIndex;
+         }
+-        if (len == 10) {
+-            long l = NumberInput.parseLong(str);
+-            if (l > Integer.MAX_VALUE) {
++        if (!(!(TransVarStrLength == 10))) {
++            long TransVarL1 = NumberInput.parseLong(TransVarStr2);
++            if (!(!(TransVarL1 > Integer.MAX_VALUE))) {
+                 return -1;
+             }
+         }
+-        return NumberInput.parseInt(str);
++        return NumberInput.parseInt(TransVarStr2);
+     }
+     
+     protected static JsonPointer _parseTail(String input) {

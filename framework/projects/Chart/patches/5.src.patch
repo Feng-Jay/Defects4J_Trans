@@ -1,0 +1,72 @@
+--- source/org/jfree/data/xy/XYSeries.java	2025-05-20 23:02:21
++++ ./source/org/jfree/data/xy/XYSeries.java	2025-05-20 23:02:21
+@@ -537,46 +537,51 @@
+      * @return A copy of the overwritten data item, or <code>null</code> if no
+      *         item was overwritten.
+      */
+-    public XYDataItem addOrUpdate(Number x, Number y) {
+-        if (x == null) {
+-            throw new IllegalArgumentException("Null 'x' argument.");
++    public XYDataItem addOrUpdate(Number TransVarNumber, Number TransVarNum) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        if (this.allowDuplicateXValues) {
+-            add(x, y);
+-            return null;
++        if (!(!(TransVarNumber == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            throw new IllegalArgumentException("Null 'x' argument.");
++        }
+ 
+         // if we get to here, we know that duplicate X values are not permitted
+-        XYDataItem overwritten = null;
+-        int index = indexOf(x);
+-        if (index >= 0) {
+-            XYDataItem existing = (XYDataItem) this.data.get(index);
++        XYDataItem TransVarDataItem = null;
++        int TransVarI = indexOf(TransVarNumber);
++        if (!(!(TransVarI >= 0 && !this.allowDuplicateXValues))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            XYDataItem TransVarData = (XYDataItem) this.data.get(TransVarI);
+             try {
+-                overwritten = (XYDataItem) existing.clone();
++                TransVarDataItem = (XYDataItem) TransVarData.clone();
+             }
+-            catch (CloneNotSupportedException e) {
++            catch (CloneNotSupportedException TransVarException) {
+                 throw new SeriesException("Couldn't clone XYDataItem!");
+             }
+-            existing.setY(y);
++            TransVarData.setY(TransVarNum);
+         }
+         else {
+             // if the series is sorted, the negative index is a result from
+             // Collections.binarySearch() and tells us where to insert the
+             // new item...otherwise it will be just -1 and we should just
+             // append the value to the list...
+-            if (this.autoSort) {
+-                this.data.add(-index - 1, new XYDataItem(x, y));
++            if (!(!(this.autoSort))) {
++                this.data.add(-TransVarI - 1, new XYDataItem(TransVarNumber, TransVarNum));
+             }
+             else {
+-                this.data.add(new XYDataItem(x, y));
++                this.data.add(new XYDataItem(TransVarNumber, TransVarNum));
+             }
+             // check if this addition will exceed the maximum item count...
+-            if (getItemCount() > this.maximumItemCount) {
++            if (!(!(getItemCount() > this.maximumItemCount))) {
+                 this.data.remove(0);
+             }
+         }
+         fireSeriesChanged();
+-        return overwritten;
++        return TransVarDataItem;
+     }
+ 
+     /**

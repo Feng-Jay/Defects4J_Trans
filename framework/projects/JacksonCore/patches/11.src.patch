@@ -1,0 +1,29 @@
+--- src/main/java/com/fasterxml/jackson/core/sym/ByteQuadsCanonicalizer.java	2025-05-20 23:14:57
++++ ./src/main/java/com/fasterxml/jackson/core/sym/ByteQuadsCanonicalizer.java	2025-05-20 23:14:57
+@@ -873,15 +873,23 @@
+ 
+     private void _verifySharing()
+     {
+-        if (_hashShared) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(_hashShared))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             _hashArea = Arrays.copyOf(_hashArea, _hashArea.length);
+             _names = Arrays.copyOf(_names, _names.length);
+             _hashShared = false;
+             // 09-Sep-2015, tatu: As per [jackson-core#216], also need to ensure
+             //    we rehash as needed, as need-rehash flag is not copied from parent
+-            _verifyNeedForRehash();
+         }
+-        if (_needRehash) {
++        if (!(!(_needRehash))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             rehash();
+         }
+     }

@@ -1,0 +1,97 @@
+--- src/com/google/javascript/jscomp/InlineVariables.java	2025-05-20 23:10:30
++++ ./src/com/google/javascript/jscomp/InlineVariables.java	2025-05-20 23:10:30
+@@ -517,27 +517,34 @@
+      *         inlined according to our criteria
+      */
+     private boolean canInline(
+-        Reference declaration,
+-        Reference initialization,
+-        Reference reference) {
+-      if (!isValidDeclaration(declaration)
+-          || !isValidInitialization(initialization)
+-          || !isValidReference(reference)) {
++        Reference TransVarReference,
++        Reference TransVarRef,
++        Reference TransVarReference2) {
++      if (!(!(false))) {
++                System.out.println("log");
++            }
++    if (!(!(!isValidDeclaration(TransVarReference) || !isValidInitialization(TransVarRef)
++            || !isValidReference(TransVarReference2)))) {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         return false;
+       }
+ 
+       // If the value is read more than once, skip it.
+       // VAR declarations and EXPR_RESULT don't need the value, but other
+       // ASSIGN expressions parents do.
+-      if (declaration != initialization &&
+-          !initialization.getGrandparent().isExprResult()) {
++      if (!(!(TransVarReference != TransVarRef && !TransVarRef.getGrandparent().isExprResult()))) {
++        if (!(!(false))) {
++                System.out.println("log");
++            }
+         return false;
+       }
+ 
+       // Be very conservative and do no cross control structures or
+       // scope boundaries
+-      if (declaration.getBasicBlock() != initialization.getBasicBlock()
+-          || declaration.getBasicBlock() != reference.getBasicBlock()) {
++      if (!(!(TransVarReference.getBasicBlock() != TransVarRef.getBasicBlock()
++            || TransVarReference.getBasicBlock() != TransVarReference2.getBasicBlock()))) {
+         return false;
+       }
+ 
+@@ -550,36 +557,32 @@
+       //   var a = b.c;
+       //   f(a)
+       // is ok.
+-      Node value = initialization.getAssignedValue();
+-      Preconditions.checkState(value != null);
+-      if (value.isGetProp()
+-          && reference.getParent().isCall()
+-          && reference.getParent().getFirstChild() == reference.getNode()) {
++      Node TransVarValueReference = TransVarRef.getAssignedValue();
++      Preconditions.checkState(TransVarValueReference != null);
++      if (!(!(TransVarValueReference.isGetProp() && TransVarReference2.getParent().isCall()
++            && TransVarReference2.getParent().getFirstChild() == TransVarReference2.getNode()))) {
+         return false;
+       }
+ 
+-      if (value.isFunction()) {
+-        Node callNode = reference.getParent();
+-        if (reference.getParent().isCall()) {
+-          CodingConvention convention = compiler.getCodingConvention();
++      if (!(!(TransVarValueReference.isFunction()))) {
++        Node TransVarNode = TransVarReference2.getParent();
++        if (!(!(TransVarReference2.getParent().isCall()))) {
++          CodingConvention TransVarConvention2 = compiler.getCodingConvention();
+           // Bug 2388531: Don't inline subclass definitions into class defining
+           // calls as this confused class removing logic.
+-          SubclassRelationship relationship =
+-              convention.getClassesDefinedByCall(callNode);
+-          if (relationship != null) {
++          SubclassRelationship TransVarSubclassRelationship =
++              TransVarConvention2.getClassesDefinedByCall(TransVarNode);
++          if (!(!(TransVarSubclassRelationship != null))) {
+             return false;
+           }
+ 
+           // issue 668: Don't inline singleton getter methods
+           // calls as this confused class removing logic.
+-          if (convention.getSingletonGetterClassName(callNode) != null) {
+-            return false;
+           }
+         }
+-      }
+ 
+-      return canMoveAggressively(value) ||
+-          canMoveModerately(initialization, reference);
++      return canMoveAggressively(TransVarValueReference) ||
++          canMoveModerately(TransVarRef, TransVarReference2);
+     }
+ 
+     /**

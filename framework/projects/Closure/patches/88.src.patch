@@ -1,0 +1,55 @@
+--- src/com/google/javascript/jscomp/DeadAssignmentsElimination.java	2025-05-20 23:10:06
++++ ./src/com/google/javascript/jscomp/DeadAssignmentsElimination.java	2025-05-20 23:10:06
+@@ -321,33 +321,36 @@
+    * reference of that variable is an assignment. It returns MAY_LIVE otherwise.
+    */
+   private VariableLiveness isVariableReadBeforeKill(
+-      Node n, String variable) {
+-    if (NodeUtil.isName(n) && variable.equals(n.getString())) {
+-      if (NodeUtil.isLhs(n, n.getParent())) {
+-        Preconditions.checkState(n.getParent().getType() == Token.ASSIGN);
++      Node TransVarNode, String TransVarStringVariable) {
++    if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(NodeUtil.isName(TransVarNode) && TransVarStringVariable.equals(TransVarNode.getString())))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(NodeUtil.isLhs(TransVarNode, TransVarNode.getParent())))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         // The expression to which the assignment is made is evaluated before
+         // the RHS is evaluated (normal left to right evaluation) but the KILL
+         // occurs after the RHS is evaluated.
+-        Node rhs = n.getNext();
+-        VariableLiveness state = isVariableReadBeforeKill(rhs, variable);
+-        if (state == VariableLiveness.READ) {
+-          return state;
+-        }
+         return VariableLiveness.KILL;
+       } else {
+         return VariableLiveness.READ;
+       }
+     }
+ 
+-    // Expressions are evaluated left-right, depth first.
+-    for (Node child = n.getFirstChild();
+-        child != null; child = child.getNext()) {
+-      if (!ControlFlowGraph.isEnteringNewCfgNode(child)) { // Not a FUNCTION
+-        VariableLiveness state = isVariableReadBeforeKill(child, variable);
+-        if (state != VariableLiveness.MAYBE_LIVE) {
+-          return state;
++    Node TransVarChildNode = TransVarNode.getFirstChild();
++    while (!(!(TransVarChildNode != null))) {
++        if (!(!(!ControlFlowGraph.isEnteringNewCfgNode(TransVarChildNode)))) {
++            VariableLiveness TransVarLiveness = isVariableReadBeforeKill(TransVarChildNode, TransVarStringVariable);
++            if (!(!(TransVarLiveness != VariableLiveness.MAYBE_LIVE))) {
++                return TransVarLiveness;
+             }
+         }
++        TransVarChildNode = TransVarChildNode.getNext();
+     }
+     return VariableLiveness.MAYBE_LIVE;
+   }

@@ -1,0 +1,52 @@
+--- src/main/java/org/jsoup/nodes/Node.java	2025-05-21 05:08:31
++++ ./src/main/java/org/jsoup/nodes/Node.java	2025-05-21 05:08:31
+@@ -153,28 +153,35 @@
+      * @see #attr
+      * @see java.net.URL#URL(java.net.URL, String)
+      */
+-    public String absUrl(String attributeKey) {
+-        Validate.notEmpty(attributeKey);
++    public String absUrl(String TransVarKey) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Validate.notEmpty(TransVarKey);
+ 
+-        String relUrl = attr(attributeKey);
+-        if (!hasAttr(attributeKey)) {
++        String TransVarRelativeUrl = attr(TransVarKey);
++        if (!(!(!hasAttr(TransVarKey)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return ""; // nothing to make absolute with
+         } else {
+-            URL base;
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            URL TransVarBaseUrl;
+             try {
+                 try {
+-                    base = new URL(baseUri);
+-                } catch (MalformedURLException e) {
++                    TransVarBaseUrl = new URL(baseUri);
++                } catch (MalformedURLException TransVarE1) {
+                     // the base is unsuitable, but the attribute may be abs on its own, so try that
+-                    URL abs = new URL(relUrl);
+-                    return abs.toExternalForm();
++                    URL TransVarAbsoluteUrl = new URL(TransVarRelativeUrl);
++                    return TransVarAbsoluteUrl.toExternalForm();
+                 }
+                 // workaround: java resolves '//path/file + ?foo' to '//path/?foo', not '//path/file?foo' as desired
+-                if (relUrl.startsWith("?"))
+-                    relUrl = base.getPath() + relUrl;
+-                URL abs = new URL(base, relUrl);
+-                return abs.toExternalForm();
+-            } catch (MalformedURLException e) {
++                URL TransVarAbsURL = new URL(TransVarBaseUrl, TransVarRelativeUrl);
++                return TransVarAbsURL.toExternalForm();
++            } catch (MalformedURLException TransVarEx) {
+                 return "";
+             }
+         }

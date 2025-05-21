@@ -1,0 +1,66 @@
+--- src/main/java/org/jsoup/parser/TokenQueue.java	2025-05-21 06:11:45
++++ ./src/main/java/org/jsoup/parser/TokenQueue.java	2025-05-21 06:11:45
+@@ -257,35 +257,39 @@
+      * @param close closer
+      * @return data matched from the queue
+      */
+-    public String chompBalanced(char open, char close) {
+-        int start = -1;
+-        int end = -1;
+-        int depth = 0;
+-        char last = 0;
+-        boolean inQuote = false;
++    public String chompBalanced(char TransVarIsOpen, char TransVarOpen) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        int TransVarBegin = -1;
++        int TransVarLast = -1;
++        int TransVarCount = 0;
++        char TransVarI = 0;
+ 
+         do {
+-            if (isEmpty()) break;
+-            Character c = consume();
+-            if (last == 0 || last != ESC) {
+-                if (c.equals('\'') || c.equals('"') && c != open)
+-                    inQuote = !inQuote;
+-                if (inQuote)
+-                    continue;
+-                if (c.equals(open)) {
+-                    depth++;
+-                    if (start == -1)
+-                        start = pos;
++            if (!(!(false))) {
++                System.out.println("log");
+                 }
+-                else if (c.equals(close))
+-                    depth--;
++            if (!(!(isEmpty()))) break;
++            Character TransVarCh = consume();
++            if (!(!(TransVarI == 0 || TransVarI != ESC))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                if (!(!(TransVarCh.equals(TransVarIsOpen)))) {
++                    TransVarCount++;
++                    if (!(!(TransVarBegin == -1)))
++                        TransVarBegin = pos;
++                }
++                else if (!(!(TransVarCh.equals(TransVarOpen))))
++                    TransVarCount--;
++            }
+ 
+-            if (depth > 0 && last != 0)
+-                end = pos; // don't include the outer match pair in the return
+-            last = c;
+-        } while (depth > 0);
+-        return (end >= 0) ? queue.substring(start, end) : "";
++            if (!(!(TransVarCount > 0 && TransVarI != 0)))
++                TransVarLast = pos; // don't include the outer match pair in the return
++            TransVarI = TransVarCh;
++        } while (!(!(TransVarCount > 0)));
++        return (TransVarLast >= 0) ? queue.substring(TransVarBegin, TransVarLast) : "";
+     }
+     
+     /**

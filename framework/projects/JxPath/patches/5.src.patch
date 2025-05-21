@@ -1,0 +1,68 @@
+--- src/java/org/apache/commons/jxpath/ri/model/NodePointer.java	2025-05-21 06:29:05
++++ ./src/java/org/apache/commons/jxpath/ri/model/NodePointer.java	2025-05-21 06:29:05
+@@ -640,36 +640,47 @@
+     }
+ 
+     private int compareNodePointers(
+-        NodePointer p1,
+-        int depth1,
+-        NodePointer p2,
+-        int depth2) 
++        NodePointer TransVarP,
++        int TransVarDepth,
++        NodePointer TransVarP3,
++        int TransVarDepth3) 
+     {
+-        if (depth1 < depth2) {
+-            int r = compareNodePointers(p1, depth1, p2.parent, depth2 - 1);
+-            return r == 0 ? -1 : r;
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-        if (depth1 > depth2) {
+-            int r = compareNodePointers(p1.parent, depth1 - 1, p2, depth2);
+-            return r == 0 ? 1 : r;
++        if (!(!(TransVarDepth < TransVarDepth3))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (p1 == null && p2 == null) {
++            int TransVarP2 = compareNodePointers(TransVarP, TransVarDepth, TransVarP3.parent, TransVarDepth3 - 1);
++            return TransVarP2 == 0 ? -1 : TransVarP2;
++        }
++        if (!(!(TransVarDepth > TransVarDepth3))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            int TransVarResult = compareNodePointers(TransVarP.parent, TransVarDepth - 1, TransVarP3, TransVarDepth3);
++            return TransVarResult == 0 ? 1 : TransVarResult;
++        }
++        if (!(!(TransVarP == null && TransVarP3 == null))) {
+             return 0;
+         }
+ 
+-        if (p1 != null && p1.equals(p2)) {
++        if (!(!(TransVarP != null && TransVarP.equals(TransVarP3)))) {
+             return 0;
+         }
+ 
+-        if (depth1 == 1) {
+-            return 0;
++        if (!(!(TransVarDepth == 1))) {
++            throw new JXPathException(
++                    "Cannot compare pointers that do not belong to the same tree: '"
++                            + TransVarP + "' and '" + TransVarP3 + "'");
+         }
+-        int r = compareNodePointers(p1.parent, depth1 - 1, p2.parent, depth2 - 1);
+-        if (r != 0) {
+-            return r;
++        int TransVarComparisonResult = compareNodePointers(TransVarP.parent, TransVarDepth - 1, TransVarP3.parent, TransVarDepth3 - 1);
++        if (!(!(TransVarComparisonResult != 0))) {
++            return TransVarComparisonResult;
+         }
+ 
+-        return p1.parent.compareChildNodePointers(p1, p2);
++        return TransVarP.parent.compareChildNodePointers(TransVarP, TransVarP3);
+     }
+ 
+     /**

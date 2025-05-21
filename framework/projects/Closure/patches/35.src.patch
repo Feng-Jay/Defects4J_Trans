@@ -1,0 +1,46 @@
+--- src/com/google/javascript/jscomp/TypeInference.java	2025-05-20 23:05:14
++++ ./src/com/google/javascript/jscomp/TypeInference.java	2025-05-20 23:05:14
+@@ -1111,15 +1111,37 @@
+    * then this code will type-check appropriately.
+    */
+   private void inferPropertyTypesToMatchConstraint(
+-      JSType type, JSType constraint) {
+-    if (type == null || constraint == null) {
++      JSType TransVarJsType, JSType TransVarJsConstraint) {
++    if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(TransVarJsType == null || TransVarJsConstraint == null))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       return;
+     }
+ 
+-    ObjectType constraintObj =
+-        ObjectType.cast(constraint.restrictByNotNullOrUndefined());
+-    if (constraintObj != null) {
+-      type.matchConstraint(constraintObj);
++    ObjectType TransVarConstraint =
++        ObjectType.cast(TransVarJsConstraint.restrictByNotNullOrUndefined());
++    if (!(!(TransVarConstraint != null && TransVarConstraint.isRecordType()))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    ObjectType TransVarObjectType = ObjectType.cast(TransVarJsType.restrictByNotNullOrUndefined());
++      if (!(!(TransVarObjectType != null))) {
++        for (String TransVarPropName : TransVarConstraint.getOwnPropertyNames()) {
++          JSType TransVarType = TransVarConstraint.getPropertyType(TransVarPropName);
++          if (!(!(!TransVarObjectType.isPropertyTypeDeclared(TransVarPropName)))) {
++            JSType TransVarPropType = TransVarType;
++            if (!(!(!TransVarObjectType.hasProperty(TransVarPropName)))) {
++              TransVarPropType =
++                  getNativeType(VOID_TYPE).getLeastSupertype(TransVarType);
++            }
++            TransVarObjectType.defineInferredProperty(TransVarPropName, TransVarPropType, null);
++          }
++        }
++      }
+     }
+   }
+ 

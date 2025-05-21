@@ -1,0 +1,40 @@
+--- src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2025-05-21 08:23:25
++++ src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2025-05-21 08:23:25
+@@ -178,19 +178,30 @@
+      * @throws NotStrictlyPositiveException if {@code sampleSize} is not
+      * positive.
+      */
+-    public Object[] sample(int sampleSize) throws NotStrictlyPositiveException {
+-        if (sampleSize <= 0) {
++    public T[] sample(int TransVarNum) throws NotStrictlyPositiveException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarNum <= 0))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+-                    sampleSize);
++                    TransVarNum);
+         }
+ 
+-        final Object[] out = new Object[sampleSize];
++        final T[]TransVarArray = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), TransVarNum);
+ 
+-        for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
++        int TransVarIndex = 0;
++        while (!(!(TransVarIndex < TransVarNum))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            TransVarArray[TransVarIndex] = sample();
++            TransVarIndex++;
++        }
+ 
+-        return out;
++        return TransVarArray;
+ 
+     }
+ 

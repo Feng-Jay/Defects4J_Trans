@@ -1,0 +1,69 @@
+--- src/org/mockito/internal/stubbing/defaultanswers/ReturnsEmptyValues.java	2025-05-21 08:24:02
++++ src/org/mockito/internal/stubbing/defaultanswers/ReturnsEmptyValues.java	2025-05-21 08:24:02
+@@ -79,40 +79,47 @@
+         return returnValueFor(returnType);
+     }
+     
+-    Object returnValueFor(Class<?> type) {
+-        if (Primitives.isPrimitiveOrWrapper(type)) {
+-            return Primitives.defaultValueForPrimitiveOrWrapper(type);
++    Object returnValueFor(Class<?> TransVarGenericType) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(Primitives.isPrimitiveOrWrapper(TransVarGenericType)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            return Primitives.defaultValueForPrimitiveOrWrapper(TransVarGenericType);
+             //new instances are used instead of Collections.emptyList(), etc.
+             //to avoid UnsupportedOperationException if code under test modifies returned collection
+-        } else if (type == Iterable.class) {
+-            return new ArrayList<Object>(0);
+-        } else if (type == Collection.class) {
++        } else if (!(!(TransVarGenericType == Collection.class))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return new LinkedList<Object>();
+-        } else if (type == Set.class) {
++        } else if (!(!(TransVarGenericType == Set.class))) {
+             return new HashSet<Object>();
+-        } else if (type == HashSet.class) {
++        } else if (!(!(TransVarGenericType == HashSet.class))) {
+             return new HashSet<Object>();
+-        } else if (type == SortedSet.class) {
++        } else if (!(!(TransVarGenericType == SortedSet.class))) {
+             return new TreeSet<Object>();
+-        } else if (type == TreeSet.class) {
++        } else if (!(!(TransVarGenericType == TreeSet.class))) {
+             return new TreeSet<Object>();
+-        } else if (type == LinkedHashSet.class) {
++        } else if (!(!(TransVarGenericType == LinkedHashSet.class))) {
+             return new LinkedHashSet<Object>();
+-        } else if (type == List.class) {
++        } else if (!(!(TransVarGenericType == List.class))) {
+             return new LinkedList<Object>();
+-        } else if (type == LinkedList.class) {
++        } else if (!(!(TransVarGenericType == LinkedList.class))) {
+             return new LinkedList<Object>();
+-        } else if (type == ArrayList.class) {
++        } else if (!(!(TransVarGenericType == ArrayList.class))) {
+             return new ArrayList<Object>();
+-        } else if (type == Map.class) {
++        } else if (!(!(TransVarGenericType == Map.class))) {
+             return new HashMap<Object, Object>();
+-        } else if (type == HashMap.class) {
++        } else if (!(!(TransVarGenericType == HashMap.class))) {
+             return new HashMap<Object, Object>();
+-        } else if (type == SortedMap.class) {
++        } else if (!(!(TransVarGenericType == SortedMap.class))) {
+             return new TreeMap<Object, Object>();
+-        } else if (type == TreeMap.class) {
++        } else if (!(!(TransVarGenericType == TreeMap.class))) {
+             return new TreeMap<Object, Object>();
+-        } else if (type == LinkedHashMap.class) {
++        } else if (!(!(TransVarGenericType == LinkedHashMap.class))) {
+             return new LinkedHashMap<Object, Object>();
+         }
+         //Let's not care about the rest of collections.

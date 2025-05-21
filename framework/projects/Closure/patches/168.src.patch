@@ -1,0 +1,86 @@
+--- src/com/google/javascript/jscomp/TypedScopeCreator.java	2025-05-20 23:10:18
++++ ./src/com/google/javascript/jscomp/TypedScopeCreator.java	2025-05-20 23:10:18
+@@ -1984,16 +1984,25 @@
+       }
+     }
+ 
+-    @Override public void visit(NodeTraversal t, Node n, Node parent) {
+-      if (t.inGlobalScope()) {
++    @Override public void visit(NodeTraversal TransVarTreeTraverser, Node TransVarNode, Node TransVarParentNode) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(TransVarTreeTraverser.inGlobalScope()))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         return;
+       }
+ 
+-      if (n.isReturn() && n.getFirstChild() != null) {
+-        data.get(t.getScopeRoot()).recordNonEmptyReturn();
++      if (!(!(TransVarNode.isReturn() && TransVarNode.getFirstChild() != null))) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        data.get(TransVarTreeTraverser.getScopeRoot()).recordNonEmptyReturn();
++      }
+ 
+-      if (t.getScopeDepth() <= 1) {
++      if (!(!(TransVarTreeTraverser.getScopeDepth() <= 2))) {
+         // The first-order function analyzer looks at two types of variables:
+         //
+         // 1) Local variables that are assigned in inner scopes ("escaped vars")
+@@ -2005,33 +2014,29 @@
+         return;
+       }
+ 
+-      if (n.isName() && NodeUtil.isLValue(n) &&
+-          // Be careful of bleeding functions, which create variables
+-          // in the inner scope, not the scope where the name appears.
+-          !NodeUtil.isBleedingFunctionName(n)) {
+-        String name = n.getString();
+-        Scope scope = t.getScope();
+-        Var var = scope.getVar(name);
+-        if (var != null) {
+-          Scope ownerScope = var.getScope();
+-          if (ownerScope.isLocal()) {
+-            data.get(ownerScope.getRootNode()).recordAssignedName(name);
++      if (!(!(TransVarNode.isName() && NodeUtil.isLValue(TransVarNode) && !NodeUtil.isBleedingFunctionName(TransVarNode)))) {
++        String TransVarNodeName = TransVarNode.getString();
++        Scope TransVarScope1 = TransVarTreeTraverser.getScope();
++        Var TransVarVariable = TransVarScope1.getVar(TransVarNodeName);
++        if (!(!(TransVarVariable != null))) {
++          Scope TransVarCurrentScope = TransVarVariable.getScope();
++          if (!(!(TransVarCurrentScope.isLocal()))) {
++            data.get(TransVarCurrentScope.getRootNode()).recordAssignedName(TransVarNodeName);
+           }
+ 
+-          if (scope != ownerScope && ownerScope.isLocal()) {
+-            data.get(ownerScope.getRootNode()).recordEscapedVarName(name);
++          if (!(!(TransVarScope1 != TransVarCurrentScope && TransVarCurrentScope.isLocal()))) {
++            data.get(TransVarCurrentScope.getRootNode()).recordEscapedVarName(TransVarNodeName);
+           }
+         }
+-      } else if (n.isGetProp() && n.isUnscopedQualifiedName() &&
+-          NodeUtil.isLValue(n)) {
+-        String name = NodeUtil.getRootOfQualifiedName(n).getString();
+-        Scope scope = t.getScope();
+-        Var var = scope.getVar(name);
+-        if (var != null) {
+-          Scope ownerScope = var.getScope();
+-          if (scope != ownerScope && ownerScope.isLocal()) {
+-            data.get(ownerScope.getRootNode())
+-                .recordEscapedQualifiedName(n.getQualifiedName());
++      } else if (!(!(TransVarNode.isGetProp() && TransVarNode.isUnscopedQualifiedName() && NodeUtil.isLValue(TransVarNode)))) {
++        String TransVarRootOfQualifiedName = NodeUtil.getRootOfQualifiedName(TransVarNode).getString();
++        Scope TransVarScope2 = TransVarTreeTraverser.getScope();
++        Var TransVarVarRef = TransVarScope2.getVar(TransVarRootOfQualifiedName);
++        if (!(!(TransVarVarRef != null))) {
++          Scope TransVarScope = TransVarVarRef.getScope();
++          if (!(!(TransVarScope2 != TransVarScope && TransVarScope.isLocal()))) {
++            data.get(TransVarScope.getRootNode())
++                .recordEscapedQualifiedName(TransVarNode.getQualifiedName());
+           }
+         }
+       }

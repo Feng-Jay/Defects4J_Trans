@@ -1,0 +1,16 @@
+--- src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2025-05-21 08:23:20
++++ src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2025-05-21 08:23:20
+@@ -117,8 +117,11 @@
+      * observed points (in the same order as above).
+      */
+     public double[] fit() {
+-        final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(guess);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        final double[] TransVarParameters = (new ParameterGuesser(getObservations())).guess();
++        return fit(new Gaussian.Parametric(), TransVarParameters);
+     }
+ 
+     /**

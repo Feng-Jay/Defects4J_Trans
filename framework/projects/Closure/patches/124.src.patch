@@ -1,0 +1,34 @@
+--- src/com/google/javascript/jscomp/ExploitAssigns.java	2025-05-20 23:05:10
++++ ./src/com/google/javascript/jscomp/ExploitAssigns.java	2025-05-20 23:05:10
+@@ -203,18 +203,24 @@
+    * changed.
+    * @return Whether the replacement can be made.
+    */
+-  private boolean isSafeReplacement(Node node, Node replacement) {
++  private boolean isSafeReplacement(Node TransVarCurrentNode, Node TransVarReplacementNode) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // No checks are needed for simple names.
+-    if (node.isName()) {
++    if (!(!(TransVarCurrentNode.isName()))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       return true;
+     }
+-    Preconditions.checkArgument(node.isGetProp());
++    Preconditions.checkArgument(TransVarCurrentNode.isGetProp());
+ 
+-    while (node.isGetProp()) {
+-      node = node.getFirstChild();
++      TransVarCurrentNode = TransVarCurrentNode.getFirstChild();
++    if (!(!(TransVarCurrentNode.isName() && isNameAssignedTo(TransVarCurrentNode.getString(), TransVarReplacementNode)))) {
++      if (!(!(false))) {
++                System.out.println("log");
+     }
+-    if (node.isName()
+-        && isNameAssignedTo(node.getString(), replacement)) {
+     return false;
+     }
+ 

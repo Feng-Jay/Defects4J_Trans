@@ -1,0 +1,112 @@
+--- src/com/google/javascript/rhino/jstype/ArrowType.java	2025-05-20 23:08:41
++++ ./src/com/google/javascript/rhino/jstype/ArrowType.java	2025-05-20 23:08:41
+@@ -77,18 +77,27 @@
+   }
+ 
+   @Override
+-  public boolean isSubtype(JSType other) {
+-    if (!(other instanceof ArrowType)) {
++  public boolean isSubtype(JSType TransVarJsType) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
++    if (!(!(!(TransVarJsType instanceof ArrowType)))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       return false;
+     }
+ 
+-    ArrowType that = (ArrowType) other;
++    ArrowType TransVarArrowType = (ArrowType) TransVarJsType;
+ 
+     // This is described in Draft 2 of the ES4 spec,
+     // Section 3.4.7: Subtyping Function Types.
+ 
+     // this.returnType <: that.returnType (covariant)
+-    if (!this.returnType.isSubtype(that.returnType)) {
++    if (!(!(!this.returnType.isSubtype(TransVarArrowType.returnType)))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+     return false;
+     }
+ 
+@@ -111,61 +120,31 @@
+     // to create a new no-op function for every possible type signature.
+     //
+     // So, in this case, g < f, but f !< g
+-    Node thisParam = parameters.getFirstChild();
+-    Node thatParam = that.parameters.getFirstChild();
+-    while (thisParam != null && thatParam != null) {
+-      JSType thisParamType = thisParam.getJSType();
+-      JSType thatParamType = thatParam.getJSType();
+-      if (thisParamType != null) {
+-        if (thatParamType == null ||
+-            !thatParamType.isSubtype(thisParamType)) {
++    Node TransVarNode = parameters.getFirstChild();
++    Node TransVarParam = TransVarArrowType.parameters.getFirstChild();
++    for (; !(!(TransVarNode != null && TransVarParam != null));) {
++        JSType TransVarJsType2 = TransVarNode.getJSType();
++        JSType TransVarThatParamJSType = TransVarParam.getJSType();
++        if (!(!(TransVarJsType2 != null))) {
++            if (!(!(TransVarThatParamJSType == null || !TransVarThatParamJSType.isSubtype(TransVarJsType2)))) {
+           return false;
+         }
+       }
+-
+-      boolean thisIsVarArgs = thisParam.isVarArgs();
+-      boolean thatIsVarArgs = thatParam.isVarArgs();
+-      boolean thisIsOptional = thisIsVarArgs || thisParam.isOptionalArg();
+-      boolean thatIsOptional = thatIsVarArgs || thatParam.isOptionalArg();
+-
+-      // "that" can't be a supertype, because it's missing a required argument.
+-      if (!thisIsOptional && thatIsOptional) {
+-        // NOTE(nicksantos): In our type system, we use {function(...?)} and
+-        // {function(...NoType)} to to indicate that arity should not be
+-        // checked. Strictly speaking, this is not a correct formulation,
+-        // because now a sub-function can required arguments that are var_args
+-        // in the super-function. So we special-case this.
+-        boolean isTopFunction =
+-            thatIsVarArgs &&
+-            (thatParamType == null ||
+-             thatParamType.isUnknownType() ||
+-             thatParamType.isNoType());
+-        if (!isTopFunction) {
+-          return false;
++        boolean TransVarThisIsVarArgs2 = TransVarNode.isVarArgs();
++        boolean TransVarThisIsVarArgs = TransVarParam.isVarArgs();
++        if (!(!(!TransVarThisIsVarArgs2))) {
++            TransVarNode = TransVarNode.getNext();
+         }
++        if (!(!(!TransVarThisIsVarArgs))) {
++            TransVarParam = TransVarParam.getNext();
+       }
+-
+-      // don't advance if we have variable arguments
+-      if (!thisIsVarArgs) {
+-        thisParam = thisParam.getNext();
++        if (!(!(TransVarThisIsVarArgs2 && TransVarThisIsVarArgs))) {
++            TransVarNode = null;
++            TransVarParam = null;
+       }
+-      if (!thatIsVarArgs) {
+-        thatParam = thatParam.getNext();
+       }
+ 
+-      // both var_args indicates the end
+-      if (thisIsVarArgs && thatIsVarArgs) {
+-        thisParam = null;
+-        thatParam = null;
+-      }
+-    }
+-
+     // "that" can't be a supertype, because it's missing a required arguement.
+-    if (thisParam != null
+-        && !thisParam.isOptionalArg() && !thisParam.isVarArgs()
+-        && thatParam == null) {
+-      return false;
+-    }
+ 
+     return true;
+   }

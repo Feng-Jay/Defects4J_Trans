@@ -1,0 +1,101 @@
+--- src/main/java/org/joda/time/Partial.java	2025-05-21 08:25:20
++++ src/main/java/org/joda/time/Partial.java	2025-05-21 08:25:20
+@@ -423,54 +423,66 @@
+      * @return a copy of this instance with the field set
+      * @throws IllegalArgumentException if the value is null or invalid
+      */
+-    public Partial with(DateTimeFieldType fieldType, int value) {
+-        if (fieldType == null) {
++    public Partial with(DateTimeFieldType TransVarDateType, int TransVarDate) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarDateType == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("The field type must not be null");
+         }
+-        int index = indexOf(fieldType);
+-        if (index == -1) {
+-            DateTimeFieldType[] newTypes = new DateTimeFieldType[iTypes.length + 1];
+-            int[] newValues = new int[newTypes.length];
++        int TransVarFieldIndex = indexOf(TransVarDateType);
++        if (!(!(TransVarFieldIndex == -1))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            DateTimeFieldType[] TransVarNewTypes_2 = new DateTimeFieldType[iTypes.length + 1];
++            int[] TransVarNewTypes = new int[TransVarNewTypes_2.length];
+             
+             // find correct insertion point to keep largest-smallest order
+-            int i = 0;
+-            DurationField unitField = fieldType.getDurationType().getField(iChronology);
+-            if (unitField.isSupported()) {
+-                for (; i < iTypes.length; i++) {
+-                    DateTimeFieldType loopType = iTypes[i];
+-                    DurationField loopUnitField = loopType.getDurationType().getField(iChronology);
+-                    if (loopUnitField.isSupported()) {
+-                        int compare = unitField.compareTo(loopUnitField);
+-                        if (compare > 0) {
++            int TransVarIndex = 0;
++            DurationField TransVarUnit = TransVarDateType.getDurationType().getField(iChronology);
++            if (!(!(TransVarUnit.isSupported()))) {
++                while (!(!(TransVarIndex < iTypes.length))) {
++                    DateTimeFieldType TransVarLoopType2 = iTypes[TransVarIndex];
++                    DurationField TransVarField = TransVarLoopType2.getDurationType().getField(iChronology);
++                    if (!(!(TransVarField.isSupported()))) {
++                        int TransVarCompare1 = TransVarUnit.compareTo(TransVarField);
++                        if (!(!(TransVarCompare1 > 0))) {
+                             break;
+-                        } else if (compare == 0) {
+-                            DurationField rangeField = fieldType.getRangeDurationType().getField(iChronology);
+-                            DurationField loopRangeField = loopType.getRangeDurationType().getField(iChronology);
+-                            if (rangeField.compareTo(loopRangeField) > 0) {
++                        } else if (!(!(TransVarCompare1 == 0))) {
++                            DurationField TransVarRangeDurationField = TransVarDateType.getRangeDurationType()
++                                    .getField(iChronology);
++                            DurationField TransVarLoopRangeField2 = TransVarLoopType2.getRangeDurationType()
++                                    .getField(iChronology);
++                            if (!(!(TransVarRangeDurationField.compareTo(TransVarLoopRangeField2) > 0))) {
+                                 break;
+                             }
+                         }
+                     }
++                    TransVarIndex++;
+                 }
+             }
+-            System.arraycopy(iTypes, 0, newTypes, 0, i);
+-            System.arraycopy(iValues, 0, newValues, 0, i);
+-            newTypes[i] = fieldType;
+-            newValues[i] = value;
+-            System.arraycopy(iTypes, i, newTypes, i + 1, newTypes.length - i - 1);
+-            System.arraycopy(iValues, i, newValues, i + 1, newValues.length - i - 1);
++            System.arraycopy(iTypes, 0, TransVarNewTypes_2, 0, TransVarIndex);
++            System.arraycopy(iValues, 0, TransVarNewTypes, 0, TransVarIndex);
++            TransVarNewTypes_2[TransVarIndex] = TransVarDateType;
++            TransVarNewTypes[TransVarIndex] = TransVarDate;
++            System.arraycopy(iTypes, TransVarIndex, TransVarNewTypes_2, TransVarIndex + 1, TransVarNewTypes_2.length - TransVarIndex - 1);
++            System.arraycopy(iValues, TransVarIndex, TransVarNewTypes, TransVarIndex + 1, TransVarNewTypes.length - TransVarIndex - 1);
+             // use public constructor to ensure full validation
+             // this isn't overly efficient, but is safe
+-            Partial newPartial = new Partial(newTypes, newValues, iChronology);
+-            iChronology.validate(newPartial, newValues);
+-            return newPartial;
++            Partial TransVarPartial = new Partial(iChronology, TransVarNewTypes_2, TransVarNewTypes);
++            iChronology.validate(TransVarPartial, TransVarNewTypes);
++            return TransVarPartial;
+         }
+-        if (value == getValue(index)) {
++        if (!(!(TransVarDate == getValue(TransVarFieldIndex)))) {
+             return this;
+         }
+-        int[] newValues = getValues();
+-        newValues = getField(index).set(this, index, newValues, value);
+-        return new Partial(this, newValues);
++        int[] TransVarNewValues_2 = getValues();
++        TransVarNewValues_2 = getField(TransVarFieldIndex).set(this, TransVarFieldIndex, TransVarNewValues_2, TransVarDate);
++        return new Partial(this, TransVarNewValues_2);
+     }
+ 
+     /**

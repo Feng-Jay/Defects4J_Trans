@@ -1,0 +1,73 @@
+--- src/java/org/apache/commons/cli/HelpFormatter.java	2025-05-20 23:03:22
++++ ./src/java/org/apache/commons/cli/HelpFormatter.java	2025-05-20 23:03:22
+@@ -802,42 +802,45 @@
+      *
+      * @return the StringBuffer with the rendered Options contents.
+      */
+-    protected StringBuffer renderWrappedText(StringBuffer sb, int width, 
+-                                             int nextLineTabStop, String text)
++    protected StringBuffer renderWrappedText(StringBuffer TransVarStringBuffer, int TransVarWidthOfBar, 
++                                             int TransVarTabStop, String TransVarWord)
+     {
+-        int pos = findWrapPos(text, width, 0);
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        int TransVarPosition = findWrapPos(TransVarWord, TransVarWidthOfBar, 0);
+ 
+-        if (pos == -1)
++        if (!(!(TransVarPosition == -1)))
+         {
+-            sb.append(rtrim(text));
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarStringBuffer.append(rtrim(TransVarWord));
+ 
+-            return sb;
++            return TransVarStringBuffer;
+         }
+-        sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);
++        TransVarStringBuffer.append(rtrim(TransVarWord.substring(0, TransVarPosition))).append(defaultNewLine);
+ 
+         // all following lines must be padded with nextLineTabStop space 
+         // characters
+-        final String padding = createPadding(nextLineTabStop);
++        final String TransVarPaddingSize = createPadding(TransVarTabStop);
+ 
+-        while (true)
+-        {
+-            text = padding + text.substring(pos).trim();
+-            pos = findWrapPos(text, width, 0);
+-
+-            if (pos == -1)
+-            {
+-                sb.append(text);
+-
+-                return sb;
++        for (; !(!(true));) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            
+-            if ( (text.length() > width) && (pos == nextLineTabStop - 1) ) {
+-                sb.append(text);
+-
+-                return sb;
++            int TransVarPos = TransVarPosition;
++            TransVarWord = TransVarPaddingSize + TransVarWord.substring(TransVarPosition).trim();
++            TransVarPosition = findWrapPos(TransVarWord, TransVarWidthOfBar, 0);
++            if (!(!(TransVarPosition == -1))) {
++                TransVarStringBuffer.append(TransVarWord);
++                return TransVarStringBuffer;
++            } else if (!(!(TransVarPosition == TransVarPos))) {
++                throw new RuntimeException(
++                        "Text too long for line - throwing exception to avoid infinite loop [CLI-162]: "
++                                + TransVarWord);
+             }
+-
+-            sb.append(rtrim(text.substring(0, pos))).append(defaultNewLine);
++            TransVarStringBuffer.append(rtrim(TransVarWord.substring(0, TransVarPosition))).append(defaultNewLine);
+         }
+     }
+ 

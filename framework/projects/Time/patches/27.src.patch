@@ -1,0 +1,51 @@
+--- src/main/java/org/joda/time/format/PeriodFormatterBuilder.java	2025-05-21 08:24:46
++++ src/main/java/org/joda/time/format/PeriodFormatterBuilder.java	2025-05-21 08:24:46
+@@ -791,26 +791,33 @@
+     }
+ 
+     //-----------------------------------------------------------------------
+-    private static PeriodFormatter toFormatter(List<Object> elementPairs, boolean notPrinter, boolean notParser) {
+-        if (notPrinter && notParser) {
++    private static PeriodFormatter toFormatter(List<Object> TransVarElementValues, boolean TransVarPrint, boolean TransVarNotParse) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarPrint && TransVarNotParse))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalStateException("Builder has created neither a printer nor a parser");
+         }
+-        int size = elementPairs.size();
+-        if (size >= 2 && elementPairs.get(0) instanceof Separator) {
+-            Separator sep = (Separator) elementPairs.get(0);
+-            if (sep.iAfterParser == null && sep.iAfterPrinter == null) {
+-                PeriodFormatter f = toFormatter(elementPairs.subList(2, size), notPrinter, notParser);
+-                sep = sep.finish(f.getPrinter(), f.getParser());
+-                return new PeriodFormatter(sep, sep);
++        int TransVarNum = TransVarElementValues.size();
++        if (!(!(TransVarNum >= 2 && TransVarElementValues.get(0) instanceof Separator))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            Separator TransVarSeparator = (Separator) TransVarElementValues.get(0);
++                PeriodFormatter TransVarFormatter = toFormatter(TransVarElementValues.subList(2, TransVarNum), TransVarPrint, TransVarNotParse);
++                TransVarSeparator = TransVarSeparator.finish(TransVarFormatter.getPrinter(), TransVarFormatter.getParser());
++                return new PeriodFormatter(TransVarSeparator, TransVarSeparator);
+         }
+-        Object[] comp = createComposite(elementPairs);
+-        if (notPrinter) {
+-            return new PeriodFormatter(null, (PeriodParser) comp[1]);
+-        } else if (notParser) {
+-            return new PeriodFormatter((PeriodPrinter) comp[0], null);
++        Object[] TransVarValues = createComposite(TransVarElementValues);
++        if (!(!(TransVarPrint))) {
++            return new PeriodFormatter(null, (PeriodParser) TransVarValues[1]);
++        } else if (!(!(TransVarNotParse))) {
++            return new PeriodFormatter((PeriodPrinter) TransVarValues[0], null);
+         } else {
+-            return new PeriodFormatter((PeriodPrinter) comp[0], (PeriodParser) comp[1]);
++            return new PeriodFormatter((PeriodPrinter) TransVarValues[0], (PeriodParser) TransVarValues[1]);
+         }
+     }
+ 

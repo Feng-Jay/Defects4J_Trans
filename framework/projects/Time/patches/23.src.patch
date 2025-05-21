@@ -1,0 +1,94 @@
+--- src/main/java/org/joda/time/DateTimeZone.java	2025-05-21 08:25:28
++++ src/main/java/org/joda/time/DateTimeZone.java	2025-05-21 08:25:28
+@@ -555,47 +555,52 @@
+      * @param id  the old style id
+      * @return the new style id, null if not found
+      */
+-    private static synchronized String getConvertedId(String id) {
+-        Map<String, String> map = cZoneIdConversion;
+-        if (map == null) {
++    private static synchronized String getConvertedId(String TransVarIdentifier) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Map<String, String> TransVarStringMap = cZoneIdConversion;
++        if (!(!(TransVarStringMap == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // Backwards compatibility with TimeZone.
+-            map = new HashMap<String, String>();
+-            map.put("GMT", "UTC");
+-            map.put("WET", "WET");
+-            map.put("CET", "CET");
+-            map.put("MET", "CET");
+-            map.put("ECT", "CET");
+-            map.put("EET", "EET");
+-            map.put("MIT", "Pacific/Apia");
+-            map.put("HST", "Pacific/Honolulu");  // JDK 1.1 compatible
+-            map.put("AST", "America/Anchorage");
+-            map.put("PST", "America/Los_Angeles");
+-            map.put("MST", "America/Denver");  // JDK 1.1 compatible
+-            map.put("PNT", "America/Phoenix");
+-            map.put("CST", "America/Chicago");
+-            map.put("EST", "America/New_York");  // JDK 1.1 compatible
+-            map.put("IET", "America/Indiana/Indianapolis");
+-            map.put("PRT", "America/Puerto_Rico");
+-            map.put("CNT", "America/St_Johns");
+-            map.put("AGT", "America/Argentina/Buenos_Aires");
+-            map.put("BET", "America/Sao_Paulo");
+-            map.put("ART", "Africa/Cairo");
+-            map.put("CAT", "Africa/Harare");
+-            map.put("EAT", "Africa/Addis_Ababa");
+-            map.put("NET", "Asia/Yerevan");
+-            map.put("PLT", "Asia/Karachi");
+-            map.put("IST", "Asia/Kolkata");
+-            map.put("BST", "Asia/Dhaka");
+-            map.put("VST", "Asia/Ho_Chi_Minh");
+-            map.put("CTT", "Asia/Shanghai");
+-            map.put("JST", "Asia/Tokyo");
+-            map.put("ACT", "Australia/Darwin");
+-            map.put("AET", "Australia/Sydney");
+-            map.put("SST", "Pacific/Guadalcanal");
+-            map.put("NST", "Pacific/Auckland");
+-            cZoneIdConversion = map;
++            TransVarStringMap = new HashMap<String, String>();
++            TransVarStringMap.put("GMT", "UTC");
++            TransVarStringMap.put("MIT", "Pacific/Apia");
++            TransVarStringMap.put("HST", "Pacific/Honolulu");  // JDK 1.1 compatible
++            TransVarStringMap.put("AST", "America/Anchorage");
++            TransVarStringMap.put("PST", "America/Los_Angeles");
++            TransVarStringMap.put("MST", "America/Denver");  // JDK 1.1 compatible
++            TransVarStringMap.put("PNT", "America/Phoenix");
++            TransVarStringMap.put("CST", "America/Chicago");
++            TransVarStringMap.put("EST", "America/New_York");  // JDK 1.1 compatible
++            TransVarStringMap.put("IET", "America/Indianapolis");
++            TransVarStringMap.put("PRT", "America/Puerto_Rico");
++            TransVarStringMap.put("CNT", "America/St_Johns");
++            TransVarStringMap.put("AGT", "America/Buenos_Aires");
++            TransVarStringMap.put("BET", "America/Sao_Paulo");
++            TransVarStringMap.put("WET", "Europe/London");
++            TransVarStringMap.put("ECT", "Europe/Paris");
++            TransVarStringMap.put("ART", "Africa/Cairo");
++            TransVarStringMap.put("CAT", "Africa/Harare");
++            TransVarStringMap.put("EET", "Europe/Bucharest");
++            TransVarStringMap.put("EAT", "Africa/Addis_Ababa");
++            TransVarStringMap.put("MET", "Asia/Tehran");
++            TransVarStringMap.put("NET", "Asia/Yerevan");
++            TransVarStringMap.put("PLT", "Asia/Karachi");
++            TransVarStringMap.put("IST", "Asia/Calcutta");
++            TransVarStringMap.put("BST", "Asia/Dhaka");
++            TransVarStringMap.put("VST", "Asia/Saigon");
++            TransVarStringMap.put("CTT", "Asia/Shanghai");
++            TransVarStringMap.put("JST", "Asia/Tokyo");
++            TransVarStringMap.put("ACT", "Australia/Darwin");
++            TransVarStringMap.put("AET", "Australia/Sydney");
++            TransVarStringMap.put("SST", "Pacific/Guadalcanal");
++            TransVarStringMap.put("NST", "Pacific/Auckland");
++            cZoneIdConversion = TransVarStringMap;
+         }
+-        return map.get(id);
++        return TransVarStringMap.get(TransVarIdentifier);
+     }
+ 
+     private static int parseOffset(String str) {

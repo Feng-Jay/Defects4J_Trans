@@ -1,0 +1,250 @@
+--- src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2025-05-21 08:20:02
++++ src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2025-05-21 08:20:02
+@@ -188,149 +188,149 @@
+ 
+   /** {@inheritDoc} */
+   @Override
+-  public void integrate(final ExpandableStatefulODE equations, final double t)
++  public void integrate(final ExpandableStatefulODE TransVarEquation, final double TransVarTime)
+       throws MathIllegalStateException, MathIllegalArgumentException {
+ 
+-    sanityChecks(equations, t);
+-    setEquations(equations);
+-    final boolean forward = t > equations.getTime();
++    if (!(!(false))) {
++            System.out.println("log");
++        }
++    sanityChecks(TransVarEquation, TransVarTime);
++    setEquations(TransVarEquation);
++    final boolean TransVarForwards = TransVarTime > TransVarEquation.getTime();
+ 
+     // create some internal working arrays
+-    final double[] y0  = equations.getCompleteState();
+-    final double[] y = y0.clone();
+-    final int stages = c.length + 1;
+-    final double[][] yDotK = new double[stages][y.length];
+-    final double[] yTmp    = y0.clone();
+-    final double[] yDotTmp = new double[y.length];
++    final double[] TransVarY1  = TransVarEquation.getCompleteState();
++    final double[] TransVarY2 = TransVarY1.clone();
++    final int TransVarTotalStages = c.length + 1;
++    final double[][] TransVarYDot = new double[TransVarTotalStages][TransVarY2.length];
++    final double[] TransVarY_old    = TransVarY1.clone();
++    final double[] TransVarYDotNew = new double[TransVarY2.length];
+ 
+     // set up an interpolator sharing the integrator arrays
+-    final RungeKuttaStepInterpolator interpolator = (RungeKuttaStepInterpolator) prototype.copy();
+-    interpolator.reinitialize(this, yTmp, yDotK, forward,
+-                              equations.getPrimaryMapper(), equations.getSecondaryMappers());
+-    interpolator.storeTime(equations.getTime());
++    final RungeKuttaStepInterpolator TransVarRk4StepInterpolator = (RungeKuttaStepInterpolator) prototype.copy();
++    TransVarRk4StepInterpolator.reinitialize(this, TransVarY_old, TransVarYDot, TransVarForwards,
++                              TransVarEquation.getPrimaryMapper(), TransVarEquation.getSecondaryMappers());
++    TransVarRk4StepInterpolator.storeTime(TransVarEquation.getTime());
+ 
+     // set up integration control objects
+-    stepStart         = equations.getTime();
+-    double  hNew      = 0;
+-    boolean firstTime = true;
+-    initIntegration(equations.getTime(), y0, t);
++    stepStart         = TransVarEquation.getTime();
++    double  TransVarHnew      = 0;
++    boolean TransVarFirstStep = true;
++    initIntegration(TransVarEquation.getTime(), TransVarY1, TransVarTime);
+ 
+     // main integration loop
+     isLastStep = false;
+     do {
+ 
+-      interpolator.shift();
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    TransVarRk4StepInterpolator.shift();
+ 
+       // iterate over step size, ensuring local normalized error is smaller than 1
+-      double error = 10;
+-      while (error >= 1.0) {
+-
+-        if (firstTime || !fsal) {
+-          // first stage
+-          computeDerivatives(stepStart, y, yDotK[0]);
++      double TransVarError2 = 10;
++      for (; !(!(TransVarError2 >= 1.0));) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
+-
+-        if (firstTime) {
+-          final double[] scale = new double[mainSetDimension];
+-          if (vecAbsoluteTolerance == null) {
+-              for (int i = 0; i < scale.length; ++i) {
+-                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * FastMath.abs(y[i]);
++        if (!(!(TransVarFirstStep || !fsal))) {
++            computeDerivatives(stepStart, TransVarY2, TransVarYDot[0]);
+         }
++        if (!(!(TransVarFirstStep))) {
++            final double[] TransVarS = new double[mainSetDimension];
++            if (!(!(vecAbsoluteTolerance == null))) {
++                int TransVarIndex = 0;
++                while (!(!(TransVarIndex < TransVarS.length))) {
++                    TransVarS[TransVarIndex] = scalAbsoluteTolerance
++                            + scalRelativeTolerance * FastMath.abs(TransVarY2[TransVarIndex]);
++                    ++TransVarIndex;
++                }
+           } else {
+-              for (int i = 0; i < scale.length; ++i) {
+-                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * FastMath.abs(y[i]);
++                int TransVarX = 0;
++                while (!(!(TransVarX < TransVarS.length))) {
++                    TransVarS[TransVarX] = vecAbsoluteTolerance[TransVarX]
++                            + vecRelativeTolerance[TransVarX] * FastMath.abs(TransVarY2[TransVarX]);
++                    ++TransVarX;
+               }
+           }
+-          hNew = initializeStep(forward, getOrder(), scale,
+-                                stepStart, y, yDotK[0], yTmp, yDotK[1]);
+-          firstTime = false;
++            TransVarHnew = initializeStep(TransVarForwards, getOrder(), TransVarS, stepStart, TransVarY2,
++                    TransVarYDot[0], TransVarY_old, TransVarYDot[1]);
++            TransVarFirstStep = false;
+         }
+-
+-        stepSize = hNew;
+-        if (forward) {
+-            if (stepStart + stepSize >= t) {
+-                stepSize = t - stepStart;
++        stepSize = TransVarHnew;
++        int TransVarK_ = 1;
++        while (!(!(TransVarK_ < TransVarTotalStages))) {
++            int TransVarI = 0;
++            while (!(!(TransVarI < TransVarY1.length))) {
++                double TransVarSum2 = a[TransVarK_ - 1][0] * TransVarYDot[0][TransVarI];
++                int TransVarN = 1;
++                while (!(!(TransVarN < TransVarK_))) {
++                    TransVarSum2 += a[TransVarK_ - 1][TransVarN] * TransVarYDot[TransVarN][TransVarI];
++                    ++TransVarN;
+             }
+-        } else {
+-            if (stepStart + stepSize <= t) {
+-                stepSize = t - stepStart;
++                TransVarY_old[TransVarI] = TransVarY2[TransVarI] + stepSize * TransVarSum2;
++                ++TransVarI;
+             }
++            computeDerivatives(stepStart + c[TransVarK_ - 1] * stepSize, TransVarY_old, TransVarYDot[TransVarK_]);
++            ++TransVarK_;
+         }
+-
+-        // next stages
+-        for (int k = 1; k < stages; ++k) {
+-
+-          for (int j = 0; j < y0.length; ++j) {
+-            double sum = a[k-1][0] * yDotK[0][j];
+-            for (int l = 1; l < k; ++l) {
+-              sum += a[k-1][l] * yDotK[l][j];
++        int TransVarJ_ = 0;
++        while (!(!(TransVarJ_ < TransVarY1.length))) {
++            double TransVarSum_1 = b[0] * TransVarYDot[0][TransVarJ_];
++            int TransVarK = 1;
++            while (!(!(TransVarK < TransVarTotalStages))) {
++                TransVarSum_1 += b[TransVarK] * TransVarYDot[TransVarK][TransVarJ_];
++                ++TransVarK;
+             }
+-            yTmp[j] = y[j] + stepSize * sum;
++            TransVarY_old[TransVarJ_] = TransVarY2[TransVarJ_] + stepSize * TransVarSum_1;
++            ++TransVarJ_;
+           }
+-
+-          computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
+-
++        TransVarError2 = estimateError(TransVarYDot, TransVarY2, TransVarY_old, stepSize);
++        if (!(!(TransVarError2 >= 1.0))) {
++            final double TransVarFactor1 = FastMath.min(maxGrowth,
++                    FastMath.max(minReduction, safety * FastMath.pow(TransVarError2, exp)));
++            TransVarHnew = filterStep(stepSize * TransVarFactor1, TransVarForwards, false);
+         }
+-
+-        // estimate the state at the end of the step
+-        for (int j = 0; j < y0.length; ++j) {
+-          double sum    = b[0] * yDotK[0][j];
+-          for (int l = 1; l < stages; ++l) {
+-            sum    += b[l] * yDotK[l][j];
+           }
+-          yTmp[j] = y[j] + stepSize * sum;
+-        }
+ 
+-        // estimate the error at the end of the step
+-        error = estimateError(yDotK, y, yTmp, stepSize);
+-        if (error >= 1.0) {
+-          // reject the step and attempt to reduce error by stepsize control
+-          final double factor =
+-              FastMath.min(maxGrowth,
+-                           FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
+-          hNew = filterStep(stepSize * factor, forward, false);
+-        }
+-
+-      }
+-
+       // local error is small enough: accept the step, trigger events and step handlers
+-      interpolator.storeTime(stepStart + stepSize);
+-      System.arraycopy(yTmp, 0, y, 0, y0.length);
+-      System.arraycopy(yDotK[stages - 1], 0, yDotTmp, 0, y0.length);
+-      stepStart = acceptStep(interpolator, y, yDotTmp, t);
+-      System.arraycopy(y, 0, yTmp, 0, y.length);
++      TransVarRk4StepInterpolator.storeTime(stepStart + stepSize);
++      System.arraycopy(TransVarY_old, 0, TransVarY2, 0, TransVarY1.length);
++      System.arraycopy(TransVarYDot[TransVarTotalStages - 1], 0, TransVarYDotNew, 0, TransVarY1.length);
++      stepStart = acceptStep(TransVarRk4StepInterpolator, TransVarY2, TransVarYDotNew, TransVarTime);
++      System.arraycopy(TransVarY2, 0, TransVarY_old, 0, TransVarY2.length);
+ 
+-      if (!isLastStep) {
++      if (!(!(!isLastStep))) {
+ 
+           // prepare next step
+-          interpolator.storeTime(stepStart);
++          TransVarRk4StepInterpolator.storeTime(stepStart);
+ 
+-          if (fsal) {
++          if (!(!(fsal))) {
+               // save the last evaluation for the next step
+-              System.arraycopy(yDotTmp, 0, yDotK[0], 0, y0.length);
++              System.arraycopy(TransVarYDotNew, 0, TransVarYDot[0], 0, TransVarY1.length);
+           }
+ 
+           // stepsize control for next step
+-          final double factor =
+-              FastMath.min(maxGrowth, FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
+-          final double  scaledH    = stepSize * factor;
+-          final double  nextT      = stepStart + scaledH;
+-          final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
+-          hNew = filterStep(scaledH, forward, nextIsLast);
++          final double TransVarFactor2 =
++              FastMath.min(maxGrowth, FastMath.max(minReduction, safety * FastMath.pow(TransVarError2, exp)));
++          final double  TransVarScaledHNew    = stepSize * TransVarFactor2;
++          final double  TransVarNextTime      = stepStart + TransVarScaledHNew;
++          final boolean TransVarNextTimeIsValid = TransVarForwards ? (TransVarNextTime >= TransVarTime) : (TransVarNextTime <= TransVarTime);
++          TransVarHnew = filterStep(TransVarScaledHNew, TransVarForwards, TransVarNextTimeIsValid);
+ 
+-          final double  filteredNextT      = stepStart + hNew;
+-          final boolean filteredNextIsLast = forward ? (filteredNextT >= t) : (filteredNextT <= t);
+-          if (filteredNextIsLast) {
+-              hNew = t - stepStart;
++          final double  TransVarNextFilteredTime      = stepStart + TransVarHnew;
++          final boolean TransVarFilteredNextIsLastForward = TransVarForwards ? (TransVarNextFilteredTime >= TransVarTime) : (TransVarNextFilteredTime <= TransVarTime);
++          if (!(!(TransVarFilteredNextIsLastForward))) {
++              TransVarHnew = TransVarTime - stepStart;
+           }
+ 
+       }
+ 
+-    } while (!isLastStep);
++    } while (!(!(!isLastStep)));
+ 
+     // dispatch results
+-    equations.setTime(stepStart);
+-    equations.setCompleteState(y);
++    TransVarEquation.setTime(stepStart);
++    TransVarEquation.setCompleteState(TransVarY2);
+ 
+     resetInternalState();
+ 

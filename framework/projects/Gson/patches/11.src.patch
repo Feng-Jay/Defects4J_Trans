@@ -1,0 +1,29 @@
+--- gson/src/main/java/com/google/gson/internal/bind/TypeAdapters.java	2025-05-20 23:14:34
++++ ./gson/src/main/java/com/google/gson/internal/bind/TypeAdapters.java	2025-05-20 23:14:34
+@@ -361,17 +361,19 @@
+ 
+   public static final TypeAdapter<Number> NUMBER = new TypeAdapter<Number>() {
+     @Override
+-    public Number read(JsonReader in) throws IOException {
+-      JsonToken jsonToken = in.peek();
+-      switch (jsonToken) {
++    public Number read(JsonReader TransVarReader) throws IOException {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    JsonToken TransVarInput = TransVarReader.peek();
++      switch (TransVarInput) {
+       case NULL:
+-        in.nextNull();
++        TransVarReader.nextNull();
+         return null;
+       case NUMBER:
+-      case STRING:
+-        return new LazilyParsedNumber(in.nextString());
++        return new LazilyParsedNumber(TransVarReader.nextString());
+       default:
+-        throw new JsonSyntaxException("Expecting number, got: " + jsonToken);
++        throw new JsonSyntaxException("Expecting number, got: " + TransVarInput);
+       }
+     }
+     @Override

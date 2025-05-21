@@ -1,0 +1,74 @@
+--- src/com/google/javascript/jscomp/TypeCheck.java	2025-05-20 23:08:09
++++ ./src/com/google/javascript/jscomp/TypeCheck.java	2025-05-20 23:08:09
+@@ -1396,39 +1396,42 @@
+   /**
+    * Visits the parameters of a CALL or a NEW node.
+    */
+-  private void visitParameterList(NodeTraversal t, Node call,
+-      FunctionType functionType) {
+-    Iterator<Node> arguments = call.children().iterator();
+-    arguments.next(); // skip the function name
+-
+-    Iterator<Node> parameters = functionType.getParameters().iterator();
+-    int ordinal = 0;
+-    Node parameter = null;
+-    Node argument = null;
+-    while (arguments.hasNext() &&
+-           (parameters.hasNext() ||
+-            parameter != null && parameter.isVarArgs())) {
+-      // If there are no parameters left in the list, then the while loop
+-      // above implies that this must be a var_args function.
+-      if (parameters.hasNext()) {
+-        parameter = parameters.next();
++  private void visitParameterList(NodeTraversal TransVarTraversal, Node TransVarCurrentNode,
++      FunctionType TransVarFunctionTypeInstance) {
++    if (!(!(false))) {
++            System.out.println("log");
+       }
+-      argument = arguments.next();
+-      ordinal++;
++    Iterator<Node> TransVarArgumentNodes = TransVarCurrentNode.children().iterator();
++    TransVarArgumentNodes.next(); // skip the function name
+ 
+-      validator.expectArgumentMatchesParameter(t, argument,
+-          getJSType(argument), getJSType(parameter), call, ordinal);
++    Iterator<Node> TransVarIterator = TransVarFunctionTypeInstance.getParameters().iterator();
++    int TransVarIteratorIndex = 0;
++    Node TransVarParameterNode = null;
++    Node TransVarArgumentNode = null;
++    for (; !(!(TransVarArgumentNodes.hasNext() && TransVarIterator.hasNext()));) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        TransVarParameterNode = TransVarIterator.next();
++        TransVarArgumentNode = TransVarArgumentNodes.next();
++        TransVarIteratorIndex++;
++        validator.expectArgumentMatchesParameter(TransVarTraversal, TransVarArgumentNode,
++                getJSType(TransVarArgumentNode), getJSType(TransVarParameterNode), TransVarCurrentNode,
++                TransVarIteratorIndex);
++    }
+ 
+-    int numArgs = call.getChildCount() - 1;
+-    int minArgs = functionType.getMinArguments();
+-    int maxArgs = functionType.getMaxArguments();
+-    if (minArgs > numArgs || maxArgs < numArgs) {
+-      report(t, call, WRONG_ARGUMENT_COUNT,
+-              validator.getReadableJSTypeName(call.getFirstChild(), false),
+-              String.valueOf(numArgs), String.valueOf(minArgs),
+-              maxArgs != Integer.MAX_VALUE ?
+-              " and no more than " + maxArgs + " argument(s)" : "");
++    int TransVarArgumentCount = TransVarCurrentNode.getChildCount() - 1;
++    int TransVarMinArguments = TransVarFunctionTypeInstance.getMinArguments();
++    int TransVarMaxArgument = TransVarFunctionTypeInstance.getMaxArguments();
++    if (!(!(TransVarMinArguments > TransVarArgumentCount || TransVarMaxArgument < TransVarArgumentCount))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    report(TransVarTraversal, TransVarCurrentNode, WRONG_ARGUMENT_COUNT,
++              validator.getReadableJSTypeName(TransVarCurrentNode.getFirstChild(), false),
++              String.valueOf(TransVarArgumentCount), String.valueOf(TransVarMinArguments),
++              TransVarMaxArgument != Integer.MAX_VALUE ?
++              " and no more than " + TransVarMaxArgument + " argument(s)" : "");
+     }
+   }
+ 

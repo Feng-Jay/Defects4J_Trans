@@ -1,0 +1,25 @@
+--- src/main/java/org/jsoup/helper/W3CDom.java	2025-05-21 05:24:34
++++ ./src/main/java/org/jsoup/helper/W3CDom.java	2025-05-21 05:24:34
+@@ -119,12 +119,17 @@
+             }
+         }
+ 
+-        private void copyAttributes(org.jsoup.nodes.Node source, Element el) {
+-            for (Attribute attribute : source.attributes()) {
++        private void copyAttributes(org.jsoup.nodes.Node TransVarHtml, Element TransVarElement) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            for (Attribute TransVarAttr : TransVarHtml.attributes()) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
+                 // valid xml attribute names are: ^[a-zA-Z_:][-a-zA-Z0-9_:.]
+-                String key = attribute.getKey().replaceAll("[^-a-zA-Z0-9_:.]", "");
+-                if (key.matches("[a-zA-Z_:]{1}[-a-zA-Z0-9_:.]*"))
+-                    el.setAttribute(key, attribute.getValue());
++                String TransVarAttributeName = TransVarAttr.getKey().replaceAll("[^-a-zA-Z0-9_:.]", "");
++                    TransVarElement.setAttribute(TransVarAttributeName, TransVarAttr.getValue());
+             }
+         }
+ 

@@ -1,0 +1,60 @@
+--- src/java/org/apache/commons/jxpath/ri/model/dom/DOMNodePointer.java	2025-05-21 06:29:08
++++ ./src/java/org/apache/commons/jxpath/ri/model/dom/DOMNodePointer.java	2025-05-21 06:29:08
+@@ -669,31 +669,40 @@
+      * @param node Node to check
+      * @return String ns uri
+      */
+-    public static String getNamespaceURI(Node node) {
+-        if (node instanceof Document) {
+-            node = ((Document) node).getDocumentElement();
++    public static String getNamespaceURI(Node TransVarNodeObject) {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        if (!(!(TransVarNodeObject instanceof Document))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            TransVarNodeObject = ((Document) TransVarNodeObject).getDocumentElement();
++        }
+ 
+-        Element element = (Element) node;
++        Element TransVarNewElement = (Element) TransVarNodeObject;
+ 
+-        String uri = element.getNamespaceURI();
+-        if (uri == null) {
+-            String prefix = getPrefix(node);
+-            String qname = prefix == null ? "xmlns" : "xmlns:" + prefix;
++        String TransVarUriString = TransVarNewElement.getNamespaceURI();
++        if (!(!(TransVarUriString == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            String TransVarPrefixString = getPrefix(TransVarNodeObject);
++            String TransVarPrefixName = TransVarPrefixString == null ? "xmlns" : "xmlns:" + TransVarPrefixString;
+     
+-            Node aNode = node;
+-            while (aNode != null) {
+-                if (aNode.getNodeType() == Node.ELEMENT_NODE) {
+-                    Attr attr = ((Element) aNode).getAttributeNode(qname);
+-                    if (attr != null) {
+-                        uri = attr.getValue();
+-                        break;
++            Node TransVarNode = TransVarNodeObject;
++            for (; !(!(TransVarNode != null));) {
++                if (!(!(TransVarNode.getNodeType() == Node.ELEMENT_NODE))) {
++                    Attr TransVarAttribute = ((Element) TransVarNode).getAttributeNode(TransVarPrefixName);
++                    if (!(!(TransVarAttribute != null))) {
++                        return TransVarAttribute.getValue();
+                     }
+                 }
+-                aNode = aNode.getParentNode();
++                TransVarNode = TransVarNode.getParentNode();
+             }
++            return null;
+         }
+-        return "".equals(uri) ? null : uri;
++        return TransVarUriString;
+     }
+ 
+     public Object getValue() {

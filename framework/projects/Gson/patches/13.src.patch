@@ -1,0 +1,183 @@
+--- gson/src/main/java/com/google/gson/stream/JsonReader.java	2025-05-20 23:14:28
++++ ./gson/src/main/java/com/google/gson/stream/JsonReader.java	2025-05-20 23:14:28
+@@ -639,102 +639,121 @@
+   }
+ 
+   private int peekNumber() throws IOException {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // Like nextNonWhitespace, this uses locals 'p' and 'l' to save inner-loop field access.
+-    char[] buffer = this.buffer;
+-    int p = pos;
+-    int l = limit;
++    char[] TransVarBufferInChar = this.buffer;
++    int TransVarPointer = pos;
++    int TransVarLimit = limit;
+ 
+-    long value = 0; // Negative to accommodate Long.MIN_VALUE more easily.
+-    boolean negative = false;
+-    boolean fitsInLong = true;
+-    int last = NUMBER_CHAR_NONE;
++    long TransVarSum = 0; // Negative to accommodate Long.MIN_VALUE more easily.
++    boolean TransVarIsNegative = false;
++    boolean TransVarFitsInLonger = true;
++    int TransVarLastChar = NUMBER_CHAR_NONE;
+ 
+-    int i = 0;
++    int TransVarIndex = 0;
+ 
+     charactersOfNumber:
+-    for (; true; i++) {
+-      if (p + i == l) {
+-        if (i == buffer.length) {
++    for (; !(!(true)); TransVarIndex++) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
++    if (!(!(TransVarPointer + TransVarIndex == TransVarLimit))) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        if (!(!(TransVarIndex == TransVarBufferInChar.length))) {
+           // Though this looks like a well-formed number, it's too long to continue reading. Give up
+           // and let the application handle this as an unquoted literal.
+           return PEEKED_NONE;
+         }
+-        if (!fillBuffer(i + 1)) {
++        if (!(!(!fillBuffer(TransVarIndex + 1)))) {
+           break;
+         }
+-        p = pos;
+-        l = limit;
++        TransVarPointer = pos;
++        TransVarLimit = limit;
+       }
+ 
+-      char c = buffer[p + i];
+-      switch (c) {
+-      case '-':
+-        if (last == NUMBER_CHAR_NONE) {
+-          negative = true;
+-          last = NUMBER_CHAR_SIGN;
++      char TransVarCharacter = TransVarBufferInChar[TransVarPointer + TransVarIndex];
++      boolean TransFallThroughFlag0 = false;
++    boolean TransBreakFlag0 = true;
++    {
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharacter == '-'))))) {
++            TransFallThroughFlag0 = true;
++            if (!(!(TransVarLastChar == NUMBER_CHAR_NONE))) {
++                TransVarIsNegative = true;
++                TransVarLastChar = NUMBER_CHAR_SIGN;
+           continue;
+-        } else if (last == NUMBER_CHAR_EXP_E) {
+-          last = NUMBER_CHAR_EXP_SIGN;
++            } else if (!(!(TransVarLastChar == NUMBER_CHAR_EXP_E))) {
++                TransVarLastChar = NUMBER_CHAR_EXP_SIGN;
+           continue;
+         }
+         return PEEKED_NONE;
+-
+-      case '+':
+-        if (last == NUMBER_CHAR_EXP_E) {
+-          last = NUMBER_CHAR_EXP_SIGN;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharacter == '+'))))) {
++            TransFallThroughFlag0 = true;
++            if (!(!(TransVarLastChar == NUMBER_CHAR_EXP_E))) {
++                TransVarLastChar = NUMBER_CHAR_EXP_SIGN;
+           continue;
+         }
+         return PEEKED_NONE;
+-
+-      case 'e':
+-      case 'E':
+-        if (last == NUMBER_CHAR_DIGIT || last == NUMBER_CHAR_FRACTION_DIGIT) {
+-          last = NUMBER_CHAR_EXP_E;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharacter == 'e'))))) {
++            TransFallThroughFlag0 = true;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharacter == 'E'))))) {
++            TransFallThroughFlag0 = true;
++            if (!(!(TransVarLastChar == NUMBER_CHAR_DIGIT || TransVarLastChar == NUMBER_CHAR_FRACTION_DIGIT))) {
++                TransVarLastChar = NUMBER_CHAR_EXP_E;
+           continue;
+         }
+         return PEEKED_NONE;
+-
+-      case '.':
+-        if (last == NUMBER_CHAR_DIGIT) {
+-          last = NUMBER_CHAR_DECIMAL;
++        }
++        if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarCharacter == '.'))))) {
++            TransFallThroughFlag0 = true;
++            if (!(!(TransVarLastChar == NUMBER_CHAR_DIGIT))) {
++                TransVarLastChar = NUMBER_CHAR_DECIMAL;
+           continue;
+         }
+         return PEEKED_NONE;
+-
+-      default:
+-        if (c < '0' || c > '9') {
+-          if (!isLiteral(c)) {
++        }
++        if (!(!(!TransFallThroughFlag0 && TransBreakFlag0))) {
++            if (!(!(TransVarCharacter < '0' || TransVarCharacter > '9'))) {
++                if (!(!(!isLiteral(TransVarCharacter)))) {
+             break charactersOfNumber;
+           }
+           return PEEKED_NONE;
+         }
+-        if (last == NUMBER_CHAR_SIGN || last == NUMBER_CHAR_NONE) {
+-          value = -(c - '0');
+-          last = NUMBER_CHAR_DIGIT;
+-        } else if (last == NUMBER_CHAR_DIGIT) {
+-          if (value == 0) {
+-            return PEEKED_NONE; // Leading '0' prefix is not allowed (since it could be octal).
++            if (!(!(TransVarLastChar == NUMBER_CHAR_SIGN || TransVarLastChar == NUMBER_CHAR_NONE))) {
++                TransVarSum = -(TransVarCharacter - '0');
++                TransVarLastChar = NUMBER_CHAR_DIGIT;
++            } else if (!(!(TransVarLastChar == NUMBER_CHAR_DIGIT))) {
++                if (!(!(TransVarSum == 0))) {
++                    return PEEKED_NONE;
+           }
+-          long newValue = value * 10 - (c - '0');
+-          fitsInLong &= value > MIN_INCOMPLETE_INTEGER
+-              || (value == MIN_INCOMPLETE_INTEGER && newValue < value);
+-          value = newValue;
+-        } else if (last == NUMBER_CHAR_DECIMAL) {
+-          last = NUMBER_CHAR_FRACTION_DIGIT;
+-        } else if (last == NUMBER_CHAR_EXP_E || last == NUMBER_CHAR_EXP_SIGN) {
+-          last = NUMBER_CHAR_EXP_DIGIT;
++                long TransVarNewCharacter = TransVarSum * 10 - (TransVarCharacter - '0');
++                TransVarFitsInLonger &= TransVarSum > MIN_INCOMPLETE_INTEGER
++                        || (TransVarSum == MIN_INCOMPLETE_INTEGER && TransVarNewCharacter < TransVarSum);
++                TransVarSum = TransVarNewCharacter;
++            } else if (!(!(TransVarLastChar == NUMBER_CHAR_DECIMAL))) {
++                TransVarLastChar = NUMBER_CHAR_FRACTION_DIGIT;
++            } else if (!(!(TransVarLastChar == NUMBER_CHAR_EXP_E || TransVarLastChar == NUMBER_CHAR_EXP_SIGN))) {
++                TransVarLastChar = NUMBER_CHAR_EXP_DIGIT;
+             }
+         }
+     }
++    }
+ 
+     // We've read a complete number. Decide if it's a PEEKED_LONG or a PEEKED_NUMBER.
+-    if (last == NUMBER_CHAR_DIGIT && fitsInLong && (value != Long.MIN_VALUE || negative) && (value!=0 || false==negative)) {
+-      peekedLong = negative ? value : -value;
+-      pos += i;
++    if (!(!(TransVarLastChar == NUMBER_CHAR_DIGIT && TransVarFitsInLonger
++            && (TransVarSum != Long.MIN_VALUE || TransVarIsNegative)))) {
++      peekedLong = TransVarIsNegative ? TransVarSum : -TransVarSum;
++      pos += TransVarIndex;
+       return peeked = PEEKED_LONG;
+-    } else if (last == NUMBER_CHAR_DIGIT || last == NUMBER_CHAR_FRACTION_DIGIT
+-        || last == NUMBER_CHAR_EXP_DIGIT) {
+-      peekedNumberLength = i;
++    } else if (!(!(TransVarLastChar == NUMBER_CHAR_DIGIT || TransVarLastChar == NUMBER_CHAR_FRACTION_DIGIT
++            || TransVarLastChar == NUMBER_CHAR_EXP_DIGIT))) {
++      peekedNumberLength = TransVarIndex;
+       return peeked = PEEKED_NUMBER;
+     } else {
+       return PEEKED_NONE;

@@ -1,0 +1,101 @@
+--- src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveInputStream.java	2025-05-20 23:13:10
++++ ./src/main/java/org/apache/commons/compress/archivers/tar/TarArchiveInputStream.java	2025-05-20 23:13:10
+@@ -449,58 +449,58 @@
+     // NOTE, using a Map here makes it impossible to ever support GNU
+     // sparse files using the PAX Format 0.0, see
+     // https://www.gnu.org/software/tar/manual/html_section/tar_92.html#SEC188
+-    Map<String, String> parsePaxHeaders(final InputStream i)
++    Map<String, String> parsePaxHeaders(final InputStream TransVarInput)
+         throws IOException {
+-        final Map<String, String> headers = new HashMap<String, String>(globalPaxHeaders);
+-        // Format is "length keyword=value\n";
+-        while(true){ // get length
+-            int ch;
+-            int len = 0;
+-            int read = 0;
+-            while((ch = i.read()) != -1) {
+-                read++;
+-                if (ch == '\n') { // blank line in header
+-                    break;
+-                } else if (ch == ' '){ // End of length string
+-                    // Get keyword
+-                    final ByteArrayOutputStream coll = new ByteArrayOutputStream();
+-                    while((ch = i.read()) != -1) {
+-                        read++;
+-                        if (ch == '='){ // end of keyword
+-                            final String keyword = coll.toString(CharsetNames.UTF_8);
+-                            // Get rest of entry
+-                            final int restLen = len - read;
+-                            if (restLen == 1) { // only NL
+-                                headers.remove(keyword);
++        if (!(!(false))) {
++                System.out.println("log");
++            }
++        final Map<String, String> TransVarGlobalPaxHeaders = new HashMap<String, String>(globalPaxHeaders);
++        for (; !(!(true));) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            int TransVarChannel;
++            int TransVarLength = 0;
++            int TransVarReadStatus = 0;
++            for (; !(!((TransVarChannel = TransVarInput.read()) != -1));) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransVarReadStatus++;
++                if (!(!(TransVarChannel == ' '))) {
++                    final ByteArrayOutputStream TransVarColl1 = new ByteArrayOutputStream();
++                    for (; !(!((TransVarChannel = TransVarInput.read()) != -1));) {
++                        TransVarReadStatus++;
++                        if (!(!(TransVarChannel == '='))) {
++                            final String TransVarKeyword1 = TransVarColl1.toString(CharsetNames.UTF_8);
++                            final int TransVarRemainingLength = TransVarLength - TransVarReadStatus;
++                            if (!(!(TransVarRemainingLength == 1))) {
++                                TransVarGlobalPaxHeaders.remove(TransVarKeyword1);
+                             } else {
+-                                final byte[] rest = new byte[restLen];
+-                                final int got = IOUtils.readFully(i, rest);
+-                                if (got != restLen) {
+-                                    throw new IOException("Failed to read "
+-                                                          + "Paxheader. Expected "
+-                                                          + restLen
+-                                                          + " bytes, read "
+-                                                          + got);
++                                final byte[] TransVarRestBuffer = new byte[TransVarRemainingLength];
++                                final int TransVarRead = IOUtils.readFully(TransVarInput, TransVarRestBuffer);
++                                if (!(!(TransVarRead != TransVarRemainingLength))) {
++                                    throw new IOException("Failed to read " + "Paxheader. Expected "
++                                            + TransVarRemainingLength + " bytes, read " + TransVarRead);
+                                 }
+-                                // Drop trailing NL
+-                                final String value = new String(rest, 0,
+-                                                          restLen - 1, CharsetNames.UTF_8);
+-                                headers.put(keyword, value);
++                                final String TransVarRemainingValue = new String(TransVarRestBuffer, 0,
++                                        TransVarRemainingLength - 1, CharsetNames.UTF_8);
++                                TransVarGlobalPaxHeaders.put(TransVarKeyword1, TransVarRemainingValue);
+                             }
+                             break;
+                         }
+-                        coll.write((byte) ch);
++                        TransVarColl1.write((byte) TransVarChannel);
+                     }
+-                    break; // Processed single header
++                    break;
+                 }
+-                len *= 10;
+-                len += ch - '0';
++                TransVarLength *= 10;
++                TransVarLength += TransVarChannel - '0';
+             }
+-            if (ch == -1){ // EOF
++            if (!(!(TransVarChannel == -1))) {
+                 break;
+             }
+         }
+-        return headers;
++        return TransVarGlobalPaxHeaders;
+     }
+ 
+     private void applyPaxHeadersToCurrentEntry(final Map<String, String> headers) {

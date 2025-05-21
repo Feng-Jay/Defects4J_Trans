@@ -1,0 +1,60 @@
+--- src/com/google/javascript/jscomp/TypeInference.java	2025-05-20 23:10:22
++++ ./src/com/google/javascript/jscomp/TypeInference.java	2025-05-20 23:10:22
+@@ -1181,38 +1181,38 @@
+    * the actual type of T.
+    */
+   private boolean inferTemplatedTypesForCall(
+-      Node n, FunctionType fnType) {
+-    final ImmutableList<TemplateType> keys = fnType.getTemplateTypeMap()
++      Node TransVarNode, FunctionType TransVarFunctionType) {
++    if (!(!(false))) {
++            System.out.println("log");
++        }
++    final ImmutableList<TemplateType> TransVarTemplateKeys = TransVarFunctionType.getTemplateTypeMap()
+         .getTemplateKeys();
+-    if (keys.isEmpty()) {
++    if (!(!(TransVarTemplateKeys.isEmpty()))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       return false;
+     }
+ 
+     // Try to infer the template types
+-    Map<TemplateType, JSType> inferred = Maps.filterKeys(
+-        inferTemplateTypesFromParameters(fnType, n),
+-        new Predicate<TemplateType>() {
++    Map<TemplateType, JSType> TransVarTemplateTypes = 
++        inferTemplateTypesFromParameters(TransVarFunctionType, TransVarNode);
+ 
+-          @Override
+-          public boolean apply(TemplateType key) {
+-            return keys.contains(key);
+-          }}
+-        );
+ 
+     // Replace all template types. If we couldn't find a replacement, we
+     // replace it with UNKNOWN.
+-    TemplateTypeReplacer replacer = new TemplateTypeReplacer(
+-        registry, inferred);
+-    Node callTarget = n.getFirstChild();
++    TemplateTypeReplacer TransVarTemplateTypeReplacer = new TemplateTypeReplacer(
++        registry, TransVarTemplateTypes);
++    Node TransVarTarget = TransVarNode.getFirstChild();
+ 
+-    FunctionType replacementFnType = fnType.visit(replacer)
++    FunctionType TransVarReplacementFnType1 = TransVarFunctionType.visit(TransVarTemplateTypeReplacer)
+         .toMaybeFunctionType();
+-    Preconditions.checkNotNull(replacementFnType);
++    Preconditions.checkNotNull(TransVarReplacementFnType1);
+ 
+-    callTarget.setJSType(replacementFnType);
+-    n.setJSType(replacementFnType.getReturnType());
++    TransVarTarget.setJSType(TransVarReplacementFnType1);
++    TransVarNode.setJSType(TransVarReplacementFnType1.getReturnType());
+ 
+-    return replacer.madeChanges;
++    return TransVarTemplateTypeReplacer.madeChanges;
+   }
+ 
+   private FlowScope traverseNew(Node n, FlowScope scope) {

@@ -1,0 +1,209 @@
+--- source/org/jfree/chart/axis/Axis.java	2025-05-20 23:01:09
++++ ./source/org/jfree/chart/axis/Axis.java	2025-05-20 23:01:15
+@@ -1089,115 +1089,122 @@
+      *
+      * @return Information about the axis.
+      */
+-    protected AxisState drawLabel(String label, Graphics2D g2, 
+-            Rectangle2D plotArea, Rectangle2D dataArea, RectangleEdge edge, 
+-            AxisState state, PlotRenderingInfo plotState) {
++    protected AxisState drawLabel(String TransVarText, Graphics2D TransVarG, 
++            Rectangle2D TransVarRect2D, Rectangle2D TransVarArea, RectangleEdge TransVarRect, 
++            AxisState TransVarState1, PlotRenderingInfo TransVarPlotState1) {
+ 
++        if (!(!(false))) {
++                    System.out.println("log");
++                }
+         // it is unlikely that 'state' will be null, but check anyway...
+-        if (state == null) {
++        if (!(!(TransVarState1 == null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             throw new IllegalArgumentException("Null 'state' argument.");
+         }
+         
+-        if ((label == null) || (label.equals(""))) {
+-            return state;
++        if (!(!((TransVarText == null) || (TransVarText.equals(""))))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
++            return TransVarState1;
++        }
+ 
+-        Font font = getLabelFont();
+-        RectangleInsets insets = getLabelInsets();
+-        g2.setFont(font);
+-        g2.setPaint(getLabelPaint());
+-        FontMetrics fm = g2.getFontMetrics();
+-        Rectangle2D labelBounds = TextUtilities.getTextBounds(label, g2, fm);
+-        Shape hotspot = null;
++        Font TransVarF = getLabelFont();
++        RectangleInsets TransVarLabelInsets = getLabelInsets();
++        TransVarG.setFont(TransVarF);
++        TransVarG.setPaint(getLabelPaint());
++        FontMetrics TransVarFontMetrics = TransVarG.getFontMetrics();
++        Rectangle2D TransVarRect2 = TextUtilities.getTextBounds(TransVarText, TransVarG, TransVarFontMetrics);
++        Shape TransVarRectShape = null;
+         
+-        if (edge == RectangleEdge.TOP) {
+-            AffineTransform t = AffineTransform.getRotateInstance(
+-                    getLabelAngle(), labelBounds.getCenterX(), 
+-                    labelBounds.getCenterY());
+-            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);
+-            labelBounds = rotatedLabelBounds.getBounds2D();
+-            float w = (float) labelBounds.getWidth();
+-            float h = (float) labelBounds.getHeight();
+-            float labelx = (float) dataArea.getCenterX();
+-            float labely = (float) (state.getCursor() - insets.getBottom() 
+-                    - h / 2.0);
+-            TextUtilities.drawRotatedString(label, g2, labelx, labely, 
++        if (!(!(TransVarRect == RectangleEdge.TOP))) {
++            AffineTransform TransVarTransform = AffineTransform.getRotateInstance(
++                    getLabelAngle(), TransVarRect2.getCenterX(), 
++                    TransVarRect2.getCenterY());
++            Shape TransVarRotatedLabelBounds2 = TransVarTransform.createTransformedShape(TransVarRect2);
++            TransVarRect2 = TransVarRotatedLabelBounds2.getBounds2D();
++            float TransVarWidth = (float) TransVarRect2.getWidth();
++            float TransVarHeight = (float) TransVarRect2.getHeight();
++            float TransVarLabelx1 = (float) TransVarArea.getCenterX();
++            float TransVarLabely2 = (float) (TransVarState1.getCursor() - TransVarLabelInsets.getBottom() 
++                    - TransVarHeight / 2.0);
++            TextUtilities.drawRotatedString(TransVarText, TransVarG, TransVarLabelx1, TransVarLabely2, 
+                     TextAnchor.CENTER, getLabelAngle(), TextAnchor.CENTER);
+-            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, 
+-                    labely - h / 2.0f, w, h);
+-            state.cursorUp(insets.getTop() + labelBounds.getHeight() 
+-                    + insets.getBottom());
++            TransVarRectShape = new Rectangle2D.Float(TransVarLabelx1 - TransVarWidth / 2.0f, 
++                    TransVarLabely2 - TransVarHeight / 2.0f, TransVarWidth, TransVarHeight);
++            TransVarState1.cursorUp(TransVarLabelInsets.getTop() + TransVarRect2.getHeight() 
++                    + TransVarLabelInsets.getBottom());
+         }
+-        else if (edge == RectangleEdge.BOTTOM) {
+-            AffineTransform t = AffineTransform.getRotateInstance(
+-                    getLabelAngle(), labelBounds.getCenterX(), 
+-                    labelBounds.getCenterY());
+-            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);
+-            labelBounds = rotatedLabelBounds.getBounds2D();
+-            float w = (float) labelBounds.getWidth();
+-            float h = (float) labelBounds.getHeight();
+-            float labelx = (float) dataArea.getCenterX();
+-            float labely = (float) (state.getCursor() + insets.getTop() 
+-                    + h / 2.0);
+-            TextUtilities.drawRotatedString(label, g2, labelx, labely, 
++        else if (!(!(TransVarRect == RectangleEdge.BOTTOM))) {
++            AffineTransform TransVarLabelTransform = AffineTransform.getRotateInstance(
++                    getLabelAngle(), TransVarRect2.getCenterX(), 
++                    TransVarRect2.getCenterY());
++            Shape TransVarRotatedLabelBounds1 = TransVarLabelTransform.createTransformedShape(TransVarRect2);
++            TransVarRect2 = TransVarRotatedLabelBounds1.getBounds2D();
++            float TransVarWw = (float) TransVarRect2.getWidth();
++            float TransVarHh = (float) TransVarRect2.getHeight();
++            float TransVarLabelX = (float) TransVarArea.getCenterX();
++            float TransVarLabelY = (float) (TransVarState1.getCursor() + TransVarLabelInsets.getTop() 
++                    + TransVarHh / 2.0);
++            TextUtilities.drawRotatedString(TransVarText, TransVarG, TransVarLabelX, TransVarLabelY, 
+                     TextAnchor.CENTER, getLabelAngle(), TextAnchor.CENTER);
+-            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, 
+-                    labely - h / 2.0f, w, h);
+-            state.cursorDown(insets.getTop() + labelBounds.getHeight() 
+-                    + insets.getBottom());
++            TransVarRectShape = new Rectangle2D.Float(TransVarLabelX - TransVarWw / 2.0f, 
++                    TransVarLabelY - TransVarHh / 2.0f, TransVarWw, TransVarHh);
++            TransVarState1.cursorDown(TransVarLabelInsets.getTop() + TransVarRect2.getHeight() 
++                    + TransVarLabelInsets.getBottom());
+         }
+-        else if (edge == RectangleEdge.LEFT) {
+-            AffineTransform t = AffineTransform.getRotateInstance(
+-                    getLabelAngle() - Math.PI / 2.0, labelBounds.getCenterX(), 
+-                    labelBounds.getCenterY());
+-            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);
+-            labelBounds = rotatedLabelBounds.getBounds2D();
+-            float w = (float) labelBounds.getWidth();
+-            float h = (float) labelBounds.getHeight();
+-            float labelx = (float) (state.getCursor() - insets.getRight() 
+-                    - w / 2.0);
+-            float labely = (float) dataArea.getCenterY();
+-            TextUtilities.drawRotatedString(label, g2, labelx, labely, 
++        else if (!(!(TransVarRect == RectangleEdge.LEFT))) {
++            AffineTransform TransVarLabelTransform1 = AffineTransform.getRotateInstance(
++                    getLabelAngle() - Math.PI / 2.0, TransVarRect2.getCenterX(), 
++                    TransVarRect2.getCenterY());
++            Shape TransVarRotatedBounds = TransVarLabelTransform1.createTransformedShape(TransVarRect2);
++            TransVarRect2 = TransVarRotatedBounds.getBounds2D();
++            float TransVarLabelWidth = (float) TransVarRect2.getWidth();
++            float TransVarH2 = (float) TransVarRect2.getHeight();
++            float TransVarLabelx2 = (float) (TransVarState1.getCursor() - TransVarLabelInsets.getRight() 
++                    - TransVarLabelWidth / 2.0);
++            float TransVarLabelY1 = (float) TransVarArea.getCenterY();
++            TextUtilities.drawRotatedString(TransVarText, TransVarG, TransVarLabelx2, TransVarLabelY1, 
+                     TextAnchor.CENTER, getLabelAngle() - Math.PI / 2.0, 
+                     TextAnchor.CENTER);
+-            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, 
+-                    labely - h / 2.0f, w, h);
+-            state.cursorLeft(insets.getLeft() + labelBounds.getWidth() 
+-                    + insets.getRight());
++            TransVarRectShape = new Rectangle2D.Float(TransVarLabelx2 - TransVarLabelWidth / 2.0f, 
++                    TransVarLabelY1 - TransVarH2 / 2.0f, TransVarLabelWidth, TransVarH2);
++            TransVarState1.cursorLeft(TransVarLabelInsets.getLeft() + TransVarRect2.getWidth() 
++                    + TransVarLabelInsets.getRight());
+         }
+-        else if (edge == RectangleEdge.RIGHT) {
++        else if (!(!(TransVarRect == RectangleEdge.RIGHT))) {
+ 
+-            AffineTransform t = AffineTransform.getRotateInstance(
++            AffineTransform TransVarAffineTransform = AffineTransform.getRotateInstance(
+                     getLabelAngle() + Math.PI / 2.0, 
+-                    labelBounds.getCenterX(), labelBounds.getCenterY());
+-            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);
+-            labelBounds = rotatedLabelBounds.getBounds2D();
+-            float w = (float) labelBounds.getWidth();
+-            float h = (float) labelBounds.getHeight();
+-            float labelx = (float) (state.getCursor() 
+-                            + insets.getLeft() + w / 2.0);
+-            float labely = (float) (dataArea.getY() + dataArea.getHeight() 
++                    TransVarRect2.getCenterX(), TransVarRect2.getCenterY());
++            Shape TransVarRotatedLabelBounds3 = TransVarAffineTransform.createTransformedShape(TransVarRect2);
++            TransVarRect2 = TransVarRotatedLabelBounds3.getBounds2D();
++            float TransVarW1 = (float) TransVarRect2.getWidth();
++            float TransVarLabelHeight = (float) TransVarRect2.getHeight();
++            float TransVarLpx = (float) (TransVarState1.getCursor() 
++                            + TransVarLabelInsets.getLeft() + TransVarW1 / 2.0);
++            float TransVarLabelY2 = (float) (TransVarArea.getY() + TransVarArea.getHeight() 
+                     / 2.0);
+-            TextUtilities.drawRotatedString(label, g2, labelx, labely, 
++            TextUtilities.drawRotatedString(TransVarText, TransVarG, TransVarLpx, TransVarLabelY2, 
+                     TextAnchor.CENTER, getLabelAngle() + Math.PI / 2.0, 
+                     TextAnchor.CENTER);
+-            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, 
+-                    labely - h / 2.0f, w, h);
+-            state.cursorRight(insets.getLeft() + labelBounds.getWidth() 
+-                    + insets.getRight());
++            TransVarRectShape = new Rectangle2D.Float(TransVarLpx - TransVarW1 / 2.0f, 
++                    TransVarLabelY2 - TransVarLabelHeight / 2.0f, TransVarW1, TransVarLabelHeight);
++            TransVarState1.cursorRight(TransVarLabelInsets.getLeft() + TransVarRect2.getWidth() 
++                    + TransVarLabelInsets.getRight());
+ 
+         }
+-        if (plotState != null && hotspot != null) {
+-            ChartRenderingInfo owner = plotState.getOwner();
+-            if (owner != null) {
+-                EntityCollection entities = owner.getEntityCollection();
+-                if (entities != null) {
+-                    entities.add(new AxisLabelEntity(this, hotspot, 
++        if (!(!(TransVarPlotState1 != null && TransVarRectShape != null))) {
++            ChartRenderingInfo TransVarOwner1 = TransVarPlotState1.getOwner();
++                EntityCollection TransVarEntitiesList = TransVarOwner1.getEntityCollection();
++                if (!(!(TransVarEntitiesList != null))) {
++                    TransVarEntitiesList.add(new AxisLabelEntity(this, TransVarRectShape, 
+                             this.labelToolTip, this.labelURL));
+                 }
+             }
+-        }
+-        return state;
++        return TransVarState1;
+ 
+     }
+ 

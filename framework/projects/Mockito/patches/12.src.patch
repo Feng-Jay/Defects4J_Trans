@@ -1,0 +1,30 @@
+--- src/org/mockito/internal/util/reflection/GenericMaster.java	2025-05-21 08:23:29
++++ src/org/mockito/internal/util/reflection/GenericMaster.java	2025-05-21 08:23:29
+@@ -13,16 +13,18 @@
+      * @param field
+      * @return
+      */
+-    public Class getGenericType(Field field) {        
+-        Type generic = field.getGenericType();
+-        if (generic != null && generic instanceof ParameterizedType) {
+-            Type actual = ((ParameterizedType) generic).getActualTypeArguments()[0];
+-            if (actual instanceof Class) {
+-                return (Class) actual;
+-            } else if (actual instanceof ParameterizedType) {
+-                //in case of nested generics we don't go deep
+-                return (Class) ((ParameterizedType) actual).getRawType();
++    public Class getGenericType(Field TransVarFieldName) {        
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        Type TransVarType = TransVarFieldName.getGenericType();
++        if (!(!(TransVarType != null && TransVarType instanceof ParameterizedType))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            Type TransVarFieldClass = ((ParameterizedType) TransVarType).getActualTypeArguments()[0];
++                return (Class) TransVarFieldClass;
++                //in case of nested generics we don't go deep
+         }
+         
+         return Object.class;

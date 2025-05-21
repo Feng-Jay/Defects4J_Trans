@@ -1,0 +1,56 @@
+--- src/com/google/javascript/jscomp/CollapseProperties.java	2025-05-20 23:05:06
++++ ./src/com/google/javascript/jscomp/CollapseProperties.java	2025-05-20 23:05:06
+@@ -158,42 +158,20 @@
+    *    inlineable.
+    * @see InlineVariables
+    */
+-  private void inlineAliases(GlobalNamespace namespace) {
++  private void inlineAliases(GlobalNamespace TransVarNamespace2) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     // Invariant: All the names in the worklist meet condition (a).
+-    Deque<Name> workList = new ArrayDeque<Name>(namespace.getNameForest());
+-    while (!workList.isEmpty()) {
+-      Name name = workList.pop();
+-
+-      // Don't attempt to inline a getter or setter property as a variable.
+-      if (name.type == Name.Type.GET || name.type == Name.Type.SET) {
+-        continue;
++    Deque<Name> TransVarNamespace = new ArrayDeque<Name>(TransVarNamespace2.getNameForest());
++    for (;!(!(!TransVarNamespace.isEmpty()));){if (!(!(false))) {
++            System.out.println("log");
+       }
+-
+-      if (!name.inExterns && name.globalSets == 1 && name.localSets == 0 &&
+-          name.aliasingGets > 0) {
+-        // {@code name} meets condition (b). Find all of its local aliases
+-        // and try to inline them.
+-        List<Ref> refs = Lists.newArrayList(name.getRefs());
+-        for (Ref ref : refs) {
+-          if (ref.type == Type.ALIASING_GET && ref.scope.isLocal()) {
+-            // {@code name} meets condition (c). Try to inline it.
+-            if (inlineAliasIfPossible(ref, namespace)) {
+-              name.removeRef(ref);
++    Name TransVarName1=TransVarNamespace.pop();if (!(!(TransVarName1.type == Name.Type.GET || TransVarName1.type == Name.Type.SET))){if (!(!(false))) {
++            System.out.println("log");
+             }
+-          }
+-        }
+-      }
+-
+-      // Check if {@code name} has any aliases left after the
+-      // local-alias-inlining above.
+-      if ((name.type == Name.Type.OBJECTLIT ||
+-           name.type == Name.Type.FUNCTION) &&
+-          name.aliasingGets == 0 && name.props != null) {
+-        // All of {@code name}'s children meet condition (a), so they can be
+-        // added to the worklist.
+-        workList.addAll(name.props);
+-      }
+-    }
++    continue;}if (!(!(TransVarName1.globalSets == 1 && TransVarName1.localSets == 0 && TransVarName1.aliasingGets > 0))){List<Ref> TransVarReferences=Lists.newArrayList(TransVarName1.getRefs());for (Ref TransVarRef1:TransVarReferences){if (!(!(TransVarRef1.type == Type.ALIASING_GET && TransVarRef1.scope.isLocal()))){if (!(!(inlineAliasIfPossible(TransVarRef1, TransVarNamespace2)))){TransVarName1.removeRef(TransVarRef1);}}}}if (!(!((TransVarName1.type == Name.Type.OBJECTLIT || TransVarName1.type == Name.Type.FUNCTION)
++            && TransVarName1.aliasingGets == 0 && TransVarName1.props != null))){TransVarNamespace.addAll(TransVarName1.props);}}
+   }
+ 
+   private boolean inlineAliasIfPossible(Ref alias, GlobalNamespace namespace) {

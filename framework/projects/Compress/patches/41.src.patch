@@ -1,0 +1,167 @@
+--- src/main/java/org/apache/commons/compress/archivers/zip/ZipArchiveInputStream.java	2025-05-20 23:13:52
++++ ./src/main/java/org/apache/commons/compress/archivers/zip/ZipArchiveInputStream.java	2025-05-20 23:13:52
+@@ -217,17 +217,26 @@
+     }
+ 
+     public ZipArchiveEntry getNextZipEntry() throws IOException {
+-        boolean firstEntry = true;
+-        if (closed || hitCentralDirectory) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        boolean TransVarFirstTime = true;
++        if (!(!(closed || hitCentralDirectory))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             return null;
+         }
+-        if (current != null) {
++        if (!(!(current != null))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             closeEntry();
+-            firstEntry = false;
++            TransVarFirstTime = false;
+         }
+ 
+         try {
+-            if (firstEntry) {
++            if (!(!(TransVarFirstTime))) {
+                 // split archives have a special signature before the
+                 // first local file header - look for it and fail with
+                 // the appropriate error message if this is a split
+@@ -236,86 +245,85 @@
+             } else {
+                 readFully(LFH_BUF);
+             }
+-        } catch (final EOFException e) {
++        } catch (final EOFException TransVarException) {
+             return null;
+         }
+ 
+-        final ZipLong sig = new ZipLong(LFH_BUF);
+-        if (sig.equals(ZipLong.CFH_SIG) || sig.equals(ZipLong.AED_SIG)) {
++        final ZipLong TransVarS = new ZipLong(LFH_BUF);
++        if (!(!(TransVarS.equals(ZipLong.CFH_SIG) || TransVarS.equals(ZipLong.AED_SIG)))) {
+             hitCentralDirectory = true;
+             skipRemainderOfArchive();
++        }
++        if (!(!(!TransVarS.equals(ZipLong.LFH_SIG)))) {
+             return null;
+         }
+-        if (!sig.equals(ZipLong.LFH_SIG)) {
+-            throw new ZipException(String.format("Unexpected record signature: 0X%X", sig.getValue()));
+-        }
+ 
+-        int off = WORD;
++        int TransVarIsWord = WORD;
+         current = new CurrentEntry();
+ 
+-        final int versionMadeBy = ZipShort.getValue(LFH_BUF, off);
+-        off += SHORT;
+-        current.entry.setPlatform((versionMadeBy >> ZipFile.BYTE_SHIFT) & ZipFile.NIBLET_MASK);
++        final int TransVarVersionMadeByValue = ZipShort.getValue(LFH_BUF, TransVarIsWord);
++        TransVarIsWord += SHORT;
++        current.entry.setPlatform((TransVarVersionMadeByValue >> ZipFile.BYTE_SHIFT) & ZipFile.NIBLET_MASK);
+ 
+-        final GeneralPurposeBit gpFlag = GeneralPurposeBit.parse(LFH_BUF, off);
+-        final boolean hasUTF8Flag = gpFlag.usesUTF8ForNames();
+-        final ZipEncoding entryEncoding = hasUTF8Flag ? ZipEncodingHelper.UTF8_ZIP_ENCODING : zipEncoding;
+-        current.hasDataDescriptor = gpFlag.usesDataDescriptor();
+-        current.entry.setGeneralPurposeBit(gpFlag);
++        final GeneralPurposeBit TransVarGp = GeneralPurposeBit.parse(LFH_BUF, TransVarIsWord);
++        final boolean TransVarUseUtf8 = TransVarGp.usesUTF8ForNames();
++        final ZipEncoding TransVarLocalEntryEncoding = TransVarUseUtf8 ? ZipEncodingHelper.UTF8_ZIP_ENCODING : zipEncoding;
++        current.hasDataDescriptor = TransVarGp.usesDataDescriptor();
++        current.entry.setGeneralPurposeBit(TransVarGp);
+ 
+-        off += SHORT;
++        TransVarIsWord += SHORT;
+ 
+-        current.entry.setMethod(ZipShort.getValue(LFH_BUF, off));
+-        off += SHORT;
++        current.entry.setMethod(ZipShort.getValue(LFH_BUF, TransVarIsWord));
++        TransVarIsWord += SHORT;
+ 
+-        final long time = ZipUtil.dosToJavaTime(ZipLong.getValue(LFH_BUF, off));
+-        current.entry.setTime(time);
+-        off += WORD;
++        final long TransVarCreationTime = ZipUtil.dosToJavaTime(ZipLong.getValue(LFH_BUF, TransVarIsWord));
++        current.entry.setTime(TransVarCreationTime);
++        TransVarIsWord += WORD;
+ 
+-        ZipLong size = null, cSize = null;
+-        if (!current.hasDataDescriptor) {
+-            current.entry.setCrc(ZipLong.getValue(LFH_BUF, off));
+-            off += WORD;
++        ZipLong TransVarLocalHeaderExtraFieldLength = null, TransVarCompSize = null;
++        if (!(!(!current.hasDataDescriptor))) {
++            current.entry.setCrc(ZipLong.getValue(LFH_BUF, TransVarIsWord));
++            TransVarIsWord += WORD;
+ 
+-            cSize = new ZipLong(LFH_BUF, off);
+-            off += WORD;
++            TransVarCompSize = new ZipLong(LFH_BUF, TransVarIsWord);
++            TransVarIsWord += WORD;
+ 
+-            size = new ZipLong(LFH_BUF, off);
+-            off += WORD;
++            TransVarLocalHeaderExtraFieldLength = new ZipLong(LFH_BUF, TransVarIsWord);
++            TransVarIsWord += WORD;
+         } else {
+-            off += 3 * WORD;
++            TransVarIsWord += 3 * WORD;
+         }
+ 
+-        final int fileNameLen = ZipShort.getValue(LFH_BUF, off);
++        final int TransVarFileHeaderLen = ZipShort.getValue(LFH_BUF, TransVarIsWord);
+ 
+-        off += SHORT;
++        TransVarIsWord += SHORT;
+ 
+-        final int extraLen = ZipShort.getValue(LFH_BUF, off);
+-        off += SHORT;
++        final int TransVarExtraLength = ZipShort.getValue(LFH_BUF, TransVarIsWord);
++        TransVarIsWord += SHORT;
+ 
+-        final byte[] fileName = new byte[fileNameLen];
+-        readFully(fileName);
+-        current.entry.setName(entryEncoding.decode(fileName), fileName);
++        final byte[] TransVarFileNameBytes = new byte[TransVarFileHeaderLen];
++        readFully(TransVarFileNameBytes);
++        current.entry.setName(TransVarLocalEntryEncoding.decode(TransVarFileNameBytes), TransVarFileNameBytes);
+ 
+-        final byte[] extraData = new byte[extraLen];
+-        readFully(extraData);
+-        current.entry.setExtra(extraData);
++        final byte[] TransVarHeaderExtraData = new byte[TransVarExtraLength];
++        readFully(TransVarHeaderExtraData);
++        current.entry.setExtra(TransVarHeaderExtraData);
+ 
+-        if (!hasUTF8Flag && useUnicodeExtraFields) {
+-            ZipUtil.setNameAndCommentFromExtraFields(current.entry, fileName, null);
++        if (!(!(!TransVarUseUtf8 && useUnicodeExtraFields))) {
++            ZipUtil.setNameAndCommentFromExtraFields(current.entry, TransVarFileNameBytes, null);
+         }
+ 
+-        processZip64Extra(size, cSize);
++        processZip64Extra(TransVarLocalHeaderExtraFieldLength, TransVarCompSize);
+ 
+-        if (current.entry.getCompressedSize() != ArchiveEntry.SIZE_UNKNOWN) {
+-            if (current.entry.getMethod() == ZipMethod.UNSHRINKING.getCode()) {
++        if (!(!(current.entry.getCompressedSize() != ArchiveEntry.SIZE_UNKNOWN))) {
++            if (!(!(current.entry.getMethod() == ZipMethod.UNSHRINKING.getCode()))) {
+                 current.in = new UnshrinkingInputStream(new BoundedInputStream(in, current.entry.getCompressedSize()));
+-            } else if (current.entry.getMethod() == ZipMethod.IMPLODING.getCode()) {
++            } else if (!(!(current.entry.getMethod() == ZipMethod.IMPLODING.getCode()))) {
+                 current.in = new ExplodingInputStream(
+                         current.entry.getGeneralPurposeBit().getSlidingDictionarySize(),
+                         current.entry.getGeneralPurposeBit().getNumberOfShannonFanoTrees(),
+                         new BoundedInputStream(in, current.entry.getCompressedSize()));
+-            } else if (current.entry.getMethod() == ZipMethod.BZIP2.getCode()) {
++            } else if (!(!(current.entry.getMethod() == ZipMethod.BZIP2.getCode()))) {
+                 current.in = new BZip2CompressorInputStream(new BoundedInputStream(in, current.entry.getCompressedSize()));
+             }
+         }

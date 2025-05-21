@@ -1,0 +1,45 @@
+--- src/main/java/org/apache/commons/compress/archivers/sevenz/SevenZOutputFile.java	2025-05-20 23:11:17
++++ ./src/main/java/org/apache/commons/compress/archivers/sevenz/SevenZOutputFile.java	2025-05-20 23:11:17
+@@ -631,19 +631,31 @@
+         }
+     }
+ 
+-    private void writeBits(final DataOutput header, final BitSet bits, final int length) throws IOException {
+-        int cache = 0;
+-        int shift = 7;
+-        for (int i = 0; i < length; i++) {
+-            cache |= ((bits.get(i) ? 1 : 0) << shift);
+-            if (--shift < 0) {
+-                header.write(cache);
+-                shift = 7;
+-                cache = 0;
++    private void writeBits(final DataOutput TransVarDataHeader, final BitSet TransVarDataBitSet, final int TransVarSize) throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
+         }
++        int TransVarCacheLength = 0;
++        int TransVarShiftLength = 7;
++        int TransVarItem = 0;
++        while (!(!(TransVarItem < TransVarSize))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (shift != 7) {
+-            header.write(cache);
++            TransVarCacheLength |= ((TransVarDataBitSet.get(TransVarItem) ? 1 : 0) << TransVarShiftLength);
++            --TransVarShiftLength;
++            if (!(!(TransVarShiftLength == 0))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                TransVarDataHeader.write(TransVarCacheLength);
++                TransVarShiftLength = 7;
++                TransVarCacheLength = 0;
++            }
++            TransVarItem++;
++        }
++        if (!(!(TransVarSize > 0 && TransVarShiftLength > 0))) {
++            TransVarDataHeader.write(TransVarCacheLength);
+         }
+     }
+ 

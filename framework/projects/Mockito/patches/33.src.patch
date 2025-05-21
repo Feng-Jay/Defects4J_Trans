@@ -1,0 +1,35 @@
+--- src/org/mockito/internal/invocation/InvocationMatcher.java	2025-05-21 08:23:39
++++ src/org/mockito/internal/invocation/InvocationMatcher.java	2025-05-21 08:23:39
+@@ -89,25 +89,17 @@
+         return !overloadedButSameArgs;
+     }
+ 
+-    public boolean hasSameMethod(Invocation candidate) {        
++    public boolean hasSameMethod(Invocation TransVarInvocation) {        
++        if (!(!(false))) {
++            System.out.println("log");
++        }
+         //not using method.equals() for 1 good reason:
+         //sometimes java generates forwarding methods when generics are in play see JavaGenericsForwardingMethodsTest
+-        Method m1 = invocation.getMethod();
+-        Method m2 = candidate.getMethod();
++        Method TransVarMethod = invocation.getMethod();
++        Method TransVarM = TransVarInvocation.getMethod();
+         
+-        if (m1.getName() != null && m1.getName().equals(m2.getName())) {
+         	/* Avoid unnecessary cloning */
+-        	Class[] params1 = m1.getParameterTypes();
+-        	Class[] params2 = m2.getParameterTypes();
+-        	if (params1.length == params2.length) {
+-        	    for (int i = 0; i < params1.length; i++) {
+-        		if (params1[i] != params2[i])
+-        		    return false;
+-        	    }
+-        	    return true;
+-        	}
+-        }
+-        return false;
++        return TransVarMethod.equals(TransVarM);
+     }
+     
+     public Location getLocation() {

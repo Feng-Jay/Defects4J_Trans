@@ -1,0 +1,57 @@
+--- src/java/org/apache/commons/lang/Entities.java	2025-05-21 08:14:25
++++ src/java/org/apache/commons/lang/Entities.java	2025-05-21 08:14:25
+@@ -822,29 +822,35 @@
+      * @see #escape(String)
+      * @see Writer
+      */
+-    public void escape(Writer writer, String str) throws IOException {
+-        int len = str.length();
+-        for (int i = 0; i < len; i++) {
+-            int c = Character.codePointAt(str, i); 
+-            String entityName = this.entityName(c);
+-            if (entityName == null) {
+-                if (c >= 0x010000 && i < len - 1) {
+-                    writer.write("&#");
+-                    writer.write(Integer.toString(c, 10));
+-                    writer.write(';');
+-                    i++;
+-                } else if (c > 0x7F) { 
+-                    writer.write("&#");
+-                    writer.write(Integer.toString(c, 10));
+-                    writer.write(';');
++    public void escape(Writer TransVarMyWriter, String TransVarMyString) throws IOException {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        int TransVarStrLen = TransVarMyString.length();
++        int TransVarJ = 0;
++        while (!(!(TransVarJ < TransVarStrLen))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            char TransVarCharAt = TransVarMyString.charAt(TransVarJ);
++            String TransVarEntityName1 = this.entityName(TransVarCharAt);
++            if (!(!(TransVarEntityName1 == null))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                if (!(!(TransVarCharAt > 0x7F))) {
++                    TransVarMyWriter.write("&#");
++                    TransVarMyWriter.write(Integer.toString(TransVarCharAt, 10));
++                    TransVarMyWriter.write(';');
+                 } else {
+-                    writer.write(c);
++                    TransVarMyWriter.write(TransVarCharAt);
+                 }
+             } else {
+-                writer.write('&');
+-                writer.write(entityName);
+-                writer.write(';');
++                TransVarMyWriter.write('&');
++                TransVarMyWriter.write(TransVarEntityName1);
++                TransVarMyWriter.write(';');
+             }
++            TransVarJ++;
+         }
+     }
+ 

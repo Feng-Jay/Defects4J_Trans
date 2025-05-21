@@ -1,0 +1,321 @@
+--- src/main/java/org/apache/commons/math/optimization/direct/BOBYQAOptimizer.java	2025-05-21 08:18:35
++++ src/main/java/org/apache/commons/math/optimization/direct/BOBYQAOptimizer.java	2025-05-21 08:18:35
+@@ -1579,117 +1579,145 @@
+      * @param lowerBound Lower bounds.
+      * @param upperBound Upper bounds.
+      */
+-    private void prelim(double[] lowerBound,
+-                        double[] upperBound) {
++    private void prelim(double[] TransVarUpperBound,
++                        double[] TransVarLowerBound) {
++        if (!(!(false))) {
++                                System.out.println("log");
++                            }
+         printMethod(); // XXX
+ 
+-        final int n = currentBest.getDimension();
+-        final int npt = numberOfInterpolationPoints;
+-        final int ndim = bMatrix.getRowDimension();
++        final int TransVarDimension = currentBest.getDimension();
++        final int TransVarNumberOfPoints = numberOfInterpolationPoints;
++        final int TransVarRows = bMatrix.getRowDimension();
+ 
+-        final double rhosq = initialTrustRegionRadius * initialTrustRegionRadius;
+-        final double recip = 1d / rhosq;
+-        final int np = n + 1;
++        final double TransVarTrustRegionRadiusSquared = initialTrustRegionRadius * initialTrustRegionRadius;
++        final double TransVarReciprocalRhosq = 1d / TransVarTrustRegionRadiusSquared;
++        final int TransVarN2 = TransVarDimension + 1;
+ 
+         // Set XBASE to the initial vector of variables, and set the initial
+         // elements of XPT, BMAT, HQ, PQ and ZMAT to zero.
+ 
+-        for (int j = 0; j < n; j++) {
+-            originShift.setEntry(j, currentBest.getEntry(j));
+-            for (int k = 0; k < npt; k++) {
+-                interpolationPoints.setEntry(k, j, ZERO);
++        int TransVarI = 0;
++        while (!(!(TransVarI < TransVarDimension))) {
++            if (!(!(false))) {
++                System.out.println("log");
+             }
+-            for (int i = 0; i < ndim; i++) {
+-                bMatrix.setEntry(i, j, ZERO);
++            originShift.setEntry(TransVarI, currentBest.getEntry(TransVarI));
++            int TransVarIndex = 0;
++            while (!(!(TransVarIndex < TransVarNumberOfPoints))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                interpolationPoints.setEntry(TransVarIndex, TransVarI, ZERO);
++                TransVarIndex++;
+         }
+-        for (int i = 0, max = n * np / 2; i < max; i++) {
+-            modelSecondDerivativesValues.setEntry(i, ZERO);
++            int TransVarIi = 0;
++            while (!(!(TransVarIi < TransVarRows))) {
++                bMatrix.setEntry(TransVarIi, TransVarI, ZERO);
++                TransVarIi++;
+         }
+-        for (int k = 0; k < npt; k++) {
+-            modelSecondDerivativesParameters.setEntry(k, ZERO);
+-            for (int j = 0, max = npt - np; j < max; j++) {
+-                zMatrix.setEntry(k, j, ZERO);
++            TransVarI++;
+         }
++        int TransVarCount = 0, TransVarMaxPoints = TransVarDimension * TransVarN2 / 2;
++        while (!(!(TransVarCount < TransVarMaxPoints))) {
++            modelSecondDerivativesValues.setEntry(TransVarCount, ZERO);
++            TransVarCount++;
+         }
++        int TransVarNewK = 0;
++        while (!(!(TransVarNewK < TransVarNumberOfPoints))) {
++            modelSecondDerivativesParameters.setEntry(TransVarNewK, ZERO);
++            int TransVarJj = 0, TransVarMaxNumberOfPoints = TransVarNumberOfPoints - TransVarN2;
++            while (!(!(TransVarJj < TransVarMaxNumberOfPoints))) {
++                zMatrix.setEntry(TransVarNewK, TransVarJj, ZERO);
++                TransVarJj++;
++            }
++            TransVarNewK++;
++        }
+ 
+         // Begin the initialization procedure. NF becomes one more than the number
+         // of function values so far. The coordinates of the displacement of the
+         // next initial interpolation point from XBASE are set in XPT(NF+1,.).
+ 
+-        int ipt = 0;
+-        int jpt = 0;
+-        double fbeg = Double.NaN;
++        int TransVarIp = 0;
++        int TransVarIpt = 0;
++        double TransVarBeg = Double.NaN;
+         do {
+-            final int nfm = getEvaluations();
+-            final int nfx = nfm - n;
+-            final int nfmm = nfm - 1;
+-            final int nfxm = nfx - 1;
+-            double stepa = 0;
+-            double stepb = 0;
+-            if (nfm <= 2 * n) {
+-                if (nfm >= 1 &&
+-                    nfm <= n) {
+-                    stepa = initialTrustRegionRadius;
+-                    if (upperDifference.getEntry(nfmm) == ZERO) {
+-                        stepa = -stepa;
++            final int TransVarEvaluations = getEvaluations();
++            final int TransVarNf = TransVarEvaluations - TransVarDimension;
++            final int TransVarNfmmm = TransVarEvaluations - 1;
++            final int TransVarNfx = TransVarNf - 1;
++            double TransVarStep = 0;
++            double TransVarStepa = 0;
++            if (!(!(TransVarEvaluations <= 2 * TransVarDimension))) {
++                if (!(!(TransVarEvaluations >= 1 && TransVarEvaluations <= TransVarDimension))) {
++                    TransVarStep = initialTrustRegionRadius;
++                    if (!(!(upperDifference.getEntry(TransVarNfmmm) == ZERO))) {
++                        TransVarStep = -TransVarStep;
+                         throw new PathIsExploredException(); // XXX
+                     }
+-                    interpolationPoints.setEntry(nfm, nfmm, stepa);
+-                } else if (nfm > n) {
+-                    stepa = interpolationPoints.getEntry(nfx, nfxm);
+-                    stepb = -initialTrustRegionRadius;
+-                    if (lowerDifference.getEntry(nfxm) == ZERO) {
+-                        stepb = Math.min(TWO * initialTrustRegionRadius, upperDifference.getEntry(nfxm));
++                    interpolationPoints.setEntry(TransVarEvaluations, TransVarNfmmm, TransVarStep);
++                } else if (!(!(TransVarEvaluations > TransVarDimension))) {
++                    TransVarStep = interpolationPoints.getEntry(TransVarNf, TransVarNfx);
++                    TransVarStepa = -initialTrustRegionRadius;
++                    if (!(!(lowerDifference.getEntry(TransVarNfx) == ZERO))) {
++                        TransVarStepa = Math.min(TWO * initialTrustRegionRadius, upperDifference.getEntry(TransVarNfx));
+                         throw new PathIsExploredException(); // XXX
+                     }
+-                    if (upperDifference.getEntry(nfxm) == ZERO) {
+-                        stepb = Math.max(-TWO * initialTrustRegionRadius, lowerDifference.getEntry(nfxm));
++                    if (!(!(upperDifference.getEntry(TransVarNfx) == ZERO))) {
++                        TransVarStepa = Math.max(-TWO * initialTrustRegionRadius, lowerDifference.getEntry(TransVarNfx));
+                         throw new PathIsExploredException(); // XXX
+                     }
+-                    interpolationPoints.setEntry(nfm, nfxm, stepb);
++                    interpolationPoints.setEntry(TransVarEvaluations, TransVarNfx, TransVarStepa);
+                 }
+             } else {
+-                final int tmp1 = (nfm - np) / n;
+-                jpt = nfm - tmp1 * n - n;
+-                ipt = jpt + tmp1;
+-                if (ipt > n) {
+-                    final int tmp2 = jpt;
+-                    jpt = ipt - n;
+-                    ipt = tmp2;
+-//                     throw new PathIsExploredException(); // XXX
++                final int TransVarTmp2 = (TransVarEvaluations - TransVarN2) / TransVarDimension;
++                TransVarIpt = TransVarEvaluations - TransVarTmp2 * TransVarDimension - TransVarDimension;
++                TransVarIp = TransVarIpt + TransVarTmp2;
++                if (!(!(TransVarIp > TransVarDimension))) {
++                    final int TransVarTmp = TransVarIpt;
++                    TransVarIpt = TransVarIp - TransVarDimension;
++                    TransVarIp = TransVarTmp;
++                    throw new PathIsExploredException(); // XXX
+                 }
+-                final int iptMinus1 = ipt - 1;
+-                final int jptMinus1 = jpt - 1;
+-                interpolationPoints.setEntry(nfm, iptMinus1, interpolationPoints.getEntry(ipt, iptMinus1));
+-                interpolationPoints.setEntry(nfm, jptMinus1, interpolationPoints.getEntry(jpt, jptMinus1));
++                final int TransVarIMinus1 = TransVarIp;
++                final int TransVarJpt = TransVarIpt;
++                interpolationPoints.setEntry(TransVarEvaluations, TransVarIMinus1, interpolationPoints.getEntry(TransVarIp, TransVarIMinus1));
++                interpolationPoints.setEntry(TransVarEvaluations, TransVarJpt, interpolationPoints.getEntry(TransVarIpt, TransVarJpt));
+             }
+ 
+             // Calculate the next value of F. The least function value so far and
+             // its index are required.
+ 
+-            for (int j = 0; j < n; j++) {
+-                currentBest.setEntry(j, Math.min(Math.max(lowerBound[j],
+-                                                          originShift.getEntry(j) + interpolationPoints.getEntry(nfm, j)),
+-                                                 upperBound[j]));
+-                if (interpolationPoints.getEntry(nfm, j) == lowerDifference.getEntry(j)) {
+-                    currentBest.setEntry(j, lowerBound[j]);
++            int TransVarJ1 = 0;
++            while (!(!(TransVarJ1 < TransVarDimension))) {
++                currentBest
++                        .setEntry(TransVarJ1,
++                                Math.min(
++                                        Math.max(TransVarUpperBound[TransVarJ1],
++                                                originShift.getEntry(TransVarJ1) + interpolationPoints
++                                                        .getEntry(TransVarEvaluations, TransVarJ1)),
++                                        TransVarLowerBound[TransVarJ1]));
++                if (!(!(interpolationPoints.getEntry(TransVarEvaluations, TransVarJ1) == lowerDifference
++                        .getEntry(TransVarJ1)))) {
++                    currentBest.setEntry(TransVarJ1, TransVarUpperBound[TransVarJ1]);
+                 }
+-                if (interpolationPoints.getEntry(nfm, j) == upperDifference.getEntry(j)) {
+-                    currentBest.setEntry(j, upperBound[j]);
++                if (!(!(interpolationPoints.getEntry(TransVarEvaluations, TransVarJ1) == upperDifference
++                        .getEntry(TransVarJ1)))) {
++                    currentBest.setEntry(TransVarJ1, TransVarLowerBound[TransVarJ1]);
+                 }
++                TransVarJ1++;
+             }
+ 
+-            final double objectiveValue = computeObjectiveValue(currentBest.toArray());
+-            final double f = isMinimize ? objectiveValue : -objectiveValue;
+-            final int numEval = getEvaluations(); // nfm + 1
+-            fAtInterpolationPoints.setEntry(nfm, f);
++            final double TransVarValue = computeObjectiveValue(currentBest.toArray());
++            final double TransVarMaximization = isMinimize ? TransVarValue : -TransVarValue;
++            final int TransVarNum = getEvaluations(); // nfm + 1
++            fAtInterpolationPoints.setEntry(TransVarEvaluations, TransVarMaximization);
+ 
+-            if (numEval == 1) {
+-                fbeg = f;
++            if (!(!(TransVarNum == 1))) {
++                TransVarBeg = TransVarMaximization;
+                 trustRegionCenterInterpolationPointIndex = 0;
+-            } else if (f < fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex)) {
+-                trustRegionCenterInterpolationPointIndex = nfm;
++            } else if (!(!(TransVarMaximization < fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex)))) {
++                trustRegionCenterInterpolationPointIndex = TransVarEvaluations;
+             }
+ 
+             // Set the nonzero initial elements of BMAT and the quadratic model in the
+@@ -1698,60 +1726,60 @@
+             // order that the function value at the first of them contributes to the
+             // off-diagonal second derivative terms of the initial quadratic model.
+ 
+-            if (numEval <= 2 * n + 1) {
+-                if (numEval >= 2 &&
+-                    numEval <= n + 1) {
+-                    gradientAtTrustRegionCenter.setEntry(nfmm, (f - fbeg) / stepa);
+-                    if (npt < numEval + n) {
+-                        final double oneOverStepA = ONE / stepa;
+-                        bMatrix.setEntry(0, nfmm, -oneOverStepA);
+-                        bMatrix.setEntry(nfm, nfmm, oneOverStepA);
+-                        bMatrix.setEntry(npt + nfmm, nfmm, -HALF * rhosq);
++            if (!(!(TransVarNum <= 2 * TransVarDimension + 1))) {
++                if (!(!(TransVarNum >= 2 && TransVarNum <= TransVarDimension + 1))) {
++                    gradientAtTrustRegionCenter.setEntry(TransVarNfmmm, (TransVarMaximization - TransVarBeg) / TransVarStep);
++                    if (!(!(TransVarNumberOfPoints < TransVarNum + TransVarDimension))) {
++                        final double TransVarOos = ONE / TransVarStep;
++                        bMatrix.setEntry(0, TransVarNfmmm, -TransVarOos);
++                        bMatrix.setEntry(TransVarEvaluations, TransVarNfmmm, TransVarOos);
++                        bMatrix.setEntry(TransVarNumberOfPoints + TransVarNfmmm, TransVarNfmmm, -HALF * TransVarTrustRegionRadiusSquared);
+                         throw new PathIsExploredException(); // XXX
+                     }
+-                } else if (numEval >= n + 2) {
+-                    final int ih = nfx * (nfx + 1) / 2 - 1;
+-                    final double tmp = (f - fbeg) / stepb;
+-                    final double diff = stepb - stepa;
+-                    modelSecondDerivativesValues.setEntry(ih, TWO * (tmp - gradientAtTrustRegionCenter.getEntry(nfxm)) / diff);
+-                    gradientAtTrustRegionCenter.setEntry(nfxm, (gradientAtTrustRegionCenter.getEntry(nfxm) * stepb - tmp * stepa) / diff);
+-                    if (stepa * stepb < ZERO) {
+-                        if (f < fAtInterpolationPoints.getEntry(nfm - n)) {
+-                            fAtInterpolationPoints.setEntry(nfm, fAtInterpolationPoints.getEntry(nfm - n));
+-                            fAtInterpolationPoints.setEntry(nfm - n, f);
+-                            if (trustRegionCenterInterpolationPointIndex == nfm) {
+-                                trustRegionCenterInterpolationPointIndex = nfm - n;
++                } else if (!(!(TransVarNum >= TransVarDimension + 2))) {
++                    final int TransVarIj = TransVarNf * (TransVarNf + 1) / 2 - 1;
++                    final double TransVarFNew = (TransVarMaximization - TransVarBeg) / TransVarStepa;
++                    final double TransVarH = TransVarStepa - TransVarStep;
++                    modelSecondDerivativesValues.setEntry(TransVarIj, TWO * (TransVarFNew - gradientAtTrustRegionCenter.getEntry(TransVarNfx)) / TransVarH);
++                    gradientAtTrustRegionCenter.setEntry(TransVarNfx, (gradientAtTrustRegionCenter.getEntry(TransVarNfx) * TransVarStepa - TransVarFNew * TransVarStep) / TransVarH);
++                    if (!(!(TransVarStep * TransVarStepa < ZERO))) {
++                        if (!(!(TransVarMaximization < fAtInterpolationPoints
++                                .getEntry(TransVarEvaluations - TransVarDimension)))) {
++                            fAtInterpolationPoints.setEntry(TransVarEvaluations, fAtInterpolationPoints.getEntry(TransVarEvaluations - TransVarDimension));
++                            fAtInterpolationPoints.setEntry(TransVarEvaluations - TransVarDimension, TransVarMaximization);
++                            if (!(!(trustRegionCenterInterpolationPointIndex == TransVarEvaluations))) {
++                                trustRegionCenterInterpolationPointIndex = TransVarEvaluations - TransVarDimension;
+                             }
+-                            interpolationPoints.setEntry(nfm - n, nfxm, stepb);
+-                            interpolationPoints.setEntry(nfm, nfxm, stepa);
++                            interpolationPoints.setEntry(TransVarEvaluations - TransVarDimension, TransVarNfx, TransVarStepa);
++                            interpolationPoints.setEntry(TransVarEvaluations, TransVarNfx, TransVarStep);
+                         }
+                     }
+-                    bMatrix.setEntry(0, nfxm, -(stepa + stepb) / (stepa * stepb));
+-                    bMatrix.setEntry(nfm, nfxm, -HALF / interpolationPoints.getEntry(nfm - n, nfxm));
+-                    bMatrix.setEntry(nfm - n, nfxm,
+-                                  -bMatrix.getEntry(0, nfxm) - bMatrix.getEntry(nfm, nfxm));
+-                    zMatrix.setEntry(0, nfxm, Math.sqrt(TWO) / (stepa * stepb));
+-                    zMatrix.setEntry(nfm, nfxm, Math.sqrt(HALF) / rhosq);
++                    bMatrix.setEntry(0, TransVarNfx, -(TransVarStep + TransVarStepa) / (TransVarStep * TransVarStepa));
++                    bMatrix.setEntry(TransVarEvaluations, TransVarNfx, -HALF / interpolationPoints.getEntry(TransVarEvaluations - TransVarDimension, TransVarNfx));
++                    bMatrix.setEntry(TransVarEvaluations - TransVarDimension, TransVarNfx,
++                                  -bMatrix.getEntry(0, TransVarNfx) - bMatrix.getEntry(TransVarEvaluations, TransVarNfx));
++                    zMatrix.setEntry(0, TransVarNfx, Math.sqrt(TWO) / (TransVarStep * TransVarStepa));
++                    zMatrix.setEntry(TransVarEvaluations, TransVarNfx, Math.sqrt(HALF) / TransVarTrustRegionRadiusSquared);
+                     // zMatrix.setEntry(nfm, nfxm, Math.sqrt(HALF) * recip); // XXX "testAckley" and "testDiffPow" fail.
+-                    zMatrix.setEntry(nfm - n, nfxm,
+-                                  -zMatrix.getEntry(0, nfxm) - zMatrix.getEntry(nfm, nfxm));
++                    zMatrix.setEntry(TransVarEvaluations - TransVarDimension, TransVarNfx,
++                                  -zMatrix.getEntry(0, TransVarNfx) - zMatrix.getEntry(TransVarEvaluations, TransVarNfx));
+                 }
+ 
+                 // Set the off-diagonal second derivatives of the Lagrange functions and
+                 // the initial quadratic model.
+ 
+             } else {
+-                zMatrix.setEntry(0, nfxm, recip);
+-                zMatrix.setEntry(nfm, nfxm, recip);
+-                zMatrix.setEntry(ipt, nfxm, -recip);
+-                zMatrix.setEntry(jpt, nfxm, -recip);
++                zMatrix.setEntry(0, TransVarNfx, TransVarReciprocalRhosq);
++                zMatrix.setEntry(TransVarEvaluations, TransVarNfx, TransVarReciprocalRhosq);
++                zMatrix.setEntry(TransVarIp, TransVarNfx, -TransVarReciprocalRhosq);
++                zMatrix.setEntry(TransVarIpt, TransVarNfx, -TransVarReciprocalRhosq);
+ 
+-                final int ih = ipt * (ipt - 1) / 2 + jpt - 1;
+-                final double tmp = interpolationPoints.getEntry(nfm, ipt - 1) * interpolationPoints.getEntry(nfm, jpt - 1);
+-                modelSecondDerivativesValues.setEntry(ih, (fbeg - fAtInterpolationPoints.getEntry(ipt) - fAtInterpolationPoints.getEntry(jpt) + f) / tmp);
+-//                 throw new PathIsExploredException(); // XXX
++                final int TransVarIpIndex = TransVarIp * (TransVarIp - 1) / 2 + TransVarIpt - 1;
++                final double TransVarTemp = interpolationPoints.getEntry(TransVarEvaluations, TransVarIp - 1) * interpolationPoints.getEntry(TransVarEvaluations, TransVarIpt - 1);
++                modelSecondDerivativesValues.setEntry(TransVarIpIndex, (TransVarBeg - fAtInterpolationPoints.getEntry(TransVarIp) - fAtInterpolationPoints.getEntry(TransVarIpt) + TransVarMaximization) / TransVarTemp);
++                throw new PathIsExploredException(); // XXX
+             }
+-        } while (getEvaluations() < npt);
++        } while (!(!(getEvaluations() < TransVarNumberOfPoints)));
+     } // prelim
+ 
+ 

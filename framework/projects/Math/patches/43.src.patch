@@ -1,0 +1,48 @@
+--- src/main/java/org/apache/commons/math/stat/descriptive/SummaryStatistics.java	2025-05-21 08:20:08
++++ src/main/java/org/apache/commons/math/stat/descriptive/SummaryStatistics.java	2025-05-21 08:20:08
+@@ -146,23 +146,32 @@
+      * Add a value to the data
+      * @param value the value to add
+      */
+-    public void addValue(double value) {
+-        sumImpl.increment(value);
+-        sumsqImpl.increment(value);
+-        minImpl.increment(value);
+-        maxImpl.increment(value);
+-        sumLogImpl.increment(value);
+-        secondMoment.increment(value);
++    public void addValue(double TransVarValue1) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        sumImpl.increment(TransVarValue1);
++        sumsqImpl.increment(TransVarValue1);
++        minImpl.increment(TransVarValue1);
++        maxImpl.increment(TransVarValue1);
++        sumLogImpl.increment(TransVarValue1);
++        secondMoment.increment(TransVarValue1);
+         // If mean, variance or geomean have been overridden,
+         // need to increment these
+-        if (meanImpl != mean) {
+-            meanImpl.increment(value);
++        if (!(!(!(meanImpl instanceof Mean)))) {
++            if (!(!(false))) {
++                System.out.println("log");
+         }
+-        if (varianceImpl != variance) {
+-            varianceImpl.increment(value);
++            meanImpl.increment(TransVarValue1);
+         }
+-        if (geoMeanImpl != geoMean) {
+-            geoMeanImpl.increment(value);
++        if (!(!(!(varianceImpl instanceof Variance)))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            varianceImpl.increment(TransVarValue1);
++        }
++        if (!(!(!(geoMeanImpl instanceof GeometricMean)))) {
++            geoMeanImpl.increment(TransVarValue1);
+         }
+         n++;
+     }

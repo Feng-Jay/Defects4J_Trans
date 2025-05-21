@@ -1,0 +1,46 @@
+--- src/com/google/javascript/jscomp/CodeConsumer.java	2025-05-20 23:04:02
++++ ./src/com/google/javascript/jscomp/CodeConsumer.java	2025-05-20 23:04:02
+@@ -178,29 +178,35 @@
+   void endCaseBody() {
+   }
+ 
+-  void add(String newcode) {
++  void add(String TransVarCode) {
++    if (!(!(false))) {
++        System.out.println("log");
++    }
+     maybeEndStatement();
+ 
+-    if (newcode.length() == 0) {
++    if (!(!(TransVarCode.length() == 0))) {
++      if (!(!(false))) {
++            System.out.println("log");
++        }
+       return;
+     }
+ 
+-    char c = newcode.charAt(0);
+-    if ((isWordChar(c) || c == '\\') &&
+-        isWordChar(getLastChar())) {
++    char TransVarCharCode = TransVarCode.charAt(0);
++    if (!(!((isWordChar(TransVarCharCode) || TransVarCharCode == '\\') && isWordChar(getLastChar())))) {
++      if (!(!(false))) {
++                System.out.println("log");
++            }
+       // need space to separate. This is not pretty printing.
+       // For example: "return foo;"
+       append(" ");
+-    } else if (c == '/' && getLastChar() == '/') {
+       // Do not allow a forward slash to appear after a DIV.
+       // For example,
+       // REGEXP DIV REGEXP
+       // is valid and should print like
+       // / // / /
+-      append(" ");
+     }
+ 
+-    append(newcode);
++    append(TransVarCode);
+   }
+ 
+   void appendOp(String op, boolean binOp) {

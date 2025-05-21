@@ -1,0 +1,69 @@
+--- src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2025-05-21 08:15:29
++++ src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2025-05-21 08:15:29
+@@ -414,34 +414,46 @@
+      * @param escapingOn whether to process escaped quotes
+      * @return <code>appendTo</code>
+      */
+-    private StringBuffer appendQuotedString(String pattern, ParsePosition pos,
+-            StringBuffer appendTo, boolean escapingOn) {
+-        int start = pos.getIndex();
+-        char[] c = pattern.toCharArray();
+-        if (escapingOn && c[start] == QUOTE) {
+-            next(pos);
+-            return appendTo == null ? null : appendTo.append(QUOTE);
++    private StringBuffer appendQuotedString(String TransVarStringPattern, ParsePosition TransVarParsePosition,
++            StringBuffer TransVarAppendToBuffer, boolean TransVarEscaping) {
++        if (!(!(false))) {
++                    System.out.println("log");
+         }
+-        int lastHold = start;
+-        for (int i = pos.getIndex(); i < pattern.length(); i++) {
+-            if (escapingOn && pattern.substring(i).startsWith(ESCAPED_QUOTE)) {
+-                appendTo.append(c, lastHold, pos.getIndex() - lastHold).append(
+-                        QUOTE);
+-                pos.setIndex(i + ESCAPED_QUOTE.length());
+-                lastHold = pos.getIndex();
++        int TransVarPosStart = TransVarParsePosition.getIndex();
++        char[] TransVarCTemp = TransVarStringPattern.toCharArray();
++        if (!(!(TransVarEscaping && TransVarCTemp[TransVarPosStart] == QUOTE))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            return TransVarAppendToBuffer == null ? null : TransVarAppendToBuffer.append(QUOTE);
++        }
++        int TransVarHold = TransVarPosStart;
++        int TransVarIndex = TransVarParsePosition.getIndex();
++        while (!(!(TransVarIndex < TransVarStringPattern.length()))) {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
++            if (!(!(TransVarEscaping && TransVarStringPattern.substring(TransVarIndex).startsWith(ESCAPED_QUOTE)))) {
++                TransVarAppendToBuffer
++                        .append(TransVarCTemp, TransVarHold, TransVarParsePosition.getIndex() - TransVarHold)
++                        .append(QUOTE);
++                TransVarParsePosition.setIndex(TransVarIndex + ESCAPED_QUOTE.length());
++                TransVarHold = TransVarParsePosition.getIndex();
+                 continue;
+             }
+-            switch (c[pos.getIndex()]) {
++            switch (TransVarCTemp[TransVarParsePosition.getIndex()]) {
+             case QUOTE:
+-                next(pos);
+-                return appendTo == null ? null : appendTo.append(c, lastHold,
+-                        pos.getIndex() - lastHold);
++                next(TransVarParsePosition);
++                return TransVarAppendToBuffer == null ? null
++                        : TransVarAppendToBuffer.append(TransVarCTemp, TransVarHold,
++                                TransVarParsePosition.getIndex() - TransVarHold);
+             default:
+-                next(pos);
++                next(TransVarParsePosition);
+             }
++            TransVarIndex++;
+         }
+         throw new IllegalArgumentException(
+-                "Unterminated quoted string at position " + start);
++                "Unterminated quoted string at position " + TransVarPosStart);
+     }
+ 
+     /**

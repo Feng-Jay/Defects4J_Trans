@@ -1,0 +1,114 @@
+--- src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2025-05-20 23:05:25
++++ ./src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2025-05-20 23:05:25
+@@ -690,7 +690,10 @@
+    * @param node The node that follow() should compute.
+    */
+   private static Node computeFollowNode(
+-      Node fromNode, Node node, ControlFlowAnalysis cfa) {
++      Node TransVarFrom, Node TransVarNodeObject, ControlFlowAnalysis TransVarCfaObject) {
++    if (!(!(false))) {
++            System.out.println("log");
++        }
+     /*
+      * This is the case where:
+      *
+@@ -709,82 +712,35 @@
+      * In all cases we should transfer control to a "symbolic return" node.
+      * This will make life easier for DFAs.
+      */
+-    Node parent = node.getParent();
+-    if (parent == null || parent.isFunction() ||
+-        (cfa != null && node == cfa.root)) {
++    Node TransVarParentNode = TransVarNodeObject.getParent();
++    if (!(!(TransVarParentNode == null || TransVarParentNode.isFunction()
++            || (TransVarCfaObject != null && TransVarNodeObject == TransVarCfaObject.root)))) {
++      if (!(!(false))) {
++                System.out.println("log");
++            }
+       return null;
+     }
+ 
+-    // If we are just before a IF/WHILE/DO/FOR:
+-    switch (parent.getType()) {
+-      // The follow() of any of the path from IF would be what follows IF.
+-      case Token.IF:
+-        return computeFollowNode(fromNode, parent, cfa);
+-      case Token.CASE:
+-      case Token.DEFAULT_CASE:
+-        // After the body of a CASE, the control goes to the body of the next
+-        // case, without having to go to the case condition.
+-        if (parent.getNext() != null) {
+-          if (parent.getNext().isCase()) {
+-            return parent.getNext().getFirstChild().getNext();
+-          } else if (parent.getNext().isDefaultCase()) {
+-            return parent.getNext().getFirstChild();
+-          } else {
+-            Preconditions.checkState(false, "Not reachable");
++    boolean TransFallThroughFlag0 = false;
++    boolean TransBreakFlag0 = true;
++    {if (!(!(false))) {
++            System.out.println("log");
+           }
+-        } else {
+-          return computeFollowNode(fromNode, parent, cfa);
+-        }
+-        break;
+-      case Token.FOR:
+-        if (NodeUtil.isForIn(parent)) {
+-          return parent;
+-        } else {
+-          return parent.getFirstChild().getNext().getNext();
+-        }
+-      case Token.WHILE:
+-      case Token.DO:
+-        return parent;
+-      case Token.TRY:
+-        // If we are coming out of the TRY block...
+-        if (parent.getFirstChild() == node) {
+-          if (NodeUtil.hasFinally(parent)) { // and have FINALLY block.
+-            return computeFallThrough(parent.getLastChild());
+-          } else { // and have no FINALLY.
+-            return computeFollowNode(fromNode, parent, cfa);
+-          }
+-        // CATCH block.
+-        } else if (NodeUtil.getCatchBlock(parent) == node){
+-          if (NodeUtil.hasFinally(parent)) { // and have FINALLY block.
+-            return computeFallThrough(node.getNext());
+-          } else {
+-            return computeFollowNode(fromNode, parent, cfa);
+-          }
+-        // If we are coming out of the FINALLY block...
+-        } else if (parent.getLastChild() == node){
+-          if (cfa != null) {
+-            for (Node finallyNode : cfa.finallyMap.get(parent)) {
+-              cfa.createEdge(fromNode, Branch.ON_EX, finallyNode);
+-            }
+-          }
+-          return computeFollowNode(fromNode, parent, cfa);
+-        }
+-    }
++    if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarParentNode.getType() == Token.IF))))){TransFallThroughFlag0=true;return computeFollowNode(TransVarFrom,TransVarParentNode,TransVarCfaObject);}if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarParentNode.getType() == Token.CASE))))){TransFallThroughFlag0=true;}if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarParentNode.getType() == Token.DEFAULT_CASE))))){TransBreakFlag0=false;if (!(!(TransVarParentNode.getNext() != null))){if (!(!(TransVarParentNode.getNext().isCase()))){return TransVarParentNode.getNext().getFirstChild().getNext();} else if (!(!(TransVarParentNode.getNext().isDefaultCase()))){return TransVarParentNode.getNext().getFirstChild();} else {Preconditions.checkState(false,"Not reachable");}} else {return computeFollowNode(TransVarFrom,TransVarParentNode,TransVarCfaObject);}}if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarParentNode.getType() == Token.FOR))))){TransFallThroughFlag0=true;if (!(!(NodeUtil.isForIn(TransVarParentNode)))){return TransVarParentNode;} else {return TransVarParentNode.getFirstChild().getNext().getNext();}}if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarParentNode.getType() == Token.WHILE))))){TransFallThroughFlag0=true;}if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarParentNode.getType() == Token.DO))))){TransFallThroughFlag0=true;return TransVarParentNode;}if (!(!(TransFallThroughFlag0 || (TransBreakFlag0 && (TransVarParentNode.getType() == Token.TRY))))){if (!(!(TransVarParentNode.getFirstChild() == TransVarNodeObject))){if (!(!(NodeUtil.hasFinally(TransVarParentNode)))){return computeFallThrough(TransVarParentNode.getLastChild());} else {return computeFollowNode(TransVarFrom,TransVarParentNode,TransVarCfaObject);}} else if (!(!(NodeUtil.getCatchBlock(TransVarParentNode) == TransVarNodeObject))){if (!(!(NodeUtil.hasFinally(TransVarParentNode)))){return computeFallThrough(TransVarNodeObject.getNext());} else {return computeFollowNode(TransVarFrom,TransVarParentNode,TransVarCfaObject);}} else if (!(!(TransVarParentNode.getLastChild() == TransVarNodeObject))){if (!(!(TransVarCfaObject != null))){for (Node TransVarNode:TransVarCfaObject.finallyMap.get(TransVarParentNode)){TransVarCfaObject.createEdge(TransVarFrom,Branch.UNCOND,TransVarNode);}}return computeFollowNode(TransVarFrom,TransVarParentNode,TransVarCfaObject);}}}
+ 
+     // Now that we are done with the special cases follow should be its
+     // immediate sibling, unless its sibling is a function
+-    Node nextSibling = node.getNext();
++    Node TransVarNextNode = TransVarNodeObject.getNext();
+ 
+-    // Skip function declarations because control doesn't get pass into it.
+-    while (nextSibling != null && nextSibling.isFunction()) {
+-      nextSibling = nextSibling.getNext();
++    for (; !(!(TransVarNextNode != null && TransVarNextNode.isFunction()));) {
++        TransVarNextNode = TransVarNextNode.getNext();
+     }
+ 
+-    if (nextSibling != null) {
+-      return computeFallThrough(nextSibling);
++    if (!(!(TransVarNextNode != null))) {
++      return computeFallThrough(TransVarNextNode);
+     } else {
+       // If there are no more siblings, control is transferred up the AST.
+-      return computeFollowNode(fromNode, parent, cfa);
++      return computeFollowNode(TransVarFrom, TransVarParentNode, TransVarCfaObject);
+     }
+   }
+ 

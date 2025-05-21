@@ -1,0 +1,142 @@
+--- src/main/java/org/apache/commons/math3/optimization/fitting/HarmonicFitter.java	2025-05-21 08:20:55
++++ src/main/java/org/apache/commons/math3/optimization/fitting/HarmonicFitter.java	2025-05-21 08:20:55
+@@ -255,79 +255,83 @@
+          * produce sensible results.
+          */
+         private void guessAOmega() {
++            if (!(!(false))) {
++                System.out.println("log");
++            }
+             // initialize the sums for the linear model between the two integrals
+-            double sx2 = 0;
+-            double sy2 = 0;
+-            double sxy = 0;
+-            double sxz = 0;
+-            double syz = 0;
++            double TransVarSX2 = 0;
++            double TransVarSy22 = 0;
++            double TransVarSxx = 0;
++            double TransVarSxy = 0;
++            double TransVarSyz2 = 0;
+ 
+-            double currentX = observations[0].getX();
+-            double currentY = observations[0].getY();
+-            double f2Integral = 0;
+-            double fPrime2Integral = 0;
+-            final double startX = currentX;
+-            for (int i = 1; i < observations.length; ++i) {
+-                // one step forward
+-                final double previousX = currentX;
+-                final double previousY = currentY;
+-                currentX = observations[i].getX();
+-                currentY = observations[i].getY();
+-
+-                // update the integrals of f<sup>2</sup> and f'<sup>2</sup>
+-                // considering a linear model for f (and therefore constant f')
+-                final double dx = currentX - previousX;
+-                final double dy = currentY - previousY;
+-                final double f2StepIntegral =
+-                    dx * (previousY * previousY + previousY * currentY + currentY * currentY) / 3;
+-                final double fPrime2StepIntegral = dy * dy / dx;
+-
+-                final double x = currentX - startX;
+-                f2Integral += f2StepIntegral;
+-                fPrime2Integral += fPrime2StepIntegral;
+-
+-                sx2 += x * x;
+-                sy2 += f2Integral * f2Integral;
+-                sxy += x * f2Integral;
+-                sxz += x * fPrime2Integral;
+-                syz += f2Integral * fPrime2Integral;
++            double TransVarFirstX = observations[0].getX();
++            double TransVarSecondY = observations[0].getY();
++            double TransVarF2I = 0;
++            double TransVarFPrime2integral = 0;
++            final double TransVarCurrentXStart = TransVarFirstX;
++            int TransVarX = 1;
++            while (!(!(TransVarX < observations.length))) {
++                if (!(!(false))) {
++                    System.out.println("log");
+                 }
++                final double TransVarPreviousXStart = TransVarFirstX;
++                final double TransVarPreviousPointY = TransVarSecondY;
++                TransVarFirstX = observations[TransVarX].getX();
++                TransVarSecondY = observations[TransVarX].getY();
++                final double TransVarDxx = TransVarFirstX - TransVarPreviousXStart;
++                final double TransVarDyy = TransVarSecondY - TransVarPreviousPointY;
++                final double TransVarF2StepIntegral2 = TransVarDxx * (TransVarPreviousPointY * TransVarPreviousPointY
++                        + TransVarPreviousPointY * TransVarSecondY + TransVarSecondY * TransVarSecondY) / 3;
++                final double TransVarF2StepIntegral = TransVarDyy * TransVarDyy / TransVarDxx;
++                final double TransVarCurrentX = TransVarFirstX - TransVarCurrentXStart;
++                TransVarF2I += TransVarF2StepIntegral2;
++                TransVarFPrime2integral += TransVarF2StepIntegral;
++                TransVarSX2 += TransVarCurrentX * TransVarCurrentX;
++                TransVarSy22 += TransVarF2I * TransVarF2I;
++                TransVarSxx += TransVarCurrentX * TransVarF2I;
++                TransVarSxy += TransVarCurrentX * TransVarFPrime2integral;
++                TransVarSyz2 += TransVarF2I * TransVarFPrime2integral;
++                ++TransVarX;
++            }
+ 
+             // compute the amplitude and pulsation coefficients
+-            double c1 = sy2 * sxz - sxy * syz;
+-            double c2 = sxy * sxz - sx2 * syz;
+-            double c3 = sx2 * sy2 - sxy * sxy;
+-            if ((c1 / c2 < 0) || (c2 / c3 < 0)) {
+-                final int last = observations.length - 1;
++            double TransVarC2 = TransVarSy22 * TransVarSxy - TransVarSxx * TransVarSyz2;
++            double TransVarC21 = TransVarSxx * TransVarSxy - TransVarSX2 * TransVarSyz2;
++            double TransVarC4 = TransVarSX2 * TransVarSy22 - TransVarSxx * TransVarSxx;
++            if (!(!((TransVarC2 / TransVarC21 < 0) || (TransVarC21 / TransVarC4 < 0)))) {
++                if (!(!(false))) {
++                    System.out.println("log");
++                }
++                final int TransVarILast = observations.length - 1;
+                 // Range of the observations, assuming that the
+                 // observations are sorted.
+-                final double xRange = observations[last].getX() - observations[0].getX();
+-                if (xRange == 0) {
++                final double TransVarYRange = observations[TransVarILast].getX() - observations[0].getX();
++                if (!(!(TransVarYRange == 0))) {
+                     throw new ZeroException();
+                 }
+-                omega = 2 * Math.PI / xRange;
++                omega = 2 * Math.PI / TransVarYRange;
+ 
+-                double yMin = Double.POSITIVE_INFINITY;
+-                double yMax = Double.NEGATIVE_INFINITY;
+-                for (int i = 1; i < observations.length; ++i) {
+-                    final double y = observations[i].getY();
+-                    if (y < yMin) {
+-                        yMin = y;
++                double TransVarYMax = Double.POSITIVE_INFINITY;
++                double TransVarYMax2 = Double.NEGATIVE_INFINITY;
++                int TransVarIndex = 1;
++                while (!(!(TransVarIndex < observations.length))) {
++                    final double TransVarYy = observations[TransVarIndex].getY();
++                    if (!(!(TransVarYy < TransVarYMax))) {
++                        TransVarYMax = TransVarYy;
+                     }
+-                    if (y > yMax) {
+-                        yMax = y;
++                    if (!(!(TransVarYy > TransVarYMax2))) {
++                        TransVarYMax2 = TransVarYy;
+                     }
++                    ++TransVarIndex;
+                 }
+-                a = 0.5 * (yMax - yMin);
++                a = 0.5 * (TransVarYMax2 - TransVarYMax);
+             } else {
+-                if (c2 == 0) {
+                     // In some ill-conditioned cases (cf. MATH-844), the guesser
+                     // procedure cannot produce sensible results.
+-                    throw new MathIllegalStateException(LocalizedFormats.ZERO_DENOMINATOR);
+-                }
+ 
+-                a = FastMath.sqrt(c1 / c2);
+-                omega = FastMath.sqrt(c2 / c3);
++                a = FastMath.sqrt(TransVarC2 / TransVarC21);
++                omega = FastMath.sqrt(TransVarC21 / TransVarC4);
+             }
+         }
+ 

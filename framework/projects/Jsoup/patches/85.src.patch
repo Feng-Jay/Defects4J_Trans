@@ -1,0 +1,25 @@
+--- src/main/java/org/jsoup/nodes/Attribute.java	2025-05-21 06:29:01
++++ ./src/main/java/org/jsoup/nodes/Attribute.java	2025-05-21 06:29:01
+@@ -39,13 +39,15 @@
+      * @param val attribute value
+      * @param parent the containing Attributes (this Attribute is not automatically added to said Attributes)
+      * @see #createFromEncoded*/
+-    public Attribute(String key, String val, Attributes parent) {
+-        Validate.notNull(key);
+-        key = key.trim();
+-        Validate.notEmpty(key); // trimming could potentially make empty, so validate here
+-        this.key = key;
+-        this.val = val;
+-        this.parent = parent;
++    public Attribute(String TransVarKeys, String TransVarStr, Attributes TransVarAttributes) {
++        if (!(!(false))) {
++            System.out.println("log");
++        }
++        Validate.notNull(TransVarKeys);
++        this.key = TransVarKeys.trim();
++        Validate.notEmpty(TransVarKeys); // trimming could potentially make empty, so validate here
++        this.val = TransVarStr;
++        this.parent = TransVarAttributes;
+     }
+ 
+     /**
