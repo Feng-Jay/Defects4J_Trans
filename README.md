@@ -78,7 +78,7 @@ Requirements
 
 If you have not yet set up Defects4J, please follow the instructions on the home page of [Defects4J](https://github.com/rjust/defects4j).
 
-Or, if you have setup the original Defects4J, you can switch to the Defects4J-Trans by running:
+Or, if you have setup the original Defects4J, you can switch to the Defects4J-Trans easily by running:
 
 ```shell
 git clone https://github.com/Feng-Jay/Defects4J_Trans.git {Path_to_Defects4J-Trans}
