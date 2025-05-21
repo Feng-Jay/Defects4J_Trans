@@ -1,0 +1,15 @@
+framework/lib/analyzer.jar
+framework/lib/build-analyzer-*.jar
+framework/lib/build_systems
+framework/lib/test_generation/*
+!framework/lib/test_generation/bin
+framework/test/*.log
+project_repos/*
+!project_repos/get_repos.sh
+major/
+work/
+./apply_trans_dataset.py
+./single_function_repair_trans_final.json
+./single_function_repair_trans_final2.json
+./filelist.json
+.DS_Store
