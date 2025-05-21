@@ -8,28 +8,27 @@ Contents of Defects4J-Trans
 The projects
 ---------------
 
-Defects4J contains 483 bugs from the following open-source projects:
+Defects4J-Trans contains 483 bugs from the following open-source projects:
 
 | Identifier      | Project name               | Number of active bugs | Active bug ids      | Deprecated bug ids (\*) |
 |-----------------|----------------------------|----------------------:|---------------------|-------------------------|
-| Chart           | jfreechart                 |  16 | 1, 3, 17, 20, 24-26, 26 | others                  |
-| Cli             | commons-cli                |  23 | 4-1, 8, 11, 14, 17, 19, 23, 32, 35, 37-40, 40 | others                  |
-| Closure         | closure-compiler           | 105 | 1, 4, 7, 10, 17, 29, 31, 35, 38, 42, 44, 48, 50, 55, 61, 65, 69, 73, 77, 81, 86, 91, 94, 99, 101, 104, 107, 109, 111, 128, 145, 150, 152, 159, 164, 166, 168, 172-176, 176 | others                  |
-| Codec           | commons-codec              |  11 | 2-1, 9, 15, 17-18   | others                  |
+| Chart           | jfreechart                 |  16 | 1, 3-13, 17, 20, 24-26, 26 | others                  |
+| Cli             | commons-cli                |  23 | 4, 5, 8, 9, 11, 12, 14, 15, 17, 19, 20, 23-29, 32, 35, 37-40, 40 | others                  |
+| Closure         | closure-compiler           | 105 | 1, 2, 4, 5, 7, 10-15, 17-25, 29, 31-33, 35, 36, 38-40, 42, 44, 48, 50-53, 55-59, 61, 62, 65-67, 69-71, 73, 77, 78, 81-83, 86-88, 91, 92, 94-97, 99, 101, 102, 104, 105, 107, 109, 111-126, 128-133, 145, 146, 150, 152, 159-161, 164, 166, 168, 172-176, 176 | others                  |
+| Codec           | commons-codec              |  11 | 2-7, 9, 10, 15, 17-18 | others                  |
 | Collections     | commons-collections        |   1 | 26                  | others                  |
-| Compress        | commons-compress           |  33 | 1, 5, 7, 10, 21, 23, 30, 35, 40, 44-46 | others                  |
-| Csv             | commons-csv                |  11 | 1, 9, 14-15         | others                  |
-| Gson            | gson                       |   9 | 5-1, 11, 15-18      | others                  |
-| JacksonCore     | jackson-core               |  13 | 3-1, 11, 15, 20, 23, 25-26 | others                  |
-| JacksonDatabind | jackson-databind           |  51 | 1, 5, 11, 16, 19, 24, 27, 33, 37, 39, 42, 44, 49, 51, 54, 57, 62, 64, 67, 70, 74, 76, 82, 85, 88, 91, 93, 96, 107-112, 112 | others                  |
+| Compress        | commons-compress           |  33 | 1, 5, 7, 8, 10-19, 21, 23-28, 30-32, 35-38, 40, 41, 44-46 | others                  |
+| Csv             | commons-csv                |  11 | 1-6, 9-11, 14-15    | others                  |
+| Gson            | gson                       |   9 | 5, 6, 11-13, 15-18  | others                  |
+| JacksonCore     | jackson-core               |  13 | 3-8, 11, 15, 20, 21, 23, 25-26 | others                  |
+| JacksonDatabind | jackson-databind           |  51 | 1, 5-9, 11, 12, 16, 17, 19, 24, 27, 28, 33-35, 37, 39, 42, 44-47, 49, 51, 54, 57, 58, 62, 64, 67, 70, 71, 74, 76, 82, 83, 85, 88, 91, 93, 96-102, 107-112, 112 | others                  |
 | JacksonXml      | jackson-dataformat-xml     |   4 | 1, 3-5              | others                  |
-| Jsoup           | jsoup                      |  53 | 1, 5, 10, 13, 15, 19, 24, 26, 32, 37, 45, 53, 57, 59, 61, 64, 68, 70, 72, 75, 80, 82, 84, 88-93, 93 | others                  |
-| JxPath          | commons-jxpath             |   7 | 5-1, 8, 10, 12, 21-22 | others                  |
-| Lang            | commons-lang               |  42 | 1, 3, 5, 9, 14, 16, 21, 24, 26, 31, 33, 37, 42, 48, 51, 57, 61-65, 65 | others                  |
-| Math            | commons-math               |  72 | 2-1, 5, 7, 13, 17, 19, 23, 30, 38, 48, 50, 55, 63, 69, 72, 78, 82, 84, 94, 101, 105-106 | others                  |
-| Mockito         | mockito                    |  16 | 1, 5, 7, 12, 18, 20, 22, 24, 27, 33-38, 38 | others                  |
-| Time            | joda-time                  |  16 | 4-1, 7, 14, 22-27, 27 | others                  |
-
+| Jsoup           | jsoup                      |  53 | 1, 2, 5, 6, 10, 13, 15, 19, 20, 24, 26, 27, 32-35, 37-43, 45-51, 53-55, 57, 59, 61, 62, 64, 68, 70, 72, 75-77, 80, 82, 84-86, 88-93, 93 | others                  |
+| JxPath          | commons-jxpath             |   7 | 5, 6, 8, 10, 12, 21-22 | others                  |
+| Lang            | commons-lang               |  42 | 1, 3, 5, 6, 9-12, 14, 16-19, 21, 22, 24, 26-29, 31, 33, 37-40, 42-45, 48, 49, 51-55, 57-59, 61-65, 65 | others                  |
+| Math            | commons-math               |  72 | 2, 3, 5, 7-11, 13, 17, 19-21, 23-28, 30-34, 38-45, 48, 50-53, 55-60, 63, 64, 69, 70, 72-75, 78-80, 82, 84-91, 94-97, 101-103, 105-106 | others                  |
+| Mockito         | mockito                    |  16 | 1, 5, 7, 8, 12, 13, 18, 20, 22, 24, 27-29, 33-38, 38 | others                  |
+| Time            | joda-time                  |  16 | 4, 5, 7, 8, 14-20, 22-27, 27 | others                  |
 
 \* Due to behavioral changes introduced under Java 8, some bugs are no longer
 reproducible. Hence, Defects4J distinguishes between active and deprecated bugs:
