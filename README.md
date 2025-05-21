@@ -1,7 +1,5 @@
 # Defects4J_Trans
 
-================
-
 Defects4J-Trans is a collection of transformed bugs from [Defects4J](https://github.com/rjust/defects4j), where each bug preserves the original code's semantics bug differs in its syntactic representation.
 
 Contents of Defects4J-Trans
