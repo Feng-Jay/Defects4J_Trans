@@ -1,4 +1,4 @@
-# Defects4J_Trans
+# Defects4J-Trans
 
 Defects4J-Trans is a collection of transformed bugs from [Defects4J](https://github.com/rjust/defects4j), where each bug preserves the original code's semantics bug differs in its syntactic representation.
 
@@ -12,8 +12,8 @@ Defects4J-Trans contains 483 bugs from the following open-source projects:
 
 | Identifier      | Project name               | Number of active bugs | Active bug ids      | Deprecated bug ids (\*) |
 |-----------------|----------------------------|----------------------:|---------------------|-------------------------|
-| Chart           | jfreechart                 |  16 | 1, 3-13, 17, 20, 24-26, 26 | others                  |
-| Cli             | commons-cli                |  23 | 4, 5, 8, 9, 11, 12, 14, 15, 17, 19, 20, 23-29, 32, 35, 37-40, 40 | others                  |
+| Chart           | jfreechart                 |  16 | 1, 3-13, 17, 20, 24-26 | others                  |
+| Cli             | commons-cli                |  23 | 4, 5, 8, 9, 11, 12, 14, 15, 17, 19, 20, 23-29, 32, 35, 37-40| others                  |
 | Closure         | closure-compiler           | 105 | 1, 2, 4, 5, 7, 10-15, 17-25, 29, 31-33, 35, 36, 38-40, 42, 44, 48, 50-53, 55-59, 61, 62, 65-67, 69-71, 73, 77, 78, 81-83, 86-88, 91, 92, 94-97, 99, 101, 102, 104, 105, 107, 109, 111-126, 128-133, 145, 146, 150, 152, 159-161, 164, 166, 168, 172-176, 176 | others                  |
 | Codec           | commons-codec              |  11 | 2-7, 9, 10, 15, 17-18 | others                  |
 | Collections     | commons-collections        |   1 | 26                  | others                  |
